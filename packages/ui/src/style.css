@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import "tailwindcss";
+
+/* Turning off the prefers-color-scheme mode
+ * https://tailwindcss.com/docs/dark-mode#toggling-dark-mode-manually */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --default-font-family: "Open Sans";
+}
+
+html, body, #app {
+    @apply size-full;
+}
+
+body:has(dialog[open]),
+body:has(.loading-mask) {
+    #app {
+        @apply blur-xs pointer-events-none;
+    }
+}
+
+@layer components {
+    .field-label {
+        @apply uppercase font-semibold text-gray-800 text-sm;
+    }
+
+    .field-label-top {
+        @apply flex flex-col space-y-0.5;
+    }
+
+    .field-label-left {
+        @apply flex items-center space-x-1;
+    }
+    
+    .field-combo-box {
+        @apply flex items-center;
+        
+        &:has(button[aria-expanded="true"]) {
+            @apply rounded-b-none;
+        }
+    }
+    
+    .field-date-picker,
+    .field-combo-box,
+    .field-text {
+        @apply rounded-md h-8 py-1 px-2 text-sm ring-1 ring-inset ring-offset-0 ring-gray-500 focus-within:ring-sky-600 bg-white text-gray-800 disabled:bg-gray-200 disabled:opacity-100;
+    }
+
+    .field-date-picker {
+        @apply flex items-center pr-0;
+    }
+    
+    .field-text {
+        @apply w-full invalid:ring-red-500;
+    }
+    
+    .field-text-input {
+        @apply appearance-none outline-none placeholder:text-gray-500;
+    }
+    
+    .base-button {
+        @apply px-2 py-1 inline-flex cursor-pointer select-none items-center justify-center overflow-hidden relative text-sm transition-colors duration-200 rounded-md disabled:cursor-not-allowed;
+
+        &.button-normal {
+            @apply bg-slate-200 font-semibold enabled:hover:bg-slate-300 enabled:active:bg-slate-200 text-gray-800 border border-gray-500
+            focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-offset-slate-500 focus:ring-offset-1
+            focus:ring-slate-400;
+        }
+        
+        &.button-info {
+            @apply bg-sky-200 font-semibold enabled:hover:bg-sky-300 enabled:active:bg-sky-300 text-gray-800 border border-gray-500
+            focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-offset-sky-500 focus:ring-offset-1
+            focus:ring-sky-400;
+        }
+        
+        &.button-danger {
+            @apply bg-red-700 font-semibold enabled:hover:bg-red-900 enabled:active:bg-red-300 text-white border border-gray-500
+            focus:outline-none focus:outline-offset-0 focus:ring-1 focus:ring-offset-red-500 focus:ring-offset-1
+            focus:ring-red-400;
+            
+            & > svg {
+                @apply fill-white;
+            }
+        }
+        
+        &.button-close {
+            & > svg {
+                @apply stroke-50 stroke-gray-700 hover:stroke-red-700;
+            }
+        }
+        
+        &:not(.button-table) {
+            @apply h-8;
+
+            & > svg {
+                @apply size-6;
+            }
+        }
+        
+        &.button-table {
+            @apply hover:bg-sky-200 h-6;
+            
+            & > svg {
+                @apply size-5;
+            }
+        }
+        
+        &:not(.button-icon-only) {
+            @apply gap-0.5;
+            
+            & > svg {
+                @apply size-5;
+            }
+        }
+        
+        &.button-icon-only {
+            @apply p-1;
+        }
+    }
+}

@@ -1,0 +1,38 @@
+name: 'Update Dependencies'
+on:
+  workflow_dispatch:
+    inputs:
+      branchName:
+        description: 'Branch name'
+        required: true
+        default: 'update-dependencies'
+jobs:
+  create-pr-with-changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+      packages: write
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+      - name: Set Token
+        run: npm set "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}"
+      - name: Update Workspace and Package Dependencies
+        run: npm run update:deps
+      - name: Install dependencies
+        run: npm run explode
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: ${{ github.event.inputs.branchName }}
+          title: 'ADD TITLE HERE TO TRIGGER BRANCH WORKFLOWS'

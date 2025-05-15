@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "LinkedIn Job Promoted Removal",
+  "version": "1.0",
+  "description": "Removes the promoted jobs from a LinkedIn Job search.",
+  "permissions": [
+    "clipboardWrite",
+    "contextMenus",
+    "tabs",
+    "activeTab",
+	"scripting"
+  ],
+  "icons": {
+    "48": "icon.png"
+  },
+  "background": {
+    "scripts": [
+      "details.copy.background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.linkedin.com/jobs/search/*"],
+      "js": ["main.linkedin.js"]
+    },
+    {
+      "matches": ["*://*.indeed.com/jobs*"],
+      "js": ["main.indeed.js"]
+    },
+    {
+      "matches": ["*://*.vuejobs.com/jobs"],
+      "js": ["main.vuejobs.js"]
+    }
+  ],
+  "action": {
+	  "default_icon": {
+		"16": "images/icon-32.png"
+	  }
+	},
+	"web_accessible_resources": [{
+		"matches": ["<all_urls>"],
+		"resources": ["companies.js"]
+	}]
+}

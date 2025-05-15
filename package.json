@@ -1,0 +1,75 @@
+{
+  "name": "@incutonez/job-applications",
+  "version": "1.0.0",
+  "description": "Job Applications Monorepo",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "npm run api:build && npm run spec:build && npm run ui:build",
+    "api": "cd packages/api && npm run start:dev",
+    "api:build": "cd packages/api && npm run build",
+    "api:commit": "cd packages/api && npm run lint",
+    "explode": "npm cache clean --force && npx rimraf package-lock.json **/node_modules --glob && npm i",
+    "spec:build": "cd packages/spec && npm run generate",
+    "ui": "cd packages/ui && npm run dev",
+    "ui:build": "cd packages/ui && npm run build",
+    "ui:commit": "cd packages/ui && npm run lint",
+    "update:deps": "node ./updateDependencies.js",
+    "update:versions": "node ./updateVersions.js",
+    "prepare": "npx husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/incutonez/jobs.git"
+  },
+  "author": "incutonez",
+  "license": "ISC",
+  "engines": {
+    "node": ">=22",
+    "npm": ">=10"
+  },
+  "lint-staged": {
+    "packages/ui/**/*.{tsx,ts}": "npm run ui:commit",
+    "packages/api/**/*.ts": "npm run api:commit"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/exec": "^7.1.0",
+    "@semantic-release/git": "^10.0.1",
+    "conventional-changelog-conventionalcommits": "^8.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.2",
+    "semantic-release": "^24.2.3"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      [
+        "@semantic-release/release-notes-generator",
+        {
+          "preset": "conventionalcommits"
+        }
+      ],
+      "@semantic-release/changelog",
+      [
+        "@semantic-release/npm",
+        {
+          "npmPublish": false
+        }
+      ],
+      "@semantic-release/git",
+      "@semantic-release/github"
+    ]
+  }
+}

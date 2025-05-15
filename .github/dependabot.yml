@@ -1,0 +1,23 @@
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    # Look for `package.json` and `lock` files in the `root` directory
+    directory: "/"
+    versioning-strategy: increase
+    # Check the npm registry for updates every day (weekdays)
+    schedule:
+      interval: "monthly"
+      day: "monday"
+      time: "05:00"
+      timezone: "US/Eastern"
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    # Workflow files stored in the default location of `.github/workflows`
+    # You don't need to specify `/.github/workflows` for `directory`. You can use `directory: "/"`.
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "05:00"
+      timezone: "US/Eastern"

@@ -1,0 +1,89 @@
+﻿<script setup lang="ts">
+import { h, ref } from "vue";
+import type { CompanyFullViewModel } from "@incutonez/job-applications-openapi";
+import FieldText from "@/components/FieldText.vue";
+import { IconDelete } from "@/components/Icons.ts";
+import TableData from "@/components/TableData.vue";
+import { useDeleteCompany, useGetCompaniesList } from "@/composables/companies.ts";
+import { useExpandableRow, useTableActions, useTableData } from "@/composables/table.ts";
+import { RouteCompanyApplication } from "@/router.ts";
+import { getCompanyFullRecords } from "@/stores/companies.ts";
+import { useAppSelector } from "@/stores/main.ts";
+import type { ISubRowRenderer } from "@/types/components.ts";
+import DeleteDialog from "@/views/shared/DeleteDialog.vue";
+import ViewApplications, { type IViewApplicationsProps } from "@/views/ViewApplications.vue";
+
+useGetCompaniesList();
+const { deleteCompany, selectedCompany, deletingCompany } = useDeleteCompany();
+const data = useAppSelector(getCompanyFullRecords);
+const showDeleteCompany = ref(false);
+const { table, search } = useTableData<CompanyFullViewModel>({
+	data,
+	canExpand(row) {
+		return !!row.original.applications.length;
+	},
+	columns: [useExpandableRow(), useTableActions([{
+		icon: IconDelete,
+		// Only allow deleting if there are no Applications associated to the company
+		canClick(record) {
+			return record.applications.length === 0;
+		},
+		handler(record) {
+			selectedCompany.value = record;
+			showDeleteCompany.value = true;
+		},
+	}]), {
+		accessorKey: "name",
+		header: "Name",
+	}, {
+		accessorKey: "applications",
+		header: "Applications",
+		meta: {
+			columnWidth: "w-0",
+			cellCls: "text-center",
+		},
+		cell({ row }) {
+			return row.original.applications.length;
+		},
+	}],
+});
+
+async function onDeleteCompany() {
+	deletingCompany.value = true;
+	await deleteCompany();
+	deletingCompany.value = false;
+	showDeleteCompany.value = false;
+}
+
+function renderSubRows({ row }: ISubRowRenderer<CompanyFullViewModel>) {
+	return h<IViewApplicationsProps>(ViewApplications, {
+		data: row.original.applications,
+		showCompany: false,
+		viewRoute: RouteCompanyApplication,
+		class: "p-2",
+	});
+}
+</script>
+
+<template>
+	<article class="size-full flex flex-col space-y-2 pt-2">
+		<section class="flex px-4 ml-auto">
+			<FieldText
+				v-model="search"
+				label="Search"
+				placeholder="Search Companies..."
+			/>
+		</section>
+		<TableData
+			:table="table"
+			:render-sub-rows="renderSubRows"
+		/>
+		<DeleteDialog
+			v-model="showDeleteCompany"
+			:entity-name="selectedCompany?.name"
+			:loading="deletingCompany"
+			@delete="onDeleteCompany"
+		/>
+		<RouterView />
+	</article>
+</template>

@@ -1,3 +1,10 @@
+## [1.3.0](https://github.com/incutonez/job-applications/compare/v1.2.0...v1.3.0) (2025-05-16)
+
+### Features
+
+* Changing Statuses ([1de9d24](https://github.com/incutonez/job-applications/commit/1de9d246793cfe8ff418afe9d248964f22738056))
+* Changing Statuses ([#10](https://github.com/incutonez/job-applications/issues/10)) ([eee960a](https://github.com/incutonez/job-applications/commit/eee960a5d68b483c1eef60ec74c07b6ab40ebe16))
+
 ## [1.2.0](https://github.com/incutonez/job-applications/compare/v1.1.0...v1.2.0) (2025-05-16)
 
 ### Features

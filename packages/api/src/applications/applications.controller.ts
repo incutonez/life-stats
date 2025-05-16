@@ -6,13 +6,13 @@
 	HttpStatus,
 	NotFoundException,
 	Param,
-	Post, Put,
-	UploadedFile,
+	Post, Put, UploadedFile,
 	UseInterceptors,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { ApiBody, ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { ApplicationsService } from "src/applications/applications.service";
+import { ApplicationsUploadViewModel } from "@/applications/types";
 import {
 	ApplicationViewModel, IApplicationBulkViewModel,
 	IApplicationCreateViewModel,
@@ -32,9 +32,13 @@ export class ApplicationsController {
 	}
 
 	@Post("upload")
+	@ApiConsumes("multipart/form-data")
 	@UseInterceptors(FileInterceptor("file"))
-	async uploadApplications(@UploadedFile() file: Express.Multer.File) {
-		return this.service.uploadApplications(file);
+	@ApiOkResponse({
+		type: [ApplicationViewModel],
+	})
+	async uploadApplications(@Body() { addHeaders }: ApplicationsUploadViewModel, @UploadedFile("file") file: Express.Multer.File): Promise<IApplicationCreateViewModel[]> {
+		return this.service.uploadApplications(file, addHeaders);
 	}
 
 	@Post("bulk")

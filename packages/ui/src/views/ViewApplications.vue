@@ -1,5 +1,6 @@
 ﻿<script setup lang="ts">
 import { h, onUnmounted, ref } from "vue";
+import { useRoute } from "vue-router";
 import { type ApplicationViewModel, type CommentViewModel, EnumApplicationStatus } from "@incutonez/job-applications-openapi";
 import BaseButton from "@/components/BaseButton.vue";
 import FieldText from "@/components/FieldText.vue";
@@ -7,11 +8,11 @@ import { IconAdd, IconDelete, IconEdit } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
 import { providePastedApplication, useDeleteApplication, useGetApplications } from "@/composables/applications.ts";
 import { useExpandableRow, useTableActions, useTableData } from "@/composables/table.ts";
-import { RouteCreate, viewApplication } from "@/router.ts";
+import { RouteApplications, RouteCreate, viewApplication } from "@/router.ts";
 import { getApplicationRecords } from "@/stores/applications.ts";
 import { useAppSelector } from "@/stores/main.ts";
 import type { ISubRowRenderer, ITableColumn, ITableData, ITableRow } from "@/types/components.ts";
-import { csvToApplicationViewModel, getEnumDisplay, toDate } from "@/utils/common.ts";
+import { csvToApplicationViewModel, getEnumDisplay, toDate, toDateTime } from "@/utils/common.ts";
 import CellLink from "@/views/applications/CellLink.vue";
 import DeleteDialog from "@/views/shared/DeleteDialog.vue";
 
@@ -26,6 +27,7 @@ const { data = undefined, showCompany = true, viewRoute = undefined } = definePr
 const { deleteApplication, deletingApplication } = useDeleteApplication();
 const pastedRecord = providePastedApplication();
 const showDelete = ref(false);
+const route = useRoute();
 const selectedRow = ref<ApplicationViewModel>();
 const columns: ITableColumn<ApplicationViewModel>[] = [useExpandableRow(), useTableActions([{
 	icon: IconEdit,
@@ -119,6 +121,22 @@ columns.push({
 	meta: {
 		cellCls: "text-center",
 	},
+}, {
+	accessorKey: "dateCreated",
+	header: "Created",
+	cell: (info) => toDateTime(info.getValue<number>()),
+	meta: {
+		columnWidth: "w-auto",
+		cellCls: "text-center text-sm font-semibold",
+	},
+}, {
+	accessorKey: "dateUpdated",
+	header: "Updated",
+	cell: (info) => toDateTime(info.getValue<number>()),
+	meta: {
+		columnWidth: "w-auto",
+		cellCls: "text-center text-sm font-semibold",
+	},
 });
 const { table, search, getColumnSortIdentity } = useTableData<ApplicationViewModel>({
 	data: data ?? useAppSelector(getApplicationRecords),
@@ -177,6 +195,10 @@ async function onClickDelete() {
 }
 
 function onPaste({ clipboardData }: ClipboardEvent) {
+	// We don't want the pasting to hijack any pasting we do that's in a dialog or different route
+	if (route.name !== RouteApplications) {
+		return;
+	}
 	const paste = clipboardData?.getData("text");
 	if (paste) {
 		const [item] = csvToApplicationViewModel(paste, true);

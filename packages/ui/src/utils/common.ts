@@ -12,11 +12,21 @@ const CSVFields = [
 	"dateApplied",
 	"url",
 	"compensation",
+	"comments",
+	"status",
 ];
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
 	month: "2-digit",
 	day: "2-digit",
 	year: "numeric",
+});
+const dateTimeFormatter = new Intl.DateTimeFormat("en-US", {
+	month: "2-digit",
+	day: "2-digit",
+	year: "numeric",
+	hour: "numeric",
+	minute: "2-digit",
+	second: "2-digit",
 });
 
 export function toDate(value?: number | Date) {
@@ -24,6 +34,13 @@ export function toDate(value?: number | Date) {
 		return undefined;
 	}
 	return dateFormatter.format(value);
+}
+
+export function toDateTime(value?: number | Date) {
+	if (value === undefined || isNaN(value as number)) {
+		return undefined;
+	}
+	return dateTimeFormatter.format(value).replace(",", "");
 }
 
 export async function sleep(ms: number) {
@@ -104,19 +121,6 @@ export function makeCSV() {
 		fields: CSVFields,
 	}, {
 		delimiter: ";",
-	});
-}
-
-export function readFile<T>(file: File) {
-	return new Promise<T>((resolve, reject) => {
-		const reader = new FileReader();
-		reader.readAsText(file, "UTF-8");
-		reader.onload = (event) => {
-			resolve(event.target?.result as T);
-		};
-		reader.onerror = (event) => {
-			reject(event.target?.error);
-		};
 	});
 }
 

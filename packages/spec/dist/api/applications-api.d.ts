@@ -11,7 +11,7 @@ export declare const ApplicationsApiAxiosParamCreator: (configuration?: Configur
     getApplication: (applicationId: string, options?: AxiosRequestConfig) => Promise<RequestArgs>;
     listApplications: (apiPaginatedRequest: ApiPaginatedRequest, options?: AxiosRequestConfig) => Promise<RequestArgs>;
     updateApplication: (applicationId: string, applicationViewModel: ApplicationViewModel, options?: AxiosRequestConfig) => Promise<RequestArgs>;
-    uploadApplications: (options?: AxiosRequestConfig) => Promise<RequestArgs>;
+    uploadApplications: (addHeaders: boolean, file: File, options?: AxiosRequestConfig) => Promise<RequestArgs>;
 };
 export declare const ApplicationsApiFp: (configuration?: Configuration) => {
     createApplication(applicationViewModel: ApplicationViewModel, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>>;
@@ -20,7 +20,7 @@ export declare const ApplicationsApiFp: (configuration?: Configuration) => {
     getApplication(applicationId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApplicationViewModel>>;
     listApplications(apiPaginatedRequest: ApiPaginatedRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApplicationListViewModel>>;
     updateApplication(applicationId: string, applicationViewModel: ApplicationViewModel, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApplicationViewModel>>;
-    uploadApplications(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<object>>>;
+    uploadApplications(addHeaders: boolean, file: File, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ApplicationViewModel>>>;
 };
 export declare const ApplicationsApiFactory: (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) => {
     createApplication(applicationViewModel: ApplicationViewModel, options?: any): AxiosPromise<object>;
@@ -29,7 +29,7 @@ export declare const ApplicationsApiFactory: (configuration?: Configuration, bas
     getApplication(applicationId: string, options?: any): AxiosPromise<ApplicationViewModel>;
     listApplications(apiPaginatedRequest: ApiPaginatedRequest, options?: any): AxiosPromise<ApplicationListViewModel>;
     updateApplication(applicationId: string, applicationViewModel: ApplicationViewModel, options?: any): AxiosPromise<ApplicationViewModel>;
-    uploadApplications(options?: any): AxiosPromise<Array<object>>;
+    uploadApplications(addHeaders: boolean, file: File, options?: any): AxiosPromise<Array<ApplicationViewModel>>;
 };
 export interface ApplicationsApiInterface {
     createApplication(applicationViewModel: ApplicationViewModel, options?: AxiosRequestConfig): AxiosPromise<object>;
@@ -38,7 +38,7 @@ export interface ApplicationsApiInterface {
     getApplication(applicationId: string, options?: AxiosRequestConfig): AxiosPromise<ApplicationViewModel>;
     listApplications(apiPaginatedRequest: ApiPaginatedRequest, options?: AxiosRequestConfig): AxiosPromise<ApplicationListViewModel>;
     updateApplication(applicationId: string, applicationViewModel: ApplicationViewModel, options?: AxiosRequestConfig): AxiosPromise<ApplicationViewModel>;
-    uploadApplications(options?: AxiosRequestConfig): AxiosPromise<Array<object>>;
+    uploadApplications(addHeaders: boolean, file: File, options?: AxiosRequestConfig): AxiosPromise<Array<ApplicationViewModel>>;
 }
 export declare class ApplicationsApi extends BaseAPI implements ApplicationsApiInterface {
     createApplication(applicationViewModel: ApplicationViewModel, options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<object, any>>;
@@ -47,5 +47,5 @@ export declare class ApplicationsApi extends BaseAPI implements ApplicationsApiI
     getApplication(applicationId: string, options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<ApplicationViewModel, any>>;
     listApplications(apiPaginatedRequest: ApiPaginatedRequest, options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<ApplicationListViewModel, any>>;
     updateApplication(applicationId: string, applicationViewModel: ApplicationViewModel, options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<ApplicationViewModel, any>>;
-    uploadApplications(options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<object[], any>>;
+    uploadApplications(addHeaders: boolean, file: File, options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<ApplicationViewModel[], any>>;
 }

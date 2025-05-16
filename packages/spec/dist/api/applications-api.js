@@ -129,7 +129,9 @@ export const ApplicationsApiAxiosParamCreator = function (configuration) {
                 options: localVarRequestOptions,
             };
         },
-        uploadApplications: async (options = {}) => {
+        uploadApplications: async (addHeaders, file, options = {}) => {
+            assertParamExists('uploadApplications', 'addHeaders', addHeaders);
+            assertParamExists('uploadApplications', 'file', file);
             const localVarPath = `/applications/upload`;
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -139,9 +141,18 @@ export const ApplicationsApiAxiosParamCreator = function (configuration) {
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+            if (addHeaders !== undefined) {
+                localVarFormParams.append('addHeaders', addHeaders);
+            }
+            if (file !== undefined) {
+                localVarFormParams.append('file', file);
+            }
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+            localVarRequestOptions.data = localVarFormParams;
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -176,8 +187,8 @@ export const ApplicationsApiFp = function (configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateApplication(applicationId, applicationViewModel, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
-        async uploadApplications(options) {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadApplications(options);
+        async uploadApplications(addHeaders, file, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadApplications(addHeaders, file, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     };
@@ -203,8 +214,8 @@ export const ApplicationsApiFactory = function (configuration, basePath, axios) 
         updateApplication(applicationId, applicationViewModel, options) {
             return localVarFp.updateApplication(applicationId, applicationViewModel, options).then((request) => request(axios, basePath));
         },
-        uploadApplications(options) {
-            return localVarFp.uploadApplications(options).then((request) => request(axios, basePath));
+        uploadApplications(addHeaders, file, options) {
+            return localVarFp.uploadApplications(addHeaders, file, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -227,7 +238,7 @@ export class ApplicationsApi extends BaseAPI {
     updateApplication(applicationId, applicationViewModel, options) {
         return ApplicationsApiFp(this.configuration).updateApplication(applicationId, applicationViewModel, options).then((request) => request(this.axios, this.basePath));
     }
-    uploadApplications(options) {
-        return ApplicationsApiFp(this.configuration).uploadApplications(options).then((request) => request(this.axios, this.basePath));
+    uploadApplications(addHeaders, file, options) {
+        return ApplicationsApiFp(this.configuration).uploadApplications(addHeaders, file, options).then((request) => request(this.axios, this.basePath));
     }
 }

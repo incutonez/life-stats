@@ -245,10 +245,16 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
         },
         /**
          * 
+         * @param {boolean} addHeaders 
+         * @param {File} file 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadApplications: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        uploadApplications: async (addHeaders: boolean, file: File, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'addHeaders' is not null or undefined
+            assertParamExists('uploadApplications', 'addHeaders', addHeaders)
+            // verify required parameter 'file' is not null or undefined
+            assertParamExists('uploadApplications', 'file', file)
             const localVarPath = `/applications/upload`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -260,12 +266,24 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
 
 
+            if (addHeaders !== undefined) { 
+                localVarFormParams.append('addHeaders', addHeaders as any);
+            }
+    
+            if (file !== undefined) { 
+                localVarFormParams.append('file', file as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -345,11 +363,13 @@ export const ApplicationsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {boolean} addHeaders 
+         * @param {File} file 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadApplications(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<object>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadApplications(options);
+        async uploadApplications(addHeaders: boolean, file: File, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ApplicationViewModel>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadApplications(addHeaders, file, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -419,11 +439,13 @@ export const ApplicationsApiFactory = function (configuration?: Configuration, b
         },
         /**
          * 
+         * @param {boolean} addHeaders 
+         * @param {File} file 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadApplications(options?: any): AxiosPromise<Array<object>> {
-            return localVarFp.uploadApplications(options).then((request) => request(axios, basePath));
+        uploadApplications(addHeaders: boolean, file: File, options?: any): AxiosPromise<Array<ApplicationViewModel>> {
+            return localVarFp.uploadApplications(addHeaders, file, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -491,11 +513,13 @@ export interface ApplicationsApiInterface {
 
     /**
      * 
+     * @param {boolean} addHeaders 
+     * @param {File} file 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ApplicationsApiInterface
      */
-    uploadApplications(options?: AxiosRequestConfig): AxiosPromise<Array<object>>;
+    uploadApplications(addHeaders: boolean, file: File, options?: AxiosRequestConfig): AxiosPromise<Array<ApplicationViewModel>>;
 
 }
 
@@ -575,11 +599,13 @@ export class ApplicationsApi extends BaseAPI implements ApplicationsApiInterface
 
     /**
      * 
+     * @param {boolean} addHeaders 
+     * @param {File} file 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ApplicationsApi
      */
-    public uploadApplications(options?: AxiosRequestConfig) {
-        return ApplicationsApiFp(this.configuration).uploadApplications(options).then((request) => request(this.axios, this.basePath));
+    public uploadApplications(addHeaders: boolean, file: File, options?: AxiosRequestConfig) {
+        return ApplicationsApiFp(this.configuration).uploadApplications(addHeaders, file, options).then((request) => request(this.axios, this.basePath));
     }
 }

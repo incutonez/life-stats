@@ -6,13 +6,23 @@ import { IUploadModel } from "@/applications/types";
 import { CompaniesService } from "@/companies/companies.service";
 import { ApplicationModel } from "@/db/models/ApplicationModel";
 import { CommentModel } from "@/db/models/CommentModel";
+import { EnumApplicationStatus } from "@/types";
 import {
 	ApplicationListViewModel, IApplicationBulkViewModel,
 	IApplicationCreateViewModel, IApplicationUpdateViewModel,
-	IApplicationViewModel,
 } from "@/viewModels/application.viewmodel";
 import { ApiPaginatedRequest } from "@/viewModels/base.list.viewmodel";
 import { ICommentViewModel } from "@/viewModels/comment.viewmodel";
+
+const CSVFields = [
+	"company",
+	"positionTitle",
+	"dateApplied",
+	"url",
+	"compensation",
+	"comments",
+	"status",
+];
 
 @Injectable()
 export class ApplicationsService {
@@ -56,9 +66,9 @@ export class ApplicationsService {
 		});
 	}
 
-	async createApplication(model: IApplicationCreateViewModel) {
+	async createApplication(model: IApplicationCreateViewModel, useAppliedDate = false) {
 		model.company = await this.companiesService.createCompany(model.company.name);
-		const entity = await ApplicationModel.create(this.mapper.createViewModelToEntity(model), {
+		const entity = await ApplicationModel.create(this.mapper.createViewModelToEntity(model, useAppliedDate), {
 			raw: true,
 		});
 		const { id } = entity;
@@ -76,7 +86,7 @@ export class ApplicationsService {
 		};
 		for (const model of models) {
 			try {
-				await this.createApplication(model);
+				await this.createApplication(model, true);
 				results.successful++;
 			}
 			catch (ex) {
@@ -119,32 +129,23 @@ export class ApplicationsService {
 		return this.commentsMapper.entityToViewModel(entity);
 	}
 
-	async uploadApplications(file: Express.Multer.File) {
-		const results: IApplicationViewModel[] = [];
-		const data = Papa.parse<IUploadModel>(file.buffer.toString("utf8"), {
+	async uploadApplications(file: Express.Multer.File, addHeaders = true) {
+		let contents = file.buffer.toString("utf8");
+		if (addHeaders) {
+			contents = `${CSVFields.join(";")}\n${contents}`;
+		}
+		const { data } = Papa.parse<IUploadModel>(contents, {
 			header: true,
 			transform(value, column) {
-				if (column === "Order") {
-					return value ? parseInt(value, 10) : -1;
+				if (column === "status") {
+					return value ? parseInt(value, 10) : EnumApplicationStatus.Rejected;
 				}
-				else if (column === "Date Applied") {
+				else if (column === "dateApplied") {
 					return new Date(value).getTime();
 				}
 				return value;
 			},
 		});
-		for (const record of data.data) {
-			if (record.Company) {
-				const company = await this.companiesService.createCompany(record.Company);
-				// Replace company name with its DB ID
-				record.Company = company.id;
-				record.CompanyName = company.name;
-				const response = await this.createApplication(this.mapper.csvModelToViewModel(record));
-				if (response) {
-					results.push(response);
-				}
-			}
-		}
-		return results;
+		return data.map((item) => this.mapper.csvModelToViewModel(item));
 	}
 }

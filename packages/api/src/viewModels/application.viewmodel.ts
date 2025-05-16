@@ -24,6 +24,8 @@ export class ApplicationViewModel {
     declare url: string;
     declare site: string;
     declare compensation: string;
+		declare dateCreated?: number;
+		declare dateUpdated?: number;
     @ApiProperty({
     	enum: EnumApplicationStatus,
     	enumName: "EnumApplicationStatus",

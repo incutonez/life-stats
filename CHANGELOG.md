@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/incutonez/job-applications/compare/v1.3.0...v1.3.1) (2025-05-16)
+
+### Bug Fixes
+
+* Miscellaneous Fixes ([db1bd71](https://github.com/incutonez/job-applications/commit/db1bd71ac0b4d9461b5f78f1b79222144ee57c31))
+* Miscellaneous Fixes ([#11](https://github.com/incutonez/job-applications/issues/11)) ([a95e743](https://github.com/incutonez/job-applications/commit/a95e743ad60f543c88898d1cd5713933536a8d44))
+
 ## [1.3.0](https://github.com/incutonez/job-applications/compare/v1.2.0...v1.3.0) (2025-05-16)
 
 ### Features

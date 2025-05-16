@@ -7,6 +7,11 @@ import { RouteCreate } from "@/router.ts";
 import { setApplicationRecords } from "@/stores/applications.ts";
 import { useAppDispatch } from "@/stores/main.ts";
 
+interface IImportMutation {
+	addHeaders: boolean;
+	file: File;
+}
+
 type TApplicationViewRecord = ReturnType<typeof provideApplicationRecord>;
 const ApplicationViewRecordKey: InjectionKey<TApplicationViewRecord> = Symbol("applicationViewRecord");
 
@@ -30,6 +35,36 @@ export function useGetApplications() {
 	watch(query.data, ($data) => dispatch(setApplicationRecords(toRaw($data?.data))));
 
 	return query;
+}
+
+export function useImportApplications() {
+	const importFile = ref<File>();
+	const uploadingFile = ref(false);
+	const importMutations = useMutation({
+		async mutationFn({ addHeaders, file }: IImportMutation) {
+			return ApplicationsAPI.uploadApplications(addHeaders, file);
+		},
+	});
+
+	async function uploadApplications(addHeaders = true) {
+		const $importFile = unref(importFile);
+		if ($importFile) {
+			uploadingFile.value = true;
+			const { data } = await importMutations.mutateAsync({
+				addHeaders,
+				file: $importFile,
+			});
+			uploadingFile.value = false;
+			return data;
+		}
+		return [];
+	}
+
+	return {
+		uploadingFile,
+		uploadApplications,
+		importFile,
+	};
 }
 
 export function useDeleteApplication() {

@@ -10,6 +10,8 @@ export type ICommentCreateModel = Omit<ICommentModel, "id">;
 
 @Table({
 	tableName: "comments",
+	createdAt: "created_at",
+	updatedAt: "updated_at",
 })
 export class CommentModel extends BaseModel {
     @PrimaryKeyGuid()

@@ -9,6 +9,8 @@ export interface ApplicationViewModel {
     'url': string;
     'site': string;
     'compensation': string;
+    'dateCreated'?: number;
+    'dateUpdated'?: number;
     'company': CompanyViewModel;
     'comments': Array<CommentViewModel>;
 }

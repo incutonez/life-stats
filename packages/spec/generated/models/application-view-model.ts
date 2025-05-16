@@ -73,6 +73,18 @@ export interface ApplicationViewModel {
     'compensation': string;
     /**
      * 
+     * @type {number}
+     * @memberof ApplicationViewModel
+     */
+    'dateCreated'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ApplicationViewModel
+     */
+    'dateUpdated'?: number;
+    /**
+     * 
      * @type {CompanyViewModel}
      * @memberof ApplicationViewModel
      */

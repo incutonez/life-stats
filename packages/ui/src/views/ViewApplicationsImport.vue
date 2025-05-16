@@ -1,27 +1,32 @@
 ﻿<script setup lang="ts">
-import { computed, ref, useId } from "vue";
-import type { ApplicationViewModel } from "@incutonez/job-applications-openapi";
+import { computed, h, ref, useId } from "vue";
+import type { ApplicationViewModel, CommentViewModel } from "@incutonez/job-applications-openapi";
 import MimeTypes from "mime-types";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
 import FieldCheckbox from "@/components/FieldCheckbox.vue";
 import { IconDelete, IconDownload, IconSave } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
-import { useBulkApplications } from "@/composables/applications.ts";
-import { useTableActions, useTableData } from "@/composables/table.ts";
-import { csvToApplicationViewModel, downloadFile, makeCSV, readFile, toDate } from "@/utils/common.ts";
+import { useBulkApplications, useImportApplications } from "@/composables/applications.ts";
+import { useExpandableRow, useTableActions, useTableData } from "@/composables/table.ts";
+import type { ISubRowRenderer, ITableData } from "@/types/components.ts";
+import { downloadFile, makeCSV, toDate } from "@/utils/common.ts";
 
 // We use this to tie the field and label together, so when the user clicks in the label, it pops open the file input
 const fileId = useId();
-const file = ref<File>();
 const hasDragOver = ref(false);
-const addHeader = ref(true);
+const addHeaders = ref(true);
 const showingImport = ref(true);
 const dialogCmp = ref<InstanceType<typeof BaseDialog>>();
+const { importFile, uploadApplications, uploadingFile } = useImportApplications();
 const { addedApplications, addingApplications, createApplications } = useBulkApplications();
 const { table } = useTableData<ApplicationViewModel>({
 	data: addedApplications,
+	canExpand(row) {
+		return !!row.original.comments.length;
+	},
 	columns: [
+		useExpandableRow(),
 		useTableActions([{
 			icon: IconDelete,
 			handler(record) {
@@ -60,12 +65,23 @@ const cls = computed(() => {
 	};
 });
 
+function renderCommentRows({ row }: ISubRowRenderer<ApplicationViewModel>) {
+	const table = useTableData<CommentViewModel>({
+		data: row.original.comments,
+		columns: [{
+			accessorKey: "comment",
+		}],
+	});
+
+	return h<ITableData<CommentViewModel>>(TableData, {
+		table: table.table,
+		hideHeaders: true,
+	});
+}
+
 async function onClickImportButton() {
-	if (file.value) {
-		const results = await readFile<string>(file.value);
-		addedApplications.value = csvToApplicationViewModel(results, addHeader.value);
-		showingImport.value = false;
-	}
+	addedApplications.value = await uploadApplications(addHeaders.value);
+	showingImport.value = false;
 }
 
 async function onClickSaveButton() {
@@ -74,12 +90,12 @@ async function onClickSaveButton() {
 }
 
 function onChangeFile({ target }: Event) {
-	file.value = (target as HTMLInputElement).files?.[0];
+	importFile.value = (target as HTMLInputElement).files?.[0];
 }
 
 function onDrop({ dataTransfer }: DragEvent) {
 	hasDragOver.value = false;
-	file.value = dataTransfer?.files[0];
+	importFile.value = dataTransfer?.files[0];
 }
 
 function onDragOver() {
@@ -98,7 +114,7 @@ function onClickDownloadTemplate() {
 }
 
 function onCloseDialog() {
-	file.value = undefined;
+	importFile.value = undefined;
 	addedApplications.value = [];
 	showingImport.value = true;
 }
@@ -123,7 +139,7 @@ function onCloseDialog() {
 						@click="onClickDownloadTemplate"
 					/>
 					<FieldCheckbox
-						v-model="addHeader"
+						v-model="addHeaders"
 						box-label="Add Headers"
 					/>
 				</section>
@@ -144,15 +160,16 @@ function onCloseDialog() {
 					>
 					<span class="text-sm font-semibold text-slate-700">Click or drag file here</span>
 					<span
-						v-if="file"
+						v-if="importFile"
 						class="text-sm"
-					><span class="font-semibold">Selected:</span> {{ file.name }}</span>
+					><span class="font-semibold">Selected:</span> {{ importFile.name }}</span>
 				</label>
 			</article>
 			<TableData
 				v-else
 				class="max-h-[70vh] max-w-[90vw]"
 				:table="table"
+				:render-sub-rows="renderCommentRows"
 			/>
 		</template>
 		<template #footer>
@@ -161,7 +178,8 @@ function onCloseDialog() {
 				text="Import"
 				theme="info"
 				:icon="IconSave"
-				:disabled="!file"
+				:loading="uploadingFile"
+				:disabled="!importFile"
 				@click="onClickImportButton"
 			/>
 			<BaseButton

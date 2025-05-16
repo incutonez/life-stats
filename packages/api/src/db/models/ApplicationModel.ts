@@ -13,7 +13,8 @@ export type IApplicationCreateModel = Omit<IApplicationUpdateModel, "id">;
 
 @Table({
 	tableName: "applications",
-	timestamps: false,
+	createdAt: "created_at",
+	updatedAt: "updated_at",
 })
 export class ApplicationModel extends BaseModel {
 	@PrimaryKeyGuid()

@@ -1,6 +1,7 @@
 ﻿import { Injectable, OnModuleInit } from "@nestjs/common";
 import { ModuleRef } from "@nestjs/core";
 import { differenceInWeeks } from "date-fns";
+import { v4 as getUUID } from "uuid";
 import { CommentsMapper } from "@/applications/comments.mapper";
 import { IUploadModel } from "@/applications/types";
 import { CompaniesMapper } from "@/companies/companies.mapper";
@@ -15,7 +16,6 @@ import {
 	IApplicationUpdateViewModel,
 	IApplicationViewModel,
 } from "@/viewModels/application.viewmodel";
-import { ICommentViewModel } from "@/viewModels/comment.viewmodel";
 
 const DomainRegex = /https?:\/\/.*?([^./]+?\.[^.]+?(?:\.\w{2})?)(?:\/|$)/;
 
@@ -32,12 +32,7 @@ export class ApplicationsMapper implements OnModuleInit {
 		});
 	}
 
-	entityToViewModel({ id, company, position_title, date_applied, url, compensation, order, comments }: ApplicationModel): IApplicationViewModel {
-		const difference = differenceInWeeks(Date.now(), date_applied);
-		if (difference === 0 && order === EnumApplicationStatus.NoStatus) {
-			// Either use the existing order that has been set or default it to be this week
-			order = EnumApplicationStatus.CurrentWeek;
-		}
+	urlToSite(url: string) {
 		let site = "";
 		if (url.toLowerCase().includes("linkedin")) {
 			site = "LinkedIn";
@@ -57,36 +52,46 @@ export class ApplicationsMapper implements OnModuleInit {
 				site = site[0].toUpperCase() + site.substring(1);
 			}
 		}
+		return site;
+	}
+
+	entityToViewModel({ id, updated_at, created_at, company, position_title, date_applied, url, compensation, order, comments }: ApplicationModel): IApplicationViewModel {
+		const difference = differenceInWeeks(Date.now(), date_applied);
+		if (difference === 0 && order === EnumApplicationStatus.NoStatus) {
+			// Either use the existing order that has been set or default it to be this week
+			order = EnumApplicationStatus.CurrentWeek;
+		}
 		return {
 			id,
 			url,
 			compensation,
 			order,
-			site,
+			site: this.urlToSite(url),
 			positionTitle: position_title,
+			dateCreated: created_at!.getTime(),
+			dateUpdated: updated_at!.getTime(),
 			dateApplied: date_applied,
 			company: this.companiesMapper.entityToViewModel(company),
 			comments: comments.map((comment) => this.commentsMapper.entityToViewModel(comment)) ?? [],
 		};
 	}
 
-	csvModelToViewModel({ Company, CompanyName = "", Comments, Link, Pay, Role, Order, "Date Applied": dateApplied }: IUploadModel): IApplicationCreateViewModel {
-		const comments: ICommentViewModel[] = Comments ? Comments.split(/\r\n/g).map((comment) => {
-			return {
-				id: "",
-				comment,
-			};
-		}) : [];
+	csvModelToViewModel({ company, comments, url = "", compensation, positionTitle, status, dateApplied }: IUploadModel): IApplicationCreateViewModel {
 		return {
-			comments,
+			url,
+			compensation,
+			positionTitle,
+			comments: comments ? comments.split(/\r\n/g).map((comment) => {
+				return {
+					id: getUUID(),
+					comment,
+				};
+			}) : [],
 			dateApplied: new Date(dateApplied).getTime(),
-			url: Link,
-			compensation: Pay,
-			order: parseInt(Order, 10) as EnumApplicationStatus,
-			positionTitle: Role,
+			order: parseInt(status, 10) as EnumApplicationStatus,
 			company: {
-				id: Company,
-				name: CompanyName,
+				id: getUUID(),
+				name: company,
 			},
 		};
 	}
@@ -103,11 +108,12 @@ export class ApplicationsMapper implements OnModuleInit {
 		};
 	}
 
-	createViewModelToEntity({ compensation, company, order, url, positionTitle, dateApplied }: IApplicationCreateViewModel): IApplicationCreateModel {
+	createViewModelToEntity({ compensation, company, order, url, positionTitle, dateApplied }: IApplicationCreateViewModel, useAppliedDate = false): IApplicationCreateModel {
 		return {
 			compensation,
 			order,
 			url,
+			created_at: useAppliedDate ? new Date(dateApplied) : undefined,
 			position_title: positionTitle,
 			date_applied: dateApplied,
 			company_id: company.id,

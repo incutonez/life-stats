@@ -5,7 +5,8 @@ import { BaseModel } from "@/db/models/BaseModel";
 
 @Table({
 	tableName: "companies",
-	timestamps: false,
+	createdAt: "created_at",
+	updatedAt: "updated_at",
 })
 export class CompanyModel extends BaseModel {
     @PrimaryKeyGuid()

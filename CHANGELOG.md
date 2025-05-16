@@ -1,3 +1,10 @@
+## [1.2.0](https://github.com/incutonez/job-applications/compare/v1.1.0...v1.2.0) (2025-05-16)
+
+### Features
+
+* Refactoring Import Applications ([d225694](https://github.com/incutonez/job-applications/commit/d2256946d6c38ea4ad768ab899a512f23992e199))
+* Refactoring Import Applications ([#9](https://github.com/incutonez/job-applications/issues/9)) ([654ad21](https://github.com/incutonez/job-applications/commit/654ad21fc1637cd14342a3014d620d67e4032db3))
+
 ## [1.1.0](https://github.com/incutonez/job-applications/compare/v1.0.0...v1.1.0) (2025-05-16)
 
 ### Features

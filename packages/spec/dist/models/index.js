@@ -1,6 +1,7 @@
 export * from './api-paginated-request';
 export * from './app-info-view-model';
 export * from './application-list-view-model';
+export * from './application-nested-view-model';
 export * from './application-view-model';
 export * from './comment-view-model';
 export * from './company-full-list-view-model';

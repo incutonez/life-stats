@@ -13,6 +13,9 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { ApplicationNestedViewModel } from './application-nested-view-model';
 
 /**
  * 
@@ -46,9 +49,9 @@ export interface CompanyFullViewModel {
     'name': string;
     /**
      * 
-     * @type {Array<object>}
+     * @type {Array<ApplicationNestedViewModel>}
      * @memberof CompanyFullViewModel
      */
-    'applications': Array<object>;
+    'applications': Array<ApplicationNestedViewModel>;
 }
 

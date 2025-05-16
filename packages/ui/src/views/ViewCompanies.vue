@@ -1,6 +1,6 @@
 ﻿<script setup lang="ts">
 import { h, ref } from "vue";
-import type { CompanyFullViewModel } from "@incutonez/job-applications-openapi";
+import type { ApplicationViewModel, CompanyFullViewModel } from "@incutonez/job-applications-openapi";
 import FieldText from "@/components/FieldText.vue";
 import { IconDelete } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
@@ -57,7 +57,7 @@ async function onDeleteCompany() {
 
 function renderSubRows({ row }: ISubRowRenderer<CompanyFullViewModel>) {
 	return h<IViewApplicationsProps>(ViewApplications, {
-		data: row.original.applications,
+		data: row.original.applications as ApplicationViewModel[],
 		showCompany: false,
 		viewRoute: RouteCompanyApplication,
 		class: "p-2",

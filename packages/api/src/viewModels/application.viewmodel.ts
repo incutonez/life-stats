@@ -1,4 +1,4 @@
-﻿import { ApiProperty } from "@nestjs/swagger";
+﻿import { ApiProperty, OmitType } from "@nestjs/swagger";
 import { GetResponseModel } from "src/viewModels/base.list.viewmodel";
 import { EnumApplicationStatus, ModelInterface } from "@/types";
 import { BaseViewModel } from "@/viewModels/BaseViewModel";
@@ -41,5 +41,7 @@ export class ApplicationViewModel extends BaseViewModel {
     declare company: CompanyViewModel;
     declare comments: CommentViewModel[];
 }
+
+export class ApplicationNestedViewModel extends OmitType(ApplicationViewModel, ["company"]) {}
 
 export class ApplicationListViewModel extends GetResponseModel<ApplicationViewModel>(ApplicationViewModel) {}

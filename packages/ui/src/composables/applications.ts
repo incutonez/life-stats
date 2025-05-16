@@ -1,4 +1,4 @@
-﻿import { computed, inject, type InjectionKey, provide, type Ref, ref, toRaw, unref, watch } from "vue";
+﻿import { computed, inject, type InjectionKey, onUnmounted, provide, type Ref, ref, toRaw, unref, watch } from "vue";
 import { type ApplicationViewModel, EnumApplicationStatus } from "@incutonez/job-applications-openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import clone from "just-clone";
@@ -102,23 +102,28 @@ export function useBulkApplications() {
 	const addedApplications = ref<ApplicationViewModel[]>([]);
 	const queryClient = useQueryClient();
 	const addingApplications = ref(false);
+	const added = ref(false);
 	const bulkMutation = useMutation({
 		async mutationFn(records: ApplicationViewModel[]) {
 			addingApplications.value = true;
 			await ApplicationsAPI.createApplications(records);
 			addingApplications.value = false;
 		},
-		async onSuccess() {
-			await queryClient.invalidateQueries();
-		},
 	});
 
 	async function createApplications() {
 		const records = unref(addedApplications);
 		if (records) {
-			return bulkMutation.mutateAsync(records);
+			await bulkMutation.mutateAsync(records);
+			added.value = true;
 		}
 	}
+
+	onUnmounted(() => {
+		if (added.value) {
+			queryClient.invalidateQueries();
+		}
+	});
 
 	return {
 		addedApplications,
@@ -144,6 +149,7 @@ export function provideApplicationRecord(applicationId: Ref<string>) {
 	const viewRecord = ref<ApplicationViewModel>();
 	const pastedRecord = injectPastedApplication();
 	const queryClient = useQueryClient();
+	const updated = ref(false);
 	const isEdit = computed(() => !!viewRecord.value?.id);
 	const query = useQuery({
 		queryKey: ["application", applicationId],
@@ -178,14 +184,12 @@ export function provideApplicationRecord(applicationId: Ref<string>) {
 				return ApplicationsAPI.createApplication(record);
 			}
 		},
-		async onSuccess() {
-			await queryClient.invalidateQueries();
-		},
 	});
 
 	async function save() {
 		savingApplication.value = true;
 		await updateMutation.mutateAsync(viewRecord.value);
+		updated.value = true;
 		savingApplication.value = false;
 	}
 
@@ -215,6 +219,14 @@ export function provideApplicationRecord(applicationId: Ref<string>) {
 		}
 	}, {
 		immediate: true,
+	});
+
+	onUnmounted(async () => {
+		/* Instead of doing this in the onSuccess of the mutation, we opt for it here because we don't want to reload our
+		 * current record if we're closing the dialog... it's potentially a wasted call */
+		if (updated.value) {
+			await queryClient.invalidateQueries();
+		}
 	});
 
 	provide(ApplicationViewRecordKey, provider);

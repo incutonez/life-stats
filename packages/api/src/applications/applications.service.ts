@@ -130,6 +130,7 @@ export class ApplicationsService {
 	}
 
 	async uploadApplications(file: Express.Multer.File, addHeaders = true) {
+		const results: IApplicationCreateViewModel[] = [];
 		let contents = file.buffer.toString("utf8");
 		if (addHeaders) {
 			contents = `${CSVFields.join(";")}\n${contents}`;
@@ -147,6 +148,12 @@ export class ApplicationsService {
 				return value;
 			},
 		});
-		return data.map((item) => this.mapper.csvModelToViewModel(item));
+		for (const item of data) {
+			// If there's no company or positionTitle, we ignore this entry
+			if (item.company && item.positionTitle) {
+				results.push(this.mapper.csvModelToViewModel(item));
+			}
+		}
+		return results;
 	}
 }

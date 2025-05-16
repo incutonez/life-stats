@@ -41,7 +41,10 @@ function onClickImportApplications() {
 	</nav>
 	<main class="flex-1 overflow-hidden">
 		<RouterView />
-		<ViewApplicationsImport v-model="showImportDialog" />
+		<ViewApplicationsImport
+			v-if="showImportDialog"
+			v-model="showImportDialog"
+		/>
 	</main>
 	<LoadingMask />
 </template>

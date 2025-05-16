@@ -2,7 +2,7 @@
 import { computed } from "vue";
 
 export interface ICellLinkProps {
-	text: string;
+	text?: string;
 	url: string;
 	status: number;
 }

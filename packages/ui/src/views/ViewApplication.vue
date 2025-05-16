@@ -26,7 +26,7 @@ const showCommentDialog = ref(false);
 const selectedComment = ref<CommentViewModel>();
 const comment = computed(() => selectedComment.value?.comment ?? "");
 const applicationId = computed(() => props.applicationId);
-const { viewRecord, save, pastedRecord, isEdit } = provideApplicationRecord(applicationId);
+const { viewRecord, save, pastedRecord, isEdit, savingApplication } = provideApplicationRecord(applicationId);
 const showDelete = ref(false);
 const { deleteApplication, deletingApplication } = useDeleteApplication();
 const data = ref<CommentViewModel[]>([]);
@@ -193,12 +193,14 @@ watch(() => viewRecord.value?.comments, ($comments = []) => {
 				text="Delete"
 				:icon="IconDelete"
 				theme="danger"
+				:loading="deletingApplication"
 				@click="onClickDeleteButton"
 			/>
 			<BaseButton
 				text="Save"
 				:icon="IconSave"
 				theme="info"
+				:loading="savingApplication"
 				@click="onClickSave"
 			/>
 		</template>

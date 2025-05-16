@@ -7,7 +7,7 @@ import { CompaniesService } from "@/companies/companies.service";
 import { ApplicationModel } from "@/db/models/ApplicationModel";
 import { CommentModel } from "@/db/models/CommentModel";
 import {
-	ApplicationListViewModel,
+	ApplicationListViewModel, IApplicationBulkViewModel,
 	IApplicationCreateViewModel, IApplicationUpdateViewModel,
 	IApplicationViewModel,
 } from "@/viewModels/application.viewmodel";
@@ -67,6 +67,23 @@ export class ApplicationsService {
 			return this.createApplicationComment(comment);
 		}));
 		return this.getApplication(id);
+	}
+
+	async createApplications(models: IApplicationCreateViewModel[]) {
+		const results: IApplicationBulkViewModel = {
+			successful: 0,
+			errors: [],
+		};
+		for (const model of models) {
+			try {
+				await this.createApplication(model);
+				results.successful++;
+			}
+			catch (ex) {
+				results.errors.push(ex as string);
+			}
+		}
+		return results;
 	}
 
 	async updateApplication(model: IApplicationUpdateViewModel) {

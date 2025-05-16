@@ -11,9 +11,12 @@
 	UseInterceptors,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiTags } from "@nestjs/swagger";
 import { ApplicationsService } from "src/applications/applications.service";
-import { ApplicationViewModel } from "@/viewModels/application.viewmodel";
+import {
+	ApplicationViewModel, IApplicationBulkViewModel,
+	IApplicationCreateViewModel,
+} from "@/viewModels/application.viewmodel";
 import { ApiPaginatedRequest } from "@/viewModels/base.list.viewmodel";
 
 @ApiTags("applications")
@@ -34,8 +37,16 @@ export class ApplicationsController {
 		return this.service.uploadApplications(file);
 	}
 
+	@Post("bulk")
+	@ApiBody({
+		type: [ApplicationViewModel],
+	})
+	async createApplications(@Body() applications: ApplicationViewModel[]): Promise<IApplicationBulkViewModel> {
+		return this.service.createApplications(applications);
+	}
+
 	@Post("")
-	async createApplication(@Body() application: ApplicationViewModel): Promise<ApplicationViewModel> {
+	async createApplication(@Body() application: ApplicationViewModel): Promise<IApplicationCreateViewModel> {
 		const response = await this.service.createApplication(application);
 		if (response) {
 			return response;

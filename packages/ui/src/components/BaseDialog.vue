@@ -59,6 +59,10 @@ onMounted(() => {
 		toggle();
 	}
 });
+
+defineExpose({
+	toggle,
+});
 </script>
 
 <template>
@@ -66,7 +70,7 @@ onMounted(() => {
 		<dialog
 			v-bind="$attrs"
 			ref="rootEl"
-			class="shadow-md border rounded border-gray-300 absolute left-0 right-0 top-0 bottom-0 m-auto bg-white"
+			class="shadow-md border rounded border-gray-300 absolute left-0 right-0 top-0 bottom-0 m-auto bg-white overflow-hidden"
 		>
 			<article class="flex flex-col h-full">
 				<header class="flex items-center justify-between border-b border-slate-400 bg-slate-200 p-2">

@@ -29,3 +29,5 @@ export { default as IconDown } from "@material-symbols/svg-400/outlined/keyboard
 export { default as IconHome } from "@material-symbols/svg-400/outlined/home.svg";
 
 export { default as IconCompanies } from "@material-symbols/svg-400/outlined/work.svg";
+
+export { default as IconDownload } from "@material-symbols/svg-400/outlined/download.svg";

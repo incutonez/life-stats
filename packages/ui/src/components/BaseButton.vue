@@ -9,17 +9,19 @@ export interface IBaseButtonProps extends /* @vue-ignore */ ButtonHTMLAttributes
 	loading?: boolean;
 }
 
-const { text = undefined, theme = "normal", icon = undefined } = defineProps<IBaseButtonProps>();
+const { text = undefined, theme = "normal", icon = undefined, disabled = false, loading = false } = defineProps<IBaseButtonProps>();
 const buttonClass = computed(() => {
 	return {
 		[`button-${theme}`]: true,
 		"button-icon-only": !text,
 	};
 });
+const isDisabled = computed(() => disabled || loading);
 </script>
 
 <template>
 	<button
+		:disabled="isDisabled"
 		class="base-button"
 		:class="buttonClass"
 	>

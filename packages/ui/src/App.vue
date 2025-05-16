@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import BaseButton from "@/components/BaseButton.vue";
-import { IconCompanies, IconHome } from "@/components/Icons.ts";
+import { IconCompanies, IconDownload, IconHome } from "@/components/Icons.ts";
 import LoadingMask from "@/components/LoadingMask.vue";
 import { viewApplications, viewCompanies } from "@/router.ts";
+import ViewApplicationsImport from "@/views/ViewApplicationsImport.vue";
+
+const showImportDialog = ref(false);
 
 function onClickViewApplications() {
 	viewApplications();
@@ -10,6 +14,10 @@ function onClickViewApplications() {
 
 function onClickViewCompanies() {
 	viewCompanies();
+}
+
+function onClickImportApplications() {
+	showImportDialog.value = true;
 }
 </script>
 
@@ -25,9 +33,15 @@ function onClickViewCompanies() {
 			title="Companies"
 			@click="onClickViewCompanies"
 		/>
+		<BaseButton
+			:icon="IconDownload"
+			title="Import"
+			@click="onClickImportApplications"
+		/>
 	</nav>
 	<main class="flex-1 overflow-hidden">
 		<RouterView />
+		<ViewApplicationsImport v-model="showImportDialog" />
 	</main>
 	<LoadingMask />
 </template>

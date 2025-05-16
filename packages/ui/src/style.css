@@ -59,8 +59,12 @@ body:has(.loading-mask) {
         @apply appearance-none outline-none placeholder:text-gray-500;
     }
     
+    .field-checkbox {
+        @apply bg-white hover:bg-sky-100 flex size-5 appearance-none items-center justify-center rounded-md outline-none border border-gray-500;
+    }
+    
     .base-button {
-        @apply px-2 py-1 inline-flex cursor-pointer select-none items-center justify-center overflow-hidden relative text-sm transition-colors duration-200 rounded-md disabled:cursor-not-allowed;
+        @apply px-2 py-1 inline-flex cursor-pointer select-none items-center justify-center overflow-hidden relative text-sm transition-colors duration-200 rounded-md disabled:opacity-60 disabled:cursor-not-allowed;
 
         &.button-normal {
             @apply bg-slate-200 font-semibold enabled:hover:bg-slate-300 enabled:active:bg-slate-200 text-gray-800 border border-gray-500

@@ -137,6 +137,7 @@ export class ApplicationsService {
 		const { data } = Papa.parse<IUploadModel>(contents, {
 			header: true,
 			transform(value, column) {
+				value = value.trim();
 				if (column === "status") {
 					return value ? parseInt(value, 10) : EnumApplicationStatus.Rejected;
 				}

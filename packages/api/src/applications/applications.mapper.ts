@@ -55,17 +55,17 @@ export class ApplicationsMapper implements OnModuleInit {
 		return site;
 	}
 
-	entityToViewModel({ id, updated_at, created_at, company, position_title, date_applied, url, compensation, order, comments }: ApplicationModel): IApplicationViewModel {
+	entityToViewModel({ id, updated_at, created_at, company, position_title, date_applied, url, compensation, status, comments }: ApplicationModel): IApplicationViewModel {
 		const difference = differenceInWeeks(Date.now(), date_applied);
-		if (difference === 0 && order === EnumApplicationStatus.NoStatus) {
+		if (difference === 0 && status === EnumApplicationStatus.Applied) {
 			// Either use the existing order that has been set or default it to be this week
-			order = EnumApplicationStatus.CurrentWeek;
+			status = EnumApplicationStatus.CurrentWeek;
 		}
 		return {
 			id,
 			url,
 			compensation,
-			order,
+			status,
 			site: this.urlToSite(url),
 			positionTitle: position_title,
 			dateCreated: created_at!.getTime(),
@@ -88,7 +88,7 @@ export class ApplicationsMapper implements OnModuleInit {
 				};
 			}) : [],
 			dateApplied: new Date(dateApplied).getTime(),
-			order: parseInt(status, 10) as EnumApplicationStatus,
+			status: parseInt(status, 10) as EnumApplicationStatus,
 			company: {
 				id: getUUID(),
 				name: company,
@@ -96,11 +96,11 @@ export class ApplicationsMapper implements OnModuleInit {
 		};
 	}
 
-	viewModelToEntity({ id, compensation, company, order, url, positionTitle, dateApplied }: IApplicationUpdateViewModel): IApplicationUpdateModel {
+	viewModelToEntity({ id, compensation, company, status, url, positionTitle, dateApplied }: IApplicationUpdateViewModel): IApplicationUpdateModel {
 		return {
 			id,
 			compensation,
-			order,
+			status,
 			url,
 			position_title: positionTitle,
 			date_applied: dateApplied,
@@ -108,10 +108,10 @@ export class ApplicationsMapper implements OnModuleInit {
 		};
 	}
 
-	createViewModelToEntity({ compensation, company, order, url, positionTitle, dateApplied }: IApplicationCreateViewModel, useAppliedDate = false): IApplicationCreateModel {
+	createViewModelToEntity({ compensation, company, status, url, positionTitle, dateApplied }: IApplicationCreateViewModel, useAppliedDate = false): IApplicationCreateModel {
 		return {
 			compensation,
-			order,
+			status,
 			url,
 			created_at: useAppliedDate ? new Date(dateApplied) : undefined,
 			position_title: positionTitle,

@@ -34,7 +34,7 @@ export interface ApplicationViewModel {
      * @type {EnumApplicationStatus}
      * @memberof ApplicationViewModel
      */
-    'order': EnumApplicationStatus;
+    'status': EnumApplicationStatus;
     /**
      * 
      * @type {string}

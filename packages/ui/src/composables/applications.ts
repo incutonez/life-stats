@@ -157,7 +157,7 @@ export function provideApplicationRecord(applicationId: Ref<string>) {
 					url: "",
 					site: "",
 					compensation: "",
-					order: EnumApplicationStatus.NoStatus,
+					status: EnumApplicationStatus.Applied,
 					company: {
 						id: "",
 						name: "",

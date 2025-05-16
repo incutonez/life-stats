@@ -36,7 +36,7 @@ export class ApplicationViewModel {
          */
     	"x-enumNames": Object.keys(EnumApplicationStatus),
     })
-    declare order: EnumApplicationStatus;
+    declare status: EnumApplicationStatus;
     declare company: CompanyViewModel;
     declare comments: CommentViewModel[];
 }

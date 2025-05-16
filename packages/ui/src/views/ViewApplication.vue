@@ -151,7 +151,7 @@ watch(() => viewRecord.value?.comments, ($comments = []) => {
 						label-align="top"
 						wrapper-cls="w-48"
 					/>
-					<FieldApplicationStatus v-model="viewRecord.order" />
+					<FieldApplicationStatus v-model="viewRecord.status" />
 				</section>
 				<FieldText
 					v-model="viewRecord.url"

@@ -81,7 +81,7 @@ export class ApplicationsMapper implements OnModuleInit {
 			url,
 			compensation,
 			positionTitle,
-			comments: comments ? comments.split(/\r\n/g).map((comment) => {
+			comments: comments ? comments.split(/\r\n|\n|\r/g).map((comment) => {
 				return {
 					id: getUUID(),
 					comment,

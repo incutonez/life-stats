@@ -15,6 +15,7 @@ import type {
 	IUseTableData,
 	TTableExpandedState,
 } from "@/types/components.ts";
+import { toDateTime } from "@/utils/common.ts";
 
 export function useTableData<TData = unknown>({ data, columns, sortInitial, searchInitial = "", canExpand }: IUseTableData<TData>) {
 	const sorting = ref(sortInitial);
@@ -76,8 +77,8 @@ export function useTableActions<T>(buttons: ITableAction<T>[]) {
 	return {
 		header: "Actions",
 		meta: {
-			columnWidth: "w-0",
-			cellCls: "w-0",
+			columnWidth: "w-max",
+			cellCls: "w-max",
 		},
 		cell(info: ITableCellContext<T>) {
 			const children: VNode[] = [];
@@ -102,12 +103,36 @@ export function useTableActions<T>(buttons: ITableAction<T>[]) {
 	};
 }
 
+export function useDateUpdatedColumn<T>(): ITableColumn<T> {
+	return {
+		accessorKey: "dateUpdated",
+		header: "Updated",
+		cell: (info) => toDateTime(info.getValue<number>()),
+		meta: {
+			columnWidth: "w-28",
+			cellCls: "w-28 text-center text-sm font-semibold",
+		},
+	};
+}
+
+export function useDateCreatedColumn<T>(): ITableColumn<T> {
+	return {
+		accessorKey: "dateCreated",
+		header: "Created",
+		cell: (info) => toDateTime(info.getValue<number>()),
+		meta: {
+			columnWidth: "w-28",
+			cellCls: "w-28 text-center text-sm font-semibold",
+		},
+	};
+}
+
 export function useExpandableRow<T>(): ITableColumn<T> {
 	return {
 		id: "expander",
 		header: () => null,
 		meta: {
-			columnWidth: "w-0",
+			columnWidth: "w-12",
 			cellCls: "w-12",
 		},
 		cell({ row }: ITableCellContext<T>) {

@@ -13,6 +13,7 @@ index.ts
 models/api-paginated-request.ts
 models/app-info-view-model.ts
 models/application-list-view-model.ts
+models/application-nested-view-model.ts
 models/application-view-model.ts
 models/comment-view-model.ts
 models/company-full-list-view-model.ts

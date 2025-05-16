@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { ApplicationViewModel } from './application-view-model';
+import { ApplicationNestedViewModel } from './application-nested-view-model';
 
 /**
  * 
@@ -23,6 +23,18 @@ import { ApplicationViewModel } from './application-view-model';
  * @interface CompanyFullViewModel
  */
 export interface CompanyFullViewModel {
+    /**
+     * 
+     * @type {number}
+     * @memberof CompanyFullViewModel
+     */
+    'dateCreated'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CompanyFullViewModel
+     */
+    'dateUpdated'?: number;
     /**
      * 
      * @type {string}
@@ -37,9 +49,9 @@ export interface CompanyFullViewModel {
     'name': string;
     /**
      * 
-     * @type {Array<ApplicationViewModel>}
+     * @type {Array<ApplicationNestedViewModel>}
      * @memberof CompanyFullViewModel
      */
-    'applications': Array<ApplicationViewModel>;
+    'applications': Array<ApplicationNestedViewModel>;
 }
 

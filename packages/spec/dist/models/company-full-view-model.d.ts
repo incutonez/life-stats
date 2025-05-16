@@ -1,6 +1,8 @@
-import { ApplicationViewModel } from './application-view-model';
+import { ApplicationNestedViewModel } from './application-nested-view-model';
 export interface CompanyFullViewModel {
+    'dateCreated'?: number;
+    'dateUpdated'?: number;
     'id': string;
     'name': string;
-    'applications': Array<ApplicationViewModel>;
+    'applications': Array<ApplicationNestedViewModel>;
 }

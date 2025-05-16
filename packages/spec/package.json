@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "npx tsc --project tsconfig.json",
-    "generate": "npx rimraf generated dist && npx tsx replaceEnum.ts && npx openapi-generator-cli generate -g typescript-axios -i /local/swagger.json -o /local/generated/ -p withSeparateModelsAndApi=true,apiPackage=api,modelPackage=models,supportsES6=true,withInterfaces=true && npm run build"
+    "generate": "npx rimraf generated dist && npx openapi-generator-cli generate -g typescript-axios -i /local/swagger.json -o /local/generated/ -p withSeparateModelsAndApi=true,apiPackage=api,modelPackage=models,supportsES6=true,withInterfaces=true && npm run build"
   },
   "author": "",
   "license": "ISC",

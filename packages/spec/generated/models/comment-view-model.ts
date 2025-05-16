@@ -22,6 +22,18 @@
 export interface CommentViewModel {
     /**
      * 
+     * @type {number}
+     * @memberof CommentViewModel
+     */
+    'dateCreated'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CommentViewModel
+     */
+    'dateUpdated'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof CommentViewModel
      */

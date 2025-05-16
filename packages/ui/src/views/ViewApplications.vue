@@ -7,12 +7,18 @@ import FieldText from "@/components/FieldText.vue";
 import { IconAdd, IconDelete, IconEdit } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
 import { providePastedApplication, useDeleteApplication, useGetApplications } from "@/composables/applications.ts";
-import { useExpandableRow, useTableActions, useTableData } from "@/composables/table.ts";
+import {
+	useDateCreatedColumn,
+	useDateUpdatedColumn,
+	useExpandableRow,
+	useTableActions,
+	useTableData,
+} from "@/composables/table.ts";
 import { RouteApplications, RouteCreate, viewApplication } from "@/router.ts";
 import { getApplicationRecords } from "@/stores/applications.ts";
 import { useAppSelector } from "@/stores/main.ts";
 import type { ISubRowRenderer, ITableColumn, ITableData, ITableRow } from "@/types/components.ts";
-import { csvToApplicationViewModel, getEnumDisplay, toDate, toDateTime } from "@/utils/common.ts";
+import { csvToApplicationViewModel, getEnumDisplay, toDate } from "@/utils/common.ts";
 import CellLink from "@/views/applications/CellLink.vue";
 import DeleteDialog from "@/views/shared/DeleteDialog.vue";
 
@@ -44,7 +50,7 @@ const columns: ITableColumn<ApplicationViewModel>[] = [useExpandableRow(), useTa
 	accessorKey: "status",
 	header: "Status",
 	meta: {
-		columnWidth: "w-min",
+		columnWidth: "w-32",
 		cellCls: "text-center",
 	},
 	cell: (info) => getEnumDisplay(EnumApplicationStatus, info.getValue<number>()),
@@ -87,8 +93,7 @@ const columns: ITableColumn<ApplicationViewModel>[] = [useExpandableRow(), useTa
 	header: "Applied",
 	cell: (info) => toDate(info.getValue<number>()),
 	meta: {
-		columnWidth: "w-auto",
-		cellCls: "text-center",
+		columnWidth: "w-32",
 	},
 }];
 if (showCompany) {
@@ -97,6 +102,9 @@ if (showCompany) {
 		accessorKey: "company.name",
 		header: "Company Name",
 		cell: (info) => info.getValue(),
+		meta: {
+			columnWidth: "w-64",
+		},
 	});
 }
 columns.push({
@@ -107,37 +115,25 @@ columns.push({
 		url: row.original.url,
 		status: row.original.status,
 	}),
+	meta: {
+		columnWidth: "w-64",
+	},
 }, {
 	accessorKey: "site",
 	header: "Site",
 	cell: (info) => info.getValue(),
 	meta: {
-		columnWidth: "w-auto",
+		columnWidth: "w-32",
 		cellCls: "text-center",
 	},
 }, {
 	accessorKey: "compensation",
 	header: "Compensation",
 	meta: {
+		columnWidth: "w-64",
 		cellCls: "text-center",
 	},
-}, {
-	accessorKey: "dateCreated",
-	header: "Created",
-	cell: (info) => toDateTime(info.getValue<number>()),
-	meta: {
-		columnWidth: "w-auto",
-		cellCls: "text-center text-sm font-semibold",
-	},
-}, {
-	accessorKey: "dateUpdated",
-	header: "Updated",
-	cell: (info) => toDateTime(info.getValue<number>()),
-	meta: {
-		columnWidth: "w-auto",
-		cellCls: "text-center text-sm font-semibold",
-	},
-});
+}, useDateCreatedColumn(), useDateUpdatedColumn());
 const { table, search, getColumnSortIdentity } = useTableData<ApplicationViewModel>({
 	data: data ?? useAppSelector(getApplicationRecords),
 	columns,
@@ -155,11 +151,13 @@ function renderCommentRows({ row }: ISubRowRenderer<ApplicationViewModel>) {
 		data: row.original.comments,
 		columns: [{
 			accessorKey: "comment",
-		}],
+			// eslint-disable-next-line @incutonez/array-bracket-newline
+		}, useDateCreatedColumn(), useDateUpdatedColumn()],
 	});
 
 	return h<ITableData<CommentViewModel>>(TableData, {
 		table: table.table,
+		isSubRow: true,
 		hideHeaders: true,
 	});
 }

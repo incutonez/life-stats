@@ -19,10 +19,16 @@ async function bootstrap() {
 	});
 	SwaggerModule.setup("api", app, document);
 	const outputPath = path.resolve(process.cwd(), "../spec/swagger.json");
+	/**
+	 * The issue we have is that NestJS only allows using x-enumNames in @ApiProperty, but the OpenAPI TypeScript generator
+	 * ignores x-enumNames and only uses x-enum-varnames, so we're simply translating that here.
+	 */
+	const swaggerContents = JSON.stringify(document).replaceAll("x-enumNames", "x-enum-varnames");
 	// Taken from https://stackoverflow.com/a/64935977/1253609
-	writeFileSync(outputPath, JSON.stringify(document), {
+	writeFileSync(outputPath, swaggerContents, {
 		encoding: "utf8",
 	});
 	await app.listen(3000);
 }
+
 bootstrap();

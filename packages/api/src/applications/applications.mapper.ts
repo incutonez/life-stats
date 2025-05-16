@@ -12,7 +12,7 @@ import {
 } from "@/db/models/ApplicationModel";
 import { EnumApplicationStatus } from "@/types";
 import {
-	IApplicationCreateViewModel,
+	IApplicationCreateViewModel, IApplicationNestedViewModel,
 	IApplicationUpdateViewModel,
 	IApplicationViewModel,
 } from "@/viewModels/application.viewmodel";
@@ -72,6 +72,26 @@ export class ApplicationsMapper implements OnModuleInit {
 			dateUpdated: updated_at!.getTime(),
 			dateApplied: date_applied,
 			company: this.companiesMapper.entityToViewModel(company),
+			comments: comments.map((comment) => this.commentsMapper.entityToViewModel(comment)) ?? [],
+		};
+	}
+
+	entityNestedToViewModel({ id, updated_at, created_at, position_title, date_applied, url, compensation, status, comments }: ApplicationModel): IApplicationNestedViewModel {
+		const difference = differenceInWeeks(Date.now(), date_applied);
+		if (difference === 0 && status === EnumApplicationStatus.Applied) {
+			// Either use the existing order that has been set or default it to be this week
+			status = EnumApplicationStatus.CurrentWeek;
+		}
+		return {
+			id,
+			url,
+			compensation,
+			status,
+			site: this.urlToSite(url),
+			positionTitle: position_title,
+			dateCreated: created_at!.getTime(),
+			dateUpdated: updated_at!.getTime(),
+			dateApplied: date_applied,
 			comments: comments.map((comment) => this.commentsMapper.entityToViewModel(comment)) ?? [],
 		};
 	}

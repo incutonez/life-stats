@@ -4,12 +4,14 @@ import { FlexRender } from "@tanstack/vue-table";
 import { IconSort } from "@/components/Icons.ts";
 import type { ITableCell, ITableData, ITableHeader, ITableRow } from "@/types/components.ts";
 
-const { table, hideHeaders, rowCls, tableClasses = "" } = defineProps<ITableData<TData>>();
+const { table, hideHeaders, rowCls, tableClasses = "", tableLayout = "table-fixed", isSubRow } = defineProps<ITableData<TData>>();
 const DefaultCellCls = "table-data-cell border-r border-b last:border-r-0 px-2 py-1";
 const tableCls = computed(() => {
 	return {
 		[tableClasses]: true,
+		[tableLayout]: true,
 		"border-t": hideHeaders,
+		"border-x": !isSubRow,
 	};
 });
 
@@ -80,7 +82,7 @@ function getHeaderTitle({ column }: ITableHeader<TData>) {
 }
 
 function getHeaderTextCls(header: ITableHeader<TData>) {
-	return header.column.getCanSort() ? "px-6" : "";
+	return header.column.getCanSort() ? "" : "";
 }
 
 function getSortIconCls({ column }: ITableHeader<TData>) {
@@ -103,7 +105,7 @@ function onClickCell(cell: ITableCell<TData>) {
 <template>
 	<article class="overflow-auto size-full">
 		<table
-			class="border-spacing-0 border-separate w-full border-x"
+			class="border-spacing-0 border-separate w-full"
 			:class="tableCls"
 		>
 			<thead v-if="!hideHeaders">

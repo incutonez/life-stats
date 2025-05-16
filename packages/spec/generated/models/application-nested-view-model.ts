@@ -18,81 +18,72 @@
 import { CommentViewModel } from './comment-view-model';
 // May contain unused imports in some cases
 // @ts-ignore
-import { CompanyViewModel } from './company-view-model';
-// May contain unused imports in some cases
-// @ts-ignore
 import { EnumApplicationStatus } from './enum-application-status';
 
 /**
  * 
  * @export
- * @interface ApplicationViewModel
+ * @interface ApplicationNestedViewModel
  */
-export interface ApplicationViewModel {
+export interface ApplicationNestedViewModel {
     /**
      * 
      * @type {number}
-     * @memberof ApplicationViewModel
+     * @memberof ApplicationNestedViewModel
      */
     'dateCreated'?: number;
     /**
      * 
      * @type {number}
-     * @memberof ApplicationViewModel
+     * @memberof ApplicationNestedViewModel
      */
     'dateUpdated'?: number;
     /**
      * 
      * @type {EnumApplicationStatus}
-     * @memberof ApplicationViewModel
+     * @memberof ApplicationNestedViewModel
      */
     'status': EnumApplicationStatus;
     /**
      * 
      * @type {string}
-     * @memberof ApplicationViewModel
+     * @memberof ApplicationNestedViewModel
      */
     'id': string;
     /**
      * 
      * @type {string}
-     * @memberof ApplicationViewModel
+     * @memberof ApplicationNestedViewModel
      */
     'positionTitle': string;
     /**
      * 
      * @type {number}
-     * @memberof ApplicationViewModel
+     * @memberof ApplicationNestedViewModel
      */
     'dateApplied': number;
     /**
      * 
      * @type {string}
-     * @memberof ApplicationViewModel
+     * @memberof ApplicationNestedViewModel
      */
     'url': string;
     /**
      * 
      * @type {string}
-     * @memberof ApplicationViewModel
+     * @memberof ApplicationNestedViewModel
      */
     'site': string;
     /**
      * 
      * @type {string}
-     * @memberof ApplicationViewModel
+     * @memberof ApplicationNestedViewModel
      */
     'compensation': string;
     /**
      * 
-     * @type {CompanyViewModel}
-     * @memberof ApplicationViewModel
-     */
-    'company': CompanyViewModel;
-    /**
-     * 
      * @type {Array<CommentViewModel>}
-     * @memberof ApplicationViewModel
+     * @memberof ApplicationNestedViewModel
      */
     'comments': Array<CommentViewModel>;
 }

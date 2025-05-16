@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/incutonez/job-applications/compare/v1.3.1...v1.3.2) (2025-05-16)
+
+### Bug Fixes
+
+* Fixing Issue with Comments Not Splitting Properly ([fb88119](https://github.com/incutonez/job-applications/commit/fb88119dd78ff11b94cd761cfd8353eadfb3fb6a))
+* Fixing Issue with Comments Not Splitting Properly ([#12](https://github.com/incutonez/job-applications/issues/12)) ([db28017](https://github.com/incutonez/job-applications/commit/db2801737117e76e656872cadd97b17a8d163541))
+
 ## [1.3.1](https://github.com/incutonez/job-applications/compare/v1.3.0...v1.3.1) (2025-05-16)
 
 ### Bug Fixes

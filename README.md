@@ -2,6 +2,15 @@
 
 Instead of managing job applications in an Excel spreadhseet, I decided to build my own UI, with accompanying API and DB.  It's a fairly simple interface, but I also wanted to try out some framework agnostic libraries in a Vue 3 app.
 
+## Getting Started
+1. Clone repo
+2. cd repo
+3. `npm i` (this repo uses npm workspaces, so you only need to be in root dir)
+4. `npm run api` in a dedicated terminal
+5. `npm run ui` in a dedicated terminal
+6. Navigate to http://localhost:5173
+7. Potentially use the [browserPlugin](https://github.com/incutonez/job-applications/blob/main/browserPlugin/manifest.json) in your browser (for [FireFox](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/)) and use the Copy Details context menu that shows on a job description on LinkedIn or Indeed
+
 ## UI Stack
 - [Vue 3](https://vuejs.org/)
 - [Vue Router](https://router.vuejs.org/)

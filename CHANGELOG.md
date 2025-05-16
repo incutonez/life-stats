@@ -1,3 +1,10 @@
+## [1.1.0](https://github.com/incutonez/job-applications/compare/v1.0.0...v1.1.0) (2025-05-16)
+
+### Features
+
+* Adding Import Applications ([81c3bca](https://github.com/incutonez/job-applications/commit/81c3bcab21da123a95432e8263a4396db2b85167))
+* Adding Import Applications ([#8](https://github.com/incutonez/job-applications/issues/8)) ([b4f1fe0](https://github.com/incutonez/job-applications/commit/b4f1fe01696ae85f25e3a2d0b1d41d5ff08bc832))
+
 ## 1.0.0 (2025-05-15)
 
 ### ⚠ BREAKING CHANGES

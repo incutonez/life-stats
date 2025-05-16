@@ -1,6 +1,6 @@
 {
   "name": "@incutonez/job-applications",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Job Applications Monorepo",
   "main": "index.js",
   "type": "module",

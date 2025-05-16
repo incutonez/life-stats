@@ -22,6 +22,18 @@
 export interface CompanyViewModel {
     /**
      * 
+     * @type {number}
+     * @memberof CompanyViewModel
+     */
+    'dateCreated'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CompanyViewModel
+     */
+    'dateUpdated'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof CompanyViewModel
      */

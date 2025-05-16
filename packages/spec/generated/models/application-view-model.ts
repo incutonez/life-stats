@@ -31,6 +31,18 @@ import { EnumApplicationStatus } from './enum-application-status';
 export interface ApplicationViewModel {
     /**
      * 
+     * @type {number}
+     * @memberof ApplicationViewModel
+     */
+    'dateCreated'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ApplicationViewModel
+     */
+    'dateUpdated'?: number;
+    /**
+     * 
      * @type {EnumApplicationStatus}
      * @memberof ApplicationViewModel
      */
@@ -71,18 +83,6 @@ export interface ApplicationViewModel {
      * @memberof ApplicationViewModel
      */
     'compensation': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof ApplicationViewModel
-     */
-    'dateCreated'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof ApplicationViewModel
-     */
-    'dateUpdated'?: number;
     /**
      * 
      * @type {CompanyViewModel}

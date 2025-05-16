@@ -1,6 +1,7 @@
 ﻿import { ApiProperty } from "@nestjs/swagger";
 import { GetResponseModel } from "src/viewModels/base.list.viewmodel";
 import { EnumApplicationStatus, ModelInterface } from "@/types";
+import { BaseViewModel } from "@/viewModels/BaseViewModel";
 import { CommentViewModel } from "@/viewModels/comment.viewmodel";
 import { CompanyViewModel } from "@/viewModels/company.viewmodel";
 
@@ -12,20 +13,20 @@ export type IApplicationCreateViewModel = Omit<IApplicationViewModel, "id" | "si
 
 export type IApplicationBulkViewModel = ModelInterface<ApplicationBulkViewModel>;
 
+export type IApplicationNestedViewModel = Omit<IApplicationViewModel, "company">;
+
 export class ApplicationBulkViewModel {
 	declare successful: number;
 	declare errors: string[];
 }
 
-export class ApplicationViewModel {
+export class ApplicationViewModel extends BaseViewModel {
     declare id: string;
     declare positionTitle: string;
     declare dateApplied: number;
     declare url: string;
     declare site: string;
     declare compensation: string;
-		declare dateCreated?: number;
-		declare dateUpdated?: number;
     @ApiProperty({
     	enum: EnumApplicationStatus,
     	enumName: "EnumApplicationStatus",

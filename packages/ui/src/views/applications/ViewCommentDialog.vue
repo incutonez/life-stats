@@ -28,18 +28,17 @@ function onOpenDialog() {
 	<BaseDialog
 		closable
 		:title="`${title} Comment`"
-		body-class="w-64"
+		class="size-1/2"
 		@open="onOpenDialog"
 	>
 		<template #content>
-			<section>
-				<FieldTextArea
-					v-model="model"
-					required
-					autofocus
-					class="h-24"
-				/>
-			</section>
+			<FieldTextArea
+				v-model="model"
+				required
+				autofocus
+				wrapper-cls="size-full"
+				class="!size-full"
+			/>
 		</template>
 		<template #footer>
 			<BaseButton

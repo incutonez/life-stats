@@ -1,13 +1,14 @@
-﻿import { ApplicationViewModel } from "@/viewModels/application.viewmodel";
+﻿import { IApplicationNestedViewModel } from "@/viewModels/application.viewmodel";
 import { GetResponseModel } from "@/viewModels/base.list.viewmodel";
+import { BaseViewModel } from "@/viewModels/BaseViewModel";
 
-export class CompanyViewModel {
+export class CompanyViewModel extends BaseViewModel {
     declare id: string;
     declare name: string;
 }
 
 export class CompanyFullViewModel extends CompanyViewModel {
-    declare applications: ApplicationViewModel[];
+    declare applications: IApplicationNestedViewModel[];
 }
 
 export class CompanyListViewModel extends GetResponseModel<CompanyViewModel>(CompanyViewModel) {}

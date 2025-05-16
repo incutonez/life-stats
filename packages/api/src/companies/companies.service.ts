@@ -32,7 +32,6 @@ export class CompaniesService {
 	async createCompany(name: string) {
 		name = name.trim();
 		const [response] = await CompanyModel.findOrCreate({
-			raw: true,
 			where: {
 				name,
 			},

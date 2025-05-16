@@ -8,7 +8,7 @@ import FieldText from "@/components/FieldText.vue";
 import { IconAdd, IconDelete, IconEdit, IconSave } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
 import { provideApplicationRecord, useDeleteApplication } from "@/composables/applications.ts";
-import { useTableActions, useTableData } from "@/composables/table.ts";
+import { useDateCreatedColumn, useDateUpdatedColumn, useTableActions, useTableData } from "@/composables/table.ts";
 import { viewApplicationParent } from "@/router.ts";
 import { getUniqueId } from "@/utils/common.ts";
 import ViewCommentDialog from "@/views/applications/ViewCommentDialog.vue";
@@ -51,7 +51,7 @@ const { table } = useTableData<CommentViewModel>({
 	}]), {
 		accessorKey: "comment",
 		header: "Name",
-	}],
+	}, useDateCreatedColumn(), useDateUpdatedColumn()],
 });
 
 function onCloseView() {
@@ -171,7 +171,6 @@ watch(() => viewRecord.value?.comments, ($comments = []) => {
 				/>
 				<TableData
 					class="flex-1"
-					:hide-headers="true"
 					:table="table"
 				/>
 			</section>

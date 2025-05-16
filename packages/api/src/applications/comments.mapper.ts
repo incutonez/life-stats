@@ -4,11 +4,13 @@ import { ICommentViewModel } from "@/viewModels/comment.viewmodel";
 
 @Injectable()
 export class CommentsMapper {
-	entityToViewModel({ application_id, comment, id }: ICommentModel): ICommentViewModel {
+	entityToViewModel({ application_id, comment, id, created_at, updated_at }: ICommentModel): ICommentViewModel {
 		return {
 			id,
 			comment,
 			applicationId: application_id,
+			dateCreated: created_at?.getTime(),
+			dateUpdated: updated_at?.getTime(),
 		};
 	}
 

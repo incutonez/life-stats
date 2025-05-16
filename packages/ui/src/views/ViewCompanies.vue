@@ -39,7 +39,7 @@ const { table, search } = useTableData<CompanyFullViewModel>({
 		accessorKey: "applications",
 		header: "Applications",
 		meta: {
-			columnWidth: "w-0",
+			columnWidth: "w-min",
 			cellCls: "text-center",
 		},
 		cell({ row }) {

@@ -2,6 +2,8 @@ import { CommentViewModel } from './comment-view-model';
 import { CompanyViewModel } from './company-view-model';
 import { EnumApplicationStatus } from './enum-application-status';
 export interface ApplicationViewModel {
+    'dateCreated'?: number;
+    'dateUpdated'?: number;
     'status': EnumApplicationStatus;
     'id': string;
     'positionTitle': string;
@@ -9,8 +11,6 @@ export interface ApplicationViewModel {
     'url': string;
     'site': string;
     'compensation': string;
-    'dateCreated'?: number;
-    'dateUpdated'?: number;
     'company': CompanyViewModel;
     'comments': Array<CommentViewModel>;
 }

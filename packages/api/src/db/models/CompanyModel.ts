@@ -12,8 +12,8 @@ export class CompanyModel extends BaseModel {
     @PrimaryKeyGuid()
     declare id: string;
 
-    @Column
-    declare name: string;
+	@Column
+	declare name: string;
 
     @HasMany(() => ApplicationModel, "company_id")
     declare applications?: ApplicationModel[];

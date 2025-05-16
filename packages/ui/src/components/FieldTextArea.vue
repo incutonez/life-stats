@@ -35,8 +35,8 @@ const { wrapperClasses, onUpdateModel, inputEl } = useFieldText<HTMLTextAreaElem
 		<textarea
 			ref="inputEl"
 			v-model="model"
-			v-bind="$attrs"
 			class="field-text field-text-input h-16"
+			v-bind="$attrs"
 			@input="onUpdateModel"
 		/>
 	</article>

@@ -18,14 +18,17 @@ export class CompaniesMapper implements OnModuleInit {
 	}
 
 	entityToViewModel(entity: CompanyModel): CompanyViewModel {
-		return entity;
-	}
-
-	entityFullToViewModel(entity: CompanyModel): CompanyFullViewModel {
 		return {
 			id: entity.id,
 			name: entity.name,
-			applications: entity.applications?.map((application) => this.applicationsMapper.entityToViewModel(application)) ?? [],
+			dateCreated: entity.created_at!.getTime(),
+			dateUpdated: entity.updated_at!.getTime(),
 		};
+	}
+
+	entityFullToViewModel(entity: CompanyModel) {
+		const record = this.entityToViewModel(entity) as CompanyFullViewModel;
+		record.applications = entity.applications?.map((application) => this.applicationsMapper.entityNestedToViewModel(application)) ?? [];
+		return record;
 	}
 }

@@ -1,8 +1,18 @@
-﻿import type { IOption, TLabelAlign } from "@/types/components.ts";
+﻿import { EnumApplicationStatus } from "@incutonez/job-applications-openapi";
+import MimeTypes from "mime-types";
+import PapaParse from "papaparse";
+import { v4 } from "uuid";
+import type { IOption, IPluginPaste, TLabelAlign } from "@/types/components.ts";
 
-export { v4 as getUniqueId } from "uuid";
-
+export const getUniqueId = v4;
 const CapitalizeWordBoundary = /(?=[A-Z])/;
+const CSVFields = [
+	"company",
+	"positionTitle",
+	"dateApplied",
+	"url",
+	"compensation",
+];
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
 	month: "2-digit",
 	day: "2-digit",
@@ -10,6 +20,9 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
 });
 
 export function toDate(value?: number | Date) {
+	if (value === undefined || isNaN(value as number)) {
+		return undefined;
+	}
 	return dateFormatter.format(value);
 }
 
@@ -51,4 +64,73 @@ export function getEnumDisplay(enums: Record<string, number | string>, value: st
 		}
 	}
 	return splitPascal(found);
+}
+
+export function parseCSV(value: string, addHeader = false) {
+	if (addHeader) {
+		// Add the headers, so we get back an array of objects instead of array of string[]
+		value = `${CSVFields.join(";")}\n${value}`;
+	}
+	const { data } = PapaParse.parse<IPluginPaste>(value, {
+		delimiter: ";",
+		header: true,
+	});
+	return data;
+}
+
+export function csvToApplicationViewModel(value: string, addHeader = false) {
+	const data = parseCSV(value, addHeader);
+	return data.map((item) => {
+		return {
+			id: "",
+			site: "",
+			url: item.url ?? "",
+			order: EnumApplicationStatus.NoStatus,
+			dateApplied: new Date(item.dateApplied).getTime(),
+			positionTitle: item.positionTitle,
+			compensation: item.compensation ?? "",
+			company: {
+				id: getUniqueId(),
+				name: item.company,
+			},
+			comments: [],
+		};
+	});
+}
+
+export function makeCSV() {
+	return PapaParse.unparse({
+		data: [],
+		fields: CSVFields,
+	}, {
+		delimiter: ";",
+	});
+}
+
+export function readFile<T>(file: File) {
+	return new Promise<T>((resolve, reject) => {
+		const reader = new FileReader();
+		reader.readAsText(file, "UTF-8");
+		reader.onload = (event) => {
+			resolve(event.target?.result as T);
+		};
+		reader.onerror = (event) => {
+			reject(event.target?.error);
+		};
+	});
+}
+
+export function downloadFile(blob: Blob, name = "download", extension = MimeTypes.extension(blob.type)) {
+	if (!extension) {
+		return;
+	}
+	const url = URL.createObjectURL(blob);
+	const a = document.createElement("a");
+	a.style.display = "none";
+	a.href = url;
+	// the filename you want
+	a.download = `${name}.${extension}`;
+	document.body.appendChild(a);
+	a.click();
+	URL.revokeObjectURL(url);
 }

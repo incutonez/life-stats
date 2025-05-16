@@ -12,6 +12,11 @@ export default {
 			// Add ability to use @ to represent the root dir being src
 			find: "@",
 			replacement: path.resolve(path.resolve(), "./src"),
+		}, {
+			/* This is necessary for mime-type
+			 * Source: https://github.com/jshttp/mime-types/issues/124 */
+			find: "path",
+			replacement: "path-browserify",
 		}],
 	},
 };

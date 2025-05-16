@@ -1,7 +1,6 @@
 ﻿<script setup lang="ts">
 import { h, onUnmounted, ref } from "vue";
 import { type ApplicationViewModel, type CommentViewModel, EnumApplicationStatus } from "@incutonez/job-applications-openapi";
-import PapaParse from "papaparse";
 import BaseButton from "@/components/BaseButton.vue";
 import FieldText from "@/components/FieldText.vue";
 import { IconAdd, IconDelete, IconEdit } from "@/components/Icons.ts";
@@ -11,8 +10,8 @@ import { useExpandableRow, useTableActions, useTableData } from "@/composables/t
 import { RouteCreate, viewApplication } from "@/router.ts";
 import { getApplicationRecords } from "@/stores/applications.ts";
 import { useAppSelector } from "@/stores/main.ts";
-import type { IPluginPaste, ISubRowRenderer, ITableColumn, ITableData, ITableRow } from "@/types/components.ts";
-import { getEnumDisplay, getUniqueId, toDate } from "@/utils/common.ts";
+import type { ISubRowRenderer, ITableColumn, ITableData, ITableRow } from "@/types/components.ts";
+import { csvToApplicationViewModel, getEnumDisplay, toDate } from "@/utils/common.ts";
 import CellLink from "@/views/applications/CellLink.vue";
 import DeleteDialog from "@/views/shared/DeleteDialog.vue";
 
@@ -23,7 +22,7 @@ export interface IViewApplicationsProps {
 }
 
 const { NoStatus, CurrentWeek, Rejected, Initial, InterviewedAndRejected, Interviewing } = EnumApplicationStatus;
-const { data = undefined, showCompany, viewRoute = undefined } = defineProps<IViewApplicationsProps>();
+const { data = undefined, showCompany = true, viewRoute = undefined } = defineProps<IViewApplicationsProps>();
 const { deleteApplication, deletingApplication } = useDeleteApplication();
 const pastedRecord = providePastedApplication();
 const showDelete = ref(false);
@@ -178,30 +177,11 @@ async function onClickDelete() {
 }
 
 function onPaste({ clipboardData }: ClipboardEvent) {
-	let paste = clipboardData?.getData("text");
+	const paste = clipboardData?.getData("text");
 	if (paste) {
-		// Add the headers, so we get back an array of objects instead of array of string[]
-		paste = `company;positionTitle;dateApplied;url;compensation\n${paste}`;
-		const { data } = PapaParse.parse<IPluginPaste>(paste, {
-			delimiter: ";",
-			header: true,
-		});
-		const [item] = data;
+		const [item] = csvToApplicationViewModel(paste, true);
 		if (item) {
-			pastedRecord.value = {
-				id: "",
-				site: "",
-				url: item.url,
-				order: EnumApplicationStatus.NoStatus,
-				dateApplied: new Date(item.dateApplied).getTime(),
-				positionTitle: item.positionTitle,
-				compensation: item.compensation ?? "",
-				company: {
-					id: getUniqueId(),
-					name: item.company,
-				},
-				comments: [],
-			};
+			pastedRecord.value = item;
 			viewApplication(RouteCreate);
 		}
 	}

@@ -10,6 +10,13 @@ export type IApplicationUpdateViewModel = Omit<IApplicationViewModel, "site">;
 
 export type IApplicationCreateViewModel = Omit<IApplicationViewModel, "id" | "site">;
 
+export type IApplicationBulkViewModel = ModelInterface<ApplicationBulkViewModel>;
+
+export class ApplicationBulkViewModel {
+	declare successful: number;
+	declare errors: string[];
+}
+
 export class ApplicationViewModel {
     declare id: string;
     declare positionTitle: string;

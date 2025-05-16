@@ -37,24 +37,58 @@ export function useDeleteApplication() {
 	const queryClient = useQueryClient();
 	const deleteMutation = useMutation({
 		async mutationFn(record: ApplicationViewModel) {
-			deletingApplication.value = true;
-			await ApplicationsAPI.deleteApplication(record.id);
-			deletingApplication.value = false;
+			return ApplicationsAPI.deleteApplication(record.id);
 		},
 		async onSuccess() {
-			await queryClient.invalidateQueries();
+			await queryClient.invalidateQueries({
+				queryKey: ["applications"],
+			});
+			await queryClient.invalidateQueries({
+				queryKey: ["companiesList"],
+			});
 		},
 	});
 
 	async function deleteApplication(record?: ApplicationViewModel) {
 		if (record) {
-			return deleteMutation.mutate(record);
+			deletingApplication.value = true;
+			await deleteMutation.mutateAsync(record);
+			deletingApplication.value = false;
 		}
 	}
 
 	return {
 		deleteApplication,
 		deletingApplication,
+	};
+}
+
+export function useBulkApplications() {
+	const addedApplications = ref<ApplicationViewModel[]>([]);
+	const queryClient = useQueryClient();
+	const addingApplications = ref(false);
+	const bulkMutation = useMutation({
+		async mutationFn(records: ApplicationViewModel[]) {
+			addingApplications.value = true;
+			await ApplicationsAPI.createApplications(records);
+			addingApplications.value = false;
+		},
+		async onSuccess() {
+			await queryClient.invalidateQueries();
+		},
+	});
+
+	async function createApplications() {
+		const records = unref(addedApplications);
+		if (records) {
+			return bulkMutation.mutateAsync(records);
+		}
+	}
+
+	return {
+		addedApplications,
+		addingApplications,
+		createApplications,
 	};
 }
 
@@ -71,6 +105,7 @@ export function injectPastedApplication() {
 }
 
 export function provideApplicationRecord(applicationId: Ref<string>) {
+	const savingApplication = ref(false);
 	const viewRecord = ref<ApplicationViewModel>();
 	const pastedRecord = injectPastedApplication();
 	const queryClient = useQueryClient();
@@ -114,7 +149,9 @@ export function provideApplicationRecord(applicationId: Ref<string>) {
 	});
 
 	async function save() {
-		return updateMutation.mutate(viewRecord.value);
+		savingApplication.value = true;
+		await updateMutation.mutateAsync(viewRecord.value);
+		savingApplication.value = false;
 	}
 
 	const provider = {
@@ -123,6 +160,7 @@ export function provideApplicationRecord(applicationId: Ref<string>) {
 		pastedRecord,
 		save,
 		isEdit,
+		savingApplication,
 	};
 
 	/**

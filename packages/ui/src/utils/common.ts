@@ -102,7 +102,7 @@ export function csvToApplicationViewModel(value: string, addHeader = false) {
 			id: "",
 			site: "",
 			url: item.url ?? "",
-			order: EnumApplicationStatus.NoStatus,
+			status: EnumApplicationStatus.Applied,
 			dateApplied: new Date(item.dateApplied).getTime(),
 			positionTitle: item.positionTitle,
 			compensation: item.compensation ?? "",

@@ -33,7 +33,7 @@ export class ApplicationModel extends BaseModel {
 	declare compensation: string;
 
 	@Column
-	declare order: EnumApplicationStatus;
+	declare status: EnumApplicationStatus;
 
 	@ForeignKey(() => CompanyModel)
 	@Column

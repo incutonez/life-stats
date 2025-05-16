@@ -22,7 +22,7 @@ export interface IViewApplicationsProps {
 	viewRoute?: string;
 }
 
-const { NoStatus, CurrentWeek, Rejected, Initial, InterviewedAndRejected, Interviewing } = EnumApplicationStatus;
+const { Applied, CurrentWeek, Rejected, Initial, InterviewedAndRejected, Interviewing, Declined, Accepted } = EnumApplicationStatus;
 const { data = undefined, showCompany = true, viewRoute = undefined } = defineProps<IViewApplicationsProps>();
 const { deleteApplication, deletingApplication } = useDeleteApplication();
 const pastedRecord = providePastedApplication();
@@ -41,7 +41,7 @@ const columns: ITableColumn<ApplicationViewModel>[] = [useExpandableRow(), useTa
 		showDelete.value = true;
 	},
 }]), {
-	accessorKey: "order",
+	accessorKey: "status",
 	header: "Status",
 	meta: {
 		columnWidth: "w-min",
@@ -53,34 +53,34 @@ const columns: ITableColumn<ApplicationViewModel>[] = [useExpandableRow(), useTa
 		// TODOJEF: There's a weird issue here... if we don't specify number as the type, then we get a circular err
 		// It's weird because this doesn't error https://www.typescriptlang.org/play/?#code/JYOwLgpgTgZghgYwgAgJIGUD2UzIN4CwAUMqcgCYQDOCAXMgEaaYA2EcIA3MWcsOfSpgooAObciAX2LFQkWIhSoAwqwCuAWxD4eZKtjAAxEPQAUASmQBeAHzIQmhtAnSixGGpAIwwTNrVUEACyAJ4AKnAMbKYI6lpU9CpxIADaALoANHwgwD5wLFg4iYVg6ZaEJGSxIELI+jhixQbp1tm5wPklErqkHl4+fowscAAWMcmoAnXCYuU9vMhsuPwQ4LkhrQCMEgtVfrUwmJ7krfU+IKIAdDCg5KamePySlrZ8J1YfyLEsmiCT5jtdnwYMhTIdjnNKkCyCs1mANlZkOCQORLpQaMgAPzITbIegAWm2814rmhUAgYDUUG0sJ88MBpFc83JlOpOihCyio3mriZRGqtTwQ1GyEkrQCwXCkWiKQqvDOxgs7OhAtw5KoAAd9ihEVyxgAiTb6gHEsgsqnadVamoQBmi4iSTLIMpAA
 		const identity: number = getColumnSortIdentity(columnId);
-		const lhsOrder = lhs.original.order;
-		const rhsOrder = rhs.original.order;
-		// First, we want to sort all no statuses to the bottom EVERY TIME
-		if (lhsOrder === NoStatus) {
+		const lhsStatus = lhs.original.status;
+		const rhsStatus = rhs.original.status;
+		// First, we want to sort all applied statuses to the bottom EVERY TIME
+		if (lhsStatus === Applied) {
 			return -1 * identity;
 		}
-		else if (rhsOrder === NoStatus) {
+		else if (rhsStatus === Applied) {
 			return identity;
 		}
 		// Next, we want to sort the current week to come after rejections EVERY TIME
-		else if (lhsOrder === CurrentWeek) {
+		else if (lhsStatus === CurrentWeek) {
 			return -1 * identity;
 		}
-		else if (rhsOrder === CurrentWeek) {
+		else if (rhsStatus === CurrentWeek) {
 			return identity;
 		}
 		// Then rejections
-		else if (lhsOrder === Rejected) {
+		else if (lhsStatus === Rejected) {
 			return -1 * identity;
 		}
-		else if (rhsOrder === Rejected) {
+		else if (rhsStatus === Rejected) {
 			return identity;
 		}
 		// Then we just do a normal sort between the rest of the statuses
-		else if (lhsOrder === rhsOrder) {
+		else if (lhsStatus === rhsStatus) {
 			return 0;
 		}
-		return lhsOrder < rhsOrder ? -1 : 1;
+		return lhsStatus < rhsStatus ? -1 : 1;
 	},
 }, {
 	accessorKey: "dateApplied",
@@ -105,7 +105,7 @@ columns.push({
 	cell: ({ row }) => h(CellLink, {
 		text: row.original.positionTitle,
 		url: row.original.url,
-		status: row.original.order,
+		status: row.original.status,
 	}),
 }, {
 	accessorKey: "site",
@@ -165,19 +165,23 @@ function renderCommentRows({ row }: ISubRowRenderer<ApplicationViewModel>) {
 }
 
 function rowCls(row: ITableRow<ApplicationViewModel>) {
-	switch (row.original.order) {
+	switch (row.original.status) {
+		case Applied:
+			return "bg-blue-200";
 		case CurrentWeek:
 			return "bg-white";
 		case Initial:
 			return "bg-yellow-200";
 		case Interviewing:
-			return "bg-amber-400";
+			return "bg-amber-300";
 		case InterviewedAndRejected:
-			return "bg-violet-300";
+			return "bg-violet-200";
 		case Rejected:
-			return "bg-rose-300";
-		case NoStatus:
-			return "bg-gray-200";
+			return "bg-rose-200";
+		case Declined:
+			return "bg-stone-300";
+		case Accepted:
+			return "bg-green-200";
 	}
 }
 

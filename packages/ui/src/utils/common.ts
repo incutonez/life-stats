@@ -83,8 +83,12 @@ export function getEnumDisplay(enums: Record<string, number | string>, value: st
 	return splitPascal(found);
 }
 
-export function pasteToApplicationViewModel(value: string): ApplicationViewModel {
-	const { url = "", dateApplied = Date.now(), positionTitle = "", company = "", compensation = "" } = JSON.parse(value) as IPluginPaste;
+export function pasteToApplicationViewModel(value: string) {
+	const { url = "",
+		dateApplied = Date.now(),
+		positionTitle = "",
+		company = "",
+		compensation = "" } = JSON.parse(value) as IPluginPaste;
 	return {
 		url,
 		dateApplied,
@@ -98,7 +102,7 @@ export function pasteToApplicationViewModel(value: string): ApplicationViewModel
 			name: company,
 		},
 		comments: [],
-	};
+	} as ApplicationViewModel;
 }
 
 export function makeCSV() {

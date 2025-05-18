@@ -6,6 +6,7 @@ import BaseButton from "@/components/BaseButton.vue";
 import FieldText from "@/components/FieldText.vue";
 import { IconAdd, IconDelete, IconEdit } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
+import { injectGlobalError } from "@/composables/app.ts";
 import { providePastedApplication, useDeleteApplication, useGetApplications } from "@/composables/applications.ts";
 import {
 	useDateCreatedColumn,
@@ -18,7 +19,7 @@ import { RouteApplications, RouteCreate, viewApplication } from "@/router.ts";
 import { getApplicationRecords } from "@/stores/applications.ts";
 import { useAppSelector } from "@/stores/main.ts";
 import type { ISubRowRenderer, ITableColumn, ITableData, ITableRow } from "@/types/components.ts";
-import { getEnumDisplay, pasteToApplicationViewModel, toDate, toDateTime } from "@/utils/common.ts";
+import { getEnumDisplay, pasteToApplicationViewModel, toDateTime } from "@/utils/common.ts";
 import CellLink from "@/views/applications/CellLink.vue";
 import DeleteDialog from "@/views/shared/DeleteDialog.vue";
 
@@ -31,6 +32,7 @@ export interface IViewApplicationsProps {
 const { Applied, CurrentWeek, Rejected, Initial, InterviewedAndRejected, Interviewing, Declined, Accepted } = EnumApplicationStatus;
 const { data = undefined, showCompany = true, viewRoute = undefined } = defineProps<IViewApplicationsProps>();
 const { deleteApplication, deletingApplication } = useDeleteApplication();
+const { errorTitle, errorMsg, errorMsgStack } = injectGlobalError();
 const pastedRecord = providePastedApplication();
 const showDelete = ref(false);
 const route = useRoute();
@@ -204,10 +206,18 @@ function onPaste({ clipboardData }: ClipboardEvent) {
 	}
 	const paste = clipboardData?.getData("text");
 	if (paste) {
-		const item = pasteToApplicationViewModel(paste);
-		if (item) {
-			pastedRecord.value = item;
-			viewApplication(RouteCreate);
+		try {
+			const item = pasteToApplicationViewModel(paste);
+			if (item) {
+				pastedRecord.value = item;
+				viewApplication(RouteCreate);
+			}
+		}
+		catch (error) {
+			errorTitle.value = "Paste Error";
+			errorMsg.value = "Paste is invalid";
+			errorMsgStack.value = `Your paste was: ${paste}`;
+			throw error;
 		}
 	}
 }

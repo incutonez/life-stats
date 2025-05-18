@@ -18,7 +18,7 @@ import { RouteApplications, RouteCreate, viewApplication } from "@/router.ts";
 import { getApplicationRecords } from "@/stores/applications.ts";
 import { useAppSelector } from "@/stores/main.ts";
 import type { ISubRowRenderer, ITableColumn, ITableData, ITableRow } from "@/types/components.ts";
-import { csvToApplicationViewModel, getEnumDisplay, toDate } from "@/utils/common.ts";
+import { getEnumDisplay, pasteToApplicationViewModel, toDate, toDateTime } from "@/utils/common.ts";
 import CellLink from "@/views/applications/CellLink.vue";
 import DeleteDialog from "@/views/shared/DeleteDialog.vue";
 
@@ -91,9 +91,10 @@ const columns: ITableColumn<ApplicationViewModel>[] = [useExpandableRow(), useTa
 }, {
 	accessorKey: "dateApplied",
 	header: "Applied",
-	cell: (info) => toDate(info.getValue<number>()),
+	cell: (info) => toDateTime(info.getValue<number>()),
 	meta: {
 		columnWidth: "w-32",
+		cellCls: "text-center text-sm font-semibold",
 	},
 }];
 if (showCompany) {
@@ -203,7 +204,7 @@ function onPaste({ clipboardData }: ClipboardEvent) {
 	}
 	const paste = clipboardData?.getData("text");
 	if (paste) {
-		const [item] = csvToApplicationViewModel(paste, true);
+		const item = pasteToApplicationViewModel(paste);
 		if (item) {
 			pastedRecord.value = item;
 			viewApplication(RouteCreate);

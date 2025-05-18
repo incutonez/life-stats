@@ -1,4 +1,4 @@
-﻿import { EnumApplicationStatus } from "@incutonez/job-applications-openapi";
+﻿import { type ApplicationViewModel, EnumApplicationStatus } from "@incutonez/job-applications-openapi";
 import MimeTypes from "mime-types";
 import PapaParse from "papaparse";
 import { v4 } from "uuid";
@@ -83,36 +83,22 @@ export function getEnumDisplay(enums: Record<string, number | string>, value: st
 	return splitPascal(found);
 }
 
-export function parseCSV(value: string, addHeader = false) {
-	if (addHeader) {
-		// Add the headers, so we get back an array of objects instead of array of string[]
-		value = `${CSVFields.join(";")}\n${value}`;
-	}
-	const { data } = PapaParse.parse<IPluginPaste>(value, {
-		delimiter: ";",
-		header: true,
-	});
-	return data;
-}
-
-export function csvToApplicationViewModel(value: string, addHeader = false) {
-	const data = parseCSV(value, addHeader);
-	return data.map((item) => {
-		return {
-			id: "",
-			site: "",
-			url: item.url ?? "",
-			status: EnumApplicationStatus.Applied,
-			dateApplied: new Date(item.dateApplied).getTime(),
-			positionTitle: item.positionTitle,
-			compensation: item.compensation ?? "",
-			company: {
-				id: getUniqueId(),
-				name: item.company,
-			},
-			comments: [],
-		};
-	});
+export function pasteToApplicationViewModel(value: string): ApplicationViewModel {
+	const { url = "", dateApplied = Date.now(), positionTitle = "", company = "", compensation = "" } = JSON.parse(value) as IPluginPaste;
+	return {
+		url,
+		dateApplied,
+		positionTitle,
+		compensation,
+		id: "",
+		site: "",
+		status: EnumApplicationStatus.Applied,
+		company: {
+			id: getUniqueId(),
+			name: company,
+		},
+		comments: [],
+	};
 }
 
 export function makeCSV() {

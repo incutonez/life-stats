@@ -1,3 +1,10 @@
+## [1.5.0](https://github.com/incutonez/job-applications/compare/v1.4.0...v1.5.0) (2025-05-18)
+
+### Features
+
+* Changing Paste ([5b29bb7](https://github.com/incutonez/job-applications/commit/5b29bb700c95c07e187e1b7cb338f2394b6c014c))
+* Changing Paste ([#14](https://github.com/incutonez/job-applications/issues/14)) ([f372a04](https://github.com/incutonez/job-applications/commit/f372a04aae75e341080528825b3e6e982c7f62fe))
+
 ## [1.4.0](https://github.com/incutonez/job-applications/compare/v1.3.2...v1.4.0) (2025-05-16)
 
 ### Features

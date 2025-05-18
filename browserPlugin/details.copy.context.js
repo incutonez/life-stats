@@ -1,24 +1,22 @@
-let companyName;
-let jobTitle;
-let url;
-let pay = "";
-let appliedDate = new Intl.DateTimeFormat('en-US', {
-  day: '2-digit',
-  month: '2-digit',
-  year: 'numeric'
-}).format(new Date());
+const jobDetails = {
+    company: "",
+    positionTitle: "",
+    url: "",
+    compensation: "",
+    dateApplied: Date.now(),
+}
 if (location.hostname === "www.indeed.com") {
   const skills = document.getElementsByClassName('js-match-insights-provider-1vjtffa');
   const parent = document.querySelector("[data-testid='inlineHeader-companyName']") ?? document.querySelector('.jobsearch-JobInfoHeader-companyNameLink') ?? document.querySelector('.jobsearch-JobInfoHeader-companyNameSimple');
   for (const skill of skills) {
     if (skill.innerText.includes("$")) {
-      pay = skill.innerText;
+      jobDetails.compensation = skill.innerText;
       break;
     }
   }
-  companyName = parent.getElementsByTagName("a")[0]?.innerText || parent.innerText;
-  jobTitle = (document.querySelector("[data-testid='jobsearch-JobInfoHeader-title']") ?? document.querySelector("[data-testid='simpler-jobTitle']")).innerText;
-  url = location.href.split('?')[0] + `?jk=${Object.fromEntries(new URLSearchParams(location.search)).jk}`;
+  jobDetails.company = parent.getElementsByTagName("a")[0]?.innerText || parent.innerText;
+  jobDetails.positionTitle = (document.querySelector("[data-testid='jobsearch-JobInfoHeader-title']") ?? document.querySelector("[data-testid='simpler-jobTitle']")).innerText;
+  jobDetails.url = location.href.split('?')[0] + `?jk=${Object.fromEntries(new URLSearchParams(location.search)).jk}`;
 }
 else {
   let skills = document.getElementsByClassName('job-details-preferences-and-skills__pill');
@@ -27,7 +25,7 @@ else {
   if (skills.length) {
 	  for (const skill of skills) {
 		if (skill.innerText.includes("$")) {
-		  pay = skill.innerText;
+			jobDetails.compensation = skill.innerText;
 		  break;
 		}
 	  }
@@ -36,13 +34,13 @@ else {
 	  skills = document.querySelectorAll('.job-details-fit-level-preferences')[0]?.querySelectorAll('.tvm__text.tvm__text--low-emphasis') ?? [];
 	  for (const skill of skills) {
 		if (skill.innerText.includes("$")) {
-		  pay = skill.innerText;
+			jobDetails.compensation = skill.innerText;
 		  break;
 		}
 	  }
   }
-  companyName = parent.getElementsByTagName("a")[0]?.innerText || parent.innerText;
-  jobTitle = document.getElementsByClassName('t-24 t-bold inline')[0].innerText;
-  url = location.href.split('?')[0];
+	jobDetails.company = parent.getElementsByTagName("a")[0]?.innerText || parent.innerText;
+	jobDetails.positionTitle = document.getElementsByClassName('t-24 t-bold inline')[0].innerText;
+	jobDetails.url = location.href.split('?')[0];
 }
-navigator.clipboard.writeText(`${companyName};${jobTitle};${appliedDate};${url};${pay}`);
+navigator.clipboard.writeText(JSON.stringify(jobDetails));

@@ -3,7 +3,9 @@ import { ref } from "vue";
 import BaseButton from "@/components/BaseButton.vue";
 import { IconCompanies, IconDownload, IconHome } from "@/components/Icons.ts";
 import LoadingMask from "@/components/LoadingMask.vue";
+import { useGlobalError } from "@/composables/app.ts";
 import { viewApplications, viewCompanies } from "@/router.ts";
+import ErrorDialog from "@/views/shared/ErrorDialog.vue";
 import ViewApplicationsImport from "@/views/ViewApplicationsImport.vue";
 
 const showImportDialog = ref(false);
@@ -19,6 +21,8 @@ function onClickViewCompanies() {
 function onClickImportApplications() {
 	showImportDialog.value = true;
 }
+
+useGlobalError();
 </script>
 
 <template>
@@ -45,6 +49,7 @@ function onClickImportApplications() {
 			v-if="showImportDialog"
 			v-model="showImportDialog"
 		/>
+		<ErrorDialog />
 	</main>
 	<LoadingMask />
 </template>

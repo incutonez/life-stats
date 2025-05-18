@@ -83,7 +83,7 @@ export interface IFieldTextEmit {
 export interface IPluginPaste {
 	company: string;
 	positionTitle: string;
-	dateApplied: string;
+	dateApplied: number;
 	url: string;
 	compensation?: string;
 }

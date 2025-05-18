@@ -1,6 +1,6 @@
 ﻿<script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
-import BaseButton from "@/components/BaseButton.vue";
+import BaseButton, { type IBaseButtonProps } from "@/components/BaseButton.vue";
 import { IconCancel, IconClose } from "@/components/Icons.ts";
 
 export interface IBaseDialogProps {
@@ -8,6 +8,7 @@ export interface IBaseDialogProps {
 	bodyClass?: string;
 	footerClass?: string;
 	closable?: boolean;
+	cancelConfig?: IBaseButtonProps;
 }
 
 export interface IBaseDialogEmits {
@@ -20,7 +21,10 @@ defineOptions({
 	inheritAttrs: false,
 });
 
-const { closable = true, title = "", bodyClass = "", footerClass = "" } = defineProps<IBaseDialogProps>();
+const { closable = true, title = "", bodyClass = "", footerClass = "", cancelConfig = {
+	text: "Cancel",
+	icon: IconCancel,
+} } = defineProps<IBaseDialogProps>();
 const open = defineModel<boolean>();
 const emit = defineEmits<IBaseDialogEmits>();
 const rootEl = ref<HTMLDialogElement>();
@@ -102,8 +106,7 @@ defineExpose({
 					<slot name="footer" />
 					<BaseButton
 						v-if="closable"
-						text="Cancel"
-						:icon="IconCancel"
+						v-bind="cancelConfig"
 						@click="onClickCancel"
 					/>
 				</footer>

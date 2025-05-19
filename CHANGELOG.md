@@ -1,3 +1,9 @@
+## [1.6.0](https://github.com/incutonez/job-applications/compare/v1.5.0...v1.6.0) (2025-05-19)
+
+### Features
+
+* Encrypting/Decrypting Database ([#15](https://github.com/incutonez/job-applications/issues/15)) ([20895e4](https://github.com/incutonez/job-applications/commit/20895e47c0f867a3cd5346e41ccbbe955dc13c81))
+
 ## [1.5.0](https://github.com/incutonez/job-applications/compare/v1.4.0...v1.5.0) (2025-05-18)
 
 ### Features

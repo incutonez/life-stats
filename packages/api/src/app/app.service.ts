@@ -1,9 +1,11 @@
-import { Injectable } from "@nestjs/common";
+import * as process from "node:process";
+import { Injectable, OnApplicationShutdown } from "@nestjs/common";
 import { Sequelize } from "sequelize-typescript";
 import { AppInfoViewModel } from "src/viewModels/app.info.viewmodel";
+import { encrypt } from "@/encryption";
 
 @Injectable()
-export class AppService {
+export class AppService implements OnApplicationShutdown {
 	constructor(private sequelize: Sequelize) {
 		sequelize.sync();
 	}
@@ -12,5 +14,12 @@ export class AppService {
 		return {
 			version: process.env.npm_package_version as string,
 		};
+	}
+
+	onApplicationShutdown() {
+		const { DATABASE_PATH } = process.env;
+		if (DATABASE_PATH && DATABASE_PATH !== "src/db/data.db") {
+			encrypt(DATABASE_PATH);
+		}
 	}
 }

@@ -13,6 +13,7 @@ async function bootstrap() {
 	app.use(json({
 		limit: "50mb",
 	}));
+	app.enableShutdownHooks();
 	const config = new DocumentBuilder().setTitle("API").setDescription("The main API for the UI").setVersion("1.0").build();
 	const document = SwaggerModule.createDocument(app, config, {
 		operationIdFactory: (_: string, methodKey: string) => methodKey,

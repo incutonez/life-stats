@@ -7,5 +7,6 @@ export declare const EnumApplicationStatus: {
     readonly Rejected: 4;
     readonly Declined: 5;
     readonly Accepted: 6;
+    readonly Ghosted: 7;
 };
 export type EnumApplicationStatus = typeof EnumApplicationStatus[keyof typeof EnumApplicationStatus];

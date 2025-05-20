@@ -7,11 +7,9 @@ import type {
 	Row as ITanStackRow,
 	SortingState as ITanStackSort,
 	Table as ITanStackTable,
-	TableOptionsWithReactiveData as ITanStackTableOptions,
 } from "@tanstack/vue-table";
+import type { AcceptableValue } from "reka-ui";
 import type { IBaseButtonProps } from "@/components/BaseButton.vue";
-
-export type ITableOptions<TData = unknown> = ITanStackTableOptions<TData>;
 
 export type ITable<TData = unknown> = ITanStackTable<TData>;
 
@@ -31,6 +29,10 @@ export type TLabelAlign = "left" | "top";
 
 export type TTableExpandedState = ExpandedState;
 
+export type TComboBoxValue = AcceptableValue;
+
+export type TInputValue = string | number | null | undefined;
+
 export interface IChangeEvent<T extends HTMLElement> extends Event {
 	target: T;
 }
@@ -40,6 +42,7 @@ export interface IUseTableData<TData = unknown> {
 	columns: MaybeRef<ITableColumn<TData>[]>;
 	sortInitial?: ITableSort;
 	searchInitial?: string;
+	paginated?: boolean;
 	canExpand?: (row: ITableRow<TData>) => boolean;
 }
 
@@ -74,10 +77,13 @@ export interface IFieldTextProps extends /* @vue-ignore */ InputHTMLAttributes {
 	labelProps?: IFieldLabelProps;
 	wrapperCls?: string;
 	delay?: number;
+	// Because of the @vue-ignore above, we don't actually inherit type in our props, so we are forced to redefine it
+	type?: InputHTMLAttributes["type"];
+	selectOnFocus?: boolean;
 }
 
 export interface IFieldTextEmit {
-	(event: "inputEnd", value?: string): void;
+	(event: "inputEnd", value?: TInputValue): void;
 }
 
 export interface IPluginPaste {
@@ -86,10 +92,6 @@ export interface IPluginPaste {
 	dateApplied: number;
 	url: string;
 	compensation?: string;
-}
-
-export interface IUseTableActions {
-	buttons: IBaseButtonProps[];
 }
 
 export interface IFieldComboBoxProps<TData extends object> {
@@ -109,6 +111,7 @@ export interface IFieldComboBoxProps<TData extends object> {
 	label?: string;
 	labelAlign?: TLabelAlign;
 	comboWidth?: string;
+	virtualScroll?: boolean;
 }
 
 export type IExtendedComboBox<T extends object> = Partial<IFieldComboBoxProps<T>>;

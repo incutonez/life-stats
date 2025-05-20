@@ -2,7 +2,7 @@
 import {
 	getCoreRowModel,
 	getExpandedRowModel,
-	getFilteredRowModel,
+	getFilteredRowModel, getPaginationRowModel,
 	getSortedRowModel,
 	useVueTable,
 } from "@tanstack/vue-table";
@@ -17,7 +17,7 @@ import type {
 } from "@/types/components.ts";
 import { toDateTime } from "@/utils/common.ts";
 
-export function useTableData<TData = unknown>({ data, columns, sortInitial, searchInitial = "", canExpand }: IUseTableData<TData>) {
+export function useTableData<TData = unknown>({ data, columns, sortInitial, searchInitial = "", canExpand, paginated }: IUseTableData<TData>) {
 	const sorting = ref(sortInitial);
 	const search = ref(searchInitial);
 	const expanded = ref<TTableExpandedState>({});
@@ -29,8 +29,15 @@ export function useTableData<TData = unknown>({ data, columns, sortInitial, sear
 		getRowCanExpand: canExpand ?? (() => true),
 		getSortedRowModel: getSortedRowModel(),
 		getExpandedRowModel: getExpandedRowModel(),
+		getPaginationRowModel: paginated ? getPaginationRowModel() : undefined,
 		get columns() {
 			return unref(columns);
+		},
+		initialState: {
+			pagination: {
+				pageSize: 50,
+				pageIndex: 0,
+			},
 		},
 		state: {
 			get globalFilter() {

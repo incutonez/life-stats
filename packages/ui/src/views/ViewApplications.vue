@@ -6,6 +6,7 @@ import BaseButton from "@/components/BaseButton.vue";
 import FieldText from "@/components/FieldText.vue";
 import { IconAdd, IconDelete, IconEdit } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
+import TablePagination from "@/components/TablePagination.vue";
 import { injectGlobalError } from "@/composables/app.ts";
 import { providePastedApplication, useDeleteApplication, useGetApplications } from "@/composables/applications.ts";
 import {
@@ -18,7 +19,7 @@ import {
 import { RouteApplications, RouteCreate, viewApplication } from "@/router.ts";
 import { getApplicationRecords } from "@/stores/applications.ts";
 import { useAppSelector } from "@/stores/main.ts";
-import type { ISubRowRenderer, ITableColumn, ITableData, ITableRow } from "@/types/components.ts";
+import type { ISubRowRenderer, ITableColumn, ITableData, ITableRow, TInputValue } from "@/types/components.ts";
 import { getEnumDisplay, pasteToApplicationViewModel, toDateTime } from "@/utils/common.ts";
 import CellLink from "@/views/applications/CellLink.vue";
 import DeleteDialog from "@/views/shared/DeleteDialog.vue";
@@ -29,7 +30,7 @@ export interface IViewApplicationsProps {
 	viewRoute?: string;
 }
 
-const { Applied, CurrentWeek, Rejected, Initial, InterviewedAndRejected, Interviewing, Declined, Accepted } = EnumApplicationStatus;
+const { Applied, CurrentWeek, Rejected, Initial, InterviewedAndRejected, Interviewing, Declined, Accepted, Ghosted } = EnumApplicationStatus;
 const { data = undefined, showCompany = true, viewRoute = undefined } = defineProps<IViewApplicationsProps>();
 const { deleteApplication, deletingApplication } = useDeleteApplication();
 const { errorTitle, errorMsg, errorMsgStack } = injectGlobalError();
@@ -140,6 +141,7 @@ columns.push({
 const { table, search, getColumnSortIdentity } = useTableData<ApplicationViewModel>({
 	data: data ?? useAppSelector(getApplicationRecords),
 	columns,
+	paginated: true,
 	canExpand(row) {
 		return !!row.original.comments.length;
 	},
@@ -183,11 +185,13 @@ function rowCls(row: ITableRow<ApplicationViewModel>) {
 			return "bg-stone-300";
 		case Accepted:
 			return "bg-green-200";
+		case Ghosted:
+			return "bg-fuchsia-200";
 	}
 }
 
-function onInputEnd(value = "") {
-	search.value = value;
+function onInputEnd(value: TInputValue = "") {
+	search.value = value as string;
 }
 
 function onClickAddApplication() {
@@ -199,12 +203,14 @@ async function onClickDelete() {
 	showDelete.value = false;
 }
 
-function onPaste({ clipboardData }: ClipboardEvent) {
+function onPaste(event: ClipboardEvent) {
+	event.stopPropagation();
+	event.preventDefault();
 	// We don't want the pasting to hijack any pasting we do that's in a dialog or different route
 	if (route.name !== RouteApplications) {
 		return;
 	}
-	const paste = clipboardData?.getData("text");
+	const paste = event.clipboardData?.getData("text");
 	if (paste) {
 		try {
 			const item = pasteToApplicationViewModel(paste);
@@ -222,7 +228,7 @@ function onPaste({ clipboardData }: ClipboardEvent) {
 	}
 }
 
-addEventListener("paste", onPaste);
+addEventListener("paste", onPaste, true);
 
 onUnmounted(() => removeEventListener("paste", onPaste));
 
@@ -232,19 +238,25 @@ if (!data) {
 </script>
 
 <template>
-	<article class="size-full pt-2 flex flex-col space-y-2">
-		<section class="flex space-x-2 px-4 ml-auto">
-			<FieldText
-				:model-value="search"
-				label="Search"
-				placeholder="Search Applications..."
-				@input-end="onInputEnd"
-			/>
-			<BaseButton
-				text="Application"
-				theme="info"
-				:icon="IconAdd"
-				@click="onClickAddApplication"
+	<article class="size-full pt-2 flex flex-col">
+		<section class="flex px-4 items-center">
+			<section class="flex space-x-2">
+				<FieldText
+					:model-value="search"
+					label="Search"
+					placeholder="Search Applications..."
+					@input-end="onInputEnd"
+				/>
+				<BaseButton
+					text="Application"
+					theme="info"
+					:icon="IconAdd"
+					@click="onClickAddApplication"
+				/>
+			</section>
+			<TablePagination
+				:table="table"
+				class="ml-auto border-b-0"
 			/>
 		</section>
 		<TableData

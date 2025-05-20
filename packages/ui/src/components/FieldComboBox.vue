@@ -1,8 +1,7 @@
 ﻿<script setup lang="ts" generic="T extends object">
 import { computed, ref, unref } from "vue";
-import { useVirtualizer, type VirtualItem } from "@tanstack/vue-virtual";
 import {
-	type AcceptableValue, ComboboxAnchor,
+	ComboboxAnchor,
 	ComboboxContent,
 	ComboboxInput,
 	ComboboxItem,
@@ -12,14 +11,18 @@ import {
 } from "reka-ui";
 import FieldLabel from "@/components/FieldLabel.vue";
 import { IconExpandAll } from "@/components/Icons.ts";
-import type { IFieldComboBoxProps } from "@/types/components.ts";
+import type { IFieldComboBoxProps, TComboBoxValue } from "@/types/components.ts";
 import { getLabelAlign, isObject } from "@/utils/common.ts";
 
-const model = defineModel<AcceptableValue>();
+const model = defineModel<TComboBoxValue>();
 const { options, displayField, valueField, labelAlign = "left", comboWidth = "w-full", valueOnly = false, required = false, customValue = false } = defineProps<IFieldComboBoxProps<T>>();
-const parentRef = ref();
 const search = ref("");
 const open = ref(false);
+const wrapperClasses = computed(() => {
+	return {
+		[getLabelAlign(labelAlign)]: true,
+	};
+});
 const filteredOptions = computed(() => {
 	const $search = unref(search);
 	const value = getOptionDisplayValue(model.value);
@@ -30,39 +33,15 @@ const filteredOptions = computed(() => {
 	}
 	return options;
 });
-const virtualizer = useVirtualizer({
-	getScrollElement: () => parentRef.value,
-	estimateSize: () => 45,
-	get count() {
-		return filteredOptions.value.length;
-	},
-});
-const items = computed(() => virtualizer.value.getVirtualItems());
-const wrapperClasses = computed(() => {
-	return {
-		[getLabelAlign(labelAlign)]: true,
-	};
-});
 
-function measureElement(el: Element) {
-	if (!el) {
-		return;
-	}
-
-	virtualizer.value.measureElement(el);
-
-	return undefined;
-}
-
-function getComboBoxItemValue(row: VirtualItem) {
-	const record = filteredOptions.value[row.index];
+function getComboBoxItemValue(record: T) {
 	if (valueOnly) {
-		return record[valueField as keyof T] as AcceptableValue;
+		return record[valueField as keyof T] as TComboBoxValue;
 	}
 	return record;
 }
 
-function getOptionDisplayValue(record?: AcceptableValue) {
+function getOptionDisplayValue(record?: TComboBoxValue) {
 	let value;
 	if (isObject(record)) {
 		value = (record as T)[displayField as keyof T] as string;
@@ -73,7 +52,7 @@ function getOptionDisplayValue(record?: AcceptableValue) {
 	return value ?? "";
 }
 
-function getInputDisplay(record: AcceptableValue) {
+function getInputDisplay(record: TComboBoxValue) {
 	return getOptionDisplayValue(record);
 }
 
@@ -140,40 +119,16 @@ function onBlurInput() {
 		<ComboboxPortal>
 			<ComboboxContent
 				position="popper"
-				class="z-1 bg-white w-(--reka-combobox-trigger-width) shadow-lg border"
+				class="z-1 bg-white w-(--reka-combobox-trigger-width) shadow-lg border max-h-56 overflow-auto"
 			>
-				<div
-					ref="parentRef"
-					class="h-56 overflow-auto"
+				<ComboboxItem
+					v-for="item in filteredOptions"
+					:key="item[valueField as keyof T] as PropertyKey"
+					:value="getComboBoxItemValue(item)"
+					class="text-sm w-full flex items-center py-2 cursor-pointer relative select-none data-[disabled]:text-gray-200 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-sky-200 aria-[selected=true]:font-semibold aria-[selected=true]:bg-sky-200"
 				>
-					<div
-						class="w-full relative overflow-auto"
-						:style="{
-							height: `${virtualizer.getTotalSize()}px`,
-						}"
-					>
-						<div
-							class="absolute top-0 left-0 w-full"
-							:style="{
-								transform: `translateY(${items[0]?.start ?? 0}px)`,
-							}"
-						>
-							<div
-								v-for="virtualRow in items"
-								:key="virtualRow.key as PropertyKey"
-								:ref="measureElement"
-								:data-index="virtualRow.index"
-							>
-								<ComboboxItem
-									:value="getComboBoxItemValue(virtualRow)"
-									class="text-sm w-full flex items-center py-2 cursor-pointer relative select-none data-[disabled]:text-gray-200 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-sky-200 aria-[selected=true]:font-semibold aria-[selected=true]:bg-sky-200"
-								>
-									<span class="px-2">{{ filteredOptions[virtualRow.index][displayField as keyof T] }}</span>
-								</ComboboxItem>
-							</div>
-						</div>
-					</div>
-				</div>
+					<span class="px-2">{{ item[displayField as keyof T] }}</span>
+				</ComboboxItem>
 			</ComboboxContent>
 		</ComboboxPortal>
 	</ComboboxRoot>

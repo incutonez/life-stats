@@ -1,6 +1,6 @@
 ﻿<script setup lang="ts">
 import type { CompanyViewModel } from "@incutonez/job-applications-openapi";
-import FieldComboBox from "@/components/FieldComboBox.vue";
+import FieldComboBoxVirtual from "@/components/FieldComboBoxVirtual.vue";
 import { useGetCompanies } from "@/composables/companies.ts";
 import { getCompanyRecords } from "@/stores/companies.ts";
 import { useAppSelector } from "@/stores/main.ts";
@@ -13,7 +13,7 @@ useGetCompanies();
 </script>
 
 <template>
-	<FieldComboBox
+	<FieldComboBoxVirtual
 		v-bind="$props"
 		:options="companies"
 		label="Company"

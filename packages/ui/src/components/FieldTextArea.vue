@@ -11,11 +11,11 @@ const props = defineProps<IFieldTextProps>();
 const valid = defineModel<boolean>("valid", {
 	default: true,
 });
-const emit = defineEmits<IFieldTextEmit<string>>();
+const emit = defineEmits<IFieldTextEmit>();
 const model = defineModel<string>({
 	default: "",
 });
-const { wrapperClasses, onUpdateModel, inputEl } = useFieldText<HTMLTextAreaElement, string>({
+const { wrapperClasses, onUpdateModel, inputEl } = useFieldText<HTMLTextAreaElement>({
 	props,
 	valid,
 	emit,

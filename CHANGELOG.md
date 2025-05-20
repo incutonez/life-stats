@@ -1,3 +1,9 @@
+## [1.7.0](https://github.com/incutonez/job-applications/compare/v1.6.0...v1.7.0) (2025-05-20)
+
+### Features
+
+* Adding Pagination ([#16](https://github.com/incutonez/job-applications/issues/16)) ([7b9df99](https://github.com/incutonez/job-applications/commit/7b9df9983a85b5740476a96c639940aee05d9eea))
+
 ## [1.6.0](https://github.com/incutonez/job-applications/compare/v1.5.0...v1.6.0) (2025-05-19)
 
 ### Features

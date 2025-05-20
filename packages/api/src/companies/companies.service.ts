@@ -18,6 +18,7 @@ export class CompaniesService {
 
 	async getCompaniesList(): Promise<CompanyFullListViewModel> {
 		const { rows, count } = await CompanyModel.findAndCountAll({
+			distinct: true,
 			include: [{
 				all: true,
 				nested: true,

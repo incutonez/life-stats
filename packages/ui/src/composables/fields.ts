@@ -1,10 +1,10 @@
 ﻿import { computed, type ModelRef, ref } from "vue";
-import type { IChangeEvent, IFieldTextEmit, IFieldTextProps } from "@/types/components.ts";
+import type { IChangeEvent, IFieldTextEmit, IFieldTextProps, TInputValue } from "@/types/components.ts";
 import { getLabelAlign } from "@/utils/common.ts";
 
 export interface IUseFieldText {
 	props: IFieldTextProps;
-	model: ModelRef<string>;
+	model: ModelRef<TInputValue>;
 	valid: ModelRef<boolean>;
 	emit: IFieldTextEmit;
 }
@@ -27,7 +27,7 @@ export function useFieldText<T extends HTMLInputElement | HTMLTextAreaElement>({
 			inputEndTimer = setTimeout(() => emit("inputEnd", model.value), props.delay ?? 250);
 		}
 		else {
-			emit("inputEnd", "");
+			emit("inputEnd", undefined);
 		}
 	}
 

@@ -23,6 +23,7 @@ export const EnumApplicationStatus = {
 	Rejected: 4,
 	Declined: 5,
 	Accepted: 6,
+	Ghosted: 7,
 } as const;
 
 export type EnumApplicationStatusKeys = keyof typeof EnumApplicationStatus;

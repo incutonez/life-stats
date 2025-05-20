@@ -4,6 +4,7 @@ import type { ApplicationViewModel, CompanyFullViewModel } from "@incutonez/job-
 import FieldText from "@/components/FieldText.vue";
 import { IconDelete } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
+import TablePagination from "@/components/TablePagination.vue";
 import { useDeleteCompany, useGetCompaniesList } from "@/composables/companies.ts";
 import { useExpandableRow, useTableActions, useTableData } from "@/composables/table.ts";
 import { RouteCompanyApplication } from "@/router.ts";
@@ -19,6 +20,7 @@ const data = useAppSelector(getCompanyFullRecords);
 const showDeleteCompany = ref(false);
 const { table, search } = useTableData<CompanyFullViewModel>({
 	data,
+	paginated: true,
 	canExpand(row) {
 		return !!row.original.applications.length;
 	},
@@ -66,12 +68,16 @@ function renderSubRows({ row }: ISubRowRenderer<CompanyFullViewModel>) {
 </script>
 
 <template>
-	<article class="size-full flex flex-col space-y-2 pt-2">
-		<section class="flex px-4 ml-auto">
+	<article class="size-full flex flex-col pt-2">
+		<section class="flex px-4">
 			<FieldText
 				v-model="search"
 				label="Search"
 				placeholder="Search Companies..."
+			/>
+			<TablePagination
+				:table="table"
+				class="ml-auto border-b-0"
 			/>
 		</section>
 		<TableData

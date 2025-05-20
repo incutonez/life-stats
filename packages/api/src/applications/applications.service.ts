@@ -31,6 +31,8 @@ export class ApplicationsService {
 
 	async listApplications(_params: ApiPaginatedRequest): Promise<ApplicationListViewModel> {
 		const { rows, count } = await ApplicationModel.findAndCountAll({
+			// Distinct is used to fix associations being counted in the final count that's returned
+			distinct: true,
 			include: [{
 				all: true,
 				nested: true,

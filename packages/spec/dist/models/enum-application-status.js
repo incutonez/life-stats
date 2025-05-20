@@ -6,5 +6,6 @@ export const EnumApplicationStatus = {
     InterviewedAndRejected: 3,
     Rejected: 4,
     Declined: 5,
-    Accepted: 6
+    Accepted: 6,
+    Ghosted: 7
 };

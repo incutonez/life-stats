@@ -29,6 +29,14 @@ const dateTimeFormatter = new Intl.DateTimeFormat("en-US", {
 	second: "2-digit",
 });
 
+export function toNumber(value: number, unit?: string) {
+	let response = new Intl.NumberFormat("en-US").format(value);
+	if (unit) {
+		response += ` ${unit}`;
+	}
+	return response;
+}
+
 export function toDate(value?: number | Date) {
 	if (value === undefined || isNaN(value as number)) {
 		return undefined;

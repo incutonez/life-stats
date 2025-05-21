@@ -2,7 +2,7 @@ import * as process from "node:process";
 import { Injectable, OnApplicationShutdown } from "@nestjs/common";
 import { Sequelize } from "sequelize-typescript";
 import { AppInfoViewModel } from "src/viewModels/app.info.viewmodel";
-import { encrypt } from "@/encryption";
+import { DataBaseStoragePath, encrypt } from "@/db/config";
 
 @Injectable()
 export class AppService implements OnApplicationShutdown {
@@ -18,7 +18,7 @@ export class AppService implements OnApplicationShutdown {
 
 	onApplicationShutdown() {
 		const { DATABASE_PATH } = process.env;
-		if (DATABASE_PATH && DATABASE_PATH !== "src/db/data.db") {
+		if (DATABASE_PATH && DATABASE_PATH !== DataBaseStoragePath) {
 			encrypt(DATABASE_PATH);
 		}
 	}

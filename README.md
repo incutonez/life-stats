@@ -11,6 +11,12 @@ Instead of managing job applications in an Excel spreadhseet, I decided to build
 6. Navigate to http://localhost:5173
 7. Potentially use the [browserPlugin](https://github.com/incutonez/job-applications/blob/main/browserPlugin/manifest.json) in your browser (for [FireFox](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/)) and use the Copy Details context menu that shows on a job description on LinkedIn or Indeed
 
+## Database
+
+It's good to note that SQLite is used for the database, and because SQLite does not allow usernames/passwords, I created encryption/decryption functionality for the DB.  Basically, if you set the [DATABASE_PATH](https://github.com/incutonez/job-applications/blob/main/packages/api/.env#L1) to something other than the default, then when the app starts, we'll attempt to [decrypt](https://github.com/incutonez/job-applications/blob/main/packages/api/src/db/config.ts#L59-L62) the file at that location.
+
+The very first time you run this app, the encrypted file won't exist, unless you're clairvoyant or something.  When it does exist, we'll decrypt and copy it over to `src/db/data.db`.  When the server is [stopped](https://github.com/incutonez/job-applications/blob/main/packages/api/src/app/app.service.ts#L19-L24), we attempt to encrypt and save it back to `DATABASE_PATH`.  This will be saved as a gzipped tar, encrypted with the [DATABASE_PASSWORD](https://github.com/incutonez/job-applications/blob/main/packages/api/.env#L2) that you set, and only that password can decrypt it.
+
 ## UI Stack
 - [Vue 3](https://vuejs.org/)
 - [Vue Router](https://router.vuejs.org/)

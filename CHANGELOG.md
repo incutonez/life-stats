@@ -1,3 +1,9 @@
+## [1.7.2](https://github.com/incutonez/job-applications/compare/v1.7.1...v1.7.2) (2025-05-21)
+
+### Bug Fixes
+
+* Fixing Plugin Errors ([#18](https://github.com/incutonez/job-applications/issues/18)) ([b862f74](https://github.com/incutonez/job-applications/commit/b862f7453ea65a08a42d65518452db1f5556884b))
+
 ## [1.7.1](https://github.com/incutonez/job-applications/compare/v1.7.0...v1.7.1) (2025-05-21)
 
 ### Bug Fixes

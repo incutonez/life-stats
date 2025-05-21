@@ -8,7 +8,7 @@
     "contextMenus",
     "tabs",
     "activeTab",
-	"scripting"
+    "scripting"
   ],
   "icons": {
     "48": "icon.png"
@@ -20,25 +20,43 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.linkedin.com/jobs/search/*"],
-      "js": ["main.linkedin.js"]
+      "matches": [
+        "*://*.linkedin.com/jobs/search/*"
+      ],
+      "js": [
+        "main.linkedin.js"
+      ]
     },
     {
-      "matches": ["*://*.indeed.com/jobs*"],
-      "js": ["main.indeed.js"]
+      "matches": [
+        "*://*.indeed.com/jobs*"
+      ],
+      "js": [
+        "main.indeed.js"
+      ]
     },
     {
-      "matches": ["*://*.vuejobs.com/jobs"],
-      "js": ["main.vuejobs.js"]
+      "matches": [
+        "*://*.vuejobs.com/jobs"
+      ],
+      "js": [
+        "main.vuejobs.js"
+      ]
     }
   ],
   "action": {
-	  "default_icon": {
-		"16": "images/icon-32.png"
-	  }
-	},
-	"web_accessible_resources": [{
-		"matches": ["<all_urls>"],
-		"resources": ["companies.js"]
-	}]
+    "default_icon": {
+      "16": "images/icon-32.png"
+    }
+  },
+  "web_accessible_resources": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "resources": [
+        "companies.js"
+      ]
+    }
+  ]
 }

@@ -204,12 +204,12 @@ async function onClickDelete() {
 }
 
 function onPaste(event: ClipboardEvent) {
-	event.stopPropagation();
-	event.preventDefault();
 	// We don't want the pasting to hijack any pasting we do that's in a dialog or different route
 	if (route.name !== RouteApplications) {
 		return;
 	}
+	event.stopPropagation();
+	event.preventDefault();
 	const paste = event.clipboardData?.getData("text");
 	if (paste) {
 		try {

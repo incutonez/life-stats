@@ -1,3 +1,9 @@
+## [1.7.1](https://github.com/incutonez/job-applications/compare/v1.7.0...v1.7.1) (2025-05-21)
+
+### Bug Fixes
+
+* Fixing Default DB Config ([#17](https://github.com/incutonez/job-applications/issues/17)) ([5048cd5](https://github.com/incutonez/job-applications/commit/5048cd55af8f4dad331e1d45883e5f1b3e8387aa))
+
 ## [1.7.0](https://github.com/incutonez/job-applications/compare/v1.6.0...v1.7.0) (2025-05-20)
 
 ### Features

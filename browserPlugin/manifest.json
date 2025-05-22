@@ -14,6 +14,7 @@
     "48": "icon.png"
   },
   "background": {
+    "service_worker": "details.copy.background.js",
     "scripts": [
       "details.copy.background.js"
     ]
@@ -44,11 +45,6 @@
       ]
     }
   ],
-  "action": {
-    "default_icon": {
-      "16": "images/icon-32.png"
-    }
-  },
   "web_accessible_resources": [
     {
       "matches": [

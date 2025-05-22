@@ -2,11 +2,23 @@ const ParentCard = ".transition-all";
 const LastCompany = "Bitter Brains";
 let found = false;
 
-document.querySelectorAll('.flex.items-center.text-sm.font-medium.text-muted').forEach((el) => {
-	if (el.innerText.includes(LastCompany)) {
-		found = true;
+function docReady(fn) {
+	// see if DOM is already available
+	if (document.readyState === "complete" || document.readyState === "interactive") {
+		// call on next available tick
+		setTimeout(fn, 1);
+	} else {
+		document.addEventListener("DOMContentLoaded", fn);
 	}
-	if (found) {
-		el.closest(ParentCard).remove();
-	}
+}
+
+docReady(() => {
+	document.querySelectorAll('.flex.items-center.text-sm.font-medium.text-muted').forEach((el) => {
+		if (el.innerText.includes(LastCompany)) {
+			found = true;
+		}
+		if (found) {
+			el.closest(ParentCard).remove();
+		}
+	});
 });

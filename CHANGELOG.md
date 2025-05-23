@@ -1,3 +1,9 @@
+## [1.7.4](https://github.com/incutonez/job-applications/compare/v1.7.3...v1.7.4) (2025-05-23)
+
+### Bug Fixes
+
+* Modifying DB Path Expansion ([#20](https://github.com/incutonez/job-applications/issues/20)) ([18cd05b](https://github.com/incutonez/job-applications/commit/18cd05b06beb9248f1e895b7a781b30f5c86df0a))
+
 ## [1.7.3](https://github.com/incutonez/job-applications/compare/v1.7.2...v1.7.3) (2025-05-23)
 
 ### Bug Fixes

@@ -1,5 +1,7 @@
 import crypto from "node:crypto";
 import { readFileSync, rmSync } from "node:fs";
+import * as os from "node:os";
+import * as path from "node:path";
 import * as process from "node:process";
 import { SequelizeModuleOptions } from "@nestjs/sequelize";
 import { writeFileSync } from "fs";
@@ -14,6 +16,18 @@ import { CompanyModel } from "@/db/models/CompanyModel";
 export const DataBaseStoragePath = "src/db/data.db";
 
 export const algorithm = "aes-256-cbc";
+
+export function getDBPath() {
+	const { DATABASE_PATH } = process.env;
+	if (DATABASE_PATH) {
+		let dbPath = DATABASE_PATH;
+		// If we're using a relative path that should expand, let's detect and expand it
+		if (dbPath.startsWith("~")) {
+			dbPath = dbPath.replace("~", os.homedir());
+		}
+		return path.resolve(dbPath);
+	}
+}
 
 export function getPassword() {
 	const key = process.env.DATABASE_PASSWORD ?? readlineSync.question("Password: ");
@@ -51,14 +65,16 @@ export async function encrypt(outPath: string) {
 	// Create the new (encrypted) buffer
 	writeFileSync(outPath, Buffer.concat([iv, cipher.update(buffer), cipher.final()]));
 	rmSync(file);
+	rmSync(DataBaseStoragePath);
 }
 
 /* This is a function because if it was just a plain export, process.env.DATABASE_PATH would be undefined, as the env
  * file isn't processed before this global export would happen */
 export function getDBConfig(): SequelizeModuleOptions {
-	const { DATABASE_PATH, DATABASE_PASSWORD } = process.env;
-	if (DATABASE_PASSWORD && DATABASE_PATH && DATABASE_PATH !== DataBaseStoragePath && !fileExistsSync(DataBaseStoragePath)) {
-		decrypt(DATABASE_PATH);
+	const { DATABASE_PASSWORD } = process.env;
+	const dbPath = getDBPath();
+	if (DATABASE_PASSWORD && dbPath && dbPath !== DataBaseStoragePath && !fileExistsSync(DataBaseStoragePath)) {
+		decrypt(dbPath);
 	}
 	return {
 		storage: DataBaseStoragePath,

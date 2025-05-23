@@ -1,3 +1,9 @@
+## [1.7.3](https://github.com/incutonez/job-applications/compare/v1.7.2...v1.7.3) (2025-05-23)
+
+### Bug Fixes
+
+* Changing Location of @incutonez/eslint-plugin Package to NPM ([#19](https://github.com/incutonez/job-applications/issues/19)) ([2d98149](https://github.com/incutonez/job-applications/commit/2d98149e5fbc5a8cdd7d51c84bb86db8b39013f1))
+
 ## [1.7.2](https://github.com/incutonez/job-applications/compare/v1.7.1...v1.7.2) (2025-05-21)
 
 ### Bug Fixes

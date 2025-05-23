@@ -1,6 +1,8 @@
 import crypto from "node:crypto";
 import { readFileSync, rmSync } from "node:fs";
-import * as process from "node:process";
+import { homedir } from "node:os";
+import { resolve } from "node:path";
+import { env } from "node:process";
 import { SequelizeModuleOptions } from "@nestjs/sequelize";
 import { writeFileSync } from "fs";
 import readlineSync from "readline-sync";
@@ -15,8 +17,20 @@ export const DataBaseStoragePath = "src/db/data.db";
 
 export const algorithm = "aes-256-cbc";
 
+export function getDBPath() {
+	const { DATABASE_PATH } = env;
+	if (DATABASE_PATH) {
+		let dbPath = DATABASE_PATH;
+		// If we're using a relative path that should expand, let's detect and expand it
+		if (dbPath.startsWith("~")) {
+			dbPath = dbPath.replace("~", homedir());
+		}
+		return resolve(dbPath);
+	}
+}
+
 export function getPassword() {
-	const key = process.env.DATABASE_PASSWORD ?? readlineSync.question("Password: ");
+	const key = env.DATABASE_PASSWORD ?? readlineSync.question("Password: ");
 	return crypto.createHash("sha256").update(key).digest("base64").substring(0, 32);
 }
 
@@ -51,14 +65,16 @@ export async function encrypt(outPath: string) {
 	// Create the new (encrypted) buffer
 	writeFileSync(outPath, Buffer.concat([iv, cipher.update(buffer), cipher.final()]));
 	rmSync(file);
+	rmSync(DataBaseStoragePath);
 }
 
 /* This is a function because if it was just a plain export, process.env.DATABASE_PATH would be undefined, as the env
  * file isn't processed before this global export would happen */
 export function getDBConfig(): SequelizeModuleOptions {
-	const { DATABASE_PATH, DATABASE_PASSWORD } = process.env;
-	if (DATABASE_PASSWORD && DATABASE_PATH && DATABASE_PATH !== DataBaseStoragePath && !fileExistsSync(DataBaseStoragePath)) {
-		decrypt(DATABASE_PATH);
+	const { DATABASE_PASSWORD } = env;
+	const dbPath = getDBPath();
+	if (DATABASE_PASSWORD && dbPath && dbPath !== DataBaseStoragePath && !fileExistsSync(DataBaseStoragePath)) {
+		decrypt(dbPath);
 	}
 	return {
 		storage: DataBaseStoragePath,

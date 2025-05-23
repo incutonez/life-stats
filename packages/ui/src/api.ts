@@ -1,7 +1,7 @@
 ﻿import { ApplicationsApi, CompaniesApi, Configuration } from "@incutonez/job-applications-openapi";
 
 export const apiConfig = new Configuration({
-	basePath: import.meta.env.VITE_BASE_API,
+	basePath: import.meta.env.VITE_BASE_API || `http://${location.hostname}:3000`,
 	baseOptions: {
 		headers: {},
 	},

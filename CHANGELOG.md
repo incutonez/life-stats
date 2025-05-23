@@ -1,3 +1,9 @@
+## [1.7.5](https://github.com/incutonez/job-applications/compare/v1.7.4...v1.7.5) (2025-05-23)
+
+### Bug Fixes
+
+* Adding Default BASE_API if not set ([#21](https://github.com/incutonez/job-applications/issues/21)) ([d86cea8](https://github.com/incutonez/job-applications/commit/d86cea8a1f5d93a66d6b04f6144ba7d9a2ce64d6))
+
 ## [1.7.4](https://github.com/incutonez/job-applications/compare/v1.7.3...v1.7.4) (2025-05-23)
 
 ### Bug Fixes

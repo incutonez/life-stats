@@ -3,6 +3,7 @@
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "strict": true,
+    "target": "ES2022",
     "module": "ESNext",
     "noUnusedLocals": true,
     "noUnusedParameters": true,

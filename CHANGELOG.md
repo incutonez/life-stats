@@ -1,3 +1,9 @@
+## [1.8.0](https://github.com/incutonez/job-applications/compare/v1.7.5...v1.8.0) (2025-05-26)
+
+### Features
+
+* Adding Auth ([#23](https://github.com/incutonez/job-applications/issues/23)) ([ef875a5](https://github.com/incutonez/job-applications/commit/ef875a5802292a70f047c0845f66e3ceb7d88715))
+
 ## [1.7.5](https://github.com/incutonez/job-applications/compare/v1.7.4...v1.7.5) (2025-05-23)
 
 ### Bug Fixes

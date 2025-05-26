@@ -1,7 +1,10 @@
-﻿import { createRouter, createWebHashHistory, type RouteRecordRaw } from "vue-router";
+﻿import { ref, unref } from "vue";
+import { createRouter, createWebHashHistory, type RouteLocationRaw, type RouteRecordRaw } from "vue-router";
+import { isAuthenticated } from "@/authentication.ts";
 import ViewApplication from "@/views/ViewApplication.vue";
 import ViewApplications from "@/views/ViewApplications.vue";
 import ViewCompanies from "@/views/ViewCompanies.vue";
+import ViewLogIn from "@/views/ViewLogIn.vue";
 
 export const RouteCreate = "create";
 
@@ -15,12 +18,23 @@ export const RouteCompanies = "companies";
 
 export const RouteCompanyApplication = "companies-application";
 
+export const RouteLogin = "login";
+
+/**
+ * If the user isn't logged in, let's remember the route they were going to, so we can restore it after they log in
+ */
+export const restoreRoute = ref<RouteLocationRaw>();
+
 export const routes: RouteRecordRaw[] = [{
 	path: "/",
 	name: RouteHome,
 	redirect: {
 		name: RouteApplications,
 	},
+}, {
+	path: "/login",
+	name: RouteLogin,
+	component: ViewLogIn,
 }, {
 	path: "/applications",
 	name: RouteApplications,
@@ -74,3 +88,26 @@ export function viewApplicationParent() {
 		name: router.currentRoute.value.matched[0].name,
 	});
 }
+
+export async function viewRestoredRoute() {
+	const $restoreRoute = unref(restoreRoute) ?? {
+		name: RouteHome,
+	};
+	restoreRoute.value = undefined;
+	return router.push($restoreRoute);
+}
+
+router.beforeEach(async (to) => {
+	// Maybe the user got stuck in the /login path somehow, even though they're logged in, so let's just redirect to Home
+	if (isAuthenticated.value && to.name === RouteLogin) {
+		return {
+			name: RouteHome,
+		};
+	}
+	else if (!isAuthenticated.value && to.name !== RouteLogin) {
+		restoreRoute.value = to;
+		return {
+			name: RouteLogin,
+		};
+	}
+});

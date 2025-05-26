@@ -1,5 +1,5 @@
 ﻿<script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, useSlots, watch } from "vue";
 import BaseButton, { type IBaseButtonProps } from "@/components/BaseButton.vue";
 import { IconCancel, IconClose } from "@/components/Icons.ts";
 
@@ -28,6 +28,7 @@ const { closable = true, title = "", bodyClass = "", footerClass = "", cancelCon
 const open = defineModel<boolean>();
 const emit = defineEmits<IBaseDialogEmits>();
 const rootEl = ref<HTMLDialogElement>();
+const slots = useSlots();
 
 function onClickCancel() {
 	open.value = false;
@@ -100,6 +101,7 @@ defineExpose({
 					<slot name="content" />
 				</section>
 				<footer
+					v-if="!!slots.footer || closable"
 					class="flex space-x-2 justify-end border-t border-slate-400 p-2"
 					:class="footerClass"
 				>

@@ -31,3 +31,11 @@ export { default as IconHome } from "@material-symbols/svg-400/outlined/home.svg
 export { default as IconCompanies } from "@material-symbols/svg-400/outlined/work.svg";
 
 export { default as IconDownload } from "@material-symbols/svg-400/outlined/download.svg";
+
+export { default as IconJobApplications } from "@material-symbols/svg-400/outlined/edit_document.svg";
+
+export { default as IconJobCompanies } from "@material-symbols/svg-400/outlined/apartment.svg";
+
+export { default as IconMenu } from "@material-symbols/svg-400/outlined/menu.svg";
+
+export { default as IconLogOut } from "@material-symbols/svg-400/outlined/logout.svg";

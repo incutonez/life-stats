@@ -4,7 +4,7 @@ import { IconLoading } from "@/components/Icons.ts";
 
 export interface IBaseButtonProps extends /* @vue-ignore */ ButtonHTMLAttributes {
 	text?: string;
-	theme?: "normal" | "info" | "plain" | "table" | "close" | "danger";
+	theme?: "normal" | "info" | "plain" | "table" | "close" | "danger" | "navigation";
 	icon?: object | string;
 	loading?: boolean;
 }

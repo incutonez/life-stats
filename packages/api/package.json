@@ -26,6 +26,7 @@
     "class-validator": "^0.14.2",
     "compression": "^1.8.0",
     "date-fns": "^4.1.0",
+    "express-oauth2-jwt-bearer": "^1.6.1",
     "papaparse": "^5.5.2",
     "readline-sync": "^1.4.10",
     "reflect-metadata": "latest",

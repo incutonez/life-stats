@@ -1,3 +1,9 @@
+## [1.9.0](https://github.com/incutonez/job-applications/compare/v1.8.0...v1.9.0) (2025-05-26)
+
+### Features
+
+* Update Dependencies ([#24](https://github.com/incutonez/job-applications/issues/24)) ([3524e78](https://github.com/incutonez/job-applications/commit/3524e78e43342db9b7dd0226372af65cb40be470))
+
 ## [1.8.0](https://github.com/incutonez/job-applications/compare/v1.7.5...v1.8.0) (2025-05-26)
 
 ### Features

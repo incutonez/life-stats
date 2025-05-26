@@ -7,6 +7,9 @@ import svgLoader from "vite-svg-loader";
 export default {
 	// svgLoader is needed for material symbols
 	plugins: [vue(), svgLoader(), tailwindcss()],
+	build: {
+		target: "esnext",
+	},
 	resolve: {
 		alias: [{
 			// Add ability to use @ to represent the root dir being src

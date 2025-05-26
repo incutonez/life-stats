@@ -1,4 +1,12 @@
+import { AuthResult } from "express-oauth2-jwt-bearer";
 import { Model } from "sequelize-typescript";
+
+// Have to make sure we add the auth property to our Request
+declare module "@nestjs/common" {
+	interface Request {
+		auth?: AuthResult;
+	}
+}
 
 export type ModelInterface<T> = {
 	// We need to map over the keys directly to preserve optionality. We filter with "as"

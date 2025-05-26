@@ -9,6 +9,7 @@
     "lint": "npx eslint --fix"
   },
   "dependencies": {
+    "@auth0/auth0-vue": "^2.4.0",
     "@internationalized/date": "^3.8.0",
     "@material-symbols/svg-400": "^0.31.3",
     "@reduxjs/toolkit": "^2.8.2",

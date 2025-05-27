@@ -9,6 +9,7 @@
     "api": "cd packages/api && npm run start:dev",
     "api:build": "cd packages/api && npm run build",
     "api:commit": "cd packages/api && npm run lint",
+    "db:migration": "cd packages/api && npm run db:migration",
     "explode": "npm cache clean --force && npx rimraf package-lock.json **/node_modules --glob && npm i",
     "spec:build": "cd packages/spec && npm run generate",
     "ui": "cd packages/ui && npm run dev",

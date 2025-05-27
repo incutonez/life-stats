@@ -9,13 +9,10 @@ import readlineSync from "readline-sync";
 import { Readable } from "stream";
 import { create, extract } from "tar";
 import { fileExistsSync } from "tsconfig-paths/lib/filesystem";
+import { DataBaseStoragePath, EncryptionAlgorithm } from "@/constants";
 import { ApplicationModel } from "@/db/models/ApplicationModel";
 import { CommentModel } from "@/db/models/CommentModel";
 import { CompanyModel } from "@/db/models/CompanyModel";
-
-export const DataBaseStoragePath = "src/db/data.db";
-
-export const algorithm = "aes-256-cbc";
 
 export function getDBPath() {
 	const { DATABASE_PATH } = env;
@@ -42,7 +39,7 @@ export function decrypt(inPath: string) {
 	const file = readFileSync(inPath);
 	const iv = file.subarray(0, 16);
 	const encrypted = file.subarray(16);
-	const decipher = crypto.createDecipheriv(algorithm, key, iv);
+	const decipher = crypto.createDecipheriv(EncryptionAlgorithm, key, iv);
 	const result = Buffer.concat([decipher.update(encrypted), decipher.final()]);
 	Readable.from(result).pipe(extract({
 		gzip: true,
@@ -61,11 +58,10 @@ export async function encrypt(outPath: string) {
 	const key = getPassword();
 	// Create an initialization vector
 	const iv = crypto.randomBytes(16);
-	const cipher = crypto.createCipheriv(algorithm, key, iv);
+	const cipher = crypto.createCipheriv(EncryptionAlgorithm, key, iv);
 	// Create the new (encrypted) buffer
 	writeFileSync(outPath, Buffer.concat([iv, cipher.update(buffer), cipher.final()]));
 	rmSync(file);
-	rmSync(DataBaseStoragePath);
 }
 
 /* This is a function because if it was just a plain export, process.env.DATABASE_PATH would be undefined, as the env

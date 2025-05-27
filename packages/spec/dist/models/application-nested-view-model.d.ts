@@ -5,6 +5,7 @@ export interface ApplicationNestedViewModel {
     'dateUpdated'?: number;
     'status': EnumApplicationStatus;
     'id': string;
+    'userId': string;
     'positionTitle': string;
     'dateApplied': number;
     'url': string;

@@ -1,15 +1,21 @@
-﻿import { Injectable } from "@nestjs/common";
+﻿import { Inject, Injectable } from "@nestjs/common";
 import { CompaniesMapper } from "src/companies/companies.mapper";
+import { AuthStorageService } from "@/auth/auth.storage.service";
+import { AUTH_STORAGE } from "@/constants";
 import { CompanyModel } from "@/db/models/CompanyModel";
 import { CompanyFullListViewModel, CompanyListViewModel } from "@/viewModels/company.viewmodel";
 
 @Injectable()
 export class CompaniesService {
-	constructor(private mapper: CompaniesMapper) {
+	constructor(private mapper: CompaniesMapper, @Inject(AUTH_STORAGE) private authStorageService: AuthStorageService) {
 	}
 
 	async getCompanies(): Promise<CompanyListViewModel> {
-		const { rows, count } = await CompanyModel.findAndCountAll();
+		const { rows, count } = await CompanyModel.findAndCountAll({
+			where: {
+				user_id: this.authStorageService.getUserId(),
+			},
+		});
 		return {
 			total: count,
 			data: rows.map((company) => this.mapper.entityToViewModel(company)),
@@ -23,6 +29,9 @@ export class CompaniesService {
 				all: true,
 				nested: true,
 			}],
+			where: {
+				user_id: this.authStorageService.getUserId(),
+			},
 		});
 		return {
 			total: count,
@@ -38,6 +47,7 @@ export class CompaniesService {
 			},
 			defaults: {
 				name,
+				user_id: this.authStorageService.getUserId(),
 			},
 		});
 		return this.mapper.entityToViewModel(response);

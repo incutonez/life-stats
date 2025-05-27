@@ -53,7 +53,7 @@ const columns: ITableColumn<ApplicationViewModel>[] = [useExpandableRow(), useTa
 	accessorKey: "status",
 	header: "Status",
 	meta: {
-		columnWidth: "w-32",
+		columnWidth: "min-w-32",
 		cellCls: "text-center",
 	},
 	cell: (info) => getEnumDisplay(EnumApplicationStatus, info.getValue<number>()),
@@ -96,7 +96,7 @@ const columns: ITableColumn<ApplicationViewModel>[] = [useExpandableRow(), useTa
 	header: "Applied",
 	cell: (info) => toDateTime(info.getValue<number>()),
 	meta: {
-		columnWidth: "w-32",
+		columnWidth: "min-w-30",
 		cellCls: "text-center text-sm font-semibold",
 	},
 }];
@@ -106,9 +106,6 @@ if (showCompany) {
 		accessorKey: "company.name",
 		header: "Company Name",
 		cell: (info) => info.getValue(),
-		meta: {
-			columnWidth: "w-64",
-		},
 	});
 }
 columns.push({
@@ -119,22 +116,18 @@ columns.push({
 		url: row.original.url,
 		status: row.original.status,
 	}),
-	meta: {
-		columnWidth: "w-64",
-	},
 }, {
 	accessorKey: "site",
 	header: "Site",
 	cell: (info) => info.getValue(),
 	meta: {
-		columnWidth: "w-32",
 		cellCls: "text-center",
 	},
 }, {
 	accessorKey: "compensation",
 	header: "Compensation",
 	meta: {
-		columnWidth: "w-64",
+		columnWidth: "min-w-64",
 		cellCls: "text-center",
 	},
 }, useDateCreatedColumn(), useDateUpdatedColumn());
@@ -261,6 +254,7 @@ if (!data) {
 		</section>
 		<TableData
 			class="flex-1"
+			table-layout="auto"
 			:table="table"
 			:row-cls="rowCls"
 			:render-sub-rows="renderCommentRows"

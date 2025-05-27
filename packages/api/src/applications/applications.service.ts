@@ -1,15 +1,19 @@
-﻿import { Injectable } from "@nestjs/common";
+﻿import { Inject, Injectable } from "@nestjs/common";
 import Papa from "papaparse";
 import { ApplicationsMapper } from "src/applications/applications.mapper";
 import { CommentsMapper } from "@/applications/comments.mapper";
 import { IUploadModel } from "@/applications/types";
+import { AuthStorageService } from "@/auth/auth.storage.service";
 import { CompaniesService } from "@/companies/companies.service";
+import { AUTH_STORAGE } from "@/constants";
 import { ApplicationModel } from "@/db/models/ApplicationModel";
 import { CommentModel } from "@/db/models/CommentModel";
 import { EnumApplicationStatus } from "@/types";
 import {
-	ApplicationListViewModel, IApplicationBulkViewModel,
-	IApplicationCreateViewModel, IApplicationUpdateViewModel,
+	ApplicationListViewModel,
+	IApplicationBulkViewModel,
+	IApplicationCreateViewModel,
+	IApplicationUpdateViewModel,
 } from "@/viewModels/application.viewmodel";
 import { ApiPaginatedRequest } from "@/viewModels/base.list.viewmodel";
 import { ICommentViewModel } from "@/viewModels/comment.viewmodel";
@@ -26,7 +30,7 @@ const CSVFields = [
 
 @Injectable()
 export class ApplicationsService {
-	constructor(private mapper: ApplicationsMapper, private commentsMapper: CommentsMapper, private companiesService: CompaniesService) {
+	constructor(private mapper: ApplicationsMapper, private commentsMapper: CommentsMapper, private companiesService: CompaniesService, @Inject(AUTH_STORAGE) private authStorageService: AuthStorageService) {
 	}
 
 	async listApplications(_params: ApiPaginatedRequest): Promise<ApplicationListViewModel> {
@@ -37,6 +41,9 @@ export class ApplicationsService {
 				all: true,
 				nested: true,
 			}],
+			where: {
+				user_id: this.authStorageService.getUserId(),
+			},
 		});
 		return {
 			data: rows.map((record) => this.mapper.entityToViewModel(record)),

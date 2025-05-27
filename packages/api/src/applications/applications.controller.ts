@@ -20,7 +20,9 @@ import {
 import { ApiPaginatedRequest } from "@/viewModels/base.list.viewmodel";
 
 @ApiTags("applications")
-@Controller("applications")
+@Controller({
+	path: "applications",
+})
 export class ApplicationsController {
 	constructor(private readonly service: ApplicationsService) {
 	}

@@ -1,18 +1,17 @@
-﻿import { Injectable, OnModuleInit } from "@nestjs/common";
+﻿import { Inject, Injectable, OnModuleInit } from "@nestjs/common";
 import { ModuleRef } from "@nestjs/core";
 import { differenceInWeeks } from "date-fns";
 import { v4 as getUUID } from "uuid";
 import { CommentsMapper } from "@/applications/comments.mapper";
 import { IUploadModel } from "@/applications/types";
+import { AuthStorageService } from "@/auth/auth.storage.service";
 import { CompaniesMapper } from "@/companies/companies.mapper";
-import {
-	ApplicationModel,
-	IApplicationCreateModel,
-	IApplicationUpdateModel,
-} from "@/db/models/ApplicationModel";
+import { AUTH_STORAGE } from "@/constants";
+import { ApplicationModel, IApplicationCreateModel, IApplicationUpdateModel } from "@/db/models/ApplicationModel";
 import { EnumApplicationStatus } from "@/types";
 import {
-	IApplicationCreateViewModel, IApplicationNestedViewModel,
+	IApplicationCreateViewModel,
+	IApplicationNestedViewModel,
 	IApplicationUpdateViewModel,
 	IApplicationViewModel,
 } from "@/viewModels/application.viewmodel";
@@ -23,7 +22,7 @@ const DomainRegex = /https?:\/\/.*?([^./]+?\.[^.]+?(?:\.\w{2})?)(?:\/|$)/;
 export class ApplicationsMapper implements OnModuleInit {
 	declare private companiesMapper: CompaniesMapper;
 
-	constructor(private readonly moduleRef: ModuleRef, private commentsMapper: CommentsMapper) {
+	constructor(private readonly moduleRef: ModuleRef, private commentsMapper: CommentsMapper, @Inject(AUTH_STORAGE) private authStorageService: AuthStorageService) {
 	}
 
 	onModuleInit() {
@@ -55,7 +54,7 @@ export class ApplicationsMapper implements OnModuleInit {
 		return site;
 	}
 
-	entityToViewModel({ id, updated_at, created_at, company, position_title, date_applied, url, compensation, status, comments }: ApplicationModel): IApplicationViewModel {
+	entityToViewModel({ id, updated_at, created_at, user_id, company, position_title, date_applied, url, compensation, status, comments }: ApplicationModel): IApplicationViewModel {
 		const difference = differenceInWeeks(Date.now(), date_applied);
 		if (difference === 0 && status === EnumApplicationStatus.Applied) {
 			// Either use the existing order that has been set or default it to be this week
@@ -66,6 +65,7 @@ export class ApplicationsMapper implements OnModuleInit {
 			url,
 			compensation,
 			status,
+			userId: user_id,
 			site: this.urlToSite(url),
 			positionTitle: position_title,
 			dateCreated: created_at!.getTime(),
@@ -76,7 +76,7 @@ export class ApplicationsMapper implements OnModuleInit {
 		};
 	}
 
-	entityNestedToViewModel({ id, updated_at, created_at, position_title, date_applied, url, compensation, status, comments }: ApplicationModel): IApplicationNestedViewModel {
+	entityNestedToViewModel({ id, updated_at, user_id, created_at, position_title, date_applied, url, compensation, status, comments }: ApplicationModel): IApplicationNestedViewModel {
 		const difference = differenceInWeeks(Date.now(), date_applied);
 		if (difference === 0 && status === EnumApplicationStatus.Applied) {
 			// Either use the existing order that has been set or default it to be this week
@@ -87,6 +87,7 @@ export class ApplicationsMapper implements OnModuleInit {
 			url,
 			compensation,
 			status,
+			userId: user_id,
 			site: this.urlToSite(url),
 			positionTitle: position_title,
 			dateCreated: created_at!.getTime(),
@@ -97,31 +98,36 @@ export class ApplicationsMapper implements OnModuleInit {
 	}
 
 	csvModelToViewModel({ company, comments, url = "", compensation, positionTitle, status, dateApplied }: IUploadModel): IApplicationCreateViewModel {
+		const userId = this.authStorageService.getUserId();
 		return {
 			url,
 			compensation,
 			positionTitle,
+			userId,
 			comments: comments ? comments.split(/\r\n|\n|\r/g).map((comment) => {
 				return {
-					id: getUUID(),
+					userId,
 					comment,
+					id: getUUID(),
 				};
 			}) : [],
 			dateApplied: new Date(dateApplied).getTime(),
 			status: parseInt(status, 10) as EnumApplicationStatus,
 			company: {
+				userId,
 				id: getUUID(),
 				name: company,
 			},
 		};
 	}
 
-	viewModelToEntity({ id, compensation, company, status, url, positionTitle, dateApplied }: IApplicationUpdateViewModel): IApplicationUpdateModel {
+	viewModelToEntity({ id, compensation, userId, company, status, url, positionTitle, dateApplied }: IApplicationUpdateViewModel): IApplicationUpdateModel {
 		return {
 			id,
 			compensation,
 			status,
 			url,
+			user_id: userId,
 			position_title: positionTitle,
 			date_applied: dateApplied,
 			company_id: company.id,
@@ -133,6 +139,7 @@ export class ApplicationsMapper implements OnModuleInit {
 			compensation,
 			status,
 			url,
+			user_id: this.authStorageService.getUserId(),
 			created_at: useAppliedDate ? new Date(dateApplied) : undefined,
 			position_title: positionTitle,
 			date_applied: dateApplied,

@@ -4,6 +4,7 @@ import { BaseViewModel } from "@/viewModels/BaseViewModel";
 
 export class CompanyViewModel extends BaseViewModel {
     declare id: string;
+    declare userId: string;
     declare name: string;
 }
 

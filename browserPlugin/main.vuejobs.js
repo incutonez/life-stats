@@ -1,5 +1,5 @@
 const ParentCard = ".transition-all";
-const LastCompany = "Bitter Brains";
+const LastCompany = "B3 Consulting Poland";
 let found = false;
 
 function docReady(fn) {

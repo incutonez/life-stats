@@ -17,6 +17,7 @@
     "@tanstack/vue-query": "^5.77.2",
     "@tanstack/vue-table": "^8.21.3",
     "@tanstack/vue-virtual": "^3.13.9",
+    "@vitejs/plugin-basic-ssl": "^2.0.0",
     "just-clone": "^6.2.0",
     "mime-types": "^3.0.1",
     "papaparse": "^5.5.3",

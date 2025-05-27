@@ -1,4 +1,5 @@
 import tailwindcss from "@tailwindcss/vite";
+import basicSsl from "@vitejs/plugin-basic-ssl";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 import svgLoader from "vite-svg-loader";
@@ -6,7 +7,9 @@ import svgLoader from "vite-svg-loader";
 // https://vitejs.dev/config/
 export default {
 	// svgLoader is needed for material symbols
-	plugins: [vue(), svgLoader(), tailwindcss()],
+	plugins: [vue(), svgLoader(), tailwindcss(), basicSsl({
+		name: "Life Stats",
+	})],
 	build: {
 		target: "esnext",
 	},

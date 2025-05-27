@@ -84,8 +84,8 @@ export function useTableActions<T>(buttons: ITableAction<T>[]) {
 	return {
 		header: "Actions",
 		meta: {
-			columnWidth: "w-max",
-			cellCls: "w-max",
+			columnWidth: "w-24",
+			cellCls: "w-24",
 		},
 		cell(info: ITableCellContext<T>) {
 			const children: VNode[] = [];
@@ -116,8 +116,8 @@ export function useDateUpdatedColumn<T>(): ITableColumn<T> {
 		header: "Updated",
 		cell: (info) => toDateTime(info.getValue<number>()),
 		meta: {
-			columnWidth: "w-28",
-			cellCls: "w-28 text-center text-sm font-semibold",
+			columnWidth: "min-w-28 w-28",
+			cellCls: "min-w-28 w-28 text-center text-sm font-semibold",
 		},
 	};
 }
@@ -128,8 +128,8 @@ export function useDateCreatedColumn<T>(): ITableColumn<T> {
 		header: "Created",
 		cell: (info) => toDateTime(info.getValue<number>()),
 		meta: {
-			columnWidth: "w-28",
-			cellCls: "w-28 text-center text-sm font-semibold",
+			columnWidth: "min-w-28 w-28",
+			cellCls: "min-w-28 w-28 text-center text-sm font-semibold",
 		},
 	};
 }
@@ -139,8 +139,8 @@ export function useExpandableRow<T>(): ITableColumn<T> {
 		id: "expander",
 		header: () => null,
 		meta: {
-			columnWidth: "w-12",
-			cellCls: "w-12",
+			columnWidth: "min-w-12 w-12",
+			cellCls: "min-w-12 w-12",
 		},
 		cell({ row }: ITableCellContext<T>) {
 			if (row.getCanExpand()) {

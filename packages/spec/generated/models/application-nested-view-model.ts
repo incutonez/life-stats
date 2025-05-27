@@ -55,6 +55,12 @@ export interface ApplicationNestedViewModel {
      * @type {string}
      * @memberof ApplicationNestedViewModel
      */
+    'userId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApplicationNestedViewModel
+     */
     'positionTitle': string;
     /**
      * 

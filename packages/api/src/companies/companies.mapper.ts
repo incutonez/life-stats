@@ -21,6 +21,7 @@ export class CompaniesMapper implements OnModuleInit {
 		return {
 			id: entity.id,
 			name: entity.name,
+			userId: entity.user_id,
 			dateCreated: entity.created_at!.getTime(),
 			dateUpdated: entity.updated_at!.getTime(),
 		};

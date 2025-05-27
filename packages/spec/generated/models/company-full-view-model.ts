@@ -46,6 +46,12 @@ export interface CompanyFullViewModel {
      * @type {string}
      * @memberof CompanyFullViewModel
      */
+    'userId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CompanyFullViewModel
+     */
     'name': string;
     /**
      * 

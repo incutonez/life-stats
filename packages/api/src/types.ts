@@ -1,12 +1,19 @@
-import { AuthResult } from "express-oauth2-jwt-bearer";
+import { AsyncLocalStorage } from "async_hooks";
+import { AuthResult, JWTPayload } from "express-oauth2-jwt-bearer";
 import { Model } from "sequelize-typescript";
 
 // Have to make sure we add the auth property to our Request
 declare module "@nestjs/common" {
 	interface Request {
-		auth?: AuthResult;
+		auth: AuthResult;
 	}
 }
+
+export interface IAuthStorage {
+	user: JWTPayload;
+}
+
+export type TAuthStore = AsyncLocalStorage<IAuthStorage>;
 
 export type ModelInterface<T> = {
 	// We need to map over the keys directly to preserve optionality. We filter with "as"

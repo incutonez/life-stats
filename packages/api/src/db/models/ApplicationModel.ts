@@ -21,6 +21,9 @@ export class ApplicationModel extends BaseModel {
 	declare id: string;
 
 	@Column
+	declare user_id: string;
+
+	@Column
 	declare position_title: string;
 
 	@Column

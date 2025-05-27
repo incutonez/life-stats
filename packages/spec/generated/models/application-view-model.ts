@@ -58,6 +58,12 @@ export interface ApplicationViewModel {
      * @type {string}
      * @memberof ApplicationViewModel
      */
+    'userId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApplicationViewModel
+     */
     'positionTitle': string;
     /**
      * 

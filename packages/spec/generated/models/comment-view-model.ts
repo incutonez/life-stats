@@ -43,6 +43,12 @@ export interface CommentViewModel {
      * @type {string}
      * @memberof CommentViewModel
      */
+    'userId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CommentViewModel
+     */
     'comment': string;
     /**
      * 

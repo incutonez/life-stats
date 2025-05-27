@@ -17,6 +17,9 @@ export class CommentModel extends BaseModel {
     @PrimaryKeyGuid()
     declare id: string;
 
+		@Column
+		declare user_id: string;
+
     @ForeignKey(() => ApplicationModel)
     @Column
     declare application_id?: string;

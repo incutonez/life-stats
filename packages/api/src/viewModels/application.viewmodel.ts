@@ -22,6 +22,7 @@ export class ApplicationBulkViewModel {
 
 export class ApplicationViewModel extends BaseViewModel {
     declare id: string;
+		declare userId: string;
     declare positionTitle: string;
     declare dateApplied: number;
     declare url: string;

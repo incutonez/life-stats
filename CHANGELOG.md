@@ -1,3 +1,9 @@
+## [1.11.1](https://github.com/incutonez/job-applications/compare/v1.11.0...v1.11.1) (2025-05-27)
+
+### Bug Fixes
+
+* Making Vite HTTPS to Appease Auth0 ([#27](https://github.com/incutonez/job-applications/issues/27)) ([60baff2](https://github.com/incutonez/job-applications/commit/60baff249da6cdd799e9d8b70971ac6d7e83ef91))
+
 ## [1.11.0](https://github.com/incutonez/job-applications/compare/v1.10.0...v1.11.0) (2025-05-27)
 
 ### Features

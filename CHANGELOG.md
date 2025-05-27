@@ -1,3 +1,9 @@
+## [1.11.0](https://github.com/incutonez/job-applications/compare/v1.10.0...v1.11.0) (2025-05-27)
+
+### Features
+
+* Adding Ability to Persist DB on Exit ([#26](https://github.com/incutonez/job-applications/issues/26)) ([b3c57b5](https://github.com/incutonez/job-applications/commit/b3c57b5e280a5e104ca8766712464730afd44df8))
+
 ## [1.10.0](https://github.com/incutonez/job-applications/compare/v1.9.0...v1.10.0) (2025-05-27)
 
 ### Features

@@ -163,10 +163,12 @@ export function provideApplicationRecord(applicationId: Ref<string>) {
 					url: "",
 					site: "",
 					compensation: "",
+					userId: "",
 					status: EnumApplicationStatus.Applied,
 					company: {
 						id: "",
 						name: "",
+						userId: "",
 					},
 					comments: [],
 				};

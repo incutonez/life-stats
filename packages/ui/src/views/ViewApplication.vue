@@ -80,6 +80,7 @@ function onClickUpdateComment(value: string) {
 		$viewRecord.comments.push({
 			comment: value,
 			id: getUniqueId(),
+			userId: "",
 		});
 	}
 	showCommentDialog.value = false;

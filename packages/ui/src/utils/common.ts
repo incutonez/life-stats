@@ -105,9 +105,11 @@ export function pasteToApplicationViewModel(value: string) {
 		id: "",
 		site: "",
 		status: EnumApplicationStatus.Applied,
+		userId: "",
 		company: {
 			id: getUniqueId(),
 			name: company,
+			userId: "",
 		},
 		comments: [],
 	} as ApplicationViewModel;

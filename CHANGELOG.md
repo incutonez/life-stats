@@ -1,3 +1,9 @@
+## [1.10.0](https://github.com/incutonez/job-applications/compare/v1.9.0...v1.10.0) (2025-05-27)
+
+### Features
+
+* Using User ID ([#25](https://github.com/incutonez/job-applications/issues/25)) ([ae33f57](https://github.com/incutonez/job-applications/commit/ae33f578914202776d8e79ce9f3b87bb0f4e5326))
+
 ## [1.9.0](https://github.com/incutonez/job-applications/compare/v1.8.0...v1.9.0) (2025-05-26)
 
 ### Features

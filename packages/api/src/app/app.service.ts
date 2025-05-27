@@ -1,5 +1,6 @@
 import { rmSync } from "node:fs";
 import * as process from "node:process";
+import { env } from "node:process";
 import { Injectable, OnApplicationShutdown } from "@nestjs/common";
 import { Sequelize } from "sequelize-typescript";
 import { AppInfoViewModel } from "src/viewModels/app.info.viewmodel";
@@ -18,13 +19,13 @@ export class AppService implements OnApplicationShutdown {
 
 	getInfo(): AppInfoViewModel {
 		return {
-			version: process.env.npm_package_version as string,
+			version: env.npm_package_version as string,
 		};
 	}
 
 	async onApplicationShutdown() {
 		const dbPath = getDBPath();
-		if (dbPath && dbPath !== DataBaseStoragePath) {
+		if (env.DATABASE_PERSIST !== "true" && dbPath && dbPath !== DataBaseStoragePath) {
 			await encrypt(dbPath);
 			// Make sure we close our sequelize connection before we remove the file
 			await this.sequelize.close();

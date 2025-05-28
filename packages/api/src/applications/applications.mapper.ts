@@ -131,6 +131,7 @@ export class ApplicationsMapper implements OnModuleInit {
 			position_title: positionTitle,
 			date_applied: dateApplied,
 			company_id: company.id,
+			updated_at: new Date(),
 		};
 	}
 

@@ -1,3 +1,9 @@
+## [1.12.0](https://github.com/incutonez/job-applications/compare/v1.11.4...v1.12.0) (2025-05-28)
+
+### Features
+
+* Migrating to Sequelize v7 ([#31](https://github.com/incutonez/job-applications/issues/31)) ([4b1614a](https://github.com/incutonez/job-applications/commit/4b1614a521a04f4105fd288c82d80c69e88e06d6))
+
 ## [1.11.4](https://github.com/incutonez/job-applications/compare/v1.11.3...v1.11.4) (2025-05-28)
 
 ### Bug Fixes

@@ -81,6 +81,7 @@ function onClickUpdateComment(value: string) {
 			comment: value,
 			id: getUniqueId(),
 			userId: "",
+			applicationId: "",
 		});
 	}
 	showCommentDialog.value = false;

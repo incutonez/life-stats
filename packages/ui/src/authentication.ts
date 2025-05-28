@@ -5,6 +5,9 @@ import { apiConfig } from "@/api.ts";
 export const auth0 = createAuth0({
 	domain: import.meta.env.VITE_AUTH0_DOMAIN,
 	clientId: import.meta.env.VITE_AUTH0_CLIENT_ID,
+	/* This is needed to persist localhost when refreshing the page... otherwise, it'd always ask to re-log in
+	 * Source: https://stackoverflow.com/a/63627875/1253609 */
+	cacheLocation: "localstorage",
 	authorizationParams: {
 		redirect_uri: window.location.origin,
 		audience: import.meta.env.VITE_AUTH0_AUDIENCE,

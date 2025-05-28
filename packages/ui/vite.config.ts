@@ -13,6 +13,9 @@ export default {
 	build: {
 		target: "esnext",
 	},
+	server: {
+		host: true,
+	},
 	resolve: {
 		alias: [{
 			// Add ability to use @ to represent the root dir being src

@@ -109,6 +109,9 @@ export class ApplicationsService {
 		model.company = await this.companiesService.createCompany(model.company.name);
 		const record = await this.getApplicationRaw(model.id);
 		if (record) {
+			/* Let's force updatedAt to change... this is helpful for scenarios where the associations change, but the parent
+			 * record doesn't, but we still want to show that the overall entity was updated */
+			record.changed("updatedAt", true);
 			await record.update(this.mapper.viewModelToEntity(model));
 			for (const modelComment of model.comments) {
 				const { id } = modelComment;
@@ -126,6 +129,7 @@ export class ApplicationsService {
 					await this.createApplicationComment(modelComment);
 				}
 			}
+			// Any remaining comments in the DB model were removed in the UI
 			await Promise.all(record.comments.map((comment) => comment.destroy()));
 			return this.getApplication(model.id);
 		}

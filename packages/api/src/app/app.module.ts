@@ -1,23 +1,22 @@
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { SequelizeModule } from "@nestjs/sequelize";
 import { AppController } from "src/app/app.controller";
 import { AppService } from "src/app/app.service";
-import { getDBConfig } from "src/db/config";
 import { ApplicationsModule } from "@/applications/applications.module";
 import { AuthStorageMiddleware } from "@/auth/auth.storage.middleware";
 import { AuthStorageModule } from "@/auth/auth.storage.module";
 import { CompaniesModule } from "@/companies/companies.module";
+import { DatabaseModule } from "@/db/database.module";
 
+/**
+ * We handle the env configuration in db/config.ts.  It's a little confusing, but that's the very first file that's
+ * imported, and it needs access to the env vars before Nest has a chance to set them up, so we manually call dotenv
+ */
 @Module({
 	imports: [
 		AuthStorageModule,
 		ApplicationsModule,
 		CompaniesModule,
-		ConfigModule.forRoot({
-			envFilePath: [".env.local", ".env"],
-		}),
-		SequelizeModule.forRoot(getDBConfig()),
+		DatabaseModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

@@ -109,6 +109,7 @@ export class ApplicationsMapper implements OnModuleInit {
 					userId,
 					comment,
 					id: getUUID(),
+					applicationId: "",
 				};
 			}) : [],
 			dateApplied: new Date(dateApplied).getTime(),

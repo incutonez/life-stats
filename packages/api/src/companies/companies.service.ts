@@ -26,8 +26,8 @@ export class CompaniesService {
 		const { rows, count } = await CompanyModel.findAndCountAll({
 			distinct: true,
 			include: [{
-				all: true,
-				nested: true,
+				association: "applications",
+				include: ["comments"],
 			}],
 			where: {
 				user_id: this.authStorageService.getUserId(),

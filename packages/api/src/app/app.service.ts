@@ -1,20 +1,15 @@
 import { rmSync } from "node:fs";
 import * as process from "node:process";
 import { env } from "node:process";
-import { Injectable, OnApplicationShutdown } from "@nestjs/common";
-import { Sequelize } from "sequelize-typescript";
+import { Inject, Injectable, OnApplicationShutdown } from "@nestjs/common";
+import { Sequelize } from "sequelize";
 import { AppInfoViewModel } from "src/viewModels/app.info.viewmodel";
-import { fileExistsSync } from "tsconfig-paths/lib/filesystem";
-import { DataBaseStoragePath } from "@/constants";
+import { DataBaseStoragePath, SEQUELIZE } from "@/constants";
 import { encrypt, getDBPath } from "@/db/config";
 
 @Injectable()
 export class AppService implements OnApplicationShutdown {
-	constructor(private sequelize: Sequelize) {
-		// Only create the DB if it doesn't exist
-		if (!fileExistsSync(DataBaseStoragePath)) {
-			sequelize.sync();
-		}
+	constructor(@Inject(SEQUELIZE) private sequelize: Sequelize) {
 	}
 
 	getInfo(): AppInfoViewModel {
@@ -25,7 +20,8 @@ export class AppService implements OnApplicationShutdown {
 
 	async onApplicationShutdown() {
 		const dbPath = getDBPath();
-		if (env.DATABASE_PERSIST !== "true" && dbPath && dbPath !== DataBaseStoragePath) {
+		const { DATABASE_PERSIST, DATABASE_PATH } = env;
+		if (dbPath && DATABASE_PERSIST !== "true" && DATABASE_PATH && DATABASE_PATH !== DataBaseStoragePath) {
 			await encrypt(dbPath);
 			// Make sure we close our sequelize connection before we remove the file
 			await this.sequelize.close();

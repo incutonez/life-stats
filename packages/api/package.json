@@ -9,8 +9,8 @@
     "db:migration": "npx sequelize-cli@6.3.0 db:migrate",
     "db:migration:add": "npx sequelize-cli@6.3.0 migration:generate --name",
     "db:migration:remove": "npx sequelize-cli@6.3.0 db:migrate:undo --name",
-    "start": "nest start",
-    "start:dev": "nest start -w",
+    "start": "nest start --env-file .env --env-file .env.local",
+    "start:dev": "nest start -w --env-file .env --env-file .env.local",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main"
   },

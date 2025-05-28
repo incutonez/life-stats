@@ -3,16 +3,26 @@ import { readFileSync, rmSync } from "node:fs";
 import { homedir } from "node:os";
 import { resolve } from "node:path";
 import { env } from "node:process";
-import { SequelizeModuleOptions } from "@nestjs/sequelize";
 import { writeFileSync } from "fs";
 import readlineSync from "readline-sync";
+import { Sequelize } from "sequelize-typescript";
 import { Readable } from "stream";
 import { create, extract } from "tar";
 import { fileExistsSync } from "tsconfig-paths/lib/filesystem";
 import { DataBaseStoragePath, EncryptionAlgorithm } from "@/constants";
-import { ApplicationModel } from "@/db/models/ApplicationModel";
-import { CommentModel } from "@/db/models/CommentModel";
-import { CompanyModel } from "@/db/models/CompanyModel";
+
+const { DATABASE_PASSWORD } = env;
+const dbPath = getDBPath();
+if (DATABASE_PASSWORD && dbPath && dbPath !== DataBaseStoragePath && !fileExistsSync(DataBaseStoragePath)) {
+	decrypt(dbPath);
+}
+
+export const sequelize = new Sequelize({
+	storage: DataBaseStoragePath,
+	dialect: "sqlite",
+	host: "localhost",
+	logging: false,
+});
 
 export function getDBPath() {
 	const { DATABASE_PATH } = env;
@@ -62,21 +72,4 @@ export async function encrypt(outPath: string) {
 	// Create the new (encrypted) buffer
 	writeFileSync(outPath, Buffer.concat([iv, cipher.update(buffer), cipher.final()]));
 	rmSync(file);
-}
-
-/* This is a function because if it was just a plain export, process.env.DATABASE_PATH would be undefined, as the env
- * file isn't processed before this global export would happen */
-export function getDBConfig(): SequelizeModuleOptions {
-	const { DATABASE_PASSWORD } = env;
-	const dbPath = getDBPath();
-	if (DATABASE_PASSWORD && dbPath && dbPath !== DataBaseStoragePath && !fileExistsSync(DataBaseStoragePath)) {
-		decrypt(dbPath);
-	}
-	return {
-		storage: DataBaseStoragePath,
-		dialect: "sqlite",
-		host: "localhost",
-		models: [ApplicationModel, CommentModel, CompanyModel],
-		logging: false,
-	};
 }

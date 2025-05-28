@@ -1,3 +1,9 @@
+## [1.11.4](https://github.com/incutonez/job-applications/compare/v1.11.3...v1.11.4) (2025-05-28)
+
+### Bug Fixes
+
+* Forcing updated_at to be new Date ([#30](https://github.com/incutonez/job-applications/issues/30)) ([ff58873](https://github.com/incutonez/job-applications/commit/ff588739bc6e3ebfeca279a07778edaaeb4e324b))
+
 ## [1.11.3](https://github.com/incutonez/job-applications/compare/v1.11.2...v1.11.3) (2025-05-28)
 
 ### Bug Fixes

@@ -1,6 +1,6 @@
-﻿import { Column, ForeignKey, Table } from "sequelize-typescript";
+﻿import { DataTypes } from "@sequelize/core";
+import { Attribute, NotNull, Table } from "@sequelize/core/decorators-legacy";
 import { PrimaryKeyGuid } from "@/db/decorators";
-import { ApplicationModel } from "@/db/models/ApplicationModel";
 import { BaseModel } from "@/db/models/BaseModel";
 import { ModelInterface } from "@/types";
 
@@ -17,13 +17,10 @@ export class CommentModel extends BaseModel {
     @PrimaryKeyGuid()
     declare id: string;
 
-		@Column
-		declare user_id: string;
+		@Attribute(DataTypes.STRING)
+    @NotNull
+    declare application_id: string;
 
-    @ForeignKey(() => ApplicationModel)
-    @Column
-    declare application_id?: string;
-
-    @Column
+		@Attribute(DataTypes.STRING)
     declare comment: string;
 }

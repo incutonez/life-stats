@@ -55,6 +55,6 @@ export interface CommentViewModel {
      * @type {string}
      * @memberof CommentViewModel
      */
-    'applicationId'?: string;
+    'applicationId': string;
 }
 

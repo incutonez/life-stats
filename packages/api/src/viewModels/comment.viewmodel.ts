@@ -7,5 +7,5 @@ export class CommentViewModel extends BaseViewModel {
     declare id: string;
     declare userId: string;
     declare comment: string;
-    declare applicationId?: string;
+    declare applicationId: string;
 }

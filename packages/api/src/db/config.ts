@@ -3,13 +3,22 @@ import { readFileSync, rmSync } from "node:fs";
 import { homedir } from "node:os";
 import { resolve } from "node:path";
 import { env } from "node:process";
+import { Sequelize } from "@sequelize/core";
+import { SqliteDialect } from "@sequelize/sqlite3";
+import { configDotenv } from "dotenv";
 import { writeFileSync } from "fs";
 import readlineSync from "readline-sync";
-import { Sequelize } from "sequelize-typescript";
 import { Readable } from "stream";
 import { create, extract } from "tar";
 import { fileExistsSync } from "tsconfig-paths/lib/filesystem";
 import { DataBaseStoragePath, EncryptionAlgorithm } from "@/constants";
+import { AuditedModels, NonAuditedModels } from "@/db/models";
+
+/* Ensure that we have our env vars loaded... at this point, the app hasn't bootstrapped, and Nest hasn't had time to
+ * load the vars using its config service */
+configDotenv({
+	path: [".env.local", ".env"],
+});
 
 const { DATABASE_PASSWORD } = env;
 const dbPath = getDBPath();
@@ -19,9 +28,9 @@ if (DATABASE_PASSWORD && dbPath && dbPath !== DataBaseStoragePath && !fileExists
 
 export const sequelize = new Sequelize({
 	storage: DataBaseStoragePath,
-	dialect: "sqlite",
-	host: "localhost",
+	dialect: SqliteDialect,
 	logging: false,
+	models: [...AuditedModels, ...NonAuditedModels],
 });
 
 export function getDBPath() {

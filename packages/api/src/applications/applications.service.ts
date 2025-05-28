@@ -38,8 +38,9 @@ export class ApplicationsService {
 			// Distinct is used to fix associations being counted in the final count that's returned
 			distinct: true,
 			include: [{
-				all: true,
-				nested: true,
+				association: "company",
+			}, {
+				association: "comments",
 			}],
 			where: {
 				user_id: this.authStorageService.getUserId(),
@@ -68,11 +69,10 @@ export class ApplicationsService {
 	}
 
 	async deleteApplication(id: string) {
-		return ApplicationModel.destroy({
-			where: {
-				id,
-			},
-		});
+		const model = await this.getApplicationRaw(id);
+		if (model) {
+			return model.destroy();
+		}
 	}
 
 	async createApplication(model: IApplicationCreateViewModel, useAppliedDate = false) {

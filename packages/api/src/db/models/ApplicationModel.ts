@@ -1,4 +1,5 @@
-﻿import { BelongsTo, Column, ForeignKey, HasMany, Table } from "sequelize-typescript";
+﻿import { DataTypes, NonAttribute } from "@sequelize/core";
+import { Attribute, BelongsTo, HasMany, NotNull, Table } from "@sequelize/core/decorators-legacy";
 import { PrimaryKeyGuid } from "@/db/decorators";
 import { BaseModel } from "@/db/models/BaseModel";
 import { CommentModel } from "@/db/models/CommentModel";
@@ -20,31 +21,32 @@ export class ApplicationModel extends BaseModel {
 	@PrimaryKeyGuid()
 	declare id: string;
 
-	@Column
-	declare user_id: string;
-
-	@Column
+	@Attribute(DataTypes.STRING)
 	declare position_title: string;
 
-	@Column
+	@Attribute(DataTypes.INTEGER)
 	declare date_applied: number;
 
-	@Column
+	@Attribute(DataTypes.STRING)
 	declare url: string;
 
-	@Column
+	@Attribute(DataTypes.STRING)
 	declare compensation: string;
 
-	@Column
+	@Attribute(DataTypes.INTEGER)
 	declare status: EnumApplicationStatus;
 
-	@ForeignKey(() => CompanyModel)
-	@Column
+	@Attribute(DataTypes.STRING)
+	@NotNull
 	declare company_id: string;
 
-	@BelongsTo(() => CompanyModel, "company_id")
-	declare company: CompanyModel;
+	@BelongsTo(() => CompanyModel, {
+		foreignKey: "company_id",
+	})
+	declare company: NonAttribute<CompanyModel>;
 
-	@HasMany(() => CommentModel, "application_id")
-	declare comments: CommentModel[];
+	@HasMany(() => CommentModel, {
+		foreignKey: "application_id",
+	})
+	declare comments: NonAttribute<CommentModel[]>;
 }

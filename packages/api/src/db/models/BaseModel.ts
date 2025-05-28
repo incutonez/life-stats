@@ -1,15 +1,19 @@
-import { Column, Model } from "sequelize-typescript";
+import { CreationOptional, DataTypes, Model } from "@sequelize/core";
+import { Attribute } from "@sequelize/core/decorators-legacy";
 
 export class BaseModel extends Model {
-	@Column
-	declare created_at?: Date;
+	@Attribute(DataTypes.STRING)
+	declare user_id: string;
 
-	@Column
-	declare updated_at?: Date;
+	@Attribute(DataTypes.DATE)
+	declare created_at?: CreationOptional<Date>;
+
+	@Attribute(DataTypes.DATE)
+	declare updated_at?: CreationOptional<Date>;
 
 	getPlain() {
 		return this.get(({
-			plain: true,
+			raw: true,
 		}));
 	}
 }

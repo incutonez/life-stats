@@ -4,5 +4,5 @@ export interface CommentViewModel {
     'id': string;
     'userId': string;
     'comment': string;
-    'applicationId'?: string;
+    'applicationId': string;
 }

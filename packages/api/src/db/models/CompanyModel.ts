@@ -1,4 +1,5 @@
-﻿import { Column, HasMany, Table } from "sequelize-typescript";
+﻿import { DataTypes, NonAttribute } from "@sequelize/core";
+import { Attribute, HasMany, Table } from "@sequelize/core/decorators-legacy";
 import { PrimaryKeyGuid } from "@/db/decorators";
 import { ApplicationModel } from "@/db/models/ApplicationModel";
 import { BaseModel } from "@/db/models/BaseModel";
@@ -12,12 +13,9 @@ export class CompanyModel extends BaseModel {
     @PrimaryKeyGuid()
     declare id: string;
 
-		@Column
-		declare user_id: string;
-
-		@Column
+		@Attribute(DataTypes.STRING)
 		declare name: string;
 
     @HasMany(() => ApplicationModel, "company_id")
-    declare applications?: ApplicationModel[];
+    declare applications?: NonAttribute<ApplicationModel[]>;
 }

@@ -1,4 +1,5 @@
-﻿import { Column, Model, Table } from "sequelize-typescript";
+﻿import { DataTypes, Model } from "@sequelize/core";
+import { Attribute, Table } from "@sequelize/core/decorators-legacy";
 import { PrimaryKeyGuid } from "@/db/decorators";
 
 @Table({
@@ -10,15 +11,18 @@ export class AuditModel extends Model {
 	@PrimaryKeyGuid()
 	declare id: string;
 
-	@Column
+	@Attribute(DataTypes.STRING)
 	declare user_id: string;
 
-	@Column
+	@Attribute(DataTypes.STRING)
+	declare table_name: string;
+
+	@Attribute(DataTypes.ENUM(["insert", "update", "delete"]))
 	declare action: "insert" | "update" | "delete";
 
-	@Column
+	@Attribute(DataTypes.STRING)
 	declare payload: string;
 
-	@Column
+	@Attribute(DataTypes.DATE)
 	declare created_at: Date;
 }

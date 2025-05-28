@@ -1,3 +1,9 @@
+## [1.11.2](https://github.com/incutonez/job-applications/compare/v1.11.1...v1.11.2) (2025-05-28)
+
+### Bug Fixes
+
+* Update updatedAt for Associations ([#28](https://github.com/incutonez/job-applications/issues/28)) ([8b8e3b2](https://github.com/incutonez/job-applications/commit/8b8e3b21c8e3cd8a285a91daafacaffce66ff39f))
+
 ## [1.11.1](https://github.com/incutonez/job-applications/compare/v1.11.0...v1.11.1) (2025-05-27)
 
 ### Bug Fixes

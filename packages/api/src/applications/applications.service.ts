@@ -111,7 +111,7 @@ export class ApplicationsService {
 		if (record) {
 			/* Let's force updatedAt to change... this is helpful for scenarios where the associations change, but the parent
 			 * record doesn't, but we still want to show that the overall entity was updated */
-			record.changed("updatedAt", true);
+			record.changed("updated_at", true);
 			await record.update(this.mapper.viewModelToEntity(model));
 			for (const modelComment of model.comments) {
 				const { id } = modelComment;

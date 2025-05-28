@@ -1,3 +1,9 @@
+## [1.11.3](https://github.com/incutonez/job-applications/compare/v1.11.2...v1.11.3) (2025-05-28)
+
+### Bug Fixes
+
+* Used Wrong updated_at Field ([#29](https://github.com/incutonez/job-applications/issues/29)) ([4095055](https://github.com/incutonez/job-applications/commit/4095055935bb95675080727c69ed9e93b551f8d6))
+
 ## [1.11.2](https://github.com/incutonez/job-applications/compare/v1.11.1...v1.11.2) (2025-05-28)
 
 ### Bug Fixes

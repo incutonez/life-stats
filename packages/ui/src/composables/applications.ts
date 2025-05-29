@@ -3,6 +3,7 @@ import { type ApplicationViewModel, EnumApplicationStatus } from "@incutonez/job
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import clone from "just-clone";
 import { ApplicationsAPI } from "@/api.ts";
+import { QueryGetApplication, QueryListApplications, QueryListAudits, QueryListCompanies } from "@/constants.ts";
 import { RouteCreate } from "@/router.ts";
 import { setApplicationRecords } from "@/stores/applications.ts";
 import { useAppDispatch } from "@/stores/main.ts";
@@ -18,10 +19,10 @@ const ApplicationViewRecordKey: InjectionKey<TApplicationViewRecord> = Symbol("a
 type TPastedApplicationRecord = ReturnType<typeof providePastedApplication>;
 const PastedApplicationRecordKey: InjectionKey<TPastedApplicationRecord> = Symbol("pastedApplicationRecord");
 
-export function useGetApplications() {
+export function useApplicationsList() {
 	const dispatch = useAppDispatch();
 	const query = useQuery({
-		queryKey: ["applications"],
+		queryKey: [QueryListApplications],
 		async queryFn() {
 			const { data } = await ApplicationsAPI.listApplications({
 				start: 0,
@@ -76,10 +77,13 @@ export function useDeleteApplication() {
 		},
 		async onSuccess() {
 			await queryClient.invalidateQueries({
-				queryKey: ["applications"],
+				queryKey: [QueryListApplications],
 			});
 			await queryClient.invalidateQueries({
-				queryKey: ["companiesList"],
+				queryKey: [QueryListCompanies],
+			});
+			await queryClient.invalidateQueries({
+				queryKey: [QueryListAudits],
 			});
 		},
 	});
@@ -152,7 +156,7 @@ export function provideApplicationRecord(applicationId: Ref<string>) {
 	const updated = ref(false);
 	const isEdit = computed(() => !!viewRecord.value?.id);
 	const query = useQuery({
-		queryKey: ["application", applicationId],
+		queryKey: [QueryGetApplication, applicationId],
 		async queryFn() {
 			const $applicationId = unref(applicationId);
 			if ($applicationId === RouteCreate) {

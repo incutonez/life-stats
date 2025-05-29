@@ -10,12 +10,15 @@ import { BaseModel } from "@/db/models/BaseModel";
 	updatedAt: "updated_at",
 })
 export class CompanyModel extends BaseModel {
-    @PrimaryKeyGuid()
-    declare id: string;
+	@PrimaryKeyGuid()
+	declare id: string;
 
-		@Attribute(DataTypes.STRING)
-		declare name: string;
+	@Attribute(DataTypes.STRING)
+	declare name: string;
 
-    @HasMany(() => ApplicationModel, "company_id")
-    declare applications?: NonAttribute<ApplicationModel[]>;
+	@HasMany(() => ApplicationModel, {
+		foreignKey: "company_id",
+		inverse: "company",
+	})
+	declare applications?: NonAttribute<ApplicationModel[]>;
 }

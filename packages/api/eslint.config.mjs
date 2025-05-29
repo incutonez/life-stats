@@ -2,6 +2,7 @@ import pluginIncutonez from "@incutonez/eslint-plugin";
 import pluginImport from "eslint-plugin-simple-import-sort";
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import stylisticTs from "@stylistic/eslint-plugin-ts";
 
 export default tseslint.config(
 	...tseslint.configs.recommended,
@@ -15,6 +16,7 @@ export default tseslint.config(
 	{
 		plugins: {
 			"typescript-eslint": tseslint.plugin,
+			"@stylistic/ts": stylisticTs,
 		},
 		languageOptions: {
 			ecmaVersion: "latest",
@@ -28,6 +30,13 @@ export default tseslint.config(
 				sourceType: "module",
 			},
 		},
+		rules: {
+			"@stylistic/ts/lines-between-class-members": ["error", "always"],
+			"@stylistic/ts/indent": ["error", "tab", {
+				SwitchCase: 1,
+				"StaticBlock": {"body": 1}
+			}],
+		}
 	},
 	{
 		plugins: {

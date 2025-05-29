@@ -2,8 +2,8 @@
 import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 import BaseButton from "@/components/BaseButton.vue";
-import { IconDownload, IconJobApplications, IconJobCompanies } from "@/components/Icons.ts";
-import { RouteApplications, RouteCompanies, viewApplications, viewCompanies } from "@/router.ts";
+import { IconDownload, IconHistory, IconJobApplications, IconJobCompanies } from "@/components/Icons.ts";
+import { RouteApplications, RouteCompanies, viewApplications, viewCompanies, viewHistory } from "@/router.ts";
 import ViewApplicationsImport from "@/views/ViewApplicationsImport.vue";
 
 const route = useRoute();
@@ -21,6 +21,10 @@ function onClickViewCompanies() {
 
 function onClickImportApplications() {
 	showImportDialog.value = true;
+}
+
+function onClickHistory() {
+	viewHistory();
 }
 </script>
 
@@ -45,6 +49,12 @@ function onClickImportApplications() {
 			text="Import"
 			theme="navigation"
 			@click="onClickImportApplications"
+		/>
+		<BaseButton
+			:icon="IconHistory"
+			text="History"
+			theme="navigation"
+			@click="onClickHistory"
 		/>
 		<ViewApplicationsImport
 			v-if="showImportDialog"

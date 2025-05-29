@@ -4,6 +4,7 @@
 api.ts
 api/app-api.ts
 api/applications-api.ts
+api/audits-api.ts
 api/companies-api.ts
 base.ts
 common.ts
@@ -15,10 +16,14 @@ models/app-info-view-model.ts
 models/application-list-view-model.ts
 models/application-nested-view-model.ts
 models/application-view-model.ts
+models/audit-diff-view-model.ts
+models/audit-list-view-model.ts
+models/audit-view-model.ts
 models/comment-view-model.ts
 models/company-full-list-view-model.ts
 models/company-full-view-model.ts
 models/company-list-view-model.ts
 models/company-view-model.ts
 models/enum-application-status.ts
+models/enum-audit-action-types.ts
 models/index.ts

@@ -8,15 +8,28 @@ const { table, hideHeaders, rowCls, tableClasses = "", tableLayout = "table-fixe
 const DefaultCellCls = "table-data-cell border-r border-b last:border-r-0 px-2 py-1";
 const tableCls = computed(() => {
 	return {
-		[tableClasses]: true,
-		[tableLayout]: true,
 		"border-t": hideHeaders,
-		"border-x": !isSubRow,
+		[tableLayout]: true,
+		[tableClasses]: true,
 	};
 });
 
+function getAlignment(columnAlign?: "left" | "center" | "right") {
+	let cls = "text-left";
+	switch (columnAlign) {
+		case "center":
+			cls = "text-center";
+			break;
+		case "right":
+			cls = "text-right";
+			break;
+	}
+	return cls;
+}
+
 function getHeaderClass(header: ITableHeader<TData>) {
-	const cls = ["z-1 p-2 border-r last:border-r-0 border-b border-y sticky top-0", header.column.columnDef.meta?.columnWidth ?? "min-w-64"];
+	const meta = header.column.columnDef.meta;
+	const cls = ["p-2 border-r last:border-r-0 border-b border-y sticky top-0", isSubRow ? "" : "z-1", getAlignment(meta?.columnAlign), meta?.columnWidth ?? "min-w-64"];
 	if (header.column.getCanSort()) {
 		cls.push("cursor-pointer select-none hover:bg-blue-300");
 	}
@@ -30,9 +43,9 @@ function getHeaderClass(header: ITableHeader<TData>) {
 }
 
 function getCellClass(cell: ITableCell<TData>) {
-	const cls = [DefaultCellCls];
 	const { column } = cell;
 	const { meta } = column.columnDef;
+	const cls = [DefaultCellCls, getAlignment(meta?.columnAlign)];
 	if (meta) {
 		const { cellCls } = meta;
 		if (cellCls) {
@@ -105,7 +118,7 @@ function onClickCell(cell: ITableCell<TData>) {
 <template>
 	<article class="overflow-auto size-full">
 		<table
-			class="border-spacing-0 border-separate w-full"
+			class="border-spacing-0 border-separate w-full border-x"
 			:class="tableCls"
 		>
 			<thead v-if="!hideHeaders">

@@ -25,6 +25,12 @@ import { ApplicationNestedViewModel } from './application-nested-view-model';
 export interface CompanyFullViewModel {
     /**
      * 
+     * @type {string}
+     * @memberof CompanyFullViewModel
+     */
+    'userId'?: string;
+    /**
+     * 
      * @type {number}
      * @memberof CompanyFullViewModel
      */
@@ -41,12 +47,6 @@ export interface CompanyFullViewModel {
      * @memberof CompanyFullViewModel
      */
     'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CompanyFullViewModel
-     */
-    'userId': string;
     /**
      * 
      * @type {string}

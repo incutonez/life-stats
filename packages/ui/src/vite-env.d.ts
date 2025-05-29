@@ -7,6 +7,7 @@ declare module "@tanstack/vue-table" {
 		cellCls?: string | ((cell: ITableCell<TData>) => string);
 		footerCls?: (header: ITableHeader<TData>) => string;
 		columnWidth?: string;
+		columnAlign?: "left" | "center" | "right";
 		canClick?: boolean;
 		onClickCell?: (cell: ITableCell<TData>) => void;
 	}

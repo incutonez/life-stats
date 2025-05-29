@@ -19,3 +19,13 @@ export const TablePageSizes: IOption[] = [{
 	id: 250,
 	display: "250",
 }];
+
+export const QueryListAudits = "listAudits";
+
+export const QueryListApplications = "listApplications";
+
+export const QueryGetApplication = "getApplication";
+
+export const QueryListCompanies = "listCompanies";
+
+export const QueryGetCompanies = "getCompanies";

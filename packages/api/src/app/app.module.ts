@@ -2,6 +2,7 @@ import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { AppController } from "src/app/app.controller";
 import { AppService } from "src/app/app.service";
 import { ApplicationsModule } from "@/applications/applications.module";
+import { AuditsModule } from "@/audits/audits.module";
 import { AuthStorageMiddleware } from "@/auth/auth.storage.middleware";
 import { AuthStorageModule } from "@/auth/auth.storage.module";
 import { CompaniesModule } from "@/companies/companies.module";
@@ -17,6 +18,7 @@ import { DatabaseModule } from "@/db/database.module";
 		ApplicationsModule,
 		CompaniesModule,
 		DatabaseModule,
+		AuditsModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

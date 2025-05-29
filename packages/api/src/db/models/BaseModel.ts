@@ -13,7 +13,7 @@ export class BaseModel extends Model {
 
 	getPlain() {
 		return this.get(({
-			raw: true,
+			plain: true,
 		}));
 	}
 }

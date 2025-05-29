@@ -8,8 +8,9 @@ import { IconAdd, IconDelete, IconEdit } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
 import TablePagination from "@/components/TablePagination.vue";
 import { injectGlobalError } from "@/composables/app.ts";
-import { providePastedApplication, useDeleteApplication, useGetApplications } from "@/composables/applications.ts";
+import { providePastedApplication, useApplicationsList, useDeleteApplication } from "@/composables/applications.ts";
 import {
+	useDateColumn,
 	useDateCreatedColumn,
 	useDateUpdatedColumn,
 	useExpandableRow,
@@ -20,7 +21,7 @@ import { RouteApplications, RouteCreate, viewApplication } from "@/router.ts";
 import { getApplicationRecords } from "@/stores/applications.ts";
 import { useAppSelector } from "@/stores/main.ts";
 import type { ISubRowRenderer, ITableColumn, ITableData, ITableRow, TInputValue } from "@/types/components.ts";
-import { getEnumDisplay, pasteToApplicationViewModel, toDateTime } from "@/utils/common.ts";
+import { getEnumDisplay, pasteToApplicationViewModel } from "@/utils/common.ts";
 import CellLink from "@/views/applications/CellLink.vue";
 import DeleteDialog from "@/views/shared/DeleteDialog.vue";
 
@@ -28,10 +29,11 @@ export interface IViewApplicationsProps {
 	data?: ApplicationViewModel[];
 	showCompany?: boolean;
 	viewRoute?: string;
+	isSubRow?: boolean;
 }
 
 const { Applied, CurrentWeek, Rejected, Initial, InterviewedAndRejected, Interviewing, Declined, Accepted, Ghosted } = EnumApplicationStatus;
-const { data = undefined, showCompany = true, viewRoute = undefined } = defineProps<IViewApplicationsProps>();
+const { data = undefined, showCompany = true, viewRoute = undefined, isSubRow = false } = defineProps<IViewApplicationsProps>();
 const { deleteApplication, deletingApplication } = useDeleteApplication();
 const { errorTitle, errorMsg, errorMsgStack } = injectGlobalError();
 const pastedRecord = providePastedApplication();
@@ -54,7 +56,7 @@ const columns: ITableColumn<ApplicationViewModel>[] = [useExpandableRow(), useTa
 	header: "Status",
 	meta: {
 		columnWidth: "min-w-32",
-		cellCls: "text-center",
+		columnAlign: "center",
 	},
 	cell: (info) => getEnumDisplay(EnumApplicationStatus, info.getValue<number>()),
 	sortUndefined: "last",
@@ -91,15 +93,7 @@ const columns: ITableColumn<ApplicationViewModel>[] = [useExpandableRow(), useTa
 		}
 		return lhsStatus < rhsStatus ? -1 : 1;
 	},
-}, {
-	accessorKey: "dateApplied",
-	header: "Applied",
-	cell: (info) => toDateTime(info.getValue<number>()),
-	meta: {
-		columnWidth: "min-w-30",
-		cellCls: "text-center text-sm font-semibold",
-	},
-}];
+}, useDateColumn("dateApplied", "Applied", "min-w-30 w-30")];
 if (showCompany) {
 	columns.push({
 		id: "companyName",
@@ -120,15 +114,11 @@ columns.push({
 	accessorKey: "site",
 	header: "Site",
 	cell: (info) => info.getValue(),
-	meta: {
-		cellCls: "text-center",
-	},
 }, {
 	accessorKey: "compensation",
 	header: "Compensation",
 	meta: {
 		columnWidth: "min-w-64",
-		cellCls: "text-center",
 	},
 }, useDateCreatedColumn(), useDateUpdatedColumn());
 const { table, search, getColumnSortIdentity } = useTableData<ApplicationViewModel>({
@@ -226,7 +216,7 @@ addEventListener("paste", onPaste, true);
 onUnmounted(() => removeEventListener("paste", onPaste));
 
 if (!data) {
-	useGetApplications();
+	useApplicationsList();
 }
 </script>
 
@@ -255,6 +245,7 @@ if (!data) {
 		<TableData
 			class="flex-1"
 			table-layout="auto"
+			:is-sub-row="isSubRow"
 			:table="table"
 			:row-cls="rowCls"
 			:render-sub-rows="renderCommentRows"

@@ -38,7 +38,7 @@ export interface IChangeEvent<T extends HTMLElement> extends Event {
 }
 
 export interface IUseTableData<TData = unknown> {
-	data: MaybeRef<TData[]>;
+	data: MaybeRef<TData[] | undefined>;
 	columns: MaybeRef<ITableColumn<TData>[]>;
 	sortInitial?: ITableSort;
 	searchInitial?: string;

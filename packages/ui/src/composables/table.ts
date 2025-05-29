@@ -7,6 +7,7 @@ import {
 	useVueTable,
 } from "@tanstack/vue-table";
 import BaseButton from "@/components/BaseButton.vue";
+import CellDateTime from "@/components/CellDateTime.vue";
 import { IconDown, IconRight } from "@/components/Icons.ts";
 import type {
 	ITableAction,
@@ -15,14 +16,16 @@ import type {
 	IUseTableData,
 	TTableExpandedState,
 } from "@/types/components.ts";
-import { toDateTime } from "@/utils/common.ts";
+import { getUserName } from "@/utils/common.ts";
 
 export function useTableData<TData = unknown>({ data, columns, sortInitial, searchInitial = "", canExpand, paginated }: IUseTableData<TData>) {
 	const sorting = ref(sortInitial);
 	const search = ref(searchInitial);
 	const expanded = ref<TTableExpandedState>({});
 	const table = useVueTable({
-		data,
+		get data() {
+			return unref(data) ?? [];
+		},
 		globalFilterFn: "includesString",
 		getCoreRowModel: getCoreRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
@@ -110,27 +113,41 @@ export function useTableActions<T>(buttons: ITableAction<T>[]) {
 	};
 }
 
-export function useDateUpdatedColumn<T>(): ITableColumn<T> {
+export function useDateColumn<T>(accessorKey: string, header: string, width = "min-w-28 w-28"): ITableColumn<T> {
 	return {
-		accessorKey: "dateUpdated",
-		header: "Updated",
-		cell: (info) => toDateTime(info.getValue<number>()),
+		accessorKey,
+		header,
+		cell: (info) => {
+			return h(CellDateTime, {
+				value: info.getValue<number>(),
+			});
+		},
 		meta: {
-			columnWidth: "min-w-28 w-28",
-			cellCls: "min-w-28 w-28 text-center text-sm font-semibold",
+			columnWidth: width,
+			cellCls: `${width} text-sm font-semibold`,
+			columnAlign: "center",
 		},
 	};
 }
 
+export function useDateUpdatedColumn<T>(): ITableColumn<T> {
+	return useDateColumn("dateUpdated", "Updated");
+}
+
 export function useDateCreatedColumn<T>(): ITableColumn<T> {
+	return useDateColumn("dateCreated", "Created");
+}
+
+export function useUserNameColumn<T>(): ITableColumn<T> {
 	return {
-		accessorKey: "dateCreated",
-		header: "Created",
-		cell: (info) => toDateTime(info.getValue<number>()),
+		accessorKey: "userId",
+		header: "User",
 		meta: {
-			columnWidth: "min-w-28 w-28",
-			cellCls: "min-w-28 w-28 text-center text-sm font-semibold",
+			columnWidth: "w-auto",
+			cellCls: "w-0",
+			columnAlign: "center",
 		},
+		cell: (props) => getUserName(props.getValue<string>()),
 	};
 }
 

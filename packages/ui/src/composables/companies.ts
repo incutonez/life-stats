@@ -2,13 +2,14 @@
 import type { CompanyFullViewModel } from "@incutonez/job-applications-openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import { CompaniesAPI } from "@/api.ts";
+import { QueryGetCompanies, QueryListAudits, QueryListCompanies } from "@/constants.ts";
 import { setCompanyFullRecords, setCompanyRecords } from "@/stores/companies.ts";
 import { useAppDispatch } from "@/stores/main.ts";
 
 export function useGetCompanies() {
 	const dispatch = useAppDispatch();
 	const query = useQuery({
-		queryKey: ["companies"],
+		queryKey: [QueryGetCompanies],
 		async queryFn() {
 			const { data } = await CompaniesAPI.getCompanies();
 			return data.data.sort((lhs, rhs) => lhs.name.localeCompare(rhs.name));
@@ -23,7 +24,7 @@ export function useGetCompanies() {
 export function useGetCompaniesList() {
 	const dispatch = useAppDispatch();
 	const query = useQuery({
-		queryKey: ["companiesList"],
+		queryKey: [QueryListCompanies],
 		async queryFn() {
 			const { data } = await CompaniesAPI.getCompaniesList();
 			return data.data.sort((lhs, rhs) => lhs.name.localeCompare(rhs.name));
@@ -45,7 +46,10 @@ export function useDeleteCompany() {
 		},
 		async onSuccess() {
 			await queryClient.invalidateQueries({
-				queryKey: ["companiesList"],
+				queryKey: [QueryListCompanies],
+			});
+			await queryClient.invalidateQueries({
+				queryKey: [QueryListAudits],
 			});
 		},
 	});

@@ -1,4 +1,5 @@
 import "@/style.css";
+import "highlight.js/styles/github.css";
 import { createApp } from "vue";
 import { provideStoreToApp } from "@reduxjs/vue-redux";
 import { VueQueryPlugin } from "@tanstack/vue-query";

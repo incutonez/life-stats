@@ -8,9 +8,9 @@ import FieldCheckbox from "@/components/FieldCheckbox.vue";
 import { IconDelete, IconDownload, IconSave } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
 import { useBulkApplications, useImportApplications } from "@/composables/applications.ts";
-import { useExpandableRow, useTableActions, useTableData } from "@/composables/table.ts";
+import { useDateColumn, useExpandableRow, useTableActions, useTableData } from "@/composables/table.ts";
 import type { ISubRowRenderer, ITableData } from "@/types/components.ts";
-import { downloadFile, makeCSV, toDate } from "@/utils/common.ts";
+import { downloadFile, makeCSV } from "@/utils/common.ts";
 
 // We use this to tie the field and label together, so when the user clicks in the label, it pops open the file input
 const fileId = useId();
@@ -39,23 +39,13 @@ const { table } = useTableData<ApplicationViewModel>({
 		}, {
 			accessorKey: "positionTitle",
 			header: "Position",
-		}, {
-			accessorKey: "dateApplied",
-			header: "Applied",
-			cell: (info) => toDate(info.getValue<number>()),
-			meta: {
-				columnWidth: "w-auto",
-				cellCls: "text-center",
-			},
-		}, {
+		},
+		useDateColumn("dateApplied", "Applied", "min-w-30 w-30"), {
 			accessorKey: "url",
 			header: "URL",
 		}, {
 			accessorKey: "compensation",
 			header: "Compensation",
-			meta: {
-				cellCls: "text-center",
-			},
 		},
 	],
 });

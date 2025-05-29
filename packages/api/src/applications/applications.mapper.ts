@@ -136,7 +136,7 @@ export class ApplicationsMapper implements OnModuleInit {
 			compensation,
 			status,
 			url,
-			user_id: userId,
+			user_id: userId ?? this.authStorageService.getUserId(),
 			position_title: positionTitle,
 			date_applied: dateApplied,
 			company_id: company.id,

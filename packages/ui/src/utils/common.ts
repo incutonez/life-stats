@@ -2,6 +2,7 @@
 import MimeTypes from "mime-types";
 import PapaParse from "papaparse";
 import { v4 } from "uuid";
+import { user } from "@/authentication.ts";
 import type { IOption, IPluginPaste, TLabelAlign } from "@/types/components.ts";
 
 export const getUniqueId = v4;
@@ -20,10 +21,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
 	day: "2-digit",
 	year: "numeric",
 });
-const dateTimeFormatter = new Intl.DateTimeFormat("en-US", {
-	month: "2-digit",
-	day: "2-digit",
-	year: "numeric",
+const timeFormatter = new Intl.DateTimeFormat("en-US", {
 	hour: "numeric",
 	minute: "2-digit",
 	second: "2-digit",
@@ -44,11 +42,11 @@ export function toDate(value?: number | Date) {
 	return dateFormatter.format(value);
 }
 
-export function toDateTime(value?: number | Date) {
+export function toTime(value?: number | Date) {
 	if (value === undefined || isNaN(value as number)) {
 		return undefined;
 	}
-	return dateTimeFormatter.format(value).replace(",", "");
+	return timeFormatter.format(value);
 }
 
 export async function sleep(ms: number) {
@@ -61,12 +59,20 @@ export function getLabelAlign(align: TLabelAlign) {
 	return align === "left" ? "field-label-left" : "field-label-top";
 }
 
+export function capitalize(value: string) {
+	return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
 export function splitPascal(value: string) {
 	return value.split(CapitalizeWordBoundary).join(" ");
 }
 
 export function isObject(value: unknown) {
-	return value && typeof value === "object" && !Array.isArray(value);
+	return !!value && typeof value === "object" && !Array.isArray(value);
+}
+
+export function isDefined(value: unknown) {
+	return value !== null && value !== undefined;
 }
 
 export function enumToOptions<T extends object>(items: T) {
@@ -89,6 +95,10 @@ export function getEnumDisplay(enums: Record<string, number | string>, value: st
 		}
 	}
 	return splitPascal(found);
+}
+
+export function getUserName(value: string) {
+	return value === user.value?.sub ? user.value.name : value;
 }
 
 export function pasteToApplicationViewModel(value: string) {

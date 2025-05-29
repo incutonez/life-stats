@@ -1,3 +1,9 @@
+## [1.13.0](https://github.com/incutonez/job-applications/compare/v1.12.1...v1.13.0) (2025-05-29)
+
+### Features
+
+* Adding Audit View ([#33](https://github.com/incutonez/job-applications/issues/33)) ([87c6890](https://github.com/incutonez/job-applications/commit/87c68903982de4e688e9bb2e0e67668d56a6d7e5))
+
 ## [1.12.1](https://github.com/incutonez/job-applications/compare/v1.12.0...v1.12.1) (2025-05-29)
 
 ### Bug Fixes

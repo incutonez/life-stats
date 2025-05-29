@@ -64,7 +64,7 @@ export class ApplicationsService {
 	async getApplication(id: string) {
 		const entity = await this.getApplicationRaw(id);
 		if (entity) {
-			return this.mapper.entityToViewModel(entity);
+			return this.mapper.entityToViewModel(entity, true);
 		}
 	}
 

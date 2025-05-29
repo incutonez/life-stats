@@ -1,6 +1,6 @@
 ﻿import { Inject, Injectable, OnModuleInit } from "@nestjs/common";
 import { ModuleRef } from "@nestjs/core";
-import { differenceInWeeks } from "date-fns";
+import { differenceInWeeks, endOfDay, isSunday, nextSunday } from "date-fns";
 import { v4 as getUUID } from "uuid";
 import { CommentsMapper } from "@/applications/comments.mapper";
 import { IUploadModel } from "@/applications/types";
@@ -17,6 +17,20 @@ import {
 } from "@/viewModels/application.viewmodel";
 
 const DomainRegex = /https?:\/\/.*?([^./]+?\.[^.]+?(?:\.\w{2})?)(?:\/|$)/;
+
+function getStatusFromApplied(status: EnumApplicationStatus, dateApplied: number) {
+	let endOfWeekDate = endOfDay(Date.now());
+	// We use Sunday as the end of the week, and that's the range we want to use for our difference check
+	if (!isSunday(endOfWeekDate)) {
+		endOfWeekDate = nextSunday(endOfWeekDate);
+	}
+	const difference = differenceInWeeks(endOfWeekDate, dateApplied);
+	if (difference === 0 && status === EnumApplicationStatus.Applied) {
+		// Either use the existing order that has been set or default it to be this week
+		status = EnumApplicationStatus.CurrentWeek;
+	}
+	return status;
+}
 
 @Injectable()
 export class ApplicationsMapper implements OnModuleInit {
@@ -54,17 +68,16 @@ export class ApplicationsMapper implements OnModuleInit {
 		return site;
 	}
 
-	entityToViewModel({ id, updated_at, created_at, user_id, company, position_title, date_applied, url, compensation, status, comments }: ApplicationModel): IApplicationViewModel {
-		const difference = differenceInWeeks(Date.now(), date_applied);
-		if (difference === 0 && status === EnumApplicationStatus.Applied) {
-			// Either use the existing order that has been set or default it to be this week
-			status = EnumApplicationStatus.CurrentWeek;
-		}
+	/**
+	 * There are times (like when we do GET applicationId), where we want to use the actual status and not the altered one
+	 * we use in the list, which is why we have the rawStatus param
+	 */
+	entityToViewModel({ id, updated_at, created_at, user_id, company, position_title, date_applied, url, compensation, status, comments }: ApplicationModel, rawStatus = false): IApplicationViewModel {
 		return {
 			id,
 			url,
 			compensation,
-			status,
+			status: rawStatus ? status : getStatusFromApplied(status, date_applied),
 			userId: user_id,
 			site: this.urlToSite(url),
 			positionTitle: position_title,
@@ -77,16 +90,11 @@ export class ApplicationsMapper implements OnModuleInit {
 	}
 
 	entityNestedToViewModel({ id, updated_at, user_id, created_at, position_title, date_applied, url, compensation, status, comments }: ApplicationModel): IApplicationNestedViewModel {
-		const difference = differenceInWeeks(Date.now(), date_applied);
-		if (difference === 0 && status === EnumApplicationStatus.Applied) {
-			// Either use the existing order that has been set or default it to be this week
-			status = EnumApplicationStatus.CurrentWeek;
-		}
 		return {
 			id,
 			url,
 			compensation,
-			status,
+			status: getStatusFromApplied(status, date_applied),
 			userId: user_id,
 			site: this.urlToSite(url),
 			positionTitle: position_title,

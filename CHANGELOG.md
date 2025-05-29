@@ -1,3 +1,9 @@
+## [1.12.1](https://github.com/incutonez/job-applications/compare/v1.12.0...v1.12.1) (2025-05-29)
+
+### Bug Fixes
+
+* Fixing Time Issues ([#32](https://github.com/incutonez/job-applications/issues/32)) ([db59c44](https://github.com/incutonez/job-applications/commit/db59c44afafcd16d0b33b9c310176a7cd48b104a))
+
 ## [1.12.0](https://github.com/incutonez/job-applications/compare/v1.11.4...v1.12.0) (2025-05-28)
 
 ### Features

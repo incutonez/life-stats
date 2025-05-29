@@ -42,7 +42,7 @@ const { table, search } = useTableData<CompanyFullViewModel>({
 		header: "Applications",
 		meta: {
 			columnWidth: "w-min",
-			cellCls: "text-center",
+			columnAlign: "center",
 		},
 		cell({ row }) {
 			return row.original.applications.length;
@@ -63,6 +63,7 @@ function renderSubRows({ row }: ISubRowRenderer<CompanyFullViewModel>) {
 		showCompany: false,
 		viewRoute: RouteCompanyApplication,
 		class: "p-2",
+		isSubRow: true,
 	});
 }
 </script>

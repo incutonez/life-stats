@@ -3,13 +3,13 @@ import { GetResponseModel } from "@/viewModels/base.list.viewmodel";
 import { BaseViewModel } from "@/viewModels/BaseViewModel";
 
 export class CompanyViewModel extends BaseViewModel {
-    declare id: string;
-    declare userId: string;
-    declare name: string;
+	declare id: string;
+
+	declare name: string;
 }
 
 export class CompanyFullViewModel extends CompanyViewModel {
-    declare applications: ApplicationNestedViewModel[];
+	declare applications: ApplicationNestedViewModel[];
 }
 
 export class CompanyListViewModel extends GetResponseModel<CompanyViewModel>(CompanyViewModel) {}

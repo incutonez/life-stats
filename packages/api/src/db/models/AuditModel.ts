@@ -1,6 +1,10 @@
 ﻿import { DataTypes, Model } from "@sequelize/core";
 import { Attribute, Table } from "@sequelize/core/decorators-legacy";
+import { EnumAuditActionTypes } from "@/constants";
 import { PrimaryKeyGuid } from "@/db/decorators";
+import { ModelInterface } from "@/types";
+
+export type IAuditModel = ModelInterface<AuditModel>;
 
 @Table({
 	tableName: "audits",
@@ -15,13 +19,16 @@ export class AuditModel extends Model {
 	declare user_id: string;
 
 	@Attribute(DataTypes.STRING)
-	declare table_name: string;
+	declare entity: string;
 
-	@Attribute(DataTypes.ENUM(["insert", "update", "delete"]))
-	declare action: "insert" | "update" | "delete";
+	@Attribute(DataTypes.ENUM(Object.values(EnumAuditActionTypes)))
+	declare action: EnumAuditActionTypes;
 
 	@Attribute(DataTypes.STRING)
-	declare payload: string;
+	declare value_current?: string;
+
+	@Attribute(DataTypes.STRING)
+	declare value_previous?: string;
 
 	@Attribute(DataTypes.DATE)
 	declare created_at: Date;

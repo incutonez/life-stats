@@ -28,6 +28,12 @@ import { EnumApplicationStatus } from './enum-application-status';
 export interface ApplicationNestedViewModel {
     /**
      * 
+     * @type {string}
+     * @memberof ApplicationNestedViewModel
+     */
+    'userId'?: string;
+    /**
+     * 
      * @type {number}
      * @memberof ApplicationNestedViewModel
      */
@@ -50,12 +56,6 @@ export interface ApplicationNestedViewModel {
      * @memberof ApplicationNestedViewModel
      */
     'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationNestedViewModel
-     */
-    'userId': string;
     /**
      * 
      * @type {string}

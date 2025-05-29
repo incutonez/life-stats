@@ -3,6 +3,7 @@ import { createRouter, createWebHashHistory, type RouteLocationRaw, type RouteRe
 import { isAuthenticated } from "@/authentication.ts";
 import ViewApplication from "@/views/ViewApplication.vue";
 import ViewApplications from "@/views/ViewApplications.vue";
+import ViewAudits from "@/views/ViewAudits.vue";
 import ViewCompanies from "@/views/ViewCompanies.vue";
 import ViewLogIn from "@/views/ViewLogIn.vue";
 
@@ -19,6 +20,8 @@ export const RouteCompanies = "companies";
 export const RouteCompanyApplication = "companies-application";
 
 export const RouteLogin = "login";
+
+export const RouteAudits = "audits";
 
 /**
  * If the user isn't logged in, let's remember the route they were going to, so we can restore it after they log in
@@ -55,6 +58,10 @@ export const routes: RouteRecordRaw[] = [{
 		component: ViewApplication,
 		props: true,
 	}],
+}, {
+	path: "/audits",
+	name: RouteAudits,
+	component: ViewAudits,
 }];
 
 export const router = createRouter({
@@ -71,6 +78,12 @@ export function viewApplications() {
 export function viewCompanies() {
 	return router.push({
 		name: RouteCompanies,
+	});
+}
+
+export function viewHistory() {
+	return router.push({
+		name: RouteAudits,
 	});
 }
 

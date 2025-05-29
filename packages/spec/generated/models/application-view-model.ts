@@ -31,6 +31,12 @@ import { EnumApplicationStatus } from './enum-application-status';
 export interface ApplicationViewModel {
     /**
      * 
+     * @type {string}
+     * @memberof ApplicationViewModel
+     */
+    'userId'?: string;
+    /**
+     * 
      * @type {number}
      * @memberof ApplicationViewModel
      */
@@ -53,12 +59,6 @@ export interface ApplicationViewModel {
      * @memberof ApplicationViewModel
      */
     'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationViewModel
-     */
-    'userId': string;
     /**
      * 
      * @type {string}

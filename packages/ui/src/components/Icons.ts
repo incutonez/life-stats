@@ -39,3 +39,5 @@ export { default as IconJobCompanies } from "@material-symbols/svg-400/outlined/
 export { default as IconMenu } from "@material-symbols/svg-400/outlined/menu.svg";
 
 export { default as IconLogOut } from "@material-symbols/svg-400/outlined/logout.svg";
+
+export { default as IconHistory } from "@material-symbols/svg-400/outlined/history.svg";

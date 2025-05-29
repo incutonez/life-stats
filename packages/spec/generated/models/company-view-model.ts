@@ -22,6 +22,12 @@
 export interface CompanyViewModel {
     /**
      * 
+     * @type {string}
+     * @memberof CompanyViewModel
+     */
+    'userId'?: string;
+    /**
+     * 
      * @type {number}
      * @memberof CompanyViewModel
      */
@@ -38,12 +44,6 @@ export interface CompanyViewModel {
      * @memberof CompanyViewModel
      */
     'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof CompanyViewModel
-     */
-    'userId': string;
     /**
      * 
      * @type {string}

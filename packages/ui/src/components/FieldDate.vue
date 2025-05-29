@@ -31,9 +31,10 @@ export interface IFieldDateProps {
 	label?: string;
 	labelAlign?: TLabelAlign;
 	required?: boolean;
+	format?: "number" | "date";
 }
 
-const { label = undefined, labelAlign = "left" } = defineProps<IFieldDateProps>();
+const { label = undefined, labelAlign = "left", format = "number" } = defineProps<IFieldDateProps>();
 const model = defineModel<string | Date | number | undefined>();
 const open = ref(false);
 const internalModel = ref<DateValue | null>();
@@ -47,12 +48,20 @@ function onClickItem() {
 	open.value = false;
 }
 
-watch(model, ($model) => {
-	if (typeof $model === "number") {
+watch([model, () => format], ([$model, $format]) => {
+	if ($format === "number" && typeof $model === "number") {
 		internalModel.value = fromAbsolute($model, LocalTimeZone);
 	}
 }, {
 	immediate: true,
+});
+
+watch([internalModel, () => format], ([$internalModel, $format]) => {
+	let value: Date | number | undefined = $internalModel?.toDate(LocalTimeZone);
+	if ($format === "number") {
+		value = value?.getTime();
+	}
+	model.value = value;
 });
 </script>
 

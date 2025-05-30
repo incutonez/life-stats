@@ -5,7 +5,7 @@ export const CompaniesApiAxiosParamCreator = function (configuration) {
     return {
         deleteCompany: async (companyId, options = {}) => {
             assertParamExists('deleteCompany', 'companyId', companyId);
-            const localVarPath = `/companies/{companyId}`
+            const localVarPath = `/jobs/companies/{companyId}`
                 .replace(`{${"companyId"}}`, encodeURIComponent(String(companyId)));
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -24,7 +24,7 @@ export const CompaniesApiAxiosParamCreator = function (configuration) {
             };
         },
         getCompanies: async (options = {}) => {
-            const localVarPath = `/companies`;
+            const localVarPath = `/jobs/companies`;
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
@@ -42,7 +42,7 @@ export const CompaniesApiAxiosParamCreator = function (configuration) {
             };
         },
         getCompaniesList: async (options = {}) => {
-            const localVarPath = `/companies/list`;
+            const localVarPath = `/jobs/companies/list`;
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {

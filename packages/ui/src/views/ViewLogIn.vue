@@ -3,7 +3,7 @@ import { useAuth0 } from "@auth0/auth0-vue";
 import { setAccessToken } from "@/authentication.ts";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
-import { viewRestoredRoute } from "@/router.ts";
+import { viewRestoredRoute } from "@/router/index.ts";
 
 const { loginWithPopup } = useAuth0();
 

@@ -42,7 +42,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
         createApplication: async (applicationViewModel: ApplicationViewModel, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'applicationViewModel' is not null or undefined
             assertParamExists('createApplication', 'applicationViewModel', applicationViewModel)
-            const localVarPath = `/applications`;
+            const localVarPath = `/jobs/applications`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -77,7 +77,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
         createApplications: async (applicationViewModel: Array<ApplicationViewModel>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'applicationViewModel' is not null or undefined
             assertParamExists('createApplications', 'applicationViewModel', applicationViewModel)
-            const localVarPath = `/applications/bulk`;
+            const localVarPath = `/jobs/applications/bulk`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -112,7 +112,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
         deleteApplication: async (applicationId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'applicationId' is not null or undefined
             assertParamExists('deleteApplication', 'applicationId', applicationId)
-            const localVarPath = `/applications/{applicationId}`
+            const localVarPath = `/jobs/applications/{applicationId}`
                 .replace(`{${"applicationId"}}`, encodeURIComponent(String(applicationId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -145,7 +145,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
         getApplication: async (applicationId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'applicationId' is not null or undefined
             assertParamExists('getApplication', 'applicationId', applicationId)
-            const localVarPath = `/applications/{applicationId}`
+            const localVarPath = `/jobs/applications/{applicationId}`
                 .replace(`{${"applicationId"}}`, encodeURIComponent(String(applicationId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -178,7 +178,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
         listApplications: async (apiPaginatedRequest: ApiPaginatedRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'apiPaginatedRequest' is not null or undefined
             assertParamExists('listApplications', 'apiPaginatedRequest', apiPaginatedRequest)
-            const localVarPath = `/applications/list`;
+            const localVarPath = `/jobs/applications/list`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -216,7 +216,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('updateApplication', 'applicationId', applicationId)
             // verify required parameter 'applicationViewModel' is not null or undefined
             assertParamExists('updateApplication', 'applicationViewModel', applicationViewModel)
-            const localVarPath = `/applications/{applicationId}`
+            const localVarPath = `/jobs/applications/{applicationId}`
                 .replace(`{${"applicationId"}}`, encodeURIComponent(String(applicationId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -255,7 +255,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
             assertParamExists('uploadApplications', 'addHeaders', addHeaders)
             // verify required parameter 'file' is not null or undefined
             assertParamExists('uploadApplications', 'file', file)
-            const localVarPath = `/applications/upload`;
+            const localVarPath = `/jobs/applications/upload`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;

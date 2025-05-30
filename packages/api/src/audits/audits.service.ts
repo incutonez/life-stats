@@ -1,5 +1,5 @@
 ﻿import { Injectable } from "@nestjs/common";
-import { AuditsMapper } from "src/audits/audits.mapper";
+import { AuditsMapper } from "@/audits/audits.mapper";
 import { AuditModel } from "@/db/models/AuditModel";
 
 @Injectable()

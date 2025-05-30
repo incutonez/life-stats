@@ -1,6 +1,6 @@
 ﻿import { DataTypes, Model } from "@sequelize/core";
 import { Attribute, Table } from "@sequelize/core/decorators-legacy";
-import { EnumAuditActionTypes } from "@/constants";
+import { EnumAuditActionTypes, EnumFeatures } from "@/constants";
 import { PrimaryKeyGuid } from "@/db/decorators";
 import { ModelInterface } from "@/types";
 
@@ -20,6 +20,9 @@ export class AuditModel extends Model {
 
 	@Attribute(DataTypes.STRING)
 	declare entity: string;
+
+	@Attribute(DataTypes.ENUM(Object.values(EnumFeatures)))
+	declare feature: EnumFeatures;
 
 	@Attribute(DataTypes.ENUM(Object.values(EnumAuditActionTypes)))
 	declare action: EnumAuditActionTypes;

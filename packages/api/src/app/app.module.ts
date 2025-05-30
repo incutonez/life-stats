@@ -1,12 +1,11 @@
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
-import { AppController } from "src/app/app.controller";
-import { AppService } from "src/app/app.service";
-import { ApplicationsModule } from "@/applications/applications.module";
+import { AppController } from "@/app/app.controller";
+import { AppService } from "@/app/app.service";
 import { AuditsModule } from "@/audits/audits.module";
 import { AuthStorageMiddleware } from "@/auth/auth.storage.middleware";
 import { AuthStorageModule } from "@/auth/auth.storage.module";
-import { CompaniesModule } from "@/companies/companies.module";
 import { DatabaseModule } from "@/db/database.module";
+import { JobsModule } from "@/jobs/jobs.module";
 
 /**
  * We handle the env configuration in db/config.ts.  It's a little confusing, but that's the very first file that's
@@ -15,10 +14,9 @@ import { DatabaseModule } from "@/db/database.module";
 @Module({
 	imports: [
 		AuthStorageModule,
-		ApplicationsModule,
-		CompaniesModule,
 		DatabaseModule,
 		AuditsModule,
+		JobsModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

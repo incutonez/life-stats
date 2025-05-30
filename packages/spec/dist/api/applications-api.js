@@ -5,7 +5,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration) {
     return {
         createApplication: async (applicationViewModel, options = {}) => {
             assertParamExists('createApplication', 'applicationViewModel', applicationViewModel);
-            const localVarPath = `/applications`;
+            const localVarPath = `/jobs/applications`;
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
@@ -26,7 +26,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration) {
         },
         createApplications: async (applicationViewModel, options = {}) => {
             assertParamExists('createApplications', 'applicationViewModel', applicationViewModel);
-            const localVarPath = `/applications/bulk`;
+            const localVarPath = `/jobs/applications/bulk`;
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
@@ -47,7 +47,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration) {
         },
         deleteApplication: async (applicationId, options = {}) => {
             assertParamExists('deleteApplication', 'applicationId', applicationId);
-            const localVarPath = `/applications/{applicationId}`
+            const localVarPath = `/jobs/applications/{applicationId}`
                 .replace(`{${"applicationId"}}`, encodeURIComponent(String(applicationId)));
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -67,7 +67,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration) {
         },
         getApplication: async (applicationId, options = {}) => {
             assertParamExists('getApplication', 'applicationId', applicationId);
-            const localVarPath = `/applications/{applicationId}`
+            const localVarPath = `/jobs/applications/{applicationId}`
                 .replace(`{${"applicationId"}}`, encodeURIComponent(String(applicationId)));
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -87,7 +87,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration) {
         },
         listApplications: async (apiPaginatedRequest, options = {}) => {
             assertParamExists('listApplications', 'apiPaginatedRequest', apiPaginatedRequest);
-            const localVarPath = `/applications/list`;
+            const localVarPath = `/jobs/applications/list`;
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
@@ -109,7 +109,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration) {
         updateApplication: async (applicationId, applicationViewModel, options = {}) => {
             assertParamExists('updateApplication', 'applicationId', applicationId);
             assertParamExists('updateApplication', 'applicationViewModel', applicationViewModel);
-            const localVarPath = `/applications/{applicationId}`
+            const localVarPath = `/jobs/applications/{applicationId}`
                 .replace(`{${"applicationId"}}`, encodeURIComponent(String(applicationId)));
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -132,7 +132,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration) {
         uploadApplications: async (addHeaders, file, options = {}) => {
             assertParamExists('uploadApplications', 'addHeaders', addHeaders);
             assertParamExists('uploadApplications', 'file', file);
-            const localVarPath = `/applications/upload`;
+            const localVarPath = `/jobs/applications/upload`;
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {

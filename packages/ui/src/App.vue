@@ -2,7 +2,7 @@
 import { isAuthenticated } from "@/authentication.ts";
 import LoadingMask from "@/components/LoadingMask.vue";
 import { useGlobalError } from "@/composables/app.ts";
-import NavigationJobs from "@/views/applications/NavigationJobs.vue";
+import NavigationJobs from "@/views/jobs/NavigationJobs.vue";
 import NavigationProducts from "@/views/NavigationProducts.vue";
 import NavigationUser from "@/views/NavigationUser.vue";
 import ErrorDialog from "@/views/shared/ErrorDialog.vue";

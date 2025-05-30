@@ -1,4 +1,4 @@
-﻿import { CreatedAtField, EnumAuditActionTypes, UpdatedAtField } from "@/constants";
+﻿import { CreatedAtField, EnumAuditActionTypes, EnumFeatures, UpdatedAtField } from "@/constants";
 import { ApplicationModel } from "@/db/models/ApplicationModel";
 import { AuditModel } from "@/db/models/AuditModel";
 import { BaseModel } from "@/db/models/BaseModel";
@@ -6,8 +6,16 @@ import { CommentModel } from "@/db/models/CommentModel";
 import { CompanyModel } from "@/db/models/CompanyModel";
 import { isObject } from "@/utils";
 
-export const AuditedModels = [ApplicationModel, CommentModel, CompanyModel];
-export const NonAuditedModels = [AuditModel];
+export const JobModels = [ApplicationModel, CommentModel, CompanyModel];
+export const ExerciseModels = [];
+export const AuditedFeatures = [{
+	models: JobModels,
+	feature: EnumFeatures.jobs,
+}, {
+	models: ExerciseModels,
+	feature: EnumFeatures.exercises,
+}];
+export const AllModels = [...JobModels, ...ExerciseModels, AuditModel];
 
 function sanitizeDataType(value: any) {
 	if (Array.isArray(value)) {
@@ -52,41 +60,46 @@ function getChanges(instance: BaseModel) {
 }
 
 export function addAuditing() {
-	AuditedModels.forEach((model) => {
-		const table_name = model.modelDefinition.table.tableName;
-		model.hooks.addListeners({
-			afterCreate(instance: BaseModel) {
-				const { value_current } = getChanges(instance);
-				AuditModel.create({
-					value_current,
-					entity: `${table_name}/${instance.get("id")}`,
-					user_id: instance.user_id,
-					action: EnumAuditActionTypes.created,
-				});
-			},
-			afterUpdate(instance: BaseModel) {
-				const { value_previous, value_current } = getChanges(instance);
-				// Only add an update if we have a non-empty object
-				if (value_current) {
+	AuditedFeatures.forEach(({ models, feature }) => {
+		models.forEach((model) => {
+			const table_name = model.modelDefinition.table.tableName;
+			model.hooks.addListeners({
+				afterCreate(instance: BaseModel) {
+					const { value_current } = getChanges(instance);
 					AuditModel.create({
-						value_previous,
 						value_current,
+						feature,
 						entity: `${table_name}/${instance.get("id")}`,
 						user_id: instance.user_id,
-						action: EnumAuditActionTypes.updated,
+						action: EnumAuditActionTypes.created,
 					});
-				}
-			},
-			afterDestroy(instance: BaseModel) {
-				const { value_current } = getChanges(instance);
-				AuditModel.create({
-					table_name,
-					entity: `${table_name}/${instance.get("id")}`,
-					value_previous: value_current,
-					user_id: instance.user_id,
-					action: EnumAuditActionTypes.deleted,
-				});
-			},
+				},
+				afterUpdate(instance: BaseModel) {
+					const { value_previous, value_current } = getChanges(instance);
+					// Only add an update if we have a non-empty object
+					if (value_current) {
+						AuditModel.create({
+							value_previous,
+							value_current,
+							feature,
+							entity: `${table_name}/${instance.get("id")}`,
+							user_id: instance.user_id,
+							action: EnumAuditActionTypes.updated,
+						});
+					}
+				},
+				afterDestroy(instance: BaseModel) {
+					const { value_current } = getChanges(instance);
+					AuditModel.create({
+						table_name,
+						feature,
+						entity: `${table_name}/${instance.get("id")}`,
+						value_previous: value_current,
+						user_id: instance.user_id,
+						action: EnumAuditActionTypes.deleted,
+					});
+				},
+			});
 		});
 	});
 }

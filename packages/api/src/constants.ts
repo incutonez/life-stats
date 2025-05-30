@@ -11,3 +11,9 @@ export const EnumAuditActionTypes = {
 	deleted: "Deleted",
 } as const;
 export type EnumAuditActionTypes = typeof EnumAuditActionTypes[keyof typeof EnumAuditActionTypes];
+
+export const EnumFeatures = {
+	jobs: "Jobs",
+	exercises: "Exercises",
+} as const;
+export type EnumFeatures = typeof EnumFeatures[keyof typeof EnumFeatures];

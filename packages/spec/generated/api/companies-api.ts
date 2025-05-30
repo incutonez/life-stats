@@ -40,7 +40,7 @@ export const CompaniesApiAxiosParamCreator = function (configuration?: Configura
         deleteCompany: async (companyId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'companyId' is not null or undefined
             assertParamExists('deleteCompany', 'companyId', companyId)
-            const localVarPath = `/companies/{companyId}`
+            const localVarPath = `/jobs/companies/{companyId}`
                 .replace(`{${"companyId"}}`, encodeURIComponent(String(companyId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -70,7 +70,7 @@ export const CompaniesApiAxiosParamCreator = function (configuration?: Configura
          * @throws {RequiredError}
          */
         getCompanies: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/companies`;
+            const localVarPath = `/jobs/companies`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -99,7 +99,7 @@ export const CompaniesApiAxiosParamCreator = function (configuration?: Configura
          * @throws {RequiredError}
          */
         getCompaniesList: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/companies/list`;
+            const localVarPath = `/jobs/companies/list`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;

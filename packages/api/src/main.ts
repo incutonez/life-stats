@@ -4,7 +4,7 @@ import compression from "compression";
 import { json } from "express";
 import { writeFileSync } from "fs";
 import * as path from "path";
-import { AppModule } from "src/app/app.module";
+import { AppModule } from "@/app/app.module";
 import { checkJWT } from "@/auth/auth.middleware";
 
 async function bootstrap() {

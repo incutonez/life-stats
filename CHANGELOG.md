@@ -1,3 +1,9 @@
+## [1.14.0](https://github.com/incutonez/job-applications/compare/v1.13.0...v1.14.0) (2025-05-30)
+
+### Features
+
+* Features Organization ([#34](https://github.com/incutonez/job-applications/issues/34)) ([61a6e06](https://github.com/incutonez/job-applications/commit/61a6e06fe87be43b0a411740942a07ad307d7061))
+
 ## [1.13.0](https://github.com/incutonez/job-applications/compare/v1.12.1...v1.13.0) (2025-05-29)
 
 ### Features

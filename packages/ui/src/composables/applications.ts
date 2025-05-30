@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import clone from "just-clone";
 import { ApplicationsAPI } from "@/api.ts";
 import { QueryGetApplication, QueryListApplications, QueryListAudits, QueryListCompanies } from "@/constants.ts";
-import { RouteCreate } from "@/router.ts";
+import { RouteCreate } from "@/router/index.ts";
 import { setApplicationRecords } from "@/stores/applications.ts";
 import { useAppDispatch } from "@/stores/main.ts";
 

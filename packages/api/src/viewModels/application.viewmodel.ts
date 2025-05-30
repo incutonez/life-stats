@@ -1,6 +1,6 @@
 ﻿import { ApiProperty, OmitType } from "@nestjs/swagger";
-import { GetResponseModel } from "src/viewModels/base.list.viewmodel";
 import { EnumApplicationStatus, ModelInterface } from "@/types";
+import { GetResponseModel } from "@/viewModels/base.list.viewmodel";
 import { BaseViewModel } from "@/viewModels/BaseViewModel";
 import { CommentViewModel } from "@/viewModels/comment.viewmodel";
 import { CompanyViewModel } from "@/viewModels/company.viewmodel";

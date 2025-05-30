@@ -1,7 +1,7 @@
 ﻿<script setup lang="ts">
 import { computed } from "vue";
 import hljs from "highlight.js/lib/core";
-import json from "highlight.js/lib/languages/json.js";
+import json from "highlight.js/lib/languages/json";
 
 export interface IAuditPayloadProps {
 	value: unknown;

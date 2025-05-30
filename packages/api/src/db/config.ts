@@ -12,7 +12,7 @@ import { Readable } from "stream";
 import { create, extract } from "tar";
 import { fileExistsSync } from "tsconfig-paths/lib/filesystem";
 import { DataBaseStoragePath, EncryptionAlgorithm } from "@/constants";
-import { AuditedModels, NonAuditedModels } from "@/db/models";
+import { AllModels } from "@/db/models";
 
 /* Ensure that we have our env vars loaded... at this point, the app hasn't bootstrapped, and Nest hasn't had time to
  * load the vars using its config service */
@@ -30,7 +30,7 @@ export const sequelize = new Sequelize({
 	storage: DataBaseStoragePath,
 	dialect: SqliteDialect,
 	logging: false,
-	models: [...AuditedModels, ...NonAuditedModels],
+	models: AllModels,
 });
 
 export function getDBPath() {

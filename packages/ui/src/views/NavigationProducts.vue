@@ -1,7 +1,9 @@
 ﻿<script setup lang="ts">
 import BaseButton from "@/components/BaseButton.vue";
 import { IconCompanies } from "@/components/Icons.ts";
-import { viewApplications } from "@/router.ts";
+import { useJobRoutes } from "@/router/jobs.ts";
+
+const { viewApplications } = useJobRoutes();
 
 function onClickViewApplications() {
 	viewApplications();

@@ -1,6 +1,6 @@
 ﻿import { Controller, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { AuditsService } from "src/audits/audits.service";
+import { AuditsService } from "@/audits/audits.service";
 import { AuditListViewModel } from "@/viewModels/audit.viewmodel";
 
 @ApiTags("audits")

@@ -19,6 +19,9 @@ import { AuditDiffViewModel } from './audit-diff-view-model';
 // May contain unused imports in some cases
 // @ts-ignore
 import { EnumAuditActionTypes } from './enum-audit-action-types';
+// May contain unused imports in some cases
+// @ts-ignore
+import { EnumTableNames } from './enum-table-names';
 
 /**
  * 
@@ -26,6 +29,12 @@ import { EnumAuditActionTypes } from './enum-audit-action-types';
  * @interface AuditViewModel
  */
 export interface AuditViewModel {
+    /**
+     * 
+     * @type {EnumTableNames}
+     * @memberof AuditViewModel
+     */
+    'entity': EnumTableNames;
     /**
      * 
      * @type {EnumAuditActionTypes}
@@ -49,7 +58,7 @@ export interface AuditViewModel {
      * @type {string}
      * @memberof AuditViewModel
      */
-    'entity': string;
+    'entityId': string;
     /**
      * 
      * @type {Array<AuditDiffViewModel>}

@@ -1,5 +1,5 @@
 ﻿import { ApiProperty } from "@nestjs/swagger";
-import { EnumAuditActionTypes } from "@/constants";
+import { EnumAuditActionTypes, EnumTableNames } from "@/constants";
 import { ModelInterface } from "@/types";
 import { GetResponseModel } from "@/viewModels/base.list.viewmodel";
 
@@ -32,7 +32,19 @@ export class AuditViewModel {
 
 	declare userId: string;
 
-	declare entity: string;
+	@ApiProperty({
+		enum: EnumTableNames,
+		enumName: "EnumTableNames",
+		/**
+		 * It's good to note that we convert this to x-enum-varnames in the spec dir before generating the resulting
+		 * generated and dist dirs... this is because the OpenAPI TypeScript generator uses x-enum-varnames, and we
+		 * can't specify this here
+		 */
+		"x-enumNames": Object.keys(EnumTableNames),
+	})
+	declare entity: EnumTableNames;
+
+	declare entityId: string;
 
 	@ApiProperty({
 		enum: EnumAuditActionTypes,

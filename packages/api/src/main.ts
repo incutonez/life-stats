@@ -5,7 +5,6 @@ import { json } from "express";
 import { writeFileSync } from "fs";
 import * as path from "path";
 import { AppModule } from "@/app/app.module";
-import { checkJWT } from "@/auth/auth.middleware";
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
@@ -14,7 +13,6 @@ async function bootstrap() {
 	app.use(json({
 		limit: "50mb",
 	}));
-	app.use(checkJWT);
 	app.enableShutdownHooks();
 	const config = new DocumentBuilder().setTitle("API").setDescription("The main API for the UI").setVersion("1.0").build();
 	const document = SwaggerModule.createDocument(app, config, {

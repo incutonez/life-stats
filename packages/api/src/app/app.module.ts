@@ -1,8 +1,8 @@
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
+import { ClsModule } from "nestjs-cls";
 import { AppController } from "@/app/app.controller";
 import { AppService } from "@/app/app.service";
 import { AuditsModule } from "@/audits/audits.module";
-import { AuthStorageMiddleware } from "@/auth/auth.storage.middleware";
 import { AuthStorageModule } from "@/auth/auth.storage.module";
 import { DatabaseModule } from "@/db/database.module";
 import { JobsModule } from "@/jobs/jobs.module";
@@ -17,12 +17,17 @@ import { JobsModule } from "@/jobs/jobs.module";
 		DatabaseModule,
 		AuditsModule,
 		JobsModule,
+		ClsModule.forRoot({
+			global: true,
+			middleware: {
+				mount: true,
+			},
+		}),
 	],
 	controllers: [AppController],
 	providers: [AppService],
 })
 export class AppModule implements NestModule {
-	configure(consumer: MiddlewareConsumer) {
-		consumer.apply(AuthStorageMiddleware).forRoutes("*");
+	configure(_consumer: MiddlewareConsumer) {
 	}
 }

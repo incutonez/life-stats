@@ -1,12 +1,17 @@
 ﻿import { Injectable } from "@nestjs/common";
-import { AsyncLocalStorage } from "async_hooks";
+import { JWTPayload } from "express-oauth2-jwt-bearer";
+import { ClsService } from "nestjs-cls";
 import { IAuthStorage } from "@/types";
 
 @Injectable()
 export class AuthStorageService {
-	storage = new AsyncLocalStorage<IAuthStorage>();
+	constructor(private readonly cls: ClsService<IAuthStorage>) {}
+
+	setUser(payload: JWTPayload) {
+		this.cls.set("user", payload);
+	}
 
 	getUserId() {
-		return this.storage.getStore()!.user.sub!;
+		return this.cls.get("user").sub!;
 	}
 }

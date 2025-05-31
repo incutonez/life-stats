@@ -1,3 +1,9 @@
+## [1.16.0](https://github.com/incutonez/job-applications/compare/v1.15.0...v1.16.0) (2025-05-31)
+
+### Features
+
+* Updating Audit Table ([#36](https://github.com/incutonez/job-applications/issues/36)) ([af52e5f](https://github.com/incutonez/job-applications/commit/af52e5f0f73cb65a42d07fe99d7fbb42119b2da3))
+
 ## [1.15.0](https://github.com/incutonez/job-applications/compare/v1.14.0...v1.15.0) (2025-05-31)
 
 ### Features

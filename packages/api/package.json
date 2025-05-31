@@ -34,6 +34,7 @@
     "express-oauth2-jwt-bearer": "^1.6.1",
     "just-diff": "^6.0.2",
     "just-safe-get": "^4.2.0",
+    "nestjs-cls": "^6.0.0",
     "papaparse": "^5.5.3",
     "readline-sync": "^1.4.10",
     "reflect-metadata": "latest",

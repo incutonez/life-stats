@@ -1,4 +1,6 @@
-﻿export const AUTH_STORAGE = "USER_STORAGE";
+﻿import { SetMetadata } from "@nestjs/common";
+
+export const AUTH_STORAGE = "USER_STORAGE";
 export const DataBaseStoragePath = "src/db/data.db";
 export const EncryptionAlgorithm = "aes-256-cbc";
 export const SEQUELIZE = "SEQUELIZE";
@@ -17,3 +19,6 @@ export const EnumFeatures = {
 	exercises: "Exercises",
 } as const;
 export type EnumFeatures = typeof EnumFeatures[keyof typeof EnumFeatures];
+
+export const IS_PUBLIC_KEY = "isPublic";
+export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);

@@ -1,3 +1,9 @@
+## [1.15.0](https://github.com/incutonez/job-applications/compare/v1.14.0...v1.15.0) (2025-05-31)
+
+### Features
+
+* Refactoring Auth ([#35](https://github.com/incutonez/job-applications/issues/35)) ([a8a8fb1](https://github.com/incutonez/job-applications/commit/a8a8fb1b07fce96774695dad698683ceaa0509af))
+
 ## [1.14.0](https://github.com/incutonez/job-applications/compare/v1.13.0...v1.14.0) (2025-05-30)
 
 ### Features

@@ -7,7 +7,7 @@ import { IAuditDiffViewModel, IAuditViewModel } from "@/viewModels/audit.viewmod
 
 @Injectable()
 export class AuditsMapper {
-	entityToViewModel({ user_id, id, created_at, entity, value_previous = "", value_current = "", action }: IAuditModel): IAuditViewModel {
+	entityToViewModel({ user_id, id, created_at, entity, value_previous = "", value_current = "", action, entity_id }: IAuditModel): IAuditViewModel {
 		const valuePrevious = value_previous ? JSON.parse(value_previous) : {};
 		const valueCurrent = value_current ? JSON.parse(value_current) : {};
 		const changes = diff(valuePrevious, valueCurrent);
@@ -35,6 +35,7 @@ export class AuditsMapper {
 			id,
 			action,
 			entity,
+			entityId: entity_id,
 			userId: user_id,
 			dateCreated: created_at.getTime(),
 			diff: output,

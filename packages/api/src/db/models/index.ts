@@ -6,9 +6,15 @@ import { CommentModel } from "@/db/models/CommentModel";
 import { CompanyModel } from "@/db/models/CompanyModel";
 import { isObject } from "@/utils";
 
+export interface IAuditFeatures {
+	models: typeof BaseModel[];
+	feature: EnumFeatures;
+	primaryKey?: string;
+}
+
 export const JobModels = [ApplicationModel, CommentModel, CompanyModel];
 export const ExerciseModels = [];
-export const AuditedFeatures = [{
+export const AuditedFeatures: IAuditFeatures[] = [{
 	models: JobModels,
 	feature: EnumFeatures.jobs,
 }, {
@@ -60,7 +66,7 @@ function getChanges(instance: BaseModel) {
 }
 
 export function addAuditing() {
-	AuditedFeatures.forEach(({ models, feature }) => {
+	AuditedFeatures.forEach(({ models, feature, primaryKey = "id" }) => {
 		models.forEach((model) => {
 			const table_name = model.modelDefinition.table.tableName;
 			model.hooks.addListeners({
@@ -69,7 +75,8 @@ export function addAuditing() {
 					AuditModel.create({
 						value_current,
 						feature,
-						entity: `${table_name}/${instance.get("id")}`,
+						entity: table_name,
+						entity_id: instance.get(primaryKey),
 						user_id: instance.user_id,
 						action: EnumAuditActionTypes.created,
 					});
@@ -82,7 +89,8 @@ export function addAuditing() {
 							value_previous,
 							value_current,
 							feature,
-							entity: `${table_name}/${instance.get("id")}`,
+							entity: table_name,
+							entity_id: instance.get(primaryKey),
 							user_id: instance.user_id,
 							action: EnumAuditActionTypes.updated,
 						});
@@ -93,7 +101,8 @@ export function addAuditing() {
 					AuditModel.create({
 						table_name,
 						feature,
-						entity: `${table_name}/${instance.get("id")}`,
+						entity: table_name,
+						entity_id: instance.get(primaryKey),
 						value_previous: value_current,
 						user_id: instance.user_id,
 						action: EnumAuditActionTypes.deleted,

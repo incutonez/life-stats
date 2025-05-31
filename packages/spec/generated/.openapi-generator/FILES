@@ -26,4 +26,5 @@ models/company-list-view-model.ts
 models/company-view-model.ts
 models/enum-application-status.ts
 models/enum-audit-action-types.ts
+models/enum-table-names.ts
 models/index.ts

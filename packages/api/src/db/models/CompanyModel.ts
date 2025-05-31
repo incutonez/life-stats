@@ -1,13 +1,14 @@
 ﻿import { DataTypes, NonAttribute } from "@sequelize/core";
 import { Attribute, HasMany, Table } from "@sequelize/core/decorators-legacy";
+import { CreatedAtField, EnumTableNames, UpdatedAtField } from "@/constants";
 import { PrimaryKeyGuid } from "@/db/decorators";
 import { ApplicationModel } from "@/db/models/ApplicationModel";
 import { BaseModel } from "@/db/models/BaseModel";
 
 @Table({
-	tableName: "companies",
-	createdAt: "created_at",
-	updatedAt: "updated_at",
+	tableName: EnumTableNames.JobCompanies,
+	createdAt: CreatedAtField,
+	updatedAt: UpdatedAtField,
 })
 export class CompanyModel extends BaseModel {
 	@PrimaryKeyGuid()

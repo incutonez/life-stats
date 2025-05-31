@@ -13,3 +13,4 @@ export * from './company-list-view-model';
 export * from './company-view-model';
 export * from './enum-application-status';
 export * from './enum-audit-action-types';
+export * from './enum-table-names';

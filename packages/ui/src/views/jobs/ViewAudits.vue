@@ -40,6 +40,9 @@ const { table } = useTableData<AuditViewModel>({
 		}, {
 			accessorKey: "entity",
 			header: "Entity",
+		}, {
+			accessorKey: "entityId",
+			header: "Entity ID",
 		},
 		useUserNameColumn(),
 		useDateCreatedColumn(),

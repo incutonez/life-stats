@@ -6,6 +6,8 @@ export const EncryptionAlgorithm = "aes-256-cbc";
 export const SEQUELIZE = "SEQUELIZE";
 export const CreatedAtField = "created_at";
 export const UpdatedAtField = "updated_at";
+export const IS_PUBLIC_KEY = "isPublic";
+export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
 
 export const EnumAuditActionTypes = {
 	created: "Created",
@@ -20,5 +22,10 @@ export const EnumFeatures = {
 } as const;
 export type EnumFeatures = typeof EnumFeatures[keyof typeof EnumFeatures];
 
-export const IS_PUBLIC_KEY = "isPublic";
-export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
+export const EnumTableNames = {
+	Audits: "audits",
+	JobApplications: "applications",
+	JobCompanies: "companies",
+	JobComments: "comments",
+};
+export type EnumTableNames = typeof EnumTableNames[keyof typeof EnumTableNames];

@@ -1,9 +1,10 @@
-﻿import { ApiProperty, OmitType } from "@nestjs/swagger";
+﻿import { OmitType } from "@nestjs/swagger";
 import { EnumApplicationStatus, ModelInterface } from "@/types";
 import { GetResponseModel } from "@/viewModels/base.list.viewmodel";
 import { BaseViewModel } from "@/viewModels/BaseViewModel";
 import { CommentViewModel } from "@/viewModels/comment.viewmodel";
 import { CompanyViewModel } from "@/viewModels/company.viewmodel";
+import { ApiEnum } from "@/viewModels/decorators";
 
 export type IApplicationViewModel = ModelInterface<ApplicationViewModel>;
 
@@ -34,15 +35,8 @@ export class ApplicationViewModel extends BaseViewModel {
 
 	declare compensation: string;
 
-	@ApiProperty({
-		enum: EnumApplicationStatus,
-		enumName: "EnumApplicationStatus",
-		/**
-			 * It's good to note that we convert this to x-enum-varnames in the spec dir before generating the resulting
-			 * generated and dist dirs... this is because the OpenAPI TypeScript generator uses x-enum-varnames, and we
-			 * can't specify this here
-			 */
-		"x-enumNames": Object.keys(EnumApplicationStatus),
+	@ApiEnum({
+		EnumApplicationStatus,
 	})
 	declare status: EnumApplicationStatus;
 

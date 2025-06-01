@@ -14,9 +14,20 @@
 
 
 
-export * from './api/activities-api';
-export * from './api/app-api';
-export * from './api/applications-api';
-export * from './api/audits-api';
-export * from './api/companies-api';
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const EnumAttributeType = {
+    String: 'string',
+    Boolean: 'boolean',
+    Number: 'number',
+    Date: 'date'
+} as const;
+
+export type EnumAttributeType = typeof EnumAttributeType[keyof typeof EnumAttributeType];
+
+
 

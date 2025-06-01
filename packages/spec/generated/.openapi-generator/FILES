@@ -2,6 +2,7 @@
 .npmignore
 .openapi-generator-ignore
 api.ts
+api/activities-api.ts
 api/app-api.ts
 api/applications-api.ts
 api/audits-api.ts
@@ -24,7 +25,14 @@ models/company-full-list-view-model.ts
 models/company-full-view-model.ts
 models/company-list-view-model.ts
 models/company-view-model.ts
+models/enum-activity-source.ts
 models/enum-application-status.ts
+models/enum-attribute-type.ts
 models/enum-audit-action-types.ts
 models/enum-table-names.ts
+models/enum-unit-types.ts
+models/exercise-activity-attribute-view-model.ts
+models/exercise-activity-type-view-model.ts
+models/exercise-activity-view-model.ts
+models/exercise-attribute-type-view-model.ts
 models/index.ts

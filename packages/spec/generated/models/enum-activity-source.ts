@@ -14,9 +14,17 @@
 
 
 
-export * from './api/activities-api';
-export * from './api/app-api';
-export * from './api/applications-api';
-export * from './api/audits-api';
-export * from './api/companies-api';
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const EnumActivitySource = {
+    Strava: 'strava'
+} as const;
+
+export type EnumActivitySource = typeof EnumActivitySource[keyof typeof EnumActivitySource];
+
+
 

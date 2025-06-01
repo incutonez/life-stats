@@ -4,6 +4,10 @@ import { AuditModel } from "@/db/models/AuditModel";
 import { BaseModel } from "@/db/models/BaseModel";
 import { CommentModel } from "@/db/models/CommentModel";
 import { CompanyModel } from "@/db/models/CompanyModel";
+import { ExerciseActivityAttributeModel } from "@/db/models/ExerciseActivityAttributeModel";
+import { ExerciseActivityModel } from "@/db/models/ExerciseActivityModel";
+import { ExerciseActivityTypesModel } from "@/db/models/ExerciseActivityTypesModel";
+import { ExerciseAttributeTypesModel } from "@/db/models/ExerciseAttributeTypesModel";
 import { isObject } from "@/utils";
 
 export interface IAuditFeatures {
@@ -13,7 +17,7 @@ export interface IAuditFeatures {
 }
 
 export const JobModels = [ApplicationModel, CommentModel, CompanyModel];
-export const ExerciseModels = [];
+export const ExerciseModels = [ExerciseActivityModel, ExerciseActivityAttributeModel, ExerciseAttributeTypesModel, ExerciseActivityTypesModel];
 export const AuditedFeatures: IAuditFeatures[] = [{
 	models: JobModels,
 	feature: EnumFeatures.jobs,
@@ -70,22 +74,24 @@ export function addAuditing() {
 		models.forEach((model) => {
 			const table_name = model.modelDefinition.table.tableName;
 			model.hooks.addListeners({
-				afterCreate(instance: BaseModel) {
+				async afterCreate(instance: BaseModel, { transaction }) {
 					const { value_current } = getChanges(instance);
-					AuditModel.create({
+					await AuditModel.create({
 						value_current,
 						feature,
 						entity: table_name,
 						entity_id: instance.get(primaryKey),
 						user_id: instance.user_id,
 						action: EnumAuditActionTypes.created,
+					}, {
+						transaction,
 					});
 				},
-				afterUpdate(instance: BaseModel) {
+				async afterUpdate(instance: BaseModel, { transaction }) {
 					const { value_previous, value_current } = getChanges(instance);
 					// Only add an update if we have a non-empty object
 					if (value_current) {
-						AuditModel.create({
+						await AuditModel.create({
 							value_previous,
 							value_current,
 							feature,
@@ -93,12 +99,14 @@ export function addAuditing() {
 							entity_id: instance.get(primaryKey),
 							user_id: instance.user_id,
 							action: EnumAuditActionTypes.updated,
+						}, {
+							transaction,
 						});
 					}
 				},
-				afterDestroy(instance: BaseModel) {
+				async afterDestroy(instance: BaseModel, { transaction }) {
 					const { value_current } = getChanges(instance);
-					AuditModel.create({
+					await AuditModel.create({
 						table_name,
 						feature,
 						entity: table_name,
@@ -106,6 +114,8 @@ export function addAuditing() {
 						value_previous: value_current,
 						user_id: instance.user_id,
 						action: EnumAuditActionTypes.deleted,
+					}, {
+						transaction,
 					});
 				},
 			});

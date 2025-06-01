@@ -1,3 +1,13 @@
+## [2.0.0](https://github.com/incutonez/job-applications/compare/v1.16.0...v2.0.0) (2025-06-01)
+
+### ⚠ BREAKING CHANGES
+
+* Adding Exercise Feature (#37)
+
+### Features
+
+* Adding Exercise Feature ([#37](https://github.com/incutonez/job-applications/issues/37)) ([3128257](https://github.com/incutonez/job-applications/commit/31282578b324edeab45b4f7a674d170a8e2976b5))
+
 ## [1.16.0](https://github.com/incutonez/job-applications/compare/v1.15.0...v1.16.0) (2025-05-31)
 
 ### Features

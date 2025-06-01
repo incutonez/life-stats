@@ -1,22 +1,15 @@
-﻿import { ApiProperty } from "@nestjs/swagger";
-import { EnumAuditActionTypes, EnumTableNames } from "@/constants";
+﻿import { EnumAuditActionTypes, EnumTableNames } from "@/constants";
 import { ModelInterface } from "@/types";
 import { GetResponseModel } from "@/viewModels/base.list.viewmodel";
+import { ApiEnum } from "@/viewModels/decorators";
 
 export type IAuditViewModel = ModelInterface<AuditViewModel>;
 
 export type IAuditDiffViewModel = ModelInterface<AuditDiffViewModel>;
 
 export class AuditDiffViewModel {
-	@ApiProperty({
-		enum: EnumAuditActionTypes,
-		enumName: "EnumAuditActionTypes",
-		/**
-		 * It's good to note that we convert this to x-enum-varnames in the spec dir before generating the resulting
-		 * generated and dist dirs... this is because the OpenAPI TypeScript generator uses x-enum-varnames, and we
-		 * can't specify this here
-		 */
-		"x-enumNames": Object.keys(EnumAuditActionTypes),
+	@ApiEnum({
+		EnumAuditActionTypes,
 	})
 	declare action: EnumAuditActionTypes;
 
@@ -32,29 +25,15 @@ export class AuditViewModel {
 
 	declare userId: string;
 
-	@ApiProperty({
-		enum: EnumTableNames,
-		enumName: "EnumTableNames",
-		/**
-		 * It's good to note that we convert this to x-enum-varnames in the spec dir before generating the resulting
-		 * generated and dist dirs... this is because the OpenAPI TypeScript generator uses x-enum-varnames, and we
-		 * can't specify this here
-		 */
-		"x-enumNames": Object.keys(EnumTableNames),
+	@ApiEnum({
+		EnumTableNames,
 	})
 	declare entity: EnumTableNames;
 
 	declare entityId: string;
 
-	@ApiProperty({
-		enum: EnumAuditActionTypes,
-		enumName: "EnumAuditActionTypes",
-		/**
-		 * It's good to note that we convert this to x-enum-varnames in the spec dir before generating the resulting
-		 * generated and dist dirs... this is because the OpenAPI TypeScript generator uses x-enum-varnames, and we
-		 * can't specify this here
-		 */
-		"x-enumNames": Object.keys(EnumAuditActionTypes),
+	@ApiEnum({
+		EnumAuditActionTypes,
 	})
 	declare action: EnumAuditActionTypes;
 

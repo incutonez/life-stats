@@ -1,3 +1,9 @@
+## [2.2.2](https://github.com/incutonez/life-stats/compare/v2.2.1...v2.2.2) (2025-06-02)
+
+### Bug Fixes
+
+* Removing console.log ([#49](https://github.com/incutonez/life-stats/issues/49)) ([1e131ee](https://github.com/incutonez/life-stats/commit/1e131ee67ffd22e03fe157ac0ac663338a83f856))
+
 ## [2.2.1](https://github.com/incutonez/life-stats/compare/v2.2.0...v2.2.1) (2025-06-02)
 
 ### Bug Fixes

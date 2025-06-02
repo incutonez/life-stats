@@ -2,8 +2,8 @@
 import { type RouteRecordRaw, useRouter } from "vue-router";
 import ViewApplication from "@/views/jobs/ViewApplication.vue";
 import ViewApplications from "@/views/jobs/ViewApplications.vue";
-import ViewAudits from "@/views/jobs/ViewAudits.vue";
 import ViewCompanies from "@/views/jobs/ViewCompanies.vue";
+import ViewFeatureHistory from "@/views/ViewFeatureHistory.vue";
 
 export const RouteJobs = "jobs";
 
@@ -15,7 +15,7 @@ export const RouteJobCompanies = "jobs-companies";
 
 export const RouteJobCompanyApplication = "jobs-companies-application";
 
-export const RouteJobAudits = "jobs-audits";
+export const RouteJobsHistory = "jobs-history";
 
 export const JobRoutes: RouteRecordRaw = {
 	path: "/jobs",
@@ -44,9 +44,9 @@ export const JobRoutes: RouteRecordRaw = {
 			props: true,
 		}],
 	}, {
-		path: "audits",
-		name: RouteJobAudits,
-		component: ViewAudits,
+		path: "history",
+		name: RouteJobsHistory,
+		component: ViewFeatureHistory,
 	}],
 };
 
@@ -81,7 +81,7 @@ export function useJobRoutes() {
 		},
 		viewHistory() {
 			return router.push({
-				name: RouteJobAudits,
+				name: RouteJobsHistory,
 			});
 		},
 	};

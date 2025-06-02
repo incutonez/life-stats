@@ -3,17 +3,20 @@ import { computed } from "vue";
 import { toDate, toTime } from "@/utils/common.ts";
 
 export interface ICellDateTimeProps {
-	value: number;
+	value?: number;
 }
 
-const { value } = defineProps<ICellDateTimeProps>();
-const dateValue = computed(() => new Date(value));
+const { value = 0 } = defineProps<ICellDateTimeProps>();
+const dateValue = computed(() => value && new Date(value));
 const date = computed(() => toDate(dateValue.value));
 const time = computed(() => toTime(dateValue.value));
 </script>
 
 <template>
-	<div class="flex flex-col">
+	<div
+		v-if="value"
+		class="flex flex-col"
+	>
 		<span>{{ date }}</span>
 		<span>{{ time }}</span>
 	</div>

@@ -2,7 +2,7 @@
 import type { CompanyFullViewModel } from "@incutonez/life-stats-spec";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import { CompaniesAPI } from "@/api.ts";
-import { QueryGetCompanies, QueryListAudits, QueryListCompanies } from "@/constants.ts";
+import { QueryGetCompanies, QueryListCompanies, QueryListJobAudits } from "@/constants.ts";
 import { setCompanyFullRecords, setCompanyRecords } from "@/stores/companies.ts";
 import { useAppDispatch } from "@/stores/main.ts";
 
@@ -49,7 +49,7 @@ export function useDeleteCompany() {
 				queryKey: [QueryListCompanies],
 			});
 			await queryClient.invalidateQueries({
-				queryKey: [QueryListAudits],
+				queryKey: [QueryListJobAudits],
 			});
 		},
 	});

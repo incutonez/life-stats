@@ -11,7 +11,7 @@ import { provideApplicationRecord, useDeleteApplication } from "@/composables/ap
 import { useDateCreatedColumn, useDateUpdatedColumn, useTableActions, useTableData } from "@/composables/table.ts";
 import { useJobRoutes } from "@/router/jobs.ts";
 import { getUniqueId } from "@/utils/common.ts";
-import ViewCommentDialog from "@/views/applications/ViewCommentDialog.vue";
+import ViewCommentDialog from "@/views/jobs/applications/ViewCommentDialog.vue";
 import FieldApplicationStatus from "@/views/jobs/shared/FieldApplicationStatus.vue";
 import FieldCompanies from "@/views/jobs/shared/FieldCompanies.vue";
 import DeleteDialog from "@/views/shared/DeleteDialog.vue";

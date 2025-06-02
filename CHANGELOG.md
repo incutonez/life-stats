@@ -1,3 +1,9 @@
+## [2.1.0](https://github.com/incutonez/life-stats/compare/v2.0.1...v2.1.0) (2025-06-02)
+
+### Features
+
+* Adding Jobs History API ([#47](https://github.com/incutonez/life-stats/issues/47)) ([949adaf](https://github.com/incutonez/life-stats/commit/949adaf6e2d96279e1948b8276f2e2bc3c00b8ab))
+
 ## [2.0.1](https://github.com/incutonez/life-stats/compare/v2.0.0...v2.0.1) (2025-06-02)
 
 ### Bug Fixes

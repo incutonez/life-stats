@@ -4,8 +4,8 @@ import BaseButton from "@/components/BaseButton.vue";
 import { IconDownload, IconHistory, IconJobApplications, IconJobCompanies } from "@/components/Icons.ts";
 import { isRouteSelected } from "@/router/index.ts";
 import {
-	RouteJobApplications, RouteJobAudits,
-	RouteJobCompanies, useJobRoutes,
+	RouteJobApplications, 	RouteJobCompanies, RouteJobsHistory,
+	useJobRoutes,
 } from "@/router/jobs.ts";
 import ViewApplicationsImport from "@/views/jobs/ViewApplicationsImport.vue";
 
@@ -55,7 +55,7 @@ function onClickHistory() {
 			:icon="IconHistory"
 			text="History"
 			theme="navigation"
-			:aria-selected="isRouteSelected(RouteJobAudits)"
+			:aria-selected="isRouteSelected(RouteJobsHistory)"
 			@click="onClickHistory"
 		/>
 		<ViewApplicationsImport

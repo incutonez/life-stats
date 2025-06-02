@@ -1,12 +1,12 @@
 ﻿import { useQuery } from "@tanstack/vue-query";
-import { AuditsAPI } from "@/api.ts";
-import { QueryListAudits } from "@/constants.ts";
+import { JobsAPI } from "@/api.ts";
+import { QueryListJobAudits } from "@/constants.ts";
 
-export function useAuditsList() {
+export function useJobAuditsList() {
 	return useQuery({
-		queryKey: [QueryListAudits],
+		queryKey: [QueryListJobAudits],
 		async queryFn() {
-			const { data } = await AuditsAPI.listAudits();
+			const { data } = await JobsAPI.getJobsHistory();
 			return data.data;
 		},
 	});

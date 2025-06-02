@@ -3,13 +3,13 @@ import { h } from "vue";
 import { type AuditDiffViewModel, type AuditViewModel, EnumAuditActionTypes } from "@incutonez/life-stats-spec";
 import type { CellContext } from "@tanstack/vue-table";
 import TableData from "@/components/TableData.vue";
-import { useAuditsList } from "@/composables/audits.ts";
+import { useJobAuditsList } from "@/composables/audits.ts";
 import { useDateCreatedColumn, useExpandableRow, useTableData, useUserNameColumn } from "@/composables/table.ts";
 import type { ISubRowRenderer, ITableColumn, ITableData } from "@/types/components.ts";
 import { capitalize, isDefined, isObject } from "@/utils/common.ts";
-import AuditDiff from "@/views/audits/AuditDiff.vue";
+import AuditDiff from "@/views/featureHistory/AuditDiff.vue";
 
-const { data } = useAuditsList();
+const { data } = useJobAuditsList();
 const { table } = useTableData<AuditViewModel>({
 	data,
 	sortInitial: [{

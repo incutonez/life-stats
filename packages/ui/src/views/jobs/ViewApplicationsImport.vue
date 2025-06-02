@@ -66,8 +66,6 @@ async function onClickImportButton() {
 	showingImport.value = false;
 }
 
-console.log("blah");
-
 async function onClickSaveButton() {
 	await createApplications();
 	dialogCmp.value?.toggle(false);

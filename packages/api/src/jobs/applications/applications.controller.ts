@@ -7,7 +7,7 @@
 	NotFoundException,
 	Param,
 	Post, Put, UploadedFile,
-	UseInterceptors,
+	UseInterceptors, ValidationPipe,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from "@nestjs/swagger";
@@ -39,7 +39,9 @@ export class ApplicationsController {
 	@ApiOkResponse({
 		type: [ApplicationViewModel],
 	})
-	async uploadApplications(@Body() { addHeaders }: ApplicationsUploadViewModel, @UploadedFile("file") file: Express.Multer.File): Promise<IApplicationCreateViewModel[]> {
+	async uploadApplications(@Body(new ValidationPipe({
+		transform: true,
+	})) { addHeaders }: ApplicationsUploadViewModel, @UploadedFile("file") file: Express.Multer.File): Promise<IApplicationCreateViewModel[]> {
 		return this.service.uploadApplications(file, addHeaders);
 	}
 

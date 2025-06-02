@@ -1,20 +1,17 @@
 ﻿<script setup lang="ts">
-import { computed, h, ref, useId } from "vue";
+import { h, ref } from "vue";
 import type { ApplicationViewModel, CommentViewModel } from "@incutonez/life-stats-spec";
 import MimeTypes from "mime-types";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
-import FieldCheckbox from "@/components/FieldCheckbox.vue";
-import { IconDelete, IconDownload, IconSave } from "@/components/Icons.ts";
+import { IconDelete, IconSave } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
 import { useBulkApplications, useImportApplications } from "@/composables/applications.ts";
 import { useDateColumn, useExpandableRow, useTableActions, useTableData } from "@/composables/table.ts";
 import type { ISubRowRenderer, ITableData } from "@/types/components.ts";
 import { downloadFile, makeCSV } from "@/utils/common.ts";
+import DialogEntityImport from "@/views/shared/DialogEntityImport.vue";
 
-// We use this to tie the field and label together, so when the user clicks in the label, it pops open the file input
-const fileId = useId();
-const hasDragOver = ref(false);
 const addHeaders = ref(true);
 const showingImport = ref(true);
 const dialogCmp = ref<InstanceType<typeof BaseDialog>>();
@@ -49,11 +46,6 @@ const { table } = useTableData<ApplicationViewModel>({
 		},
 	],
 });
-const cls = computed(() => {
-	return {
-		"!border-red-500": hasDragOver.value,
-	};
-});
 
 function renderCommentRows({ row }: ISubRowRenderer<ApplicationViewModel>) {
 	const table = useTableData<CommentViewModel>({
@@ -69,6 +61,8 @@ function renderCommentRows({ row }: ISubRowRenderer<ApplicationViewModel>) {
 	});
 }
 
+console.log(addHeaders);
+
 async function onClickImportButton() {
 	addedApplications.value = await uploadApplications(addHeaders.value);
 	showingImport.value = false;
@@ -79,21 +73,8 @@ async function onClickSaveButton() {
 	dialogCmp.value?.toggle(false);
 }
 
-function onChangeFile({ target }: Event) {
-	importFile.value = (target as HTMLInputElement).files?.[0];
-}
-
-function onDrop({ dataTransfer }: DragEvent) {
-	hasDragOver.value = false;
-	importFile.value = dataTransfer?.files[0];
-}
-
-function onDragOver() {
-	hasDragOver.value = true;
-}
-
-function onDragEnd() {
-	hasDragOver.value = false;
+function onChangeFile(importedFiles?: FileList) {
+	importFile.value = importedFiles?.[0];
 }
 
 function onClickDownloadTemplate() {
@@ -117,44 +98,13 @@ function onCloseDialog() {
 		@close="onCloseDialog"
 	>
 		<template #content>
-			<article
+			<DialogEntityImport
 				v-if="showingImport"
-				class="flex flex-col space-y-2"
-			>
-				<section class="flex space-x-2 items-center">
-					<BaseButton
-						text="Template"
-						title="Download CSV Template"
-						:icon="IconDownload"
-						@click="onClickDownloadTemplate"
-					/>
-					<FieldCheckbox
-						v-model="addHeaders"
-						box-label="Add Headers"
-					/>
-				</section>
-				<label
-					:for="fileId"
-					class="flex flex-col border-2 cursor-default border-slate-700 rounded-md border-dashed p-4 items-center justify-center h-48 w-96 hover:border-red-600"
-					:class="cls"
-					@drop.prevent="onDrop"
-					@dragover.prevent="onDragOver"
-					@dragleave="onDragEnd"
-				>
-					<input
-						:id="fileId"
-						type="file"
-						accept="text/csv"
-						class="hidden"
-						@change="onChangeFile"
-					>
-					<span class="text-sm font-semibold text-slate-700">Click or drag file here</span>
-					<span
-						v-if="importFile"
-						class="text-sm"
-					><span class="font-semibold">Selected:</span> {{ importFile.name }}</span>
-				</label>
-			</article>
+				v-model:add-headers="addHeaders"
+				show-template-button
+				@changed-files="onChangeFile"
+				@click-template="onClickDownloadTemplate"
+			/>
 			<TableData
 				v-else
 				class="max-h-[70vh] max-w-[90vw]"

@@ -1,4 +1,4 @@
-﻿import { ApplicationsApi, AuditsApi, CompaniesApi, Configuration } from "@incutonez/job-applications-openapi";
+﻿import { ApplicationsApi, AuditsApi, CompaniesApi, Configuration } from "@incutonez/life-stats-spec";
 
 export const apiConfig = new Configuration({
 	basePath: import.meta.env.VITE_BASE_API || `http://${location.hostname}:3000`,

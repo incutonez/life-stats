@@ -1,7 +1,7 @@
 ﻿<script setup lang="ts">
 import { h, onUnmounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import { type ApplicationViewModel, type CommentViewModel, EnumApplicationStatus } from "@incutonez/job-applications-openapi";
+import { type ApplicationViewModel, type CommentViewModel, EnumApplicationStatus } from "@incutonez/life-stats-spec";
 import BaseButton from "@/components/BaseButton.vue";
 import FieldText from "@/components/FieldText.vue";
 import { IconAdd, IconDelete, IconEdit } from "@/components/Icons.ts";

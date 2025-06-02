@@ -1,6 +1,6 @@
 ﻿<script setup lang="ts">
 import { h, ref } from "vue";
-import type { ApplicationViewModel, CompanyFullViewModel } from "@incutonez/job-applications-openapi";
+import type { ApplicationViewModel, CompanyFullViewModel } from "@incutonez/life-stats-spec";
 import FieldText from "@/components/FieldText.vue";
 import { IconDelete } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";

@@ -1,6 +1,6 @@
 ﻿<script setup lang="ts">
 import { computed, h, ref, useId } from "vue";
-import type { ApplicationViewModel, CommentViewModel } from "@incutonez/job-applications-openapi";
+import type { ApplicationViewModel, CommentViewModel } from "@incutonez/life-stats-spec";
 import MimeTypes from "mime-types";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";

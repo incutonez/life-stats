@@ -1,6 +1,6 @@
 ﻿<script setup lang="ts">
 import { h } from "vue";
-import { type AuditDiffViewModel, type AuditViewModel, EnumAuditActionTypes } from "@incutonez/job-applications-openapi";
+import { type AuditDiffViewModel, type AuditViewModel, EnumAuditActionTypes } from "@incutonez/life-stats-spec";
 import type { CellContext } from "@tanstack/vue-table";
 import TableData from "@/components/TableData.vue";
 import { useAuditsList } from "@/composables/audits.ts";

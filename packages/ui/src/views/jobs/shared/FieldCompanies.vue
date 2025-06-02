@@ -1,5 +1,5 @@
 ﻿<script setup lang="ts">
-import type { CompanyViewModel } from "@incutonez/job-applications-openapi";
+import type { CompanyViewModel } from "@incutonez/life-stats-spec";
 import FieldComboBoxVirtual from "@/components/FieldComboBoxVirtual.vue";
 import { useGetCompanies } from "@/composables/companies.ts";
 import { getCompanyRecords } from "@/stores/companies.ts";

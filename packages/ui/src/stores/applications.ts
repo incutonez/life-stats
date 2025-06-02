@@ -1,4 +1,4 @@
-﻿import { type ApplicationViewModel } from "@incutonez/job-applications-openapi";
+﻿import { type ApplicationViewModel } from "@incutonez/life-stats-spec";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 export interface IApplicationState {

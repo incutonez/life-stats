@@ -1,5 +1,5 @@
 ﻿<script setup lang="ts">
-import type { CommentViewModel } from "@incutonez/job-applications-openapi";
+import type { CommentViewModel } from "@incutonez/life-stats-spec";
 
 export interface ICellCommentsProps {
 	comments: CommentViewModel[];

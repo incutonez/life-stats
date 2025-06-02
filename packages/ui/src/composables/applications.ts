@@ -1,5 +1,5 @@
 ﻿import { computed, inject, type InjectionKey, onUnmounted, provide, type Ref, ref, toRaw, unref, watch } from "vue";
-import { type ApplicationViewModel, EnumApplicationStatus } from "@incutonez/job-applications-openapi";
+import { type ApplicationViewModel, EnumApplicationStatus } from "@incutonez/life-stats-spec";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import clone from "just-clone";
 import { ApplicationsAPI } from "@/api.ts";

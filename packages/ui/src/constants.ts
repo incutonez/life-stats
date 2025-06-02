@@ -1,4 +1,4 @@
-﻿import { EnumApplicationStatus } from "@incutonez/job-applications-openapi";
+﻿import { EnumApplicationStatus } from "@incutonez/life-stats-spec";
 import type { IOption } from "@/types/components.ts";
 import { enumToOptions } from "@/utils/common.ts";
 

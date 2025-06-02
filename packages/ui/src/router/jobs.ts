@@ -1,5 +1,6 @@
 ﻿import { unref } from "vue";
 import { type RouteRecordRaw, useRouter } from "vue-router";
+import { useIsRouteSelected } from "@/router/routes.ts";
 import ViewApplication from "@/views/jobs/ViewApplication.vue";
 import ViewApplications from "@/views/jobs/ViewApplications.vue";
 import ViewCompanies from "@/views/jobs/ViewCompanies.vue";
@@ -52,8 +53,10 @@ export const JobRoutes: RouteRecordRaw = {
 
 export function useJobRoutes() {
 	const router = useRouter();
+	const { isRouteSelected } = useIsRouteSelected(router);
 
 	return {
+		isRouteSelected,
 		viewApplications() {
 			return router.push({
 				name: RouteJobApplications,

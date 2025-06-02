@@ -1,11 +1,22 @@
 ﻿<script setup lang="ts">
+import { unref } from "vue";
+import { useRouter } from "vue-router";
 import { useAuth0 } from "@auth0/auth0-vue";
 import { setAccessToken } from "@/authentication.ts";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
-import { viewRestoredRoute } from "@/router/index.ts";
+import { restoreRoute, RouteHome } from "@/router/routes.ts";
 
 const { loginWithPopup } = useAuth0();
+const router = useRouter();
+
+async function viewRestoredRoute() {
+	const $restoreRoute = unref(restoreRoute) ?? {
+		name: RouteHome,
+	};
+	restoreRoute.value = undefined;
+	return router.push($restoreRoute);
+}
 
 /**
  * We don't call this automatically because we get a pop-up blocked warning in the browser, but if the user initiates

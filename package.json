@@ -31,7 +31,7 @@
     "npm": ">=10"
   },
   "lint-staged": {
-    "packages/ui/**/*.{tsx,ts}": "npm run ui:commit",
+    "packages/ui/**/*.{tsx,ts,vue}": "npm run ui:commit",
     "packages/api/**/*.ts": "npm run api:commit"
   },
   "workspaces": [

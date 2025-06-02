@@ -1,3 +1,9 @@
+## [2.0.1](https://github.com/incutonez/life-stats/compare/v2.0.0...v2.0.1) (2025-06-02)
+
+### Bug Fixes
+
+* Renaming Project ([#38](https://github.com/incutonez/life-stats/issues/38)) ([3e4f3fb](https://github.com/incutonez/life-stats/commit/3e4f3fb3ac12d3a0e84190999e264810f35d2cd8))
+
 ## [2.0.0](https://github.com/incutonez/job-applications/compare/v1.16.0...v2.0.0) (2025-06-01)
 
 ### ⚠ BREAKING CHANGES

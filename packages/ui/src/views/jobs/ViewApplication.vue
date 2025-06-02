@@ -1,6 +1,6 @@
 ﻿<script setup lang="ts">
 import { computed, ref, unref, watch } from "vue";
-import type { CommentViewModel } from "@incutonez/job-applications-openapi";
+import type { CommentViewModel } from "@incutonez/life-stats-spec";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
 import FieldDate from "@/components/FieldDate.vue";

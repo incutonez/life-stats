@@ -1,6 +1,6 @@
-# Job Applications
+# Life Stats
 
-Instead of managing job applications in an Excel spreadhseet, I decided to build my own UI, with accompanying API and DB.  It's a fairly simple interface, but I also wanted to try out some framework agnostic libraries in a Vue 3 app.
+Statistics interest me, and I've always wanted something that could keep track of overall life stats, so I decided to make a simple app where I can log that information.
 
 ## Getting Started
 1. Clone repo
@@ -37,3 +37,12 @@ The very first time you run this app, the encrypted file won't exist, unless you
 
 ## OpenAPI Generation
 When the API starts, it generates the Swagger doc based on the endpoint markups.  This Swagger doc gets thrown in the spec dir.  The dist and generated dirs are created from running the [openapi-generator-cli](https://www.npmjs.com/package/@openapitools/openapi-generator-cli) through Docker, so there's no need to download Java on your local machine... you just need Docker in order to run this.  It knows to use Docker through [this config file](https://github.com/incutonez/jobs/blob/main/packages/spec/openapitools.json#L6).
+
+## Current features
+
+This all started because I didn't want to manage job applications in an Excel spreadhseet, so I decided to build my own UI, with accompanying API and DB.  It's a fairly simple interface, but I also wanted to try out some framework agnostic libraries in a Vue 3 app.
+
+1. Job Applications
+   1. Allows uploading CSV data
+2. Exercises
+   1. Allows uploading Strava CSV data

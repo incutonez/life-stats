@@ -1,4 +1,4 @@
-﻿import { type ApplicationViewModel, EnumApplicationStatus } from "@incutonez/job-applications-openapi";
+﻿import { type ApplicationViewModel, EnumApplicationStatus } from "@incutonez/life-stats-spec";
 import MimeTypes from "mime-types";
 import PapaParse from "papaparse";
 import { v4 } from "uuid";

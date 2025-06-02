@@ -1,4 +1,4 @@
-﻿import type { CompanyFullViewModel, CompanyViewModel } from "@incutonez/job-applications-openapi";
+﻿import type { CompanyFullViewModel, CompanyViewModel } from "@incutonez/life-stats-spec";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 export interface ICompanyStoreState {

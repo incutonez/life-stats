@@ -1,5 +1,5 @@
 ﻿import { ref, toRaw, unref, watch } from "vue";
-import type { CompanyFullViewModel } from "@incutonez/job-applications-openapi";
+import type { CompanyFullViewModel } from "@incutonez/life-stats-spec";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import { CompaniesAPI } from "@/api.ts";
 import { QueryGetCompanies, QueryListAudits, QueryListCompanies } from "@/constants.ts";

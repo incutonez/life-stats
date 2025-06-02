@@ -23,7 +23,7 @@ import { getApplicationRecords } from "@/stores/applications.ts";
 import { useAppSelector } from "@/stores/main.ts";
 import type { ISubRowRenderer, ITableColumn, ITableData, ITableRow, TInputValue } from "@/types/components.ts";
 import { getEnumDisplay, pasteToApplicationViewModel } from "@/utils/common.ts";
-import CellLink from "@/views/applications/CellLink.vue";
+import CellLink from "@/views/jobs/applications/CellLink.vue";
 import DeleteDialog from "@/views/shared/DeleteDialog.vue";
 
 export interface IViewApplicationsProps {

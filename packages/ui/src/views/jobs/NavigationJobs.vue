@@ -2,7 +2,6 @@
 import { ref } from "vue";
 import BaseButton from "@/components/BaseButton.vue";
 import { IconDownload, IconHistory, IconJobApplications, IconJobCompanies } from "@/components/Icons.ts";
-import { isRouteSelected } from "@/router/index.ts";
 import {
 	RouteJobApplications, 	RouteJobCompanies, RouteJobsHistory,
 	useJobRoutes,
@@ -10,7 +9,7 @@ import {
 import ViewApplicationsImport from "@/views/jobs/ViewApplicationsImport.vue";
 
 const showImportDialog = ref(false);
-const { viewApplications, viewCompanies, viewHistory } = useJobRoutes();
+const { viewApplications, viewCompanies, viewHistory, isRouteSelected } = useJobRoutes();
 
 function onClickViewApplications() {
 	viewApplications();

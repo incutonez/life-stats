@@ -41,3 +41,7 @@ export { default as IconMenu } from "@material-symbols/svg-400/outlined/menu.svg
 export { default as IconLogOut } from "@material-symbols/svg-400/outlined/logout.svg";
 
 export { default as IconHistory } from "@material-symbols/svg-400/outlined/history.svg";
+
+export { default as IconExercises } from "@material-symbols/svg-400/outlined/fitness_center.svg";
+
+export { default as IconActivities } from "@material-symbols/svg-400/outlined/overview.svg";

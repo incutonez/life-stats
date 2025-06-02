@@ -1,3 +1,9 @@
+## [2.2.1](https://github.com/incutonez/life-stats/compare/v2.2.0...v2.2.1) (2025-06-02)
+
+### Bug Fixes
+
+* Refactoring Import Dialog ([#48](https://github.com/incutonez/life-stats/issues/48)) ([bea291d](https://github.com/incutonez/life-stats/commit/bea291de2a70ef5bf9b729ae32631aa766f6d790))
+
 ## [2.2.0](https://github.com/incutonez/life-stats/compare/v2.1.0...v2.2.0) (2025-06-02)
 
 ### Features

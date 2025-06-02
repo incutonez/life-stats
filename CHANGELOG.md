@@ -1,3 +1,9 @@
+## [2.2.0](https://github.com/incutonez/life-stats/compare/v2.1.0...v2.2.0) (2025-06-02)
+
+### Features
+
+* Updating Dependencies ([#46](https://github.com/incutonez/life-stats/issues/46)) ([aae0557](https://github.com/incutonez/life-stats/commit/aae0557a73fe0e79aec3d0767f272b7f2a8b9523))
+
 ## [2.1.0](https://github.com/incutonez/life-stats/compare/v2.0.1...v2.1.0) (2025-06-02)
 
 ### Features

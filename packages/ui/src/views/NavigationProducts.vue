@@ -1,12 +1,18 @@
 ﻿<script setup lang="ts">
 import BaseButton from "@/components/BaseButton.vue";
-import { IconCompanies } from "@/components/Icons.ts";
+import { IconCompanies, IconExercises } from "@/components/Icons.ts";
+import { useExerciseRoutes } from "@/router/exercises.ts";
 import { useJobRoutes } from "@/router/jobs.ts";
 
 const { viewApplications } = useJobRoutes();
+const { viewExercises } = useExerciseRoutes();
 
 function onClickViewApplications() {
 	viewApplications();
+}
+
+function onClickViewExercises() {
+	viewExercises();
 }
 </script>
 
@@ -17,5 +23,16 @@ function onClickViewApplications() {
 			title="Jobs"
 			@click="onClickViewApplications"
 		/>
+		<BaseButton
+			title="Exercises"
+			@click="onClickViewExercises"
+		>
+			<template #icon>
+				<Component
+					:is="IconExercises"
+					class="-rotate-45"
+				/>
+			</template>
+		</BaseButton>
 	</nav>
 </template>

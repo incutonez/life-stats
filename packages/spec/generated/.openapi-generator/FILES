@@ -7,6 +7,7 @@ api/app-api.ts
 api/applications-api.ts
 api/audits-api.ts
 api/companies-api.ts
+api/exercises-api.ts
 api/jobs-api.ts
 base.ts
 common.ts
@@ -30,6 +31,7 @@ models/enum-activity-source.ts
 models/enum-application-status.ts
 models/enum-attribute-type.ts
 models/enum-audit-action-types.ts
+models/enum-features.ts
 models/enum-table-names.ts
 models/enum-unit-types.ts
 models/exercise-activity-attribute-view-model.ts

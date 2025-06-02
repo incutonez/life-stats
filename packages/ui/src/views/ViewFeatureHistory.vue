@@ -1,17 +1,26 @@
 ﻿<script setup lang="ts">
-import { h } from "vue";
-import { type AuditDiffViewModel, type AuditViewModel, EnumAuditActionTypes } from "@incutonez/life-stats-spec";
+import { h, toRef } from "vue";
+import {
+	type AuditDiffViewModel,
+	type AuditViewModel,
+	EnumAuditActionTypes,
+} from "@incutonez/life-stats-spec";
 import type { CellContext } from "@tanstack/vue-table";
 import TableData from "@/components/TableData.vue";
-import { useJobAuditsList } from "@/composables/audits.ts";
+import TablePagination from "@/components/TablePagination.vue";
 import { useDateCreatedColumn, useExpandableRow, useTableData, useUserNameColumn } from "@/composables/table.ts";
 import type { ISubRowRenderer, ITableColumn, ITableData } from "@/types/components.ts";
 import { capitalize, isDefined, isObject } from "@/utils/common.ts";
 import AuditDiff from "@/views/featureHistory/AuditDiff.vue";
 
-const { data } = useJobAuditsList();
+export interface IViewFeatureHistoryProps {
+	data?: AuditViewModel[];
+}
+
+const props = defineProps<IViewFeatureHistoryProps>();
 const { table } = useTableData<AuditViewModel>({
-	data,
+	data: toRef(props, "data"),
+	paginated: true,
 	sortInitial: [{
 		id: "dateCreated",
 		desc: true,
@@ -122,9 +131,16 @@ function renderSubRows({ row }: ISubRowRenderer<AuditViewModel>) {
 </script>
 
 <template>
-	<TableData
-		:table="table"
-		:render-sub-rows="renderSubRows"
-		table-layout="auto"
-	/>
+	<article class="flex flex-col size-full">
+		<TablePagination
+			:table="table"
+			class="ml-auto border-y-0"
+		/>
+		<TableData
+			:table="table"
+			:render-sub-rows="renderSubRows"
+			table-layout="auto"
+			class="flex-1"
+		/>
+	</article>
 </template>

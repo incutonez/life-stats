@@ -15,6 +15,7 @@ export * from './enum-activity-source';
 export * from './enum-application-status';
 export * from './enum-attribute-type';
 export * from './enum-audit-action-types';
+export * from './enum-features';
 export * from './enum-table-names';
 export * from './enum-unit-types';
 export * from './exercise-activity-attribute-view-model';

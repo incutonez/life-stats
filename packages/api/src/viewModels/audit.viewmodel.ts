@@ -1,4 +1,4 @@
-﻿import { EnumAuditActionTypes, EnumTableNames } from "@/constants";
+﻿import { EnumAuditActionTypes, EnumFeatures, EnumTableNames } from "@/constants";
 import { ModelInterface } from "@/types";
 import { GetResponseModel } from "@/viewModels/base.list.viewmodel";
 import { ApiEnum } from "@/viewModels/decorators";
@@ -36,6 +36,11 @@ export class AuditViewModel {
 		EnumAuditActionTypes,
 	})
 	declare action: EnumAuditActionTypes;
+
+	@ApiEnum({
+		EnumFeatures,
+	})
+	declare feature: EnumFeatures;
 
 	declare diff: AuditDiffViewModel[];
 

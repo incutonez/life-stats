@@ -21,6 +21,9 @@ import { AuditDiffViewModel } from './audit-diff-view-model';
 import { EnumAuditActionTypes } from './enum-audit-action-types';
 // May contain unused imports in some cases
 // @ts-ignore
+import { EnumFeatures } from './enum-features';
+// May contain unused imports in some cases
+// @ts-ignore
 import { EnumTableNames } from './enum-table-names';
 
 /**
@@ -41,6 +44,12 @@ export interface AuditViewModel {
      * @memberof AuditViewModel
      */
     'action': EnumAuditActionTypes;
+    /**
+     * 
+     * @type {EnumFeatures}
+     * @memberof AuditViewModel
+     */
+    'feature': EnumFeatures;
     /**
      * 
      * @type {string}

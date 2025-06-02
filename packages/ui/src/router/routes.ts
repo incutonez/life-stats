@@ -12,7 +12,7 @@ export const RouteLogin = "login";
  */
 export const restoreRoute = ref<RouteLocationRaw>();
 
-export function useIsRouteSelected(router: Router) {
+export function useBaseRoutes(router: Router) {
 	return {
 		isRouteSelected(route: string) {
 			const { matched } = router.currentRoute.value;

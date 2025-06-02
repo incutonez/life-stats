@@ -1,5 +1,6 @@
 ﻿import { createRouter, createWebHashHistory, type RouteRecordRaw } from "vue-router";
 import { isAuthenticated } from "@/authentication.ts";
+import { ExercisesRoutes } from "@/router/exercises.ts";
 import { JobRoutes, RouteJobApplications } from "@/router/jobs.ts";
 import { restoreRoute, RouteHome, RouteLogin } from "@/router/routes.ts";
 import ViewLogIn from "@/views/ViewLogIn.vue";
@@ -15,7 +16,7 @@ export const routes: RouteRecordRaw[] = [{
 	name: RouteLogin,
 	component: ViewLogIn,
 	// eslint-disable-next-line @incutonez/array-bracket-newline
-}, JobRoutes];
+}, JobRoutes, ExercisesRoutes];
 
 export const router = createRouter({
 	routes,

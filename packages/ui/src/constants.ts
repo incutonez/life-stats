@@ -22,6 +22,8 @@ export const TablePageSizes: IOption[] = [{
 
 export const QueryListJobAudits = "listJobAudits";
 
+export const QueryListExercisesAudits = "listExercisesAudits";
+
 export const QueryListApplications = "listApplications";
 
 export const QueryGetApplication = "getApplication";

@@ -14,11 +14,18 @@
 
 
 
-export * from './api/activities-api';
-export * from './api/app-api';
-export * from './api/applications-api';
-export * from './api/audits-api';
-export * from './api/companies-api';
-export * from './api/exercises-api';
-export * from './api/jobs-api';
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const EnumFeatures = {
+    jobs: 'Jobs',
+    exercises: 'Exercises'
+} as const;
+
+export type EnumFeatures = typeof EnumFeatures[keyof typeof EnumFeatures];
+
+
 

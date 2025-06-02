@@ -1,10 +1,10 @@
 ﻿import { unref } from "vue";
 import { type RouteRecordRaw, useRouter } from "vue-router";
-import { useIsRouteSelected } from "@/router/routes.ts";
+import { useBaseRoutes } from "@/router/routes.ts";
 import ViewApplication from "@/views/jobs/ViewApplication.vue";
 import ViewApplications from "@/views/jobs/ViewApplications.vue";
 import ViewCompanies from "@/views/jobs/ViewCompanies.vue";
-import ViewFeatureHistory from "@/views/ViewFeatureHistory.vue";
+import ViewJobsHistory from "@/views/jobs/ViewJobsHistory.vue";
 
 export const RouteJobs = "jobs";
 
@@ -47,13 +47,13 @@ export const JobRoutes: RouteRecordRaw = {
 	}, {
 		path: "history",
 		name: RouteJobsHistory,
-		component: ViewFeatureHistory,
+		component: ViewJobsHistory,
 	}],
 };
 
 export function useJobRoutes() {
 	const router = useRouter();
-	const { isRouteSelected } = useIsRouteSelected(router);
+	const { isRouteSelected } = useBaseRoutes(router);
 
 	return {
 		isRouteSelected,

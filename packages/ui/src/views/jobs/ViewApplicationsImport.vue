@@ -61,8 +61,6 @@ function renderCommentRows({ row }: ISubRowRenderer<ApplicationViewModel>) {
 	});
 }
 
-console.log(addHeaders);
-
 async function onClickImportButton() {
 	addedApplications.value = await uploadApplications(addHeaders.value);
 	showingImport.value = false;

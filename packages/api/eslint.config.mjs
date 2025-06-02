@@ -101,6 +101,9 @@ export default tseslint.config(
 			"object-curly-spacing": ["error", "always"],
 			"object-property-newline": "error",
 			"no-trailing-spaces": ["error"],
+			"no-console": ["error", {
+				allow: ["warn", "error", "info"]
+			}],
 			"no-var": "error",
 			"arrow-spacing": "error",
 			"no-duplicate-imports": "error",

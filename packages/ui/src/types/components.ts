@@ -86,6 +86,11 @@ export interface IFieldTextEmit {
 	(event: "inputEnd", value?: TInputValue): void;
 }
 
+export interface IDialogEntityImportEmit {
+	(event: "changedFiles", files?: FileList): void;
+	(event: "clickTemplate"): void;
+}
+
 export interface IPluginPaste {
 	company: string;
 	positionTitle: string;

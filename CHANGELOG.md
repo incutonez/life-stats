@@ -1,3 +1,9 @@
+## [2.3.0](https://github.com/incutonez/life-stats/compare/v2.2.2...v2.3.0) (2025-06-02)
+
+### Features
+
+* Adding Initial Exercises UI ([#50](https://github.com/incutonez/life-stats/issues/50)) ([5e05804](https://github.com/incutonez/life-stats/commit/5e05804c4bc60231b3d3d239e883b877c62e05d2))
+
 ## [2.2.2](https://github.com/incutonez/life-stats/compare/v2.2.1...v2.2.2) (2025-06-02)
 
 ### Bug Fixes

@@ -2,8 +2,8 @@
 import { CanActivate, ExecutionContext, Inject, Injectable } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { auth } from "express-oauth2-jwt-bearer";
-import { AuthStorageService } from "@/auth/auth.storage.service";
-import { AUTH_STORAGE, IS_PUBLIC_KEY } from "@/constants";
+import { SessionStorageService } from "@/auth/session.storage.service";
+import { IS_PUBLIC_KEY, SESSION_STORAGE } from "@/constants";
 
 const { AUTH0_DOMAIN, AUTH0_AUDIENCE } = env;
 const checkJWT = auth({
@@ -13,7 +13,7 @@ const checkJWT = auth({
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-	constructor(@Inject(AUTH_STORAGE) private storage: AuthStorageService, private reflector: Reflector) {
+	constructor(@Inject(SESSION_STORAGE) private storage: SessionStorageService, private reflector: Reflector) {
 	}
 
 	async canActivate(context: ExecutionContext) {
@@ -21,11 +21,12 @@ export class AuthGuard implements CanActivate {
 			context.getHandler(),
 			context.getClass(),
 		]);
+		const http = context.switchToHttp();
+		const req = http.getRequest();
+		this.storage.setMeasurementSystem(req.headers["accept-language"]);
 		if (isPublic) {
 			return true;
 		}
-		const http = context.switchToHttp();
-		const req = http.getRequest();
 		await checkJWT(req, http.getResponse(), (err: unknown) => {
 			if (err) {
 				throw err;

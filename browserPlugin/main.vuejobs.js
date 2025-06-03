@@ -1,5 +1,5 @@
 const ParentCard = ".transition-all";
-const LastCompany = "Cycloid Platform Engineering";
+const LastCompany = "Bulba";
 let found = false;
 
 function docReady(fn) {

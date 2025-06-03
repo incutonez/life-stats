@@ -1,10 +1,8 @@
-﻿import { EnumApplicationStatus } from "@incutonez/life-stats-spec";
-import type { IOption } from "@/types/components.ts";
-import { enumToOptions } from "@/utils/common.ts";
+﻿import type { IOption } from "@/types/components.ts";
+
+export const UserLanguage = navigator.language;
 
 export const LocalTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-export const ApplicationStatusOptions = enumToOptions(EnumApplicationStatus);
 
 export const TablePageSizes: IOption[] = [{
 	id: 25,
@@ -20,14 +18,16 @@ export const TablePageSizes: IOption[] = [{
 	display: "250",
 }];
 
-export const QueryListJobAudits = "listJobAudits";
+export const QueryKeyJobs = "jobs-";
+
+export const QueryListJobAudits = `${QueryKeyJobs}listJobAudits`;
 
 export const QueryListExercisesAudits = "listExercisesAudits";
 
-export const QueryListApplications = "listApplications";
+export const QueryListApplications = `${QueryKeyJobs}listApplications`;
 
-export const QueryGetApplication = "getApplication";
+export const QueryGetApplication = `${QueryKeyJobs}getApplication`;
 
-export const QueryListCompanies = "listCompanies";
+export const QueryListCompanies = `${QueryKeyJobs}listCompanies`;
 
-export const QueryGetCompanies = "getCompanies";
+export const QueryGetCompanies = `${QueryKeyJobs}getCompanies`;

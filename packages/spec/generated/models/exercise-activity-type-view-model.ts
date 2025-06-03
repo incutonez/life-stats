@@ -49,15 +49,15 @@ export interface ExerciseActivityTypeViewModel {
     'id': string;
     /**
      * 
-     * @type {string}
-     * @memberof ExerciseActivityTypeViewModel
-     */
-    'name': string;
-    /**
-     * 
      * @type {Array<ExerciseActivityViewModel>}
      * @memberof ExerciseActivityTypeViewModel
      */
     'activities'?: Array<ExerciseActivityViewModel>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExerciseActivityTypeViewModel
+     */
+    'name': string;
 }
 

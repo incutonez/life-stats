@@ -1,6 +1,6 @@
 ﻿<script setup lang="ts">
 import FieldComboBox from "@/components/FieldComboBox.vue";
-import { ApplicationStatusOptions } from "@/constants.ts";
+import { ApplicationStatusOptions } from "@/enumOptions.ts";
 </script>
 
 <template>

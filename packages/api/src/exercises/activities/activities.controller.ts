@@ -1,10 +1,23 @@
-﻿import { Body, Controller, Get, NotFoundException, Param, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
+﻿import {
+	Body,
+	Controller,
+	Get,
+	HttpCode, HttpStatus,
+	NotFoundException,
+	Param,
+	Post,
+	UploadedFile,
+	UseInterceptors,
+} from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { ApiConsumes, ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { ActivitiesService } from "@/exercises/activities/activities.service";
 import { EnumActivitySource } from "@/exercises/constants";
 import { ExerciseActivityUpload } from "@/exercises/types";
-import { ExerciseActivityViewModel } from "@/viewModels/exercises/exercise.activity.viewmodel";
+import {
+	ExerciseActivityCreateViewModel,
+	ExerciseActivityViewModel, IExerciseActivityCreateViewModel,
+} from "@/viewModels/exercises/exercise.activity.viewmodel";
 
 @ApiTags("activities")
 @Controller("activities")
@@ -12,11 +25,29 @@ export class ActivitiesController {
 	constructor(private readonly service: ActivitiesService) {
 	}
 
-	@Post("upload/:source")
+	@Post("list")
+	@HttpCode(HttpStatus.OK)
+	async listActivities() {
+		return this.service.listActivities();
+	}
+
+	@Post("import/:source")
 	@ApiConsumes("multipart/form-data")
 	@UseInterceptors(FileInterceptor("file"))
-	async uploadActivityFromSource(@Body() _body: ExerciseActivityUpload, @UploadedFile("file") file: Express.Multer.File, @Param("source") source: EnumActivitySource): Promise<ExerciseActivityViewModel[]> {
-		return this.service.uploadActivities(file, source);
+	@HttpCode(HttpStatus.OK)
+	@ApiOkResponse({
+		type: [ExerciseActivityCreateViewModel],
+	})
+	async importActivities(@Body() _body: ExerciseActivityUpload, @UploadedFile("file") file: Express.Multer.File, @Param("source") source: EnumActivitySource): Promise<IExerciseActivityCreateViewModel[]> {
+		return this.service.importActivities(file, source);
+	}
+
+	@Post("upload")
+	@ApiBody({
+		type: [ExerciseActivityCreateViewModel],
+	})
+	async uploadActivities(@Body() models: IExerciseActivityCreateViewModel[]): Promise<ExerciseActivityViewModel[]> {
+		return this.service.uploadActivities(models);
 	}
 
 	@Get(":activityId")

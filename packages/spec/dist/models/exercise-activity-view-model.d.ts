@@ -7,9 +7,9 @@ export interface ExerciseActivityViewModel {
     'dateUpdated'?: number;
     'source'?: EnumActivitySource;
     'id': string;
+    'activityType': ExerciseActivityTypeViewModel;
+    'attributes': Array<ExerciseActivityAttributeViewModel>;
     'title': string;
     'description'?: string;
     'dateOccurred': number;
-    'activityType': ExerciseActivityTypeViewModel;
-    'attributes': Array<ExerciseActivityAttributeViewModel>;
 }

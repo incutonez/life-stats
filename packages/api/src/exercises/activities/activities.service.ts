@@ -16,11 +16,32 @@ import { ExerciseAttributeTypesModel, IExerciseAttributeTypeCreate } from "@/db/
 import { ActivitiesMapper } from "@/exercises/activities/activities.mapper";
 import { EnumActivitySource } from "@/exercises/constants";
 import { IUploadStrava } from "@/exercises/types";
-import { IExerciseActivityViewModel } from "@/viewModels/exercises/exercise.activity.viewmodel";
+import {
+	ExerciseActivityListViewModel,
+	IExerciseActivityCreateViewModel,
+	IExerciseActivityViewModel,
+} from "@/viewModels/exercises/exercise.activity.viewmodel";
 
 @Injectable()
 export class ActivitiesService {
 	constructor(private mapper: ActivitiesMapper) {
+	}
+
+	async listActivities(): Promise<ExerciseActivityListViewModel> {
+		const { rows, count } = await ExerciseActivityModel.findAndCountAll({
+			include: [{
+				association: "attributes",
+				include: [{
+					association: "attribute_type",
+				}],
+			}, {
+				association: "activity_type",
+			}],
+		});
+		return {
+			total: count,
+			data: rows.map((row) => this.mapper.entityToViewModel(row)),
+		};
 	}
 
 	async createActivityType({ name, user_id }: IExerciseActivityTypeCreate) {
@@ -73,26 +94,34 @@ export class ActivitiesService {
 		}
 	}
 
-	async uploadActivities(file: Express.Multer.File, source: EnumActivitySource) {
+	importActivities(file: Express.Multer.File, source: EnumActivitySource) {
 		const contents = file.buffer.toString("utf8");
-		const results: IExerciseActivityViewModel[] = [];
+		const results: IExerciseActivityCreateViewModel[] = [];
 		if (source === EnumActivitySource.Strava) {
 			const { data } = Papa.parse<IUploadStrava>(contents, {
 				header: true,
 				skipEmptyLines: true,
 			});
 			for (const item of data) {
-				const model = this.mapper.stravaToEntity(item);
-				const activityType = await this.createActivityType(model.activity_type);
-				model.activity_type_id = activityType.id;
-				const { id } = await this.createActivity(model);
-				for (const attribute of model.attributes) {
-					await this.createActivityAttribute(attribute, id);
-				}
-				const viewModel = await this.getActivity(id);
-				if (viewModel) {
-					results.push(viewModel);
-				}
+				results.push(this.mapper.stravaToViewModel(item));
+			}
+		}
+		return results;
+	}
+
+	async uploadActivities(viewModels: IExerciseActivityCreateViewModel[]) {
+		const results: IExerciseActivityViewModel[] = [];
+		for (const viewModel of viewModels) {
+			const model = this.mapper.viewModelToEntity(viewModel);
+			const activityType = await this.createActivityType(model.activity_type);
+			model.activity_type_id = activityType.id;
+			const { id } = await this.createActivity(model);
+			for (const attribute of model.attributes) {
+				await this.createActivityAttribute(attribute, id);
+			}
+			const record = await this.getActivity(id);
+			if (record) {
+				results.push(record);
 			}
 		}
 		return results;

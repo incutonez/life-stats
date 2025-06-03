@@ -34,8 +34,13 @@ models/enum-audit-action-types.ts
 models/enum-features.ts
 models/enum-table-names.ts
 models/enum-unit-types.ts
+models/exercise-activity-attribute-create-view-model.ts
 models/exercise-activity-attribute-view-model.ts
+models/exercise-activity-create-view-model.ts
+models/exercise-activity-list-view-model.ts
+models/exercise-activity-type-create-view-model.ts
 models/exercise-activity-type-view-model.ts
 models/exercise-activity-view-model.ts
+models/exercise-attribute-type-create-view-model.ts
 models/exercise-attribute-type-view-model.ts
 models/index.ts

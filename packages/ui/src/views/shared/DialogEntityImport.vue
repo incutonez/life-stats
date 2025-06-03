@@ -59,6 +59,7 @@ watch(importedFiles, ($importedFiles) => emit("changedFiles", $importedFiles));
 				@click="onClickDownloadTemplate"
 			/>
 			<FieldCheckbox
+				v-if="showTemplateButton"
 				v-model="addHeaders"
 				box-label="Add Headers"
 			/>

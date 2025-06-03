@@ -61,6 +61,18 @@ export interface ExerciseActivityViewModel {
     'id': string;
     /**
      * 
+     * @type {ExerciseActivityTypeViewModel}
+     * @memberof ExerciseActivityViewModel
+     */
+    'activityType': ExerciseActivityTypeViewModel;
+    /**
+     * 
+     * @type {Array<ExerciseActivityAttributeViewModel>}
+     * @memberof ExerciseActivityViewModel
+     */
+    'attributes': Array<ExerciseActivityAttributeViewModel>;
+    /**
+     * 
      * @type {string}
      * @memberof ExerciseActivityViewModel
      */
@@ -77,18 +89,6 @@ export interface ExerciseActivityViewModel {
      * @memberof ExerciseActivityViewModel
      */
     'dateOccurred': number;
-    /**
-     * 
-     * @type {ExerciseActivityTypeViewModel}
-     * @memberof ExerciseActivityViewModel
-     */
-    'activityType': ExerciseActivityTypeViewModel;
-    /**
-     * 
-     * @type {Array<ExerciseActivityAttributeViewModel>}
-     * @memberof ExerciseActivityViewModel
-     */
-    'attributes': Array<ExerciseActivityAttributeViewModel>;
 }
 
 

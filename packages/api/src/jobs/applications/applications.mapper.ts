@@ -2,8 +2,8 @@
 import { ModuleRef } from "@nestjs/core";
 import { differenceInWeeks, endOfDay, isSunday, nextSunday } from "date-fns";
 import { v4 as getUUID } from "uuid";
-import { AuthStorageService } from "@/auth/auth.storage.service";
-import { AUTH_STORAGE } from "@/constants";
+import { SessionStorageService } from "@/auth/session.storage.service";
+import { SESSION_STORAGE } from "@/constants";
 import { ApplicationModel, IApplicationCreateModel, IApplicationUpdateModel } from "@/db/models/ApplicationModel";
 import { CommentsMapper } from "@/jobs/applications/comments.mapper";
 import { IUploadModel } from "@/jobs/applications/types";
@@ -36,7 +36,7 @@ function getStatusFromApplied(status: EnumApplicationStatus, dateApplied: number
 export class ApplicationsMapper implements OnModuleInit {
 	declare private companiesMapper: CompaniesMapper;
 
-	constructor(private readonly moduleRef: ModuleRef, private commentsMapper: CommentsMapper, @Inject(AUTH_STORAGE) private authStorageService: AuthStorageService) {
+	constructor(private readonly moduleRef: ModuleRef, private commentsMapper: CommentsMapper, @Inject(SESSION_STORAGE) private authStorageService: SessionStorageService) {
 	}
 
 	onModuleInit() {

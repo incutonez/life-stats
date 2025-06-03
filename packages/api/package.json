@@ -29,6 +29,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "compression": "^1.8.0",
+    "convert": "^5.12.0",
     "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "express-oauth2-jwt-bearer": "^1.6.1",

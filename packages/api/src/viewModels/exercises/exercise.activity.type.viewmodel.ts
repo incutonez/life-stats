@@ -4,10 +4,14 @@ import { ExerciseActivityViewModel } from "@/viewModels/exercises/exercise.activ
 
 export type IExerciseActivityTypeViewModel = ModelInterface<ExerciseActivityTypeViewModel>;
 
-export class ExerciseActivityTypeViewModel extends BaseViewModel {
-	declare id: string;
+export type IExerciseActivityTypeCreateViewModel = ModelInterface<ExerciseActivityTypeCreateViewModel>;
 
+export class ExerciseActivityTypeCreateViewModel extends BaseViewModel {
 	declare name: string;
+}
+
+export class ExerciseActivityTypeViewModel extends ExerciseActivityTypeCreateViewModel {
+	declare id: string;
 
 	activities?: ExerciseActivityViewModel[];
 }

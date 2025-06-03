@@ -3,7 +3,13 @@ import { type ApplicationViewModel, EnumApplicationStatus } from "@incutonez/lif
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import clone from "just-clone";
 import { ApplicationsAPI } from "@/api.ts";
-import { QueryGetApplication, QueryListApplications, QueryListCompanies, QueryListJobAudits } from "@/constants.ts";
+import {
+	QueryGetApplication,
+	QueryKeyJobs,
+	QueryListApplications,
+	QueryListCompanies,
+	QueryListJobAudits,
+} from "@/constants.ts";
 import { RouteCreate } from "@/router/routes.ts";
 import { setApplicationRecords } from "@/stores/applications.ts";
 import { useAppDispatch } from "@/stores/main.ts";
@@ -125,7 +131,9 @@ export function useBulkApplications() {
 
 	onUnmounted(() => {
 		if (added.value) {
-			queryClient.invalidateQueries();
+			queryClient.invalidateQueries({
+				queryKey: [QueryKeyJobs],
+			});
 		}
 	});
 
@@ -231,15 +239,13 @@ export function provideApplicationRecord(applicationId: Ref<string>) {
 		/* Instead of doing this in the onSuccess of the mutation, we opt for it here because we don't want to reload our
 		 * current record if we're closing the dialog... it's potentially a wasted call */
 		if (updated.value) {
-			await queryClient.invalidateQueries();
+			await queryClient.invalidateQueries({
+				queryKey: [QueryKeyJobs],
+			});
 		}
 	});
 
 	provide(ApplicationViewRecordKey, provider);
 
 	return provider;
-}
-
-export function injectApplicationRecord() {
-	return inject(ApplicationViewRecordKey) as TApplicationViewRecord;
 }

@@ -3,6 +3,7 @@ import MimeTypes from "mime-types";
 import PapaParse from "papaparse";
 import { v4 } from "uuid";
 import { user } from "@/authentication.ts";
+import { UserLanguage } from "@/constants.ts";
 import type { IOption, IPluginPaste, TLabelAlign } from "@/types/components.ts";
 
 export const getUniqueId = v4;
@@ -16,19 +17,19 @@ const CSVFields = [
 	"comments",
 	"status",
 ];
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
+const dateFormatter = new Intl.DateTimeFormat(UserLanguage, {
 	month: "2-digit",
 	day: "2-digit",
 	year: "numeric",
 });
-const timeFormatter = new Intl.DateTimeFormat("en-US", {
+const timeFormatter = new Intl.DateTimeFormat(UserLanguage, {
 	hour: "numeric",
 	minute: "2-digit",
 	second: "2-digit",
 });
 
 export function toNumber(value: number, unit?: string) {
-	let response = new Intl.NumberFormat("en-US").format(value);
+	let response = new Intl.NumberFormat(UserLanguage).format(value);
 	if (unit) {
 		response += ` ${unit}`;
 	}
@@ -86,7 +87,10 @@ export function enumToOptions<T extends object>(items: T) {
 	return options;
 }
 
-export function getEnumDisplay(enums: Record<string, number | string>, value: string | number) {
+export function getEnumDisplay(enums: Record<string, number | string>, value?: string | number) {
+	if (value === undefined) {
+		return "";
+	}
 	let found = "";
 	for (const key in enums) {
 		if (value === enums[key]) {

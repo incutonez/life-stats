@@ -1,3 +1,9 @@
+## [2.4.0](https://github.com/incutonez/life-stats/compare/v2.3.0...v2.4.0) (2025-06-04)
+
+### Features
+
+* Adding Import Activities ([#51](https://github.com/incutonez/life-stats/issues/51)) ([bcd439b](https://github.com/incutonez/life-stats/commit/bcd439bc645cc64fcbb66ba5537feb17ae3e8037))
+
 ## [2.3.0](https://github.com/incutonez/life-stats/compare/v2.2.2...v2.3.0) (2025-06-02)
 
 ### Features

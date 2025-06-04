@@ -125,7 +125,7 @@ function renderSubRows({ row }: ISubRowRenderer<AuditViewModel>) {
 		table: auditDiffTable.table,
 		class: "p-2",
 		isSubRow: true,
-		tableLayout: "auto",
+		tableLayout: "table-auto",
 	});
 }
 </script>
@@ -139,7 +139,7 @@ function renderSubRows({ row }: ISubRowRenderer<AuditViewModel>) {
 		<TableData
 			:table="table"
 			:render-sub-rows="renderSubRows"
-			table-layout="auto"
+			table-layout="table-auto"
 			class="flex-1"
 		/>
 	</article>

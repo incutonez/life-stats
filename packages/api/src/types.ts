@@ -10,8 +10,9 @@ declare module "@nestjs/common" {
 	}
 }
 
-export interface IAuthStorage extends ClsStore {
+export interface ISessionStorage extends ClsStore {
 	user: JWTPayload;
+	measurementSystem: "imperial" | "metric";
 }
 
 export type ModelInterface<T> = {

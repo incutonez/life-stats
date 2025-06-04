@@ -1,4 +1,15 @@
-﻿import { inject, type InjectionKey, onErrorCaptured, provide, ref, watch } from "vue";
+﻿import {
+	inject,
+	type InjectionKey,
+	type MaybeRef,
+	onErrorCaptured,
+	onUnmounted,
+	provide,
+	ref,
+	unref,
+	watch,
+} from "vue";
+import { type Query, useQueryClient } from "@tanstack/vue-query";
 
 export type TUseGlobalError = ReturnType<typeof useGlobalError>;
 
@@ -61,4 +72,30 @@ export function useGlobalError() {
 
 export function injectGlobalError() {
 	return inject(GlobalErrorKey) as TUseGlobalError;
+}
+
+export function getInvalidateQueryPredicate(queryKey: string) {
+	return {
+		predicate(query: Query) {
+			const [parentKey] = query.queryKey;
+			if (typeof parentKey === "string") {
+				return parentKey.startsWith(queryKey);
+			}
+			return parentKey === queryKey;
+		},
+	};
+}
+
+/**
+ * This will invalidate queries that start with the queryKey passed in.  Useful for things like updating an entity that
+ * affects basically the entire feature's entities.
+ */
+export function useInvalidateQueries(shouldInvalidate: MaybeRef<boolean>, queryKey: string) {
+	const queryClient = useQueryClient();
+
+	onUnmounted(async () => {
+		if (unref(shouldInvalidate)) {
+			await queryClient.invalidateQueries(getInvalidateQueryPredicate(queryKey));
+		}
+	});
 }

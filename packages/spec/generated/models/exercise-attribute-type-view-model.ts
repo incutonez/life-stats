@@ -58,16 +58,16 @@ export interface ExerciseAttributeTypeViewModel {
     'id': string;
     /**
      * 
-     * @type {string}
-     * @memberof ExerciseAttributeTypeViewModel
-     */
-    'name': string;
-    /**
-     * 
      * @type {Array<ExerciseActivityAttributeViewModel>}
      * @memberof ExerciseAttributeTypeViewModel
      */
     'attributes'?: Array<ExerciseActivityAttributeViewModel>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExerciseAttributeTypeViewModel
+     */
+    'name': string;
 }
 
 

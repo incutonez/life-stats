@@ -43,6 +43,16 @@ export class ExerciseActivityAttributeModel extends BaseModel {
 	})
 	declare unit?: EnumUnitTypes;
 
+	@Attribute(DataTypes.INTEGER)
+	@ValidateAttribute({
+		validator(value: EnumUnitTypes) {
+			if (!Object.values(EnumUnitTypes).includes(value)) {
+				throw new Error("value not in EnumUnitTypes");
+			}
+		},
+	})
+	declare unit_display?: EnumUnitTypes;
+
 	@BelongsTo(() => ExerciseActivityModel, {
 		foreignKey: "activity_id",
 	})

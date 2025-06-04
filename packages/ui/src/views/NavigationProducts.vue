@@ -1,8 +1,8 @@
 ﻿<script setup lang="ts">
 import BaseButton from "@/components/BaseButton.vue";
 import { IconCompanies, IconExercises } from "@/components/Icons.ts";
-import { useExerciseRoutes } from "@/router/exercises.ts";
-import { useJobRoutes } from "@/router/jobs.ts";
+import { useExerciseRoutes } from "@/views/exercises/composables/routes";
+import { useJobRoutes } from "@/views/jobs/composables/routes.ts";
 
 const { viewApplications } = useJobRoutes();
 const { viewExercises } = useExerciseRoutes();

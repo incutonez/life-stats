@@ -2,10 +2,8 @@
 import { ref } from "vue";
 import BaseButton from "@/components/BaseButton.vue";
 import { IconDownload, IconHistory, IconJobApplications, IconJobCompanies } from "@/components/Icons.ts";
-import {
-	RouteJobApplications, 	RouteJobCompanies, RouteJobsHistory,
-	useJobRoutes,
-} from "@/router/jobs.ts";
+import { useJobRoutes } from "@/views/jobs/composables/routes.ts";
+import { RouteJobApplications, RouteJobCompanies, RouteJobsHistory } from "@/views/jobs/constants.ts";
 import ViewApplicationsImport from "@/views/jobs/ViewApplicationsImport.vue";
 
 const showImportDialog = ref(false);

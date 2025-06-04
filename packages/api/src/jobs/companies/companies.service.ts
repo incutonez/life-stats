@@ -1,13 +1,13 @@
 ﻿import { Inject, Injectable } from "@nestjs/common";
-import { AuthStorageService } from "@/auth/auth.storage.service";
-import { AUTH_STORAGE } from "@/constants";
+import { SessionStorageService } from "@/auth/session.storage.service";
+import { SESSION_STORAGE } from "@/constants";
 import { CompanyModel } from "@/db/models/CompanyModel";
 import { CompaniesMapper } from "@/jobs/companies/companies.mapper";
 import { CompanyFullListViewModel, CompanyListViewModel } from "@/viewModels/company.viewmodel";
 
 @Injectable()
 export class CompaniesService {
-	constructor(private mapper: CompaniesMapper, @Inject(AUTH_STORAGE) private authStorageService: AuthStorageService) {
+	constructor(private mapper: CompaniesMapper, @Inject(SESSION_STORAGE) private authStorageService: SessionStorageService) {
 	}
 
 	async getCompanies(): Promise<CompanyListViewModel> {

@@ -6,10 +6,10 @@ import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
 import { IconDelete, IconSave } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
-import { useBulkApplications, useImportApplications } from "@/composables/applications.ts";
 import { useDateColumn, useExpandableRow, useTableActions, useTableData } from "@/composables/table.ts";
 import type { ISubRowRenderer, ITableData } from "@/types/components.ts";
 import { downloadFile, makeCSV } from "@/utils/common.ts";
+import { useBulkApplications, useImportApplications } from "@/views/jobs/composables/applications.ts";
 import DialogEntityImport from "@/views/shared/DialogEntityImport.vue";
 
 const addHeaders = ref(true);

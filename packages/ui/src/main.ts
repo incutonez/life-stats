@@ -5,7 +5,7 @@ import { provideStoreToApp } from "@reduxjs/vue-redux";
 import { VueQueryPlugin } from "@tanstack/vue-query";
 import App from "@/App.vue";
 import { auth0, checkSession } from "@/authentication.ts";
-import { router } from "@/router/index.ts";
+import { router } from "@/router.ts";
 import { reduxStore } from "@/stores/main.ts";
 
 const app = createApp(App);

@@ -52,7 +52,7 @@ export interface ISubRowRenderer<TData = unknown> {
 
 export interface ITableData<TData = unknown> {
 	table: ITable<TData>;
-	tableLayout?: string;
+	tableLayout?: "table-auto" | "table-fixed";
 	tableClasses?: string;
 	rowCls?: string | ((row: ITableRow<TData>) => string);
 	hideHeaders?: boolean;

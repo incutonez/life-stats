@@ -1,7 +1,7 @@
 ﻿import { Inject, Injectable } from "@nestjs/common";
 import Papa from "papaparse";
-import { AuthStorageService } from "@/auth/auth.storage.service";
-import { AUTH_STORAGE } from "@/constants";
+import { SessionStorageService } from "@/auth/session.storage.service";
+import { SESSION_STORAGE } from "@/constants";
 import { ApplicationModel } from "@/db/models/ApplicationModel";
 import { CommentModel } from "@/db/models/CommentModel";
 import { ApplicationsMapper } from "@/jobs/applications/applications.mapper";
@@ -30,7 +30,7 @@ const CSVFields = [
 
 @Injectable()
 export class ApplicationsService {
-	constructor(private mapper: ApplicationsMapper, private commentsMapper: CommentsMapper, private companiesService: CompaniesService, @Inject(AUTH_STORAGE) private authStorageService: AuthStorageService) {
+	constructor(private mapper: ApplicationsMapper, private commentsMapper: CommentsMapper, private companiesService: CompaniesService, @Inject(SESSION_STORAGE) private authStorageService: SessionStorageService) {
 	}
 
 	async listApplications(_params: ApiPaginatedRequest): Promise<ApplicationListViewModel> {

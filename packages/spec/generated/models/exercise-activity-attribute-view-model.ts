@@ -55,16 +55,16 @@ export interface ExerciseActivityAttributeViewModel {
     'unit'?: EnumUnitTypes;
     /**
      * 
-     * @type {string}
+     * @type {EnumUnitTypes}
      * @memberof ExerciseActivityAttributeViewModel
      */
-    'id': string;
+    'unitDisplay'?: EnumUnitTypes;
     /**
      * 
      * @type {string}
      * @memberof ExerciseActivityAttributeViewModel
      */
-    'value': string;
+    'id': string;
     /**
      * 
      * @type {ExerciseActivityViewModel}
@@ -77,6 +77,18 @@ export interface ExerciseActivityAttributeViewModel {
      * @memberof ExerciseActivityAttributeViewModel
      */
     'attributeType': ExerciseAttributeTypeViewModel;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExerciseActivityAttributeViewModel
+     */
+    'value': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExerciseActivityAttributeViewModel
+     */
+    'valueDisplay'?: string;
 }
 
 

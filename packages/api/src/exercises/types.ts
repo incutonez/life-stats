@@ -14,10 +14,12 @@ export class ExerciseActivityUpload {
 export interface IStubAttributeOptions {
 	type?: EnumAttributeType;
 	unit?: EnumUnitTypes;
+	unitConversion?: EnumUnitTypes;
 }
 
 export interface IUploadStrava {
 	"Activity ID": string;
+	// This is in UTC
 	"Activity Date": string;
 	"Activity Name": string;
 	"Activity Type": string;

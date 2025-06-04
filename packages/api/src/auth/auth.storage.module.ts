@@ -1,8 +1,8 @@
 ﻿import { Global, Module } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
 import { AuthGuard } from "@/auth/auth.guard";
-import { AuthStorageService } from "@/auth/auth.storage.service";
-import { AUTH_STORAGE } from "@/constants";
+import { SessionStorageService } from "@/auth/session.storage.service";
+import { SESSION_STORAGE } from "@/constants";
 
 /**
  * Idea taken from https://medium.com/elementor-engineers/stop-passing-request-data-around-your-nestjs-application-9893ac073821
@@ -13,9 +13,9 @@ import { AUTH_STORAGE } from "@/constants";
 		provide: APP_GUARD,
 		useClass: AuthGuard,
 	}, {
-		provide: AUTH_STORAGE,
-		useClass: AuthStorageService,
+		provide: SESSION_STORAGE,
+		useClass: SessionStorageService,
 	}],
-	exports: [AUTH_STORAGE],
+	exports: [SESSION_STORAGE],
 })
 export class AuthStorageModule {}

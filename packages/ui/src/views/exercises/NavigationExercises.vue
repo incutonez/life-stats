@@ -1,8 +1,12 @@
 ﻿<script setup lang="ts">
+import { ref } from "vue";
 import BaseButton from "@/components/BaseButton.vue";
-import { IconActivities, IconHistory } from "@/components/Icons.ts";
-import { RouteExercisesActivities, RouteExercisesHistory, useExerciseRoutes } from "@/router/exercises.ts";
+import { IconActivities, IconDownload, IconHistory } from "@/components/Icons.ts";
+import { useExerciseRoutes } from "@/views/exercises/composables/routes.ts";
+import { RouteExercisesActivities, RouteExercisesHistory } from "@/views/exercises/constants.ts";
+import ViewActivitiesImport from "@/views/exercises/ViewActivitiesImport.vue";
 
+const showActivitiesImport = ref(false);
 const { isRouteSelected, viewHistory, ViewActivities } = useExerciseRoutes();
 
 function onClickViewActivities() {
@@ -11,6 +15,10 @@ function onClickViewActivities() {
 
 function onClickHistory() {
 	viewHistory();
+}
+
+function onClickImport() {
+	showActivitiesImport.value = true;
 }
 </script>
 
@@ -29,6 +37,16 @@ function onClickHistory() {
 			theme="navigation"
 			:aria-selected="isRouteSelected(RouteExercisesHistory)"
 			@click="onClickHistory"
+		/>
+		<BaseButton
+			:icon="IconDownload"
+			text="Import"
+			theme="navigation"
+			@click="onClickImport"
+		/>
+		<ViewActivitiesImport
+			v-if="showActivitiesImport"
+			v-model="showActivitiesImport"
 		/>
 	</nav>
 </template>

@@ -1,5 +1,4 @@
 export declare const EnumUnitTypes: {
-    readonly None: 0;
     readonly Inches: 1;
     readonly Feet: 2;
     readonly Miles: 3;
@@ -13,5 +12,6 @@ export declare const EnumUnitTypes: {
     readonly MetersPerSecond: 11;
     readonly KilometersPerHour: 12;
     readonly MilesPerHour: 13;
+    readonly FeetPerSecond: 13;
 };
 export type EnumUnitTypes = typeof EnumUnitTypes[keyof typeof EnumUnitTypes];

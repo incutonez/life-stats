@@ -21,7 +21,6 @@
  */
 
 export const EnumUnitTypes = {
-    None: 0,
     Inches: 1,
     Feet: 2,
     Miles: 3,
@@ -34,7 +33,8 @@ export const EnumUnitTypes = {
     Hours: 10,
     MetersPerSecond: 11,
     KilometersPerHour: 12,
-    MilesPerHour: 13
+    MilesPerHour: 13,
+    FeetPerSecond: 13
 } as const;
 
 export type EnumUnitTypes = typeof EnumUnitTypes[keyof typeof EnumUnitTypes];

@@ -22,6 +22,10 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 // @ts-ignore
+import { ExerciseActivityCreateViewModel } from '../models';
+// @ts-ignore
+import { ExerciseActivityListViewModel } from '../models';
+// @ts-ignore
 import { ExerciseActivityViewModel } from '../models';
 /**
  * ActivitiesApi - axios parameter creator
@@ -29,6 +33,39 @@ import { ExerciseActivityViewModel } from '../models';
  */
 export const ActivitiesApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @param {string} activityId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteActivity: async (activityId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'activityId' is not null or undefined
+            assertParamExists('deleteActivity', 'activityId', activityId)
+            const localVarPath = `/exercises/activities/{activityId}`
+                .replace(`{${"activityId"}}`, encodeURIComponent(String(activityId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @param {string} activityId 
@@ -69,12 +106,12 @@ export const ActivitiesApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadActivityFromSource: async (source: string, file: File, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        importActivities: async (source: string, file: File, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'source' is not null or undefined
-            assertParamExists('uploadActivityFromSource', 'source', source)
+            assertParamExists('importActivities', 'source', source)
             // verify required parameter 'file' is not null or undefined
-            assertParamExists('uploadActivityFromSource', 'file', file)
-            const localVarPath = `/exercises/activities/upload/{source}`
+            assertParamExists('importActivities', 'file', file)
+            const localVarPath = `/exercises/activities/import/{source}`
                 .replace(`{${"source"}}`, encodeURIComponent(String(source)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -106,6 +143,70 @@ export const ActivitiesApiAxiosParamCreator = function (configuration?: Configur
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listActivities: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/exercises/activities/list`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {Array<ExerciseActivityCreateViewModel>} exerciseActivityCreateViewModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        uploadActivities: async (exerciseActivityCreateViewModel: Array<ExerciseActivityCreateViewModel>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'exerciseActivityCreateViewModel' is not null or undefined
+            assertParamExists('uploadActivities', 'exerciseActivityCreateViewModel', exerciseActivityCreateViewModel)
+            const localVarPath = `/exercises/activities/upload`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(exerciseActivityCreateViewModel, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -116,6 +217,16 @@ export const ActivitiesApiAxiosParamCreator = function (configuration?: Configur
 export const ActivitiesApiFp = function(configuration?: Configuration) {
     const localVarAxiosParamCreator = ActivitiesApiAxiosParamCreator(configuration)
     return {
+        /**
+         * 
+         * @param {string} activityId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteActivity(activityId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteActivity(activityId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
         /**
          * 
          * @param {string} activityId 
@@ -133,8 +244,27 @@ export const ActivitiesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadActivityFromSource(source: string, file: File, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ExerciseActivityViewModel>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadActivityFromSource(source, file, options);
+        async importActivities(source: string, file: File, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ExerciseActivityCreateViewModel>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.importActivities(source, file, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listActivities(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExerciseActivityListViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listActivities(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {Array<ExerciseActivityCreateViewModel>} exerciseActivityCreateViewModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async uploadActivities(exerciseActivityCreateViewModel: Array<ExerciseActivityCreateViewModel>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ExerciseActivityViewModel>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadActivities(exerciseActivityCreateViewModel, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -153,6 +283,15 @@ export const ActivitiesApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        deleteActivity(activityId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteActivity(activityId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} activityId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         getActivity(activityId: string, options?: any): AxiosPromise<ExerciseActivityViewModel> {
             return localVarFp.getActivity(activityId, options).then((request) => request(axios, basePath));
         },
@@ -163,8 +302,25 @@ export const ActivitiesApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadActivityFromSource(source: string, file: File, options?: any): AxiosPromise<Array<ExerciseActivityViewModel>> {
-            return localVarFp.uploadActivityFromSource(source, file, options).then((request) => request(axios, basePath));
+        importActivities(source: string, file: File, options?: any): AxiosPromise<Array<ExerciseActivityCreateViewModel>> {
+            return localVarFp.importActivities(source, file, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listActivities(options?: any): AxiosPromise<ExerciseActivityListViewModel> {
+            return localVarFp.listActivities(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {Array<ExerciseActivityCreateViewModel>} exerciseActivityCreateViewModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        uploadActivities(exerciseActivityCreateViewModel: Array<ExerciseActivityCreateViewModel>, options?: any): AxiosPromise<Array<ExerciseActivityViewModel>> {
+            return localVarFp.uploadActivities(exerciseActivityCreateViewModel, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -182,6 +338,15 @@ export interface ActivitiesApiInterface {
      * @throws {RequiredError}
      * @memberof ActivitiesApiInterface
      */
+    deleteActivity(activityId: string, options?: AxiosRequestConfig): AxiosPromise<void>;
+
+    /**
+     * 
+     * @param {string} activityId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ActivitiesApiInterface
+     */
     getActivity(activityId: string, options?: AxiosRequestConfig): AxiosPromise<ExerciseActivityViewModel>;
 
     /**
@@ -192,7 +357,24 @@ export interface ActivitiesApiInterface {
      * @throws {RequiredError}
      * @memberof ActivitiesApiInterface
      */
-    uploadActivityFromSource(source: string, file: File, options?: AxiosRequestConfig): AxiosPromise<Array<ExerciseActivityViewModel>>;
+    importActivities(source: string, file: File, options?: AxiosRequestConfig): AxiosPromise<Array<ExerciseActivityCreateViewModel>>;
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ActivitiesApiInterface
+     */
+    listActivities(options?: AxiosRequestConfig): AxiosPromise<ExerciseActivityListViewModel>;
+
+    /**
+     * 
+     * @param {Array<ExerciseActivityCreateViewModel>} exerciseActivityCreateViewModel 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ActivitiesApiInterface
+     */
+    uploadActivities(exerciseActivityCreateViewModel: Array<ExerciseActivityCreateViewModel>, options?: AxiosRequestConfig): AxiosPromise<Array<ExerciseActivityViewModel>>;
 
 }
 
@@ -203,6 +385,17 @@ export interface ActivitiesApiInterface {
  * @extends {BaseAPI}
  */
 export class ActivitiesApi extends BaseAPI implements ActivitiesApiInterface {
+    /**
+     * 
+     * @param {string} activityId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ActivitiesApi
+     */
+    public deleteActivity(activityId: string, options?: AxiosRequestConfig) {
+        return ActivitiesApiFp(this.configuration).deleteActivity(activityId, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {string} activityId 
@@ -222,7 +415,28 @@ export class ActivitiesApi extends BaseAPI implements ActivitiesApiInterface {
      * @throws {RequiredError}
      * @memberof ActivitiesApi
      */
-    public uploadActivityFromSource(source: string, file: File, options?: AxiosRequestConfig) {
-        return ActivitiesApiFp(this.configuration).uploadActivityFromSource(source, file, options).then((request) => request(this.axios, this.basePath));
+    public importActivities(source: string, file: File, options?: AxiosRequestConfig) {
+        return ActivitiesApiFp(this.configuration).importActivities(source, file, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ActivitiesApi
+     */
+    public listActivities(options?: AxiosRequestConfig) {
+        return ActivitiesApiFp(this.configuration).listActivities(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {Array<ExerciseActivityCreateViewModel>} exerciseActivityCreateViewModel 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ActivitiesApi
+     */
+    public uploadActivities(exerciseActivityCreateViewModel: Array<ExerciseActivityCreateViewModel>, options?: AxiosRequestConfig) {
+        return ActivitiesApiFp(this.configuration).uploadActivities(exerciseActivityCreateViewModel, options).then((request) => request(this.axios, this.basePath));
     }
 }

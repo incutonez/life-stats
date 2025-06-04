@@ -5,12 +5,12 @@ import FieldText from "@/components/FieldText.vue";
 import { IconDelete } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
 import TablePagination from "@/components/TablePagination.vue";
-import { useDeleteCompany, useGetCompaniesList } from "@/composables/companies.ts";
 import { useExpandableRow, useTableActions, useTableData } from "@/composables/table.ts";
-import { RouteJobCompanyApplication } from "@/router/jobs.ts";
 import { getCompanyFullRecords } from "@/stores/companies.ts";
 import { useAppSelector } from "@/stores/main.ts";
 import type { ISubRowRenderer } from "@/types/components.ts";
+import { useDeleteCompany, useGetCompaniesList } from "@/views/jobs/composables/companies.ts";
+import { RouteJobCompanyApplication } from "@/views/jobs/constants.ts";
 import ViewApplications, { type IViewApplicationsProps } from "@/views/jobs/ViewApplications.vue";
 import DeleteDialog from "@/views/shared/DeleteDialog.vue";
 

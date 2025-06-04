@@ -1,12 +1,12 @@
 ﻿import { Inject, Injectable } from "@nestjs/common";
-import { AuthStorageService } from "@/auth/auth.storage.service";
-import { AUTH_STORAGE } from "@/constants";
+import { SessionStorageService } from "@/auth/session.storage.service";
+import { SESSION_STORAGE } from "@/constants";
 import { ICommentCreateModel, ICommentModel } from "@/db/models/CommentModel";
 import { ICommentViewModel } from "@/viewModels/comment.viewmodel";
 
 @Injectable()
 export class CommentsMapper {
-	constructor(@Inject(AUTH_STORAGE) private authStorageService: AuthStorageService) {}
+	constructor(@Inject(SESSION_STORAGE) private authStorageService: SessionStorageService) {}
 
 	entityToViewModel({ application_id, user_id, comment, id, created_at, updated_at }: ICommentModel): ICommentViewModel {
 		return {

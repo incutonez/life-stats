@@ -4,6 +4,6 @@ export interface ExerciseActivityTypeViewModel {
     'dateCreated'?: number;
     'dateUpdated'?: number;
     'id': string;
-    'name': string;
     'activities'?: Array<ExerciseActivityViewModel>;
+    'name': string;
 }

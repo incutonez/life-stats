@@ -1,10 +1,10 @@
-﻿import { EnumApplicationStatus } from "@incutonez/life-stats-spec";
+﻿import { ref } from "vue";
+import type { RouteLocationRaw } from "vue-router";
 import type { IOption } from "@/types/components.ts";
-import { enumToOptions } from "@/utils/common.ts";
+
+export const UserLanguage = navigator.language;
 
 export const LocalTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-export const ApplicationStatusOptions = enumToOptions(EnumApplicationStatus);
 
 export const TablePageSizes: IOption[] = [{
 	id: 25,
@@ -20,14 +20,13 @@ export const TablePageSizes: IOption[] = [{
 	display: "250",
 }];
 
-export const QueryListJobAudits = "listJobAudits";
+export const RouteCreate = "create";
 
-export const QueryListExercisesAudits = "listExercisesAudits";
+export const RouteHome = "home";
 
-export const QueryListApplications = "listApplications";
+export const RouteLogin = "login";
 
-export const QueryGetApplication = "getApplication";
-
-export const QueryListCompanies = "listCompanies";
-
-export const QueryGetCompanies = "getCompanies";
+/**
+ * If the user isn't logged in, let's remember the route they were going to, so we can restore it after they log in
+ */
+export const restoreRoute = ref<RouteLocationRaw>();

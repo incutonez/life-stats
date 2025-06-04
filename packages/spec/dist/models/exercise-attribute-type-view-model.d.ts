@@ -6,6 +6,6 @@ export interface ExerciseAttributeTypeViewModel {
     'dateUpdated'?: number;
     'type': EnumAttributeType;
     'id': string;
-    'name': string;
     'attributes'?: Array<ExerciseActivityAttributeViewModel>;
+    'name': string;
 }

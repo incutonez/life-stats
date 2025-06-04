@@ -1,91 +1,38 @@
 ﻿<script setup lang="ts">
-import { h } from "vue";
-import {
-	EnumUnitTypes,
-	type ExerciseActivityAttributeViewModel,
-	type ExerciseActivityViewModel,
-} from "@incutonez/life-stats-spec";
+import { ref } from "vue";
+import { type ExerciseActivityViewModel } from "@incutonez/life-stats-spec";
+import { IconDelete } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
 import TablePagination from "@/components/TablePagination.vue";
-import { useDateColumn, useTableData } from "@/composables/table.ts";
-import type { ITableData } from "@/types/components.ts";
-import { getEnumDisplay } from "@/utils/common.ts";
-import { numberToDisplay } from "@/utils/formatters.ts";
-import { useListActivities } from "@/views/exercises/composables/activities.ts";
+import { useTableActions, useTableData } from "@/composables/table.ts";
+import { useDeleteActivity, useListActivities } from "@/views/exercises/composables/activities.ts";
+import { useActivitiesColumns } from "@/views/exercises/composables/table.ts";
+import DeleteDialog from "@/views/shared/DeleteDialog.vue";
 
+const selectedRecord = ref<ExerciseActivityViewModel>();
+const showDeleteDialog = ref(false);
 const { data } = useListActivities();
+const { deleteRecord, deletingRecord } = useDeleteActivity();
 const { table } = useTableData<ExerciseActivityViewModel>({
 	data,
 	paginated: true,
-	columns: [
-		useDateColumn("dateOccurred", "Date"), {
-			accessorKey: "activityType.name",
-			header: "Activity",
-			meta: {
-				columnWidth: "w-max",
-				columnAlign: "center",
-			},
-		}, {
-			accessorKey: "title",
-			header: "Title",
-		}, {
-			accessorKey: "description",
-			header: "Description",
-		}, {
-			accessorKey: "source",
-			header: "Source",
-		}, {
-			accessorKey: "attributes",
-			header: "Attributes",
-			meta: {
-				columnWidth: "w-100",
-			},
-			cell(info) {
-				const attributes = info.getValue<ExerciseActivityAttributeViewModel[]>();
-				const attributesTable = useTableData<ExerciseActivityAttributeViewModel>({
-					data: attributes,
-					sortInitial: [{
-						desc: false,
-						id: "attributeTypeName",
-					}],
-					columns: [{
-						id: "attributeTypeName",
-						accessorKey: "attributeType.name",
-						header: "Attribute",
-						meta: {
-							columnWidth: "w-max",
-						},
-					}, {
-						accessorKey: "value",
-						header: "Value",
-						meta: {
-							columnWidth: "w-max",
-						},
-						cell(info) {
-							const { original } = info.row;
-							const display: string[] = [getEnumDisplay(EnumUnitTypes, original.unit)];
-							const value = info.getValue<string>();
-							const attributeType = original.attributeType.type;
-							if (attributeType === "number") {
-								display.unshift(numberToDisplay(value));
-							}
-							return display.join(" ");
-						},
-					}],
-				});
-				return h<ITableData<ExerciseActivityAttributeViewModel>>(TableData, {
-					table: attributesTable.table,
-					isSubRow: true,
-					tableLayout: "table-auto",
-				});
-			},
+	columns: [useTableActions([{
+		icon: IconDelete,
+		handler(record) {
+			selectedRecord.value = record;
+			showDeleteDialog.value = true;
 		},
-	],
+	}]), ...useActivitiesColumns<ExerciseActivityViewModel>()],
 	sortInitial: [{
 		desc: true,
 		id: "dateOccurred",
 	}],
 });
+
+async function onClickDelete() {
+	await deleteRecord(selectedRecord.value);
+	showDeleteDialog.value = false;
+}
 </script>
 
 <template>
@@ -94,6 +41,12 @@ const { table } = useTableData<ExerciseActivityViewModel>({
 		<TableData
 			:table="table"
 			class="flex-1"
+		/>
+		<DeleteDialog
+			v-model="showDeleteDialog"
+			entity-name="this activity"
+			:loading="deletingRecord"
+			@delete="onClickDelete"
 		/>
 	</article>
 </template>

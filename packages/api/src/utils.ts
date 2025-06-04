@@ -23,6 +23,12 @@ export function addMetaInfo(value: Record<string, unknown>, user_id: string, cre
 export interface IValueToLocalUnit {
 	value: string;
 	measurementSystem: "imperial" | "metric";
+	reverse?: boolean;
+	unit?: EnumUnitTypes;
+}
+
+export interface IValueConvert {
+	value: string;
 	unit?: EnumUnitTypes;
 	unitTo?: EnumUnitTypes;
 }
@@ -61,10 +67,37 @@ export function mapUnit(unit: EnumUnitTypes): Unit | undefined {
 	}
 }
 
-export function valueToLocalUnit({ value, unit, measurementSystem, unitTo }: IValueToLocalUnit): IValueToLocalUnitResponse {
+export function imperialToMetric(unit?: EnumUnitTypes) {
+	switch (unit) {
+		case EnumUnitTypes.Inches:
+			return EnumUnitTypes.Centimeters;
+		case EnumUnitTypes.Feet:
+			return EnumUnitTypes.Meters;
+		case EnumUnitTypes.Miles:
+			return EnumUnitTypes.Kilometers;
+		case EnumUnitTypes.MilesPerHour:
+			return EnumUnitTypes.KilometersPerHour;
+		case EnumUnitTypes.Centimeters:
+			return EnumUnitTypes.Inches;
+		case EnumUnitTypes.Meters:
+			return EnumUnitTypes.Feet;
+		case EnumUnitTypes.MetersPerSecond:
+			return EnumUnitTypes.FeetPerSecond;
+		case EnumUnitTypes.Kilometers:
+			return EnumUnitTypes.Miles;
+		case EnumUnitTypes.KilometersPerHour:
+			return EnumUnitTypes.MilesPerHour;
+		default:
+			return unit;
+	}
+}
+
+export function localizeValue({ value, unit, measurementSystem, reverse }: IValueToLocalUnit): IValueToLocalUnitResponse {
 	let parsedValue = parseFloat(value);
-	const mappedUnit = unit !== undefined && mapUnit(unit);
-	const mappedUnitTo = unitTo !== undefined && mapUnit(unitTo);
+	if (reverse && measurementSystem === "imperial") {
+		unit = imperialToMetric(unit);
+	}
+	let mappedUnit = unit !== undefined && mapUnit(unit);
 	let mappedTranslatedUnit: Unit | undefined;
 	if (!mappedUnit) {
 		return {
@@ -75,40 +108,69 @@ export function valueToLocalUnit({ value, unit, measurementSystem, unitTo }: IVa
 		switch (unit) {
 			case EnumUnitTypes.Kilometers:
 				mappedTranslatedUnit = EnumMappedUnitTypes.Miles;
-				unitTo = EnumUnitTypes.Miles;
+				unit = EnumUnitTypes.Miles;
 				break;
 			case EnumUnitTypes.Meters:
 				mappedTranslatedUnit = EnumMappedUnitTypes.Feet;
-				unitTo = EnumUnitTypes.Feet;
+				unit = EnumUnitTypes.Feet;
 				break;
-			case EnumUnitTypes.MetersPerSecond:
+			case EnumUnitTypes.KilometersPerHour:
 				mappedTranslatedUnit = EnumMappedUnitTypes.MilesPerHour;
-				unitTo = EnumUnitTypes.MilesPerHour;
-				if (mappedUnitTo === EnumMappedUnitTypes.KilometersPerHour) {
-					parsedValue *= SecondsInHour;
-				}
+				unit = EnumUnitTypes.MilesPerHour;
 				break;
 		}
 	}
 	else {
 		switch (unit) {
-			case EnumUnitTypes.MetersPerSecond:
+			case EnumUnitTypes.Miles:
+				mappedTranslatedUnit = EnumMappedUnitTypes.Kilometers;
+				unit = EnumUnitTypes.Kilometers;
+				break;
+			case EnumUnitTypes.MilesPerHour:
 				mappedTranslatedUnit = EnumMappedUnitTypes.KilometersPerHour;
-				unitTo = EnumUnitTypes.KilometersPerHour;
-				if (mappedUnitTo === EnumMappedUnitTypes.MilesPerHour) {
-					parsedValue *= SecondsInHour;
-				}
+				unit = EnumUnitTypes.KilometersPerHour;
 				break;
 		}
 	}
-	if (mappedUnitTo) {
-		parsedValue = convert(parsedValue, mappedUnit).to(mappedUnitTo);
+	// We store things in metric, so if they're coming from imperial, let's make sure we reverse it
+	if (reverse && measurementSystem === "imperial") {
+		const temp = mappedUnit;
+		mappedUnit = mappedTranslatedUnit;
+		mappedTranslatedUnit = temp;
+		unit = imperialToMetric(unit);
 	}
-	if (mappedTranslatedUnit) {
-		parsedValue = convert(parsedValue, mappedUnitTo || mappedUnit).to(mappedTranslatedUnit);
+	if (mappedUnit && mappedTranslatedUnit) {
+		parsedValue = convert(parsedValue, mappedUnit).to(mappedTranslatedUnit);
 	}
 	return {
+		unit,
 		value: parsedValue.toString(),
+	};
+}
+
+/**
+ * This is only used for initially importing data (from Strava currently) and converting it to its more appropriate
+ * storage value.
+ */
+export function convertToUnit({ unit, unitTo, value }: IValueConvert): IValueToLocalUnitResponse {
+	let parsedValue = parseFloat(value);
+	const mappedUnit = unit !== undefined && mapUnit(unit);
+	const mappedUnitTo = unitTo !== undefined && mapUnit(unitTo);
+	if (!(mappedUnit && mappedUnitTo)) {
+		return {
+			value,
+			unit,
+		};
+	}
+	switch (unit) {
+		case EnumUnitTypes.MetersPerSecond:
+			if (mappedUnitTo === EnumMappedUnitTypes.KilometersPerHour) {
+				parsedValue *= SecondsInHour;
+			}
+			break;
+	}
+	return {
+		value: convert(parsedValue, mappedUnit).to(mappedUnitTo).toString(),
 		unit: unitTo,
 	};
 }

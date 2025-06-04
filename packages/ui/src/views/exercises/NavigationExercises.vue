@@ -2,7 +2,8 @@
 import { ref } from "vue";
 import BaseButton from "@/components/BaseButton.vue";
 import { IconActivities, IconDownload, IconHistory } from "@/components/Icons.ts";
-import { RouteExercisesActivities, RouteExercisesHistory, useExerciseRoutes } from "@/router/exercises.ts";
+import { useExerciseRoutes } from "@/views/exercises/composables/routes.ts";
+import { RouteExercisesActivities, RouteExercisesHistory } from "@/views/exercises/constants.ts";
 import ViewActivitiesImport from "@/views/exercises/ViewActivitiesImport.vue";
 
 const showActivitiesImport = ref(false);

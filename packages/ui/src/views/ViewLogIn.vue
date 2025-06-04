@@ -5,7 +5,7 @@ import { useAuth0 } from "@auth0/auth0-vue";
 import { setAccessToken } from "@/authentication.ts";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
-import { restoreRoute, RouteHome } from "@/router/routes.ts";
+import { restoreRoute, RouteHome } from "@/constants.ts";
 
 const { loginWithPopup } = useAuth0();
 const router = useRouter();

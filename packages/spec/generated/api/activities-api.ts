@@ -39,6 +39,39 @@ export const ActivitiesApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        deleteActivity: async (activityId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'activityId' is not null or undefined
+            assertParamExists('deleteActivity', 'activityId', activityId)
+            const localVarPath = `/exercises/activities/{activityId}`
+                .replace(`{${"activityId"}}`, encodeURIComponent(String(activityId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} activityId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         getActivity: async (activityId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'activityId' is not null or undefined
             assertParamExists('getActivity', 'activityId', activityId)
@@ -190,6 +223,16 @@ export const ActivitiesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        async deleteActivity(activityId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteActivity(activityId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} activityId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         async getActivity(activityId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExerciseActivityViewModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getActivity(activityId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
@@ -234,6 +277,15 @@ export const ActivitiesApiFp = function(configuration?: Configuration) {
 export const ActivitiesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = ActivitiesApiFp(configuration)
     return {
+        /**
+         * 
+         * @param {string} activityId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteActivity(activityId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.deleteActivity(activityId, options).then((request) => request(axios, basePath));
+        },
         /**
          * 
          * @param {string} activityId 
@@ -286,6 +338,15 @@ export interface ActivitiesApiInterface {
      * @throws {RequiredError}
      * @memberof ActivitiesApiInterface
      */
+    deleteActivity(activityId: string, options?: AxiosRequestConfig): AxiosPromise<void>;
+
+    /**
+     * 
+     * @param {string} activityId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ActivitiesApiInterface
+     */
     getActivity(activityId: string, options?: AxiosRequestConfig): AxiosPromise<ExerciseActivityViewModel>;
 
     /**
@@ -324,6 +385,17 @@ export interface ActivitiesApiInterface {
  * @extends {BaseAPI}
  */
 export class ActivitiesApi extends BaseAPI implements ActivitiesApiInterface {
+    /**
+     * 
+     * @param {string} activityId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ActivitiesApi
+     */
+    public deleteActivity(activityId: string, options?: AxiosRequestConfig) {
+        return ActivitiesApiFp(this.configuration).deleteActivity(activityId, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {string} activityId 

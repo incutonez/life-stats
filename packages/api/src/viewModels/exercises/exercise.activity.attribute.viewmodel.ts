@@ -28,6 +28,8 @@ export class ExerciseActivityAttributeCreateViewModel extends BaseViewModel {
 	})
 	declare unitDisplay?: EnumUnitTypes;
 
+	declare valueDisplay?: string;
+
 	declare activity?: ExerciseActivityCreateViewModel;
 
 	declare attributeType: ExerciseAttributeTypeCreateViewModel;

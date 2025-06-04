@@ -67,6 +67,12 @@ export interface ExerciseActivityAttributeCreateViewModel {
     'value': string;
     /**
      * 
+     * @type {string}
+     * @memberof ExerciseActivityAttributeCreateViewModel
+     */
+    'valueDisplay'?: string;
+    /**
+     * 
      * @type {ExerciseActivityCreateViewModel}
      * @memberof ExerciseActivityAttributeCreateViewModel
      */

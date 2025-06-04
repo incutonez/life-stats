@@ -10,7 +10,7 @@ import { IExerciseActivityTypeCreate, IExerciseActivityTypesModel } from "@/db/m
 import { IExerciseAttributeTypeCreate, IExerciseAttributeTypesModel } from "@/db/models/ExerciseAttributeTypesModel";
 import { EnumActivitySource, EnumAttributeType } from "@/exercises/constants";
 import { IStubAttributeOptions, IUploadStrava } from "@/exercises/types";
-import { addMetaInfo, dateToUTC, valueToLocalUnit } from "@/utils";
+import { addMetaInfo, convertToUnit, dateToUTC, localizeValue } from "@/utils";
 import { IExerciseActivityAttributeCreateViewModel, IExerciseActivityAttributeViewModel } from "@/viewModels/exercises/exercise.activity.attribute.viewmodel";
 import {
 	IExerciseActivityTypeCreateViewModel,
@@ -27,16 +27,20 @@ export class ActivitiesMapper {
 	constructor(@Inject(SESSION_STORAGE) private readonly storage: SessionStorageService) {
 	}
 
-	stubAttribute(value: string | undefined, field: string, { type, unit, unitDisplay }: IStubAttributeOptions = {}): IExerciseActivityAttributeCreateViewModel | undefined {
+	stubAttribute(value: string | undefined, field: string, { type, unit, unitConversion }: IStubAttributeOptions = {}): IExerciseActivityAttributeCreateViewModel | undefined {
 		if (value) {
 			const userId = this.storage.getUserId();
+			const convertedValue = convertToUnit({
+				value,
+				unit,
+				unitTo: unitConversion,
+			});
 			return this.entityActivityAttributeToViewModel({
 				activity_id: "",
 				attribute_type_id: "",
 				id: "",
-				value,
-				unit,
-				unit_display: unitDisplay,
+				value: convertedValue.value,
+				unit: convertedValue.unit,
 				user_id: userId,
 				attribute_type: {
 					id: "",
@@ -79,20 +83,27 @@ export class ActivitiesMapper {
 	}
 
 	entityActivityAttributeToViewModel({ id, attribute_type, activity, unit_display, user_id, created_at, updated_at, value, unit }: IExerciseActivityAttributeModel, addMeta = false) {
-		const localizedValue = valueToLocalUnit({
+		const localizedValue = localizeValue({
 			value,
 			unit,
-			unitTo: unit_display,
 			measurementSystem: this.storage.getMeasurementSystem(),
 		});
 		const response: IExerciseActivityAttributeViewModel = {
 			id,
 			value: localizedValue.value,
-			unit,
-			unitDisplay: localizedValue.unit,
+			unit: localizedValue.unit,
 			activity: activity && this.entityToViewModel(activity),
 			attributeType: this.entityAttributeTypeToViewModel(attribute_type),
 		};
+		if (unit_display) {
+			const convertedValue = convertToUnit({
+				value,
+				unit,
+				unitTo: unit_display,
+			});
+			response.unitDisplay = convertedValue.unit;
+			response.valueDisplay = convertedValue.value;
+		}
 		if (addMeta) {
 			addMetaInfo(response, user_id, created_at, updated_at);
 		}
@@ -127,9 +138,15 @@ export class ActivitiesMapper {
 	}
 
 	viewModelActivityAttributesToEntity({ value, unit, unitDisplay, userId, attributeType }: IExerciseActivityAttributeCreateViewModel): IExerciseActivityAttributeCreate {
-		return {
+		const result = localizeValue({
 			value,
 			unit,
+			reverse: true,
+			measurementSystem: this.storage.getMeasurementSystem(),
+		});
+		return {
+			unit: result.unit,
+			value: result.value,
 			// Appease TS... we'll be setting this when we have the value from the DB entry
 			activity_id: "",
 			// Appease TS... we'll be setting this when we have the value from the DB entry
@@ -161,30 +178,30 @@ export class ActivitiesMapper {
 			// Time should be stored in seconds
 			this.stubAttribute(model["Start Time"], "Time Start", {
 				unit: EnumUnitTypes.Seconds,
-				unitDisplay: EnumUnitTypes.Hours,
+				unitConversion: EnumUnitTypes.Hours,
 			}),
 			this.stubAttribute(model["Other Time"], "Time End", {
 				unit: EnumUnitTypes.Seconds,
-				unitDisplay: EnumUnitTypes.Hours,
+				unitConversion: EnumUnitTypes.Hours,
 			}),
 			this.stubAttribute(model["Elapsed Time"], "Time Elapsed", {
 				unit: EnumUnitTypes.Seconds,
-				unitDisplay: EnumUnitTypes.Hours,
+				unitConversion: EnumUnitTypes.Hours,
 			}),
 			this.stubAttribute(model["Moving Time"], "Time Moving", {
 				unit: EnumUnitTypes.Seconds,
-				unitDisplay: EnumUnitTypes.Hours,
+				unitConversion: EnumUnitTypes.Hours,
 			}),
 			this.stubAttribute(model["Distance"], "Distance", {
 				unit: EnumUnitTypes.Kilometers,
 			}),
 			this.stubAttribute(model["Max Speed"], "Speed Max", {
 				unit: EnumUnitTypes.MetersPerSecond,
-				unitDisplay: EnumUnitTypes.KilometersPerHour,
+				unitConversion: EnumUnitTypes.KilometersPerHour,
 			}),
 			this.stubAttribute(model["Average Speed"], "Speed Average", {
 				unit: EnumUnitTypes.MetersPerSecond,
-				unitDisplay: EnumUnitTypes.KilometersPerHour,
+				unitConversion: EnumUnitTypes.KilometersPerHour,
 			}),
 			this.stubAttribute(model["Elevation Low"], "Elevation Low", {
 				unit: EnumUnitTypes.Meters,

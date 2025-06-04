@@ -1,4 +1,6 @@
-﻿import type { IOption } from "@/types/components.ts";
+﻿import { ref } from "vue";
+import type { RouteLocationRaw } from "vue-router";
+import type { IOption } from "@/types/components.ts";
 
 export const UserLanguage = navigator.language;
 
@@ -18,16 +20,13 @@ export const TablePageSizes: IOption[] = [{
 	display: "250",
 }];
 
-export const QueryKeyJobs = "jobs-";
+export const RouteCreate = "create";
 
-export const QueryListJobAudits = `${QueryKeyJobs}listJobAudits`;
+export const RouteHome = "home";
 
-export const QueryListExercisesAudits = "listExercisesAudits";
+export const RouteLogin = "login";
 
-export const QueryListApplications = `${QueryKeyJobs}listApplications`;
-
-export const QueryGetApplication = `${QueryKeyJobs}getApplication`;
-
-export const QueryListCompanies = `${QueryKeyJobs}listCompanies`;
-
-export const QueryGetCompanies = `${QueryKeyJobs}getCompanies`;
+/**
+ * If the user isn't logged in, let's remember the route they were going to, so we can restore it after they log in
+ */
+export const restoreRoute = ref<RouteLocationRaw>();

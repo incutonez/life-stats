@@ -11,6 +11,7 @@ const initialState: ICompanyStoreState = {
 	recordsFull: [],
 };
 
+// TDOOJEF: Refactor this, so we don't need Redux... it's not necessary as we simply export data or provide/inject it
 export const companiesStore = createSlice({
 	initialState,
 	name: "companies",

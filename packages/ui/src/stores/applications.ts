@@ -10,15 +10,13 @@ const initialState: IApplicationState = {
 	applications: [],
 };
 
+// TDOOJEF: Refactor this, so we don't need Redux... it's not necessary as we simply export data or provide/inject it
 export const applicationsSlice = createSlice({
 	initialState,
 	name: "applications",
 	reducers: {
 		setApplicationRecords(state, { payload }: PayloadAction<ApplicationViewModel[] | undefined>) {
 			state.applications = payload ?? [];
-		},
-		setApplicationRecord(state, { payload }: PayloadAction<ApplicationViewModel | undefined>) {
-			state.selectedApplication = payload;
 		},
 	},
 	selectors: {
@@ -31,6 +29,6 @@ export const applicationsSlice = createSlice({
 	},
 });
 
-export const { setApplicationRecords, setApplicationRecord } = applicationsSlice.actions;
+export const { setApplicationRecords } = applicationsSlice.actions;
 
-export const { getApplicationRecords, getApplicationRecord } = applicationsSlice.selectors;
+export const { getApplicationRecords } = applicationsSlice.selectors;

@@ -8,6 +8,7 @@ export interface ExerciseActivityAttributeCreateViewModel {
     'unit'?: EnumUnitTypes;
     'unitDisplay'?: EnumUnitTypes;
     'value': string;
+    'valueDisplay'?: string;
     'activity'?: ExerciseActivityCreateViewModel;
     'attributeType': ExerciseAttributeTypeCreateViewModel;
 }

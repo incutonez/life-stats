@@ -83,6 +83,12 @@ export interface ExerciseActivityAttributeViewModel {
      * @memberof ExerciseActivityAttributeViewModel
      */
     'value': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExerciseActivityAttributeViewModel
+     */
+    'valueDisplay'?: string;
 }
 
 

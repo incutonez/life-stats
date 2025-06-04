@@ -94,6 +94,15 @@ export class ActivitiesService {
 		}
 	}
 
+	async deleteActivity(id: string) {
+		return ExerciseActivityModel.destroy({
+			where: {
+				id,
+			},
+			individualHooks: true,
+		});
+	}
+
 	importActivities(file: Express.Multer.File, source: EnumActivitySource) {
 		const contents = file.buffer.toString("utf8");
 		const results: IExerciseActivityCreateViewModel[] = [];

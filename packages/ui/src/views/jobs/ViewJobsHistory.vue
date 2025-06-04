@@ -1,5 +1,5 @@
 ﻿<script setup lang="ts">
-import { useListJobsHistory } from "@/composables/audits.ts";
+import { useListJobsHistory } from "@/views/jobs/composables/applications.ts";
 import ViewFeatureHistory from "@/views/ViewFeatureHistory.vue";
 
 const { data } = useListJobsHistory();

@@ -8,7 +8,6 @@ import { IconAdd, IconDelete, IconEdit } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
 import TablePagination from "@/components/TablePagination.vue";
 import { injectGlobalError } from "@/composables/app.ts";
-import { providePastedApplication, useApplicationsList, useDeleteApplication } from "@/composables/applications.ts";
 import {
 	useDateColumn,
 	useDateCreatedColumn,
@@ -17,13 +16,15 @@ import {
 	useTableActions,
 	useTableData,
 } from "@/composables/table.ts";
-import { RouteJobApplications, useJobRoutes } from "@/router/jobs.ts";
-import { RouteCreate } from "@/router/routes.ts";
+import { RouteCreate } from "@/constants.ts";
 import { getApplicationRecords } from "@/stores/applications.ts";
 import { useAppSelector } from "@/stores/main.ts";
 import type { ISubRowRenderer, ITableColumn, ITableData, ITableRow, TInputValue } from "@/types/components.ts";
 import { getEnumDisplay, pasteToApplicationViewModel } from "@/utils/common.ts";
 import CellLink from "@/views/jobs/applications/CellLink.vue";
+import { providePastedApplication, useApplicationsList, useDeleteApplication } from "@/views/jobs/composables/applications.ts";
+import { useJobRoutes } from "@/views/jobs/composables/routes.ts";
+import { RouteJobApplications } from "@/views/jobs/constants.ts";
 import DeleteDialog from "@/views/shared/DeleteDialog.vue";
 
 export interface IViewApplicationsProps {
@@ -246,7 +247,7 @@ if (!data) {
 		</section>
 		<TableData
 			class="flex-1"
-			table-layout="auto"
+			table-layout="table-auto"
 			:is-sub-row="isSubRow"
 			:table="table"
 			:row-cls="rowCls"

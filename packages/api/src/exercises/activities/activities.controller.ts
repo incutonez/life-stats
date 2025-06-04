@@ -1,6 +1,6 @@
 ﻿import {
 	Body,
-	Controller,
+	Controller, Delete,
 	Get,
 	HttpCode, HttpStatus,
 	NotFoundException,
@@ -57,5 +57,11 @@ export class ActivitiesController {
 			return response;
 		}
 		throw new NotFoundException("No activity found");
+	}
+
+	@Delete(":activityId")
+	@HttpCode(HttpStatus.NO_CONTENT)
+	async deleteActivity(@Param("activityId") activityId: string): Promise<void> {
+		await this.service.deleteActivity(activityId);
 	}
 }

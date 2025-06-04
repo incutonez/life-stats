@@ -11,4 +11,5 @@ export interface ExerciseActivityAttributeViewModel {
     'activity'?: ExerciseActivityViewModel;
     'attributeType': ExerciseAttributeTypeViewModel;
     'value': string;
+    'valueDisplay'?: string;
 }

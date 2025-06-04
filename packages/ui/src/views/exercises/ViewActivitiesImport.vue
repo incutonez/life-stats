@@ -1,23 +1,17 @@
 ﻿<script setup lang="ts">
-import { h, ref } from "vue";
-import {
-	EnumUnitTypes,
-	type ExerciseActivityAttributeViewModel,
-	type ExerciseActivityCreateViewModel,
-} from "@incutonez/life-stats-spec";
+import { ref } from "vue";
+import { type ExerciseActivityCreateViewModel } from "@incutonez/life-stats-spec";
 import MimeTypes from "mime-types";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
-import { IconSave } from "@/components/Icons.ts";
+import { IconDelete, IconSave } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
-import { useDateColumn, useTableData } from "@/composables/table.ts";
-import type { ITableData } from "@/types/components.ts";
-import { downloadFile, getEnumDisplay, makeCSV } from "@/utils/common.ts";
-import { numberToDisplay } from "@/utils/formatters.ts";
+import { useTableActions, useTableData } from "@/composables/table.ts";
+import { downloadFile, makeCSV } from "@/utils/common.ts";
 import { useImportActivities, useUploadActivities } from "@/views/exercises/composables/activities.ts";
+import { useActivitiesColumns } from "@/views/exercises/composables/table.ts";
 import DialogEntityImport from "@/views/shared/DialogEntityImport.vue";
 
-// TODOJEF: The issue I have is uploading and the values changing... I almost might want to shift the converting to the UI?
 const addHeaders = ref(true);
 const showingImport = ref(true);
 const dialogCmp = ref<InstanceType<typeof BaseDialog>>();
@@ -26,70 +20,12 @@ const { addedRecords, addingRecords, createApplications } = useUploadActivities(
 const { table } = useTableData<ExerciseActivityCreateViewModel>({
 	data: addedRecords,
 	paginated: true,
-	columns: [
-		useDateColumn("dateOccurred", "Date"), {
-			accessorKey: "activityType.name",
-			header: "Activity",
-			meta: {
-				columnWidth: "w-max",
-				columnAlign: "center",
-			},
-		}, {
-			accessorKey: "title",
-			header: "Title",
-		}, {
-			accessorKey: "description",
-			header: "Description",
-		}, {
-			accessorKey: "source",
-			header: "Source",
-		}, {
-			accessorKey: "attributes",
-			header: "Attributes",
-			meta: {
-				columnWidth: "w-100",
-			},
-			cell(info) {
-				const attributes = info.getValue<ExerciseActivityAttributeViewModel[]>();
-				const attributesTable = useTableData<ExerciseActivityAttributeViewModel>({
-					data: attributes,
-					sortInitial: [{
-						desc: false,
-						id: "attributeTypeName",
-					}],
-					columns: [{
-						id: "attributeTypeName",
-						accessorKey: "attributeType.name",
-						header: "Attribute",
-						meta: {
-							columnWidth: "w-max",
-						},
-					}, {
-						accessorKey: "value",
-						header: "Value",
-						meta: {
-							columnWidth: "w-max",
-						},
-						cell(info) {
-							const { original } = info.row;
-							const display: string[] = [getEnumDisplay(EnumUnitTypes, original.unitDisplay ?? original.unit)];
-							const value = info.getValue<string>();
-							const attributeType = original.attributeType.type;
-							if (attributeType === "number") {
-								display.unshift(numberToDisplay(value));
-							}
-							return display.join(" ");
-						},
-					}],
-				});
-				return h<ITableData<ExerciseActivityAttributeViewModel>>(TableData, {
-					table: attributesTable.table,
-					isSubRow: true,
-					tableLayout: "table-auto",
-				});
-			},
+	columns: [useTableActions([{
+		icon: IconDelete,
+		handler(record) {
+			addedRecords.value = addedRecords.value.filter((item) => item !== record);
 		},
-	],
+	}]), ...useActivitiesColumns()],
 	sortInitial: [{
 		desc: true,
 		id: "dateOccurred",

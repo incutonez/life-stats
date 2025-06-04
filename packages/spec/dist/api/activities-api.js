@@ -3,6 +3,26 @@ import { DUMMY_BASE_URL, assertParamExists, setSearchParams, serializeDataIfNeed
 import { BASE_PATH, BaseAPI } from '../base';
 export const ActivitiesApiAxiosParamCreator = function (configuration) {
     return {
+        deleteActivity: async (activityId, options = {}) => {
+            assertParamExists('deleteActivity', 'activityId', activityId);
+            const localVarPath = `/exercises/activities/{activityId}`
+                .replace(`{${"activityId"}}`, encodeURIComponent(String(activityId)));
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         getActivity: async (activityId, options = {}) => {
             assertParamExists('getActivity', 'activityId', activityId);
             const localVarPath = `/exercises/activities/{activityId}`
@@ -94,6 +114,10 @@ export const ActivitiesApiAxiosParamCreator = function (configuration) {
 export const ActivitiesApiFp = function (configuration) {
     const localVarAxiosParamCreator = ActivitiesApiAxiosParamCreator(configuration);
     return {
+        async deleteActivity(activityId, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteActivity(activityId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
         async getActivity(activityId, options) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getActivity(activityId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
@@ -115,6 +139,9 @@ export const ActivitiesApiFp = function (configuration) {
 export const ActivitiesApiFactory = function (configuration, basePath, axios) {
     const localVarFp = ActivitiesApiFp(configuration);
     return {
+        deleteActivity(activityId, options) {
+            return localVarFp.deleteActivity(activityId, options).then((request) => request(axios, basePath));
+        },
         getActivity(activityId, options) {
             return localVarFp.getActivity(activityId, options).then((request) => request(axios, basePath));
         },
@@ -130,6 +157,9 @@ export const ActivitiesApiFactory = function (configuration, basePath, axios) {
     };
 };
 export class ActivitiesApi extends BaseAPI {
+    deleteActivity(activityId, options) {
+        return ActivitiesApiFp(this.configuration).deleteActivity(activityId, options).then((request) => request(this.axios, this.basePath));
+    }
     getActivity(activityId, options) {
         return ActivitiesApiFp(this.configuration).getActivity(activityId, options).then((request) => request(this.axios, this.basePath));
     }

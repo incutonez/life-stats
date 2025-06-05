@@ -43,17 +43,17 @@ function onClickHistory() {
 			@click="onClickViewCompanies"
 		/>
 		<BaseButton
-			:icon="IconDownload"
-			text="Import"
-			theme="navigation"
-			@click="onClickImportApplications"
-		/>
-		<BaseButton
 			:icon="IconHistory"
 			text="History"
 			theme="navigation"
 			:aria-selected="isRouteSelected(RouteJobsHistory)"
 			@click="onClickHistory"
+		/>
+		<BaseButton
+			:icon="IconDownload"
+			text="Import"
+			theme="navigation"
+			@click="onClickImportApplications"
 		/>
 		<ViewApplicationsImport
 			v-if="showImportDialog"

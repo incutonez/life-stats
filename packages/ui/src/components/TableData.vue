@@ -5,10 +5,9 @@ import { IconSort } from "@/components/Icons.ts";
 import type { ITableCell, ITableData, ITableHeader, ITableRow } from "@/types/components.ts";
 
 const { table, hideHeaders, rowCls, tableClasses = "", tableLayout = "table-fixed", isSubRow } = defineProps<ITableData<TData>>();
-const DefaultCellCls = "table-data-cell border-r border-b last:border-r-0 px-2 py-1";
+const DefaultCellCls = "table-data-cell border-r border-b px-2 py-1";
 const tableCls = computed(() => {
 	return {
-		"border-t": hideHeaders,
 		[tableLayout]: true,
 		[tableClasses]: true,
 	};
@@ -29,7 +28,7 @@ function getAlignment(columnAlign?: "left" | "center" | "right") {
 
 function getHeaderClass(header: ITableHeader<TData>) {
 	const meta = header.column.columnDef.meta;
-	const cls = ["p-2 border-r last:border-r-0 border-b border-y sticky top-0", isSubRow ? "" : "z-1", getAlignment(meta?.columnAlign), meta?.columnWidth ?? "min-w-64"];
+	const cls = ["p-2 border-r border-b border-b sticky top-0", isSubRow ? "" : "z-1", getAlignment(meta?.columnAlign), meta?.columnWidth ?? "min-w-64"];
 	if (header.column.getCanSort()) {
 		cls.push("cursor-pointer select-none hover:bg-blue-300");
 	}
@@ -72,7 +71,7 @@ function getRowClass(row: ITableRow<TData>) {
 
 function getFooterClass(header: ITableHeader<TData>) {
 	const meta = header.column.columnDef.meta;
-	const cls = ["table-data-footer-cell z-1 p-2 border-r last:border-r-0 border-b border-t sticky bottom-0", meta?.columnWidth ?? "min-w-64"];
+	const cls = ["table-data-footer-cell z-1 p-2 border-r last:border-r-0 border-t sticky bottom-0", meta?.columnWidth ?? "min-w-64"];
 	if (meta?.footerCls) {
 		cls.push(meta.footerCls(header));
 	}
@@ -116,9 +115,9 @@ function onClickCell(cell: ITableCell<TData>) {
 </script>
 
 <template>
-	<article class="overflow-auto size-full">
+	<article class="overflow-auto size-full border-x border-y">
 		<table
-			class="border-spacing-0 border-separate w-full border-x"
+			class="border-spacing-0 border-separate w-full"
 			:class="tableCls"
 		>
 			<thead v-if="!hideHeaders">
@@ -155,7 +154,10 @@ function onClickCell(cell: ITableCell<TData>) {
 					v-for="row in table.getRowModel().rows"
 					:key="row.id"
 				>
-					<tr :class="getRowClass(row)">
+					<tr
+						:class="getRowClass(row)"
+						class="table-row"
+					>
 						<td
 							v-for="cell in row.getVisibleCells()"
 							:key="cell.id"

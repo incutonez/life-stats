@@ -13,7 +13,7 @@ const selectedRecord = ref<ExerciseActivityViewModel>();
 const showDeleteDialog = ref(false);
 const { data } = useListActivities();
 const { deleteRecord, deletingRecord } = useDeleteActivity();
-const { table } = useTableData<ExerciseActivityViewModel>({
+const { table, search } = useTableData<ExerciseActivityViewModel>({
 	data,
 	paginated: true,
 	columns: [useTableActions([{
@@ -37,10 +37,14 @@ async function onClickDelete() {
 
 <template>
 	<article class="size-full flex flex-col">
-		<TablePagination :table="table" />
+		<TablePagination
+			v-model:search="search"
+			:table="table"
+		/>
 		<TableData
 			:table="table"
 			class="flex-1"
+			table-layout="table-auto"
 		/>
 		<DeleteDialog
 			v-model="showDeleteDialog"

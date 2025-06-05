@@ -18,7 +18,7 @@ export interface IViewFeatureHistoryProps {
 }
 
 const props = defineProps<IViewFeatureHistoryProps>();
-const { table } = useTableData<AuditViewModel>({
+const { table, search } = useTableData<AuditViewModel>({
 	data: toRef(props, "data"),
 	paginated: true,
 	sortInitial: [{
@@ -133,8 +133,8 @@ function renderSubRows({ row }: ISubRowRenderer<AuditViewModel>) {
 <template>
 	<article class="flex flex-col size-full">
 		<TablePagination
+			v-model:search="search"
 			:table="table"
-			class="ml-auto border-y-0"
 		/>
 		<TableData
 			:table="table"

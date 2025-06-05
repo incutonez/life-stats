@@ -6,6 +6,7 @@ import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
 import { IconDelete, IconSave } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
+import TablePagination from "@/components/TablePagination.vue";
 import { useTableActions, useTableData } from "@/composables/table.ts";
 import { downloadFile, makeCSV } from "@/utils/common.ts";
 import { useImportActivities, useUploadActivities } from "@/views/exercises/composables/activities.ts";
@@ -17,7 +18,7 @@ const showingImport = ref(true);
 const dialogCmp = ref<InstanceType<typeof BaseDialog>>();
 const { importFile, uploadFile, uploadingFile } = useImportActivities();
 const { addedRecords, addingRecords, createApplications } = useUploadActivities();
-const { table } = useTableData<ExerciseActivityCreateViewModel>({
+const { table, search } = useTableData<ExerciseActivityCreateViewModel>({
 	data: addedRecords,
 	paginated: true,
 	columns: [useTableActions([{
@@ -73,11 +74,17 @@ function onCloseDialog() {
 				@changed-files="onChangeFile"
 				@click-template="onClickDownloadTemplate"
 			/>
-			<TableData
-				v-else
-				class="max-h-[70vh] max-w-[90vw]"
-				:table="table"
-			/>
+			<section v-else>
+				<TablePagination
+					v-model:search="search"
+					class="border-t"
+					:table="table"
+				/>
+				<TableData
+					class="max-h-[70vh] max-w-[90vw]"
+					:table="table"
+				/>
+			</section>
 		</template>
 		<template #footer>
 			<BaseButton

@@ -28,11 +28,15 @@ export function useActivitiesColumns<T extends ExerciseActivityCreateViewModel>(
 		}, {
 			accessorKey: "source",
 			header: "Source",
+			meta: {
+				columnWidth: "w-max",
+			},
 		}, {
+			id: "attribute",
 			accessorKey: "attributes",
 			header: "Attributes",
 			meta: {
-				columnWidth: "w-100",
+				cellCls: "!p-0",
 			},
 			cell(info) {
 				const attributes = info.getValue<ExerciseActivityAttributeViewModel[]>();
@@ -46,19 +50,16 @@ export function useActivitiesColumns<T extends ExerciseActivityCreateViewModel>(
 						id: "attributeTypeName",
 						accessorKey: "attributeType.name",
 						header: "Attribute",
-						meta: {
-							columnWidth: "w-max",
-						},
 					}, {
 						accessorKey: "value",
 						header: "Value",
 						meta: {
-							columnWidth: "w-max",
+							cellCls: "!border-r-0",
 						},
 						cell(info) {
 							const { original } = info.row;
 							const display: string[] = [getEnumDisplay(EnumUnitTypes, original.unitDisplay ?? original.unit)];
-							const value = original.valueDisplay || info.getValue<string>();
+							const value = original.valueDisplay || original.value;
 							const attributeType = original.attributeType.type;
 							if (attributeType === "number") {
 								display.unshift(numberToDisplay(value));
@@ -69,8 +70,8 @@ export function useActivitiesColumns<T extends ExerciseActivityCreateViewModel>(
 				});
 				return h<ITableData<ExerciseActivityAttributeViewModel>>(TableData, {
 					table: attributesTable.table,
-					isSubRow: true,
-					tableLayout: "table-auto",
+					hideHeaders: true,
+					class: "!border-0",
 				});
 			},
 		},

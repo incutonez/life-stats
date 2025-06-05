@@ -81,6 +81,10 @@ input[type=number] {
         @apply bg-white hover:bg-sky-100 flex size-5 appearance-none items-center justify-center rounded-md outline-none border border-gray-500;
     }
     
+    .table-row:last-child > td {
+        @apply !border-b-0;
+    }
+    
     .base-button {
         @apply px-2 py-1 inline-flex cursor-pointer select-none items-center justify-center overflow-hidden relative text-sm transition-colors duration-200 rounded-md disabled:opacity-60 disabled:cursor-not-allowed;
 

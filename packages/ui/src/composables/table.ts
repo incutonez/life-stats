@@ -10,6 +10,8 @@ import BaseButton from "@/components/BaseButton.vue";
 import CellDateTime from "@/components/CellDateTime.vue";
 import { IconDown, IconRight } from "@/components/Icons.ts";
 import type {
+	ISortIdentity,
+	ITable,
 	ITableAction,
 	ITableCellContext,
 	ITableColumn,
@@ -26,6 +28,9 @@ export function useTableData<TData = unknown>({ data, columns, sortInitial, sear
 		get data() {
 			return unref(data) ?? [];
 		},
+		get columns() {
+			return unref(columns) ?? [];
+		},
 		globalFilterFn: "includesString",
 		getCoreRowModel: getCoreRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
@@ -33,9 +38,6 @@ export function useTableData<TData = unknown>({ data, columns, sortInitial, sear
 		getSortedRowModel: getSortedRowModel(),
 		getExpandedRowModel: getExpandedRowModel(),
 		getPaginationRowModel: paginated ? getPaginationRowModel() : undefined,
-		get columns() {
-			return unref(columns);
-		},
 		initialState: {
 			pagination: {
 				pageSize: 50,
@@ -62,16 +64,16 @@ export function useTableData<TData = unknown>({ data, columns, sortInitial, sear
 		onExpandedChange(updaterOrValue) {
 			expanded.value = typeof updaterOrValue === "function" ? updaterOrValue(expanded.value) : updaterOrValue;
 		},
-	});
+	}) as ITable<TData>;
 
-	function getColumnSortIdentity(columnId: string) {
-		let identity = 1;
+	table.getColumnSortIdentity = (columnId: string) => {
+		let identity: ISortIdentity = 1;
 		const $sorting = table.getState().sorting;
 		if ($sorting) {
 			identity = $sorting.find(({ id }) => id === columnId)?.desc ? 1 : -1;
 		}
 		return identity;
-	}
+	};
 
 	// Whenever the data changes, we have to make sure we reset the expanded state, as it could be invalid
 	watch(isRef(data) ? data : () => data, () => table.resetExpanded());
@@ -79,7 +81,6 @@ export function useTableData<TData = unknown>({ data, columns, sortInitial, sear
 	return {
 		table,
 		search,
-		getColumnSortIdentity,
 	};
 }
 

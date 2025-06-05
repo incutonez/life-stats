@@ -1,4 +1,4 @@
-﻿import { SetMetadata } from "@nestjs/common";
+﻿import { SetMetadata, UsePipes, ValidationPipe } from "@nestjs/common";
 import { Unit } from "convert";
 
 export const SESSION_STORAGE = "USER_STORAGE";
@@ -77,3 +77,9 @@ export const EnumMappedUnitTypes: Record<EnumUnitTypesKeys, Unit> = {
 export type EnumMappedUnitTypes = typeof EnumMappedUnitTypes[keyof typeof EnumMappedUnitTypes];
 
 export const SecondsInHour = 60 * 60;
+
+export function UseValidationPipe() {
+	return UsePipes(new ValidationPipe({
+		transform: true,
+	}));
+}

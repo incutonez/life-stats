@@ -7,16 +7,15 @@
 	NotFoundException,
 	Param,
 	Post, Put, UploadedFile,
-	UseInterceptors, ValidationPipe,
+	UseInterceptors,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { UseValidationPipe } from "@/constants";
 import { ApplicationsService } from "@/jobs/applications/applications.service";
 import { ApplicationsUploadViewModel } from "@/jobs/applications/types";
-import {
-	ApplicationViewModel, IApplicationBulkViewModel,
-	IApplicationCreateViewModel,
-} from "@/viewModels/application.viewmodel";
+import { IUploadViewModelsResponse } from "@/types";
+import { ApplicationViewModel, IApplicationCreateViewModel } from "@/viewModels/application.viewmodel";
 import { ApiPaginatedRequest } from "@/viewModels/base.list.viewmodel";
 
 @ApiTags("applications")
@@ -39,9 +38,8 @@ export class ApplicationsController {
 	@ApiOkResponse({
 		type: [ApplicationViewModel],
 	})
-	async uploadApplications(@Body(new ValidationPipe({
-		transform: true,
-	})) { addHeaders }: ApplicationsUploadViewModel, @UploadedFile("file") file: Express.Multer.File): Promise<IApplicationCreateViewModel[]> {
+	@UseValidationPipe()
+	async uploadApplications(@Body() { addHeaders }: ApplicationsUploadViewModel, @UploadedFile("file") file: Express.Multer.File): Promise<IApplicationCreateViewModel[]> {
 		return this.service.uploadApplications(file, addHeaders);
 	}
 
@@ -49,11 +47,13 @@ export class ApplicationsController {
 	@ApiBody({
 		type: [ApplicationViewModel],
 	})
-	async createApplications(@Body() applications: ApplicationViewModel[]): Promise<IApplicationBulkViewModel> {
+	@UseValidationPipe()
+	async createApplications(@Body() applications: ApplicationViewModel[]): Promise<IUploadViewModelsResponse> {
 		return this.service.createApplications(applications);
 	}
 
 	@Post("")
+	@UseValidationPipe()
 	async createApplication(@Body() application: ApplicationViewModel): Promise<IApplicationCreateViewModel> {
 		const response = await this.service.createApplication(application);
 		if (response) {
@@ -63,6 +63,7 @@ export class ApplicationsController {
 	}
 
 	@Put(":applicationId")
+	@UseValidationPipe()
 	async updateApplication(@Body() application: ApplicationViewModel, @Param("applicationId") _applicationId: string): Promise<ApplicationViewModel> {
 		const response = await this.service.updateApplication(application);
 		if (response) {

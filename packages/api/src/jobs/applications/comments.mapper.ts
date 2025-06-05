@@ -2,7 +2,7 @@
 import { SessionStorageService } from "@/auth/session.storage.service";
 import { SESSION_STORAGE } from "@/constants";
 import { ICommentCreateModel, ICommentModel } from "@/db/models/CommentModel";
-import { ICommentViewModel } from "@/viewModels/comment.viewmodel";
+import { ICommentCreateViewModel, ICommentViewModel } from "@/viewModels/comment.viewmodel";
 
 @Injectable()
 export class CommentsMapper {
@@ -19,7 +19,7 @@ export class CommentsMapper {
 		};
 	}
 
-	createViewModelToEntity({ applicationId, comment }: ICommentViewModel): ICommentCreateModel {
+	createViewModelToEntity({ applicationId, comment }: ICommentCreateViewModel): ICommentCreateModel {
 		return {
 			comment: comment.trim(),
 			application_id: applicationId,

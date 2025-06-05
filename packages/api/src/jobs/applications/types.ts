@@ -2,7 +2,7 @@
 import { Transform } from "class-transformer";
 import { IsBoolean } from "class-validator";
 
-export interface IUploadModel {
+export interface IUploadApplicationModel {
 	company: string;
 	positionTitle: string;
 	dateApplied: string;

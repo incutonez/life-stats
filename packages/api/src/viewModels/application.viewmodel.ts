@@ -10,28 +10,16 @@ export type IApplicationViewModel = ModelInterface<ApplicationViewModel>;
 
 export type IApplicationUpdateViewModel = Omit<IApplicationViewModel, "site">;
 
-export type IApplicationCreateViewModel = Omit<IApplicationViewModel, "id" | "site">;
-
-export type IApplicationBulkViewModel = ModelInterface<ApplicationBulkViewModel>;
+export type IApplicationCreateViewModel = ModelInterface<ApplicationCreateViewModel>;
 
 export type IApplicationNestedViewModel = Omit<IApplicationViewModel, "company">;
 
-export class ApplicationBulkViewModel {
-	declare successful: number;
-
-	declare errors: string[];
-}
-
-export class ApplicationViewModel extends BaseViewModel {
-	declare id: string;
-
+export class ApplicationCreateViewModel extends BaseViewModel {
 	declare positionTitle: string;
 
 	declare dateApplied: number;
 
 	declare url: string;
-
-	declare site: string;
 
 	declare compensation: string;
 
@@ -43,6 +31,12 @@ export class ApplicationViewModel extends BaseViewModel {
 	declare company: CompanyViewModel;
 
 	declare comments: CommentViewModel[];
+}
+
+export class ApplicationViewModel extends ApplicationCreateViewModel {
+	declare id: string;
+
+	declare site: string;
 }
 
 export class ApplicationNestedViewModel extends OmitType(ApplicationViewModel, ["company"]) {}

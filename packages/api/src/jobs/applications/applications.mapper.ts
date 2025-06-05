@@ -6,7 +6,7 @@ import { SessionStorageService } from "@/auth/session.storage.service";
 import { SESSION_STORAGE } from "@/constants";
 import { ApplicationModel, IApplicationCreateModel, IApplicationUpdateModel } from "@/db/models/ApplicationModel";
 import { CommentsMapper } from "@/jobs/applications/comments.mapper";
-import { IUploadModel } from "@/jobs/applications/types";
+import { IUploadApplicationModel } from "@/jobs/applications/types";
 import { CompaniesMapper } from "@/jobs/companies/companies.mapper";
 import { EnumApplicationStatus } from "@/types";
 import {
@@ -105,7 +105,7 @@ export class ApplicationsMapper implements OnModuleInit {
 		};
 	}
 
-	csvModelToViewModel({ company, comments, url = "", compensation, positionTitle, status, dateApplied }: IUploadModel): IApplicationCreateViewModel {
+	csvModelToViewModel({ company, comments, url = "", compensation, positionTitle, status, dateApplied }: IUploadApplicationModel): IApplicationCreateViewModel {
 		const userId = this.authStorageService.getUserId();
 		return {
 			url,

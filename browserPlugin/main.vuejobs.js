@@ -1,5 +1,5 @@
 const ParentCard = ".transition-all";
-const LastCompany = "Slides With Friends";
+const LastCompany = "RN Pad";
 let found = false;
 
 function docReady(fn) {

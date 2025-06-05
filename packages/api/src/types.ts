@@ -43,3 +43,10 @@ export const EnumApplicationStatus = {
 
 export type EnumApplicationStatusKeys = keyof typeof EnumApplicationStatus;
 export type EnumApplicationStatus = typeof EnumApplicationStatus[EnumApplicationStatusKeys];
+
+export type IUploadViewModelsResponse = ModelInterface<UploadViewModelsResponse>;
+export class UploadViewModelsResponse {
+	declare successful: number;
+
+	declare errors: string[];
+}

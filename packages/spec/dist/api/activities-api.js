@@ -3,6 +3,27 @@ import { DUMMY_BASE_URL, assertParamExists, setSearchParams, serializeDataIfNeed
 import { BASE_PATH, BaseAPI } from '../base';
 export const ActivitiesApiAxiosParamCreator = function (configuration) {
     return {
+        createActivity: async (exerciseActivityCreateViewModel, options = {}) => {
+            assertParamExists('createActivity', 'exerciseActivityCreateViewModel', exerciseActivityCreateViewModel);
+            const localVarPath = `/exercises/activities`;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+            localVarRequestOptions.data = serializeDataIfNeeded(exerciseActivityCreateViewModel, localVarRequestOptions, configuration);
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         deleteActivity: async (activityId, options = {}) => {
             assertParamExists('deleteActivity', 'activityId', activityId);
             const localVarPath = `/exercises/activities/{activityId}`
@@ -88,6 +109,29 @@ export const ActivitiesApiAxiosParamCreator = function (configuration) {
                 options: localVarRequestOptions,
             };
         },
+        updateActivity: async (activityId, exerciseActivityViewModel, options = {}) => {
+            assertParamExists('updateActivity', 'activityId', activityId);
+            assertParamExists('updateActivity', 'exerciseActivityViewModel', exerciseActivityViewModel);
+            const localVarPath = `/exercises/activities/{activityId}`
+                .replace(`{${"activityId"}}`, encodeURIComponent(String(activityId)));
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+            localVarRequestOptions.data = serializeDataIfNeeded(exerciseActivityViewModel, localVarRequestOptions, configuration);
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         uploadActivities: async (exerciseActivityCreateViewModel, options = {}) => {
             assertParamExists('uploadActivities', 'exerciseActivityCreateViewModel', exerciseActivityCreateViewModel);
             const localVarPath = `/exercises/activities/upload`;
@@ -114,6 +158,10 @@ export const ActivitiesApiAxiosParamCreator = function (configuration) {
 export const ActivitiesApiFp = function (configuration) {
     const localVarAxiosParamCreator = ActivitiesApiAxiosParamCreator(configuration);
     return {
+        async createActivity(exerciseActivityCreateViewModel, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createActivity(exerciseActivityCreateViewModel, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
         async deleteActivity(activityId, options) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteActivity(activityId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
@@ -130,6 +178,10 @@ export const ActivitiesApiFp = function (configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listActivities(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        async updateActivity(activityId, exerciseActivityViewModel, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateActivity(activityId, exerciseActivityViewModel, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
         async uploadActivities(exerciseActivityCreateViewModel, options) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.uploadActivities(exerciseActivityCreateViewModel, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
@@ -139,6 +191,9 @@ export const ActivitiesApiFp = function (configuration) {
 export const ActivitiesApiFactory = function (configuration, basePath, axios) {
     const localVarFp = ActivitiesApiFp(configuration);
     return {
+        createActivity(exerciseActivityCreateViewModel, options) {
+            return localVarFp.createActivity(exerciseActivityCreateViewModel, options).then((request) => request(axios, basePath));
+        },
         deleteActivity(activityId, options) {
             return localVarFp.deleteActivity(activityId, options).then((request) => request(axios, basePath));
         },
@@ -151,12 +206,18 @@ export const ActivitiesApiFactory = function (configuration, basePath, axios) {
         listActivities(options) {
             return localVarFp.listActivities(options).then((request) => request(axios, basePath));
         },
+        updateActivity(activityId, exerciseActivityViewModel, options) {
+            return localVarFp.updateActivity(activityId, exerciseActivityViewModel, options).then((request) => request(axios, basePath));
+        },
         uploadActivities(exerciseActivityCreateViewModel, options) {
             return localVarFp.uploadActivities(exerciseActivityCreateViewModel, options).then((request) => request(axios, basePath));
         },
     };
 };
 export class ActivitiesApi extends BaseAPI {
+    createActivity(exerciseActivityCreateViewModel, options) {
+        return ActivitiesApiFp(this.configuration).createActivity(exerciseActivityCreateViewModel, options).then((request) => request(this.axios, this.basePath));
+    }
     deleteActivity(activityId, options) {
         return ActivitiesApiFp(this.configuration).deleteActivity(activityId, options).then((request) => request(this.axios, this.basePath));
     }
@@ -168,6 +229,9 @@ export class ActivitiesApi extends BaseAPI {
     }
     listActivities(options) {
         return ActivitiesApiFp(this.configuration).listActivities(options).then((request) => request(this.axios, this.basePath));
+    }
+    updateActivity(activityId, exerciseActivityViewModel, options) {
+        return ActivitiesApiFp(this.configuration).updateActivity(activityId, exerciseActivityViewModel, options).then((request) => request(this.axios, this.basePath));
     }
     uploadActivities(exerciseActivityCreateViewModel, options) {
         return ActivitiesApiFp(this.configuration).uploadActivities(exerciseActivityCreateViewModel, options).then((request) => request(this.axios, this.basePath));

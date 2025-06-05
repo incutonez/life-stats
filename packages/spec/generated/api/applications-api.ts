@@ -70,13 +70,13 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
         },
         /**
          * 
-         * @param {Array<string>} requestBody 
+         * @param {Array<ApplicationViewModel>} applicationViewModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createApplications: async (requestBody: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'requestBody' is not null or undefined
-            assertParamExists('createApplications', 'requestBody', requestBody)
+        createApplications: async (applicationViewModel: Array<ApplicationViewModel>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'applicationViewModel' is not null or undefined
+            assertParamExists('createApplications', 'applicationViewModel', applicationViewModel)
             const localVarPath = `/jobs/applications/bulk`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -96,7 +96,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(requestBody, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(applicationViewModel, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -312,12 +312,12 @@ export const ApplicationsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {Array<string>} requestBody 
+         * @param {Array<ApplicationViewModel>} applicationViewModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createApplications(requestBody: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createApplications(requestBody, options);
+        async createApplications(applicationViewModel: Array<ApplicationViewModel>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createApplications(applicationViewModel, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -393,12 +393,12 @@ export const ApplicationsApiFactory = function (configuration?: Configuration, b
         },
         /**
          * 
-         * @param {Array<string>} requestBody 
+         * @param {Array<ApplicationViewModel>} applicationViewModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createApplications(requestBody: Array<string>, options?: any): AxiosPromise<object> {
-            return localVarFp.createApplications(requestBody, options).then((request) => request(axios, basePath));
+        createApplications(applicationViewModel: Array<ApplicationViewModel>, options?: any): AxiosPromise<object> {
+            return localVarFp.createApplications(applicationViewModel, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -467,12 +467,12 @@ export interface ApplicationsApiInterface {
 
     /**
      * 
-     * @param {Array<string>} requestBody 
+     * @param {Array<ApplicationViewModel>} applicationViewModel 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ApplicationsApiInterface
      */
-    createApplications(requestBody: Array<string>, options?: AxiosRequestConfig): AxiosPromise<object>;
+    createApplications(applicationViewModel: Array<ApplicationViewModel>, options?: AxiosRequestConfig): AxiosPromise<object>;
 
     /**
      * 
@@ -543,13 +543,13 @@ export class ApplicationsApi extends BaseAPI implements ApplicationsApiInterface
 
     /**
      * 
-     * @param {Array<string>} requestBody 
+     * @param {Array<ApplicationViewModel>} applicationViewModel 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ApplicationsApi
      */
-    public createApplications(requestBody: Array<string>, options?: AxiosRequestConfig) {
-        return ApplicationsApiFp(this.configuration).createApplications(requestBody, options).then((request) => request(this.axios, this.basePath));
+    public createApplications(applicationViewModel: Array<ApplicationViewModel>, options?: AxiosRequestConfig) {
+        return ApplicationsApiFp(this.configuration).createApplications(applicationViewModel, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

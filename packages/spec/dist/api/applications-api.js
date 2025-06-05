@@ -24,8 +24,8 @@ export const ApplicationsApiAxiosParamCreator = function (configuration) {
                 options: localVarRequestOptions,
             };
         },
-        createApplications: async (requestBody, options = {}) => {
-            assertParamExists('createApplications', 'requestBody', requestBody);
+        createApplications: async (applicationViewModel, options = {}) => {
+            assertParamExists('createApplications', 'applicationViewModel', applicationViewModel);
             const localVarPath = `/jobs/applications/bulk`;
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -39,7 +39,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration) {
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-            localVarRequestOptions.data = serializeDataIfNeeded(requestBody, localVarRequestOptions, configuration);
+            localVarRequestOptions.data = serializeDataIfNeeded(applicationViewModel, localVarRequestOptions, configuration);
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -167,8 +167,8 @@ export const ApplicationsApiFp = function (configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createApplication(applicationViewModel, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
-        async createApplications(requestBody, options) {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createApplications(requestBody, options);
+        async createApplications(applicationViewModel, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createApplications(applicationViewModel, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         async deleteApplication(applicationId, options) {
@@ -199,8 +199,8 @@ export const ApplicationsApiFactory = function (configuration, basePath, axios) 
         createApplication(applicationViewModel, options) {
             return localVarFp.createApplication(applicationViewModel, options).then((request) => request(axios, basePath));
         },
-        createApplications(requestBody, options) {
-            return localVarFp.createApplications(requestBody, options).then((request) => request(axios, basePath));
+        createApplications(applicationViewModel, options) {
+            return localVarFp.createApplications(applicationViewModel, options).then((request) => request(axios, basePath));
         },
         deleteApplication(applicationId, options) {
             return localVarFp.deleteApplication(applicationId, options).then((request) => request(axios, basePath));
@@ -223,8 +223,8 @@ export class ApplicationsApi extends BaseAPI {
     createApplication(applicationViewModel, options) {
         return ApplicationsApiFp(this.configuration).createApplication(applicationViewModel, options).then((request) => request(this.axios, this.basePath));
     }
-    createApplications(requestBody, options) {
-        return ApplicationsApiFp(this.configuration).createApplications(requestBody, options).then((request) => request(this.axios, this.basePath));
+    createApplications(applicationViewModel, options) {
+        return ApplicationsApiFp(this.configuration).createApplications(applicationViewModel, options).then((request) => request(this.axios, this.basePath));
     }
     deleteApplication(applicationId, options) {
         return ApplicationsApiFp(this.configuration).deleteApplication(applicationId, options).then((request) => request(this.axios, this.basePath));

@@ -10,7 +10,7 @@
 	UseInterceptors,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { ApiConsumes, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { UseValidationPipe } from "@/constants";
 import { ActivitiesService } from "@/exercises/activities/activities.service";
 import { EnumActivitySource } from "@/exercises/constants";
@@ -45,6 +45,9 @@ export class ActivitiesController {
 	}
 
 	@Post("upload")
+	@ApiBody({
+		type: [ExerciseActivityCreateViewModel],
+	})
 	@UseValidationPipe()
 	async uploadActivities(@Body() models: ExerciseActivityCreateViewModel[]): Promise<IUploadViewModelsResponse> {
 		return this.service.uploadActivities(models);

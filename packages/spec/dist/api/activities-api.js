@@ -132,8 +132,8 @@ export const ActivitiesApiAxiosParamCreator = function (configuration) {
                 options: localVarRequestOptions,
             };
         },
-        uploadActivities: async (requestBody, options = {}) => {
-            assertParamExists('uploadActivities', 'requestBody', requestBody);
+        uploadActivities: async (exerciseActivityCreateViewModel, options = {}) => {
+            assertParamExists('uploadActivities', 'exerciseActivityCreateViewModel', exerciseActivityCreateViewModel);
             const localVarPath = `/exercises/activities/upload`;
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -147,7 +147,7 @@ export const ActivitiesApiAxiosParamCreator = function (configuration) {
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-            localVarRequestOptions.data = serializeDataIfNeeded(requestBody, localVarRequestOptions, configuration);
+            localVarRequestOptions.data = serializeDataIfNeeded(exerciseActivityCreateViewModel, localVarRequestOptions, configuration);
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -182,8 +182,8 @@ export const ActivitiesApiFp = function (configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateActivity(activityId, exerciseActivityViewModel, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
-        async uploadActivities(requestBody, options) {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadActivities(requestBody, options);
+        async uploadActivities(exerciseActivityCreateViewModel, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadActivities(exerciseActivityCreateViewModel, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     };
@@ -209,8 +209,8 @@ export const ActivitiesApiFactory = function (configuration, basePath, axios) {
         updateActivity(activityId, exerciseActivityViewModel, options) {
             return localVarFp.updateActivity(activityId, exerciseActivityViewModel, options).then((request) => request(axios, basePath));
         },
-        uploadActivities(requestBody, options) {
-            return localVarFp.uploadActivities(requestBody, options).then((request) => request(axios, basePath));
+        uploadActivities(exerciseActivityCreateViewModel, options) {
+            return localVarFp.uploadActivities(exerciseActivityCreateViewModel, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -233,7 +233,7 @@ export class ActivitiesApi extends BaseAPI {
     updateActivity(activityId, exerciseActivityViewModel, options) {
         return ActivitiesApiFp(this.configuration).updateActivity(activityId, exerciseActivityViewModel, options).then((request) => request(this.axios, this.basePath));
     }
-    uploadActivities(requestBody, options) {
-        return ActivitiesApiFp(this.configuration).uploadActivities(requestBody, options).then((request) => request(this.axios, this.basePath));
+    uploadActivities(exerciseActivityCreateViewModel, options) {
+        return ActivitiesApiFp(this.configuration).uploadActivities(exerciseActivityCreateViewModel, options).then((request) => request(this.axios, this.basePath));
     }
 }

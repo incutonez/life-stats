@@ -248,13 +248,13 @@ export const ActivitiesApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
-         * @param {Array<string>} requestBody 
+         * @param {Array<ExerciseActivityCreateViewModel>} exerciseActivityCreateViewModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadActivities: async (requestBody: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'requestBody' is not null or undefined
-            assertParamExists('uploadActivities', 'requestBody', requestBody)
+        uploadActivities: async (exerciseActivityCreateViewModel: Array<ExerciseActivityCreateViewModel>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'exerciseActivityCreateViewModel' is not null or undefined
+            assertParamExists('uploadActivities', 'exerciseActivityCreateViewModel', exerciseActivityCreateViewModel)
             const localVarPath = `/exercises/activities/upload`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -274,7 +274,7 @@ export const ActivitiesApiAxiosParamCreator = function (configuration?: Configur
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(requestBody, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(exerciseActivityCreateViewModel, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -354,12 +354,12 @@ export const ActivitiesApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {Array<string>} requestBody 
+         * @param {Array<ExerciseActivityCreateViewModel>} exerciseActivityCreateViewModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadActivities(requestBody: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadActivities(requestBody, options);
+        async uploadActivities(exerciseActivityCreateViewModel: Array<ExerciseActivityCreateViewModel>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadActivities(exerciseActivityCreateViewModel, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -429,12 +429,12 @@ export const ActivitiesApiFactory = function (configuration?: Configuration, bas
         },
         /**
          * 
-         * @param {Array<string>} requestBody 
+         * @param {Array<ExerciseActivityCreateViewModel>} exerciseActivityCreateViewModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadActivities(requestBody: Array<string>, options?: any): AxiosPromise<object> {
-            return localVarFp.uploadActivities(requestBody, options).then((request) => request(axios, basePath));
+        uploadActivities(exerciseActivityCreateViewModel: Array<ExerciseActivityCreateViewModel>, options?: any): AxiosPromise<object> {
+            return localVarFp.uploadActivities(exerciseActivityCreateViewModel, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -502,12 +502,12 @@ export interface ActivitiesApiInterface {
 
     /**
      * 
-     * @param {Array<string>} requestBody 
+     * @param {Array<ExerciseActivityCreateViewModel>} exerciseActivityCreateViewModel 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ActivitiesApiInterface
      */
-    uploadActivities(requestBody: Array<string>, options?: AxiosRequestConfig): AxiosPromise<object>;
+    uploadActivities(exerciseActivityCreateViewModel: Array<ExerciseActivityCreateViewModel>, options?: AxiosRequestConfig): AxiosPromise<object>;
 
 }
 
@@ -587,12 +587,12 @@ export class ActivitiesApi extends BaseAPI implements ActivitiesApiInterface {
 
     /**
      * 
-     * @param {Array<string>} requestBody 
+     * @param {Array<ExerciseActivityCreateViewModel>} exerciseActivityCreateViewModel 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ActivitiesApi
      */
-    public uploadActivities(requestBody: Array<string>, options?: AxiosRequestConfig) {
-        return ActivitiesApiFp(this.configuration).uploadActivities(requestBody, options).then((request) => request(this.axios, this.basePath));
+    public uploadActivities(exerciseActivityCreateViewModel: Array<ExerciseActivityCreateViewModel>, options?: AxiosRequestConfig) {
+        return ActivitiesApiFp(this.configuration).uploadActivities(exerciseActivityCreateViewModel, options).then((request) => request(this.axios, this.basePath));
     }
 }

@@ -10,7 +10,7 @@
 	UseInterceptors,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { ApiConsumes, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { UseValidationPipe } from "@/constants";
 import { ApplicationsService } from "@/jobs/applications/applications.service";
 import { ApplicationsUploadViewModel } from "@/jobs/applications/types";
@@ -44,6 +44,9 @@ export class ApplicationsController {
 	}
 
 	@Post("bulk")
+	@ApiBody({
+		type: [ApplicationViewModel],
+	})
 	@UseValidationPipe()
 	async createApplications(@Body() applications: ApplicationViewModel[]): Promise<IUploadViewModelsResponse> {
 		return this.service.createApplications(applications);

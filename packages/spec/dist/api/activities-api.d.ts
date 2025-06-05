@@ -11,7 +11,7 @@ export declare const ActivitiesApiAxiosParamCreator: (configuration?: Configurat
     importActivities: (source: string, file: File, options?: AxiosRequestConfig) => Promise<RequestArgs>;
     listActivities: (options?: AxiosRequestConfig) => Promise<RequestArgs>;
     updateActivity: (activityId: string, exerciseActivityViewModel: ExerciseActivityViewModel, options?: AxiosRequestConfig) => Promise<RequestArgs>;
-    uploadActivities: (requestBody: Array<string>, options?: AxiosRequestConfig) => Promise<RequestArgs>;
+    uploadActivities: (exerciseActivityCreateViewModel: Array<ExerciseActivityCreateViewModel>, options?: AxiosRequestConfig) => Promise<RequestArgs>;
 };
 export declare const ActivitiesApiFp: (configuration?: Configuration) => {
     createActivity(exerciseActivityCreateViewModel: ExerciseActivityCreateViewModel, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExerciseActivityViewModel>>;
@@ -20,7 +20,7 @@ export declare const ActivitiesApiFp: (configuration?: Configuration) => {
     importActivities(source: string, file: File, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ExerciseActivityCreateViewModel>>>;
     listActivities(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExerciseActivityListViewModel>>;
     updateActivity(activityId: string, exerciseActivityViewModel: ExerciseActivityViewModel, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExerciseActivityViewModel>>;
-    uploadActivities(requestBody: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>>;
+    uploadActivities(exerciseActivityCreateViewModel: Array<ExerciseActivityCreateViewModel>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>>;
 };
 export declare const ActivitiesApiFactory: (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) => {
     createActivity(exerciseActivityCreateViewModel: ExerciseActivityCreateViewModel, options?: any): AxiosPromise<ExerciseActivityViewModel>;
@@ -29,7 +29,7 @@ export declare const ActivitiesApiFactory: (configuration?: Configuration, baseP
     importActivities(source: string, file: File, options?: any): AxiosPromise<Array<ExerciseActivityCreateViewModel>>;
     listActivities(options?: any): AxiosPromise<ExerciseActivityListViewModel>;
     updateActivity(activityId: string, exerciseActivityViewModel: ExerciseActivityViewModel, options?: any): AxiosPromise<ExerciseActivityViewModel>;
-    uploadActivities(requestBody: Array<string>, options?: any): AxiosPromise<object>;
+    uploadActivities(exerciseActivityCreateViewModel: Array<ExerciseActivityCreateViewModel>, options?: any): AxiosPromise<object>;
 };
 export interface ActivitiesApiInterface {
     createActivity(exerciseActivityCreateViewModel: ExerciseActivityCreateViewModel, options?: AxiosRequestConfig): AxiosPromise<ExerciseActivityViewModel>;
@@ -38,7 +38,7 @@ export interface ActivitiesApiInterface {
     importActivities(source: string, file: File, options?: AxiosRequestConfig): AxiosPromise<Array<ExerciseActivityCreateViewModel>>;
     listActivities(options?: AxiosRequestConfig): AxiosPromise<ExerciseActivityListViewModel>;
     updateActivity(activityId: string, exerciseActivityViewModel: ExerciseActivityViewModel, options?: AxiosRequestConfig): AxiosPromise<ExerciseActivityViewModel>;
-    uploadActivities(requestBody: Array<string>, options?: AxiosRequestConfig): AxiosPromise<object>;
+    uploadActivities(exerciseActivityCreateViewModel: Array<ExerciseActivityCreateViewModel>, options?: AxiosRequestConfig): AxiosPromise<object>;
 }
 export declare class ActivitiesApi extends BaseAPI implements ActivitiesApiInterface {
     createActivity(exerciseActivityCreateViewModel: ExerciseActivityCreateViewModel, options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<ExerciseActivityViewModel, any>>;
@@ -47,5 +47,5 @@ export declare class ActivitiesApi extends BaseAPI implements ActivitiesApiInter
     importActivities(source: string, file: File, options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<ExerciseActivityCreateViewModel[], any>>;
     listActivities(options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<ExerciseActivityListViewModel, any>>;
     updateActivity(activityId: string, exerciseActivityViewModel: ExerciseActivityViewModel, options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<ExerciseActivityViewModel, any>>;
-    uploadActivities(requestBody: Array<string>, options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<object, any>>;
+    uploadActivities(exerciseActivityCreateViewModel: Array<ExerciseActivityCreateViewModel>, options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<object, any>>;
 }

@@ -38,15 +38,15 @@ function onClickImport() {
 			:aria-selected="isRouteSelected(RouteExercisesHistory)"
 			@click="onClickHistory"
 		/>
+		<ViewActivitiesImport
+			v-if="showActivitiesImport"
+			v-model="showActivitiesImport"
+		/>
 		<BaseButton
 			:icon="IconDownload"
 			text="Import"
 			theme="navigation"
 			@click="onClickImport"
-		/>
-		<ViewActivitiesImport
-			v-if="showActivitiesImport"
-			v-model="showActivitiesImport"
 		/>
 	</nav>
 </template>

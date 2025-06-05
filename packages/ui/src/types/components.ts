@@ -11,7 +11,11 @@ import type {
 import type { AcceptableValue } from "reka-ui";
 import type { IBaseButtonProps } from "@/components/BaseButton.vue";
 
-export type ITable<TData = unknown> = ITanStackTable<TData>;
+export type ISortIdentity = -1 | 1;
+
+export interface ITable<TData = unknown> extends ITanStackTable<TData> {
+	getColumnSortIdentity: (columnId: string) => ISortIdentity;
+}
 
 export type ITableRow<TData = unknown> = ITanStackRow<TData>;
 
@@ -39,7 +43,7 @@ export interface IChangeEvent<T extends HTMLElement> extends Event {
 
 export interface IUseTableData<TData = unknown> {
 	data: MaybeRef<TData[] | undefined>;
-	columns: MaybeRef<ITableColumn<TData>[]>;
+	columns: MaybeRef<ITableColumn<TData>[] | undefined>;
 	sortInitial?: ITableSort;
 	searchInitial?: string;
 	paginated?: boolean;

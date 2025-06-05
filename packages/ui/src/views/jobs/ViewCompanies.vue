@@ -1,7 +1,6 @@
 ﻿<script setup lang="ts">
 import { h, ref } from "vue";
 import type { ApplicationViewModel, CompanyFullViewModel } from "@incutonez/life-stats-spec";
-import FieldText from "@/components/FieldText.vue";
 import { IconDelete } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
 import TablePagination from "@/components/TablePagination.vue";
@@ -69,18 +68,11 @@ function renderSubRows({ row }: ISubRowRenderer<CompanyFullViewModel>) {
 </script>
 
 <template>
-	<article class="size-full flex flex-col pt-2">
-		<section class="flex px-4">
-			<FieldText
-				v-model="search"
-				label="Search"
-				placeholder="Search Companies..."
-			/>
-			<TablePagination
-				:table="table"
-				class="ml-auto border-b-0"
-			/>
-		</section>
+	<article class="size-full flex flex-col">
+		<TablePagination
+			v-model:search="search"
+			:table="table"
+		/>
 		<TableData
 			:table="table"
 			:render-sub-rows="renderSubRows"

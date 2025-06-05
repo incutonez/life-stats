@@ -6,10 +6,12 @@ import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
 import { IconDelete, IconSave } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
-import { useDateColumn, useExpandableRow, useTableActions, useTableData } from "@/composables/table.ts";
-import type { ISubRowRenderer, ITableData } from "@/types/components.ts";
+import TablePagination from "@/components/TablePagination.vue";
+import { useExpandableRow, useTableActions, useTableData } from "@/composables/table.ts";
+import type { ISubRowRenderer, ITableColumn, ITableData } from "@/types/components.ts";
 import { downloadFile, makeCSV } from "@/utils/common.ts";
 import { useBulkApplications, useImportApplications } from "@/views/jobs/composables/applications.ts";
+import { useApplicationsColumns } from "@/views/jobs/composables/table.ts";
 import DialogEntityImport from "@/views/shared/DialogEntityImport.vue";
 
 const addHeaders = ref(true);
@@ -17,35 +19,22 @@ const showingImport = ref(true);
 const dialogCmp = ref<InstanceType<typeof BaseDialog>>();
 const { importFile, uploadApplications, uploadingFile } = useImportApplications();
 const { addedApplications, addingApplications, createApplications } = useBulkApplications();
-const { table } = useTableData<ApplicationViewModel>({
+const columns = ref<ITableColumn<ApplicationViewModel>[]>();
+const { table, search } = useTableData<ApplicationViewModel>({
+	paginated: true,
 	data: addedApplications,
 	canExpand(row) {
 		return !!row.original.comments.length;
 	},
-	columns: [
-		useExpandableRow(),
-		useTableActions([{
-			icon: IconDelete,
-			handler(record) {
-				// Must update the reference in order to trigger the data table reload
-				addedApplications.value = addedApplications.value.filter((item) => item !== record);
-			},
-		}]), {
-			accessorKey: "company.name",
-			header: "Company",
-		}, {
-			accessorKey: "positionTitle",
-			header: "Position",
-		},
-		useDateColumn("dateApplied", "Applied", "min-w-30 w-30"), {
-			accessorKey: "url",
-			header: "URL",
-		}, {
-			accessorKey: "compensation",
-			header: "Compensation",
-		},
-	],
+	columns,
 });
+columns.value = [useExpandableRow(), useTableActions([{
+	icon: IconDelete,
+	handler(record) {
+		// Must update the reference in order to trigger the data table reload
+		addedApplications.value = addedApplications.value.filter((item) => item !== record);
+	},
+}]), ...useApplicationsColumns(table, true)];
 
 function renderCommentRows({ row }: ISubRowRenderer<ApplicationViewModel>) {
 	const table = useTableData<CommentViewModel>({
@@ -103,12 +92,18 @@ function onCloseDialog() {
 				@changed-files="onChangeFile"
 				@click-template="onClickDownloadTemplate"
 			/>
-			<TableData
-				v-else
-				class="max-h-[70vh] max-w-[90vw]"
-				:table="table"
-				:render-sub-rows="renderCommentRows"
-			/>
+			<section v-else>
+				<TablePagination
+					v-model:search="search"
+					class="border-t"
+					:table="table"
+				/>
+				<TableData
+					class="max-h-[70vh] max-w-[90vw]"
+					:table="table"
+					:render-sub-rows="renderCommentRows"
+				/>
+			</section>
 		</template>
 		<template #footer>
 			<BaseButton

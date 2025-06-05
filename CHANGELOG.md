@@ -1,3 +1,9 @@
+## [2.5.0](https://github.com/incutonez/life-stats/compare/v2.4.0...v2.5.0) (2025-06-05)
+
+### Features
+
+* Refactoring API ([#54](https://github.com/incutonez/life-stats/issues/54)) ([1f71b46](https://github.com/incutonez/life-stats/commit/1f71b466e5a5e5d57f1ee1196ee2eec94c413ec6))
+
 ## [2.4.0](https://github.com/incutonez/life-stats/compare/v2.3.0...v2.4.0) (2025-06-04)
 
 ### Features

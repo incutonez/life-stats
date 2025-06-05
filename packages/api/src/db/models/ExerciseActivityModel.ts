@@ -13,6 +13,8 @@ import { ModelInterface } from "@/types";
 
 export type IExerciseActivityModel = ModelInterface<ExerciseActivityModel>;
 
+export type IExerciseActivityUpdateModel = Omit<IExerciseActivityModel, "attributes" | "activity_type">;
+
 export type IExerciseActivityCreate = Omit<IExerciseActivityModel, "id" | "activity_type" | "attributes"> & {
 	activity_type: IExerciseActivityTypeCreate;
 	attributes: IExerciseActivityAttributeCreate[];

@@ -6,14 +6,14 @@ import { ApplicationModel } from "@/db/models/ApplicationModel";
 import { CommentModel } from "@/db/models/CommentModel";
 import { ApplicationsMapper } from "@/jobs/applications/applications.mapper";
 import { CommentsMapper } from "@/jobs/applications/comments.mapper";
-import { IUploadModel } from "@/jobs/applications/types";
+import { IUploadApplicationModel } from "@/jobs/applications/types";
 import { CompaniesService } from "@/jobs/companies/companies.service";
-import { EnumApplicationStatus } from "@/types";
+import { EnumApplicationStatus, IUploadViewModelsResponse } from "@/types";
+import { getErrorMessage } from "@/utils";
 import {
-	ApplicationListViewModel,
-	IApplicationBulkViewModel,
+	ApplicationCreateViewModel,
+	ApplicationListViewModel, ApplicationViewModel,
 	IApplicationCreateViewModel,
-	IApplicationUpdateViewModel,
 } from "@/viewModels/application.viewmodel";
 import { ApiPaginatedRequest } from "@/viewModels/base.list.viewmodel";
 import { ICommentViewModel } from "@/viewModels/comment.viewmodel";
@@ -75,7 +75,7 @@ export class ApplicationsService {
 		}
 	}
 
-	async createApplication(model: IApplicationCreateViewModel, useAppliedDate = false) {
+	async createApplication(model: ApplicationCreateViewModel, useAppliedDate = false) {
 		model.company = await this.companiesService.createCompany(model.company.name);
 		const entity = await ApplicationModel.create(this.mapper.createViewModelToEntity(model, useAppliedDate), {
 			raw: true,
@@ -88,8 +88,8 @@ export class ApplicationsService {
 		return this.getApplication(id);
 	}
 
-	async createApplications(models: IApplicationCreateViewModel[]) {
-		const results: IApplicationBulkViewModel = {
+	async createApplications(models: ApplicationCreateViewModel[]) {
+		const results: IUploadViewModelsResponse = {
 			successful: 0,
 			errors: [],
 		};
@@ -99,39 +99,40 @@ export class ApplicationsService {
 				results.successful++;
 			}
 			catch (ex) {
-				results.errors.push(ex as string);
+				results.errors.push(getErrorMessage(ex));
 			}
 		}
 		return results;
 	}
 
-	async updateApplication(model: IApplicationUpdateViewModel) {
-		model.company = await this.companiesService.createCompany(model.company.name);
-		const record = await this.getApplicationRaw(model.id);
+	async updateApplication(viewModel: ApplicationViewModel) {
+		const record = await this.getApplicationRaw(viewModel.id);
 		if (record) {
+			const { comments } = record;
 			/* Let's force updatedAt to change... this is helpful for scenarios where the associations change, but the parent
 			 * record doesn't, but we still want to show that the overall entity was updated */
 			record.changed("updated_at", true);
-			await record.update(this.mapper.viewModelToEntity(model));
-			for (const modelComment of model.comments) {
-				const { id } = modelComment;
-				const found = record.comments.find((comment) => comment.id === id);
+			viewModel.company = await this.companiesService.createCompany(viewModel.company.name);
+			for (const viewModelComment of viewModel.comments) {
+				const { id } = viewModelComment;
+				const found = comments.find((comment) => comment.id === id);
 				if (found) {
 					// Remove from the existing comments, so we have the remaining comments at the end, which are deletes
 					record.comments.splice(record.comments.indexOf(found), 1);
-					if (found.comment !== modelComment.comment) {
-						await found.update(modelComment);
+					if (found.comment !== viewModelComment.comment) {
+						await found.update(viewModelComment);
 					}
 				}
 				// New comment
 				else {
-					modelComment.applicationId = model.id;
-					await this.createApplicationComment(modelComment);
+					viewModelComment.applicationId = viewModel.id;
+					await this.createApplicationComment(viewModelComment);
 				}
 			}
 			// Any remaining comments in the DB model were removed in the UI
 			await Promise.all(record.comments.map((comment) => comment.destroy()));
-			return this.getApplication(model.id);
+			await record.update(this.mapper.viewModelToEntity(viewModel));
+			return this.getApplication(viewModel.id);
 		}
 	}
 
@@ -148,8 +149,9 @@ export class ApplicationsService {
 		if (addHeaders) {
 			contents = `${CSVFields.join(";")}\n${contents}`;
 		}
-		const { data } = Papa.parse<IUploadModel>(contents, {
+		const { data } = Papa.parse<IUploadApplicationModel>(contents, {
 			header: true,
+			skipEmptyLines: true,
 			transform(value, column) {
 				value = value.trim();
 				if (column === "status") {

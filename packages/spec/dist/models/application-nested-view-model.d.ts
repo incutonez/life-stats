@@ -5,11 +5,11 @@ export interface ApplicationNestedViewModel {
     'dateCreated'?: number;
     'dateUpdated'?: number;
     'status': EnumApplicationStatus;
-    'id': string;
     'positionTitle': string;
     'dateApplied': number;
     'url': string;
-    'site': string;
     'compensation': string;
     'comments': Array<CommentViewModel>;
+    'id': string;
+    'site': string;
 }

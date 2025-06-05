@@ -5,7 +5,11 @@ import {
 	IExerciseActivityAttributeCreate,
 	IExerciseActivityAttributeModel,
 } from "@/db/models/ExerciseActivityAttributeModel";
-import { IExerciseActivityCreate, IExerciseActivityModel } from "@/db/models/ExerciseActivityModel";
+import {
+	IExerciseActivityCreate,
+	IExerciseActivityModel,
+	IExerciseActivityUpdateModel,
+} from "@/db/models/ExerciseActivityModel";
 import { IExerciseActivityTypeCreate, IExerciseActivityTypesModel } from "@/db/models/ExerciseActivityTypesModel";
 import { IExerciseAttributeTypeCreate, IExerciseAttributeTypesModel } from "@/db/models/ExerciseAttributeTypesModel";
 import { EnumActivitySource, EnumAttributeType } from "@/exercises/constants";
@@ -122,7 +126,16 @@ export class ActivitiesMapper {
 		return response;
 	}
 
-	viewModelAttributeTypeToEntity({ userId, name, type }: IExerciseAttributeTypeCreateViewModel): IExerciseAttributeTypeCreate {
+	viewModelAttributeTypeToEntity({ id, userId, name, type }: IExerciseAttributeTypeViewModel): IExerciseAttributeTypesModel {
+		return {
+			id,
+			name,
+			type,
+			user_id: userId ?? this.storage.getUserId(),
+		};
+	}
+
+	viewModelCreateAttributeTypeToEntity({ userId, name, type }: IExerciseAttributeTypeCreateViewModel): IExerciseAttributeTypeCreate {
 		return {
 			name,
 			type,
@@ -130,14 +143,22 @@ export class ActivitiesMapper {
 		};
 	}
 
-	viewModelActivityTypeToEntity({ name, userId }: IExerciseActivityTypeCreateViewModel): IExerciseActivityTypeCreate {
+	viewModelCreateActivityTypeToEntity({ name, userId }: IExerciseActivityTypeCreateViewModel): IExerciseActivityTypeCreate {
 		return {
 			name,
 			user_id: userId ?? this.storage.getUserId(),
 		};
 	}
 
-	viewModelActivityAttributesToEntity({ value, unit, unitDisplay, userId, attributeType }: IExerciseActivityAttributeCreateViewModel): IExerciseActivityAttributeCreate {
+	viewModelActivityTypeToEntity({ id, name, userId }: IExerciseActivityTypeViewModel): IExerciseActivityTypesModel {
+		return {
+			id,
+			name,
+			user_id: userId ?? this.storage.getUserId(),
+		};
+	}
+
+	viewModelCreateActivityAttributesToEntity({ value, unit, unitDisplay, userId, attributeType }: IExerciseActivityAttributeCreateViewModel): IExerciseActivityAttributeCreate {
 		const result = localizeValue({
 			value,
 			unit,
@@ -153,11 +174,30 @@ export class ActivitiesMapper {
 			attribute_type_id: "",
 			unit_display: unitDisplay,
 			user_id: userId ?? this.storage.getUserId(),
+			attribute_type: this.viewModelCreateAttributeTypeToEntity(attributeType),
+		};
+	}
+
+	viewModelActivityAttributeToEntity({ id, value, unit, unitDisplay, activity, userId, attributeType }: IExerciseActivityAttributeViewModel, activityId = activity?.id): IExerciseActivityAttributeModel {
+		const result = localizeValue({
+			value,
+			unit,
+			reverse: true,
+			measurementSystem: this.storage.getMeasurementSystem(),
+		});
+		return {
+			id,
+			unit: result.unit,
+			value: result.value,
+			activity_id: activityId!,
+			attribute_type_id: attributeType.id,
+			unit_display: unitDisplay,
+			user_id: userId ?? this.storage.getUserId(),
 			attribute_type: this.viewModelAttributeTypeToEntity(attributeType),
 		};
 	}
 
-	viewModelToEntity({ userId, source, activityType, attributes, description, title, dateOccurred }: IExerciseActivityCreateViewModel): IExerciseActivityCreate {
+	viewModelCreateToEntity({ userId, source, activityType, attributes, description, title, dateOccurred }: IExerciseActivityCreateViewModel): IExerciseActivityCreate {
 		const defaultUserId = this.storage.getUserId();
 		return {
 			source,
@@ -167,8 +207,21 @@ export class ActivitiesMapper {
 			activity_type_id: "",
 			user_id: userId ?? defaultUserId,
 			date_occurred: dateOccurred,
-			activity_type: this.viewModelActivityTypeToEntity(activityType),
-			attributes: attributes.map((attribute) => this.viewModelActivityAttributesToEntity(attribute)),
+			activity_type: this.viewModelCreateActivityTypeToEntity(activityType),
+			attributes: attributes.map((attribute) => this.viewModelCreateActivityAttributesToEntity(attribute)),
+		};
+	}
+
+	viewModelToEntity({ id, userId, source, activityType, description, title, dateOccurred }: IExerciseActivityViewModel): IExerciseActivityUpdateModel {
+		const defaultUserId = this.storage.getUserId();
+		return {
+			id,
+			source,
+			title,
+			description,
+			activity_type_id: activityType.id,
+			user_id: userId ?? defaultUserId,
+			date_occurred: dateOccurred,
 		};
 	}
 

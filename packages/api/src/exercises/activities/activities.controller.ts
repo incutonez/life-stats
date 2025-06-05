@@ -5,15 +5,17 @@
 	HttpCode, HttpStatus,
 	NotFoundException,
 	Param,
-	Post,
+	Post, Put,
 	UploadedFile,
 	UseInterceptors,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiConsumes, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { UseValidationPipe } from "@/constants";
 import { ActivitiesService } from "@/exercises/activities/activities.service";
 import { EnumActivitySource } from "@/exercises/constants";
 import { ExerciseActivityUpload } from "@/exercises/types";
+import { IUploadViewModelsResponse } from "@/types";
 import {
 	ExerciseActivityCreateViewModel,
 	ExerciseActivityViewModel, IExerciseActivityCreateViewModel,
@@ -43,16 +45,34 @@ export class ActivitiesController {
 	}
 
 	@Post("upload")
-	@ApiBody({
-		type: [ExerciseActivityCreateViewModel],
-	})
-	async uploadActivities(@Body() models: IExerciseActivityCreateViewModel[]): Promise<ExerciseActivityViewModel[]> {
+	@UseValidationPipe()
+	async uploadActivities(@Body() models: ExerciseActivityCreateViewModel[]): Promise<IUploadViewModelsResponse> {
 		return this.service.uploadActivities(models);
+	}
+
+	@Post("")
+	@UseValidationPipe()
+	async createActivity(@Body() viewModel: ExerciseActivityCreateViewModel): Promise<ExerciseActivityViewModel> {
+		const response = await this.service.createActivityWithResponse(viewModel);
+		if (response) {
+			return response;
+		}
+		throw new NotFoundException("No activity found");
 	}
 
 	@Get(":activityId")
 	async getActivity(@Param("activityId") activityId: string): Promise<ExerciseActivityViewModel> {
 		const response = await this.service.getActivity(activityId);
+		if (response) {
+			return response;
+		}
+		throw new NotFoundException("No activity found");
+	}
+
+	@Put(":activityId")
+	@UseValidationPipe()
+	async updateActivity(@Param("activityId") _activityId: string, @Body() viewModel: ExerciseActivityViewModel): Promise<ExerciseActivityViewModel> {
+		const response = await this.service.updateActivity(viewModel);
 		if (response) {
 			return response;
 		}

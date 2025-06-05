@@ -7,10 +7,10 @@ export interface ApplicationViewModel {
     'dateUpdated'?: number;
     'status': EnumApplicationStatus;
     'id': string;
+    'site': string;
     'positionTitle': string;
     'dateApplied': number;
     'url': string;
-    'site': string;
     'compensation': string;
     'company': CompanyViewModel;
     'comments': Array<CommentViewModel>;

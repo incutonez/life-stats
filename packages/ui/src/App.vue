@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { computed, unref } from "vue";
 import { useRoute } from "vue-router";
+import { EnumFeatures } from "@incutonez/life-stats-spec";
 import { isAuthenticated } from "@/authentication.ts";
 import LoadingMask from "@/components/LoadingMask.vue";
 import { useGlobalError } from "@/composables/app.ts";
+import { updateAppTitle } from "@/utils/common.ts";
 import { RouteExercises } from "@/views/exercises/constants.ts";
 import NavigationExercises from "@/views/exercises/NavigationExercises.vue";
 import { RouteJobs } from "@/views/jobs/constants.ts";
@@ -17,8 +19,10 @@ const navigationComponent = computed(() => {
 	const $route = unref(route);
 	switch ($route.matched[0]?.name) {
 		case RouteJobs:
+			updateAppTitle(EnumFeatures.jobs);
 			return NavigationJobs;
 		case RouteExercises:
+			updateAppTitle(EnumFeatures.exercises);
 			return NavigationExercises;
 	}
 	return undefined;

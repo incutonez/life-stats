@@ -64,6 +64,12 @@ export interface ApplicationViewModel {
      * @type {string}
      * @memberof ApplicationViewModel
      */
+    'site': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApplicationViewModel
+     */
     'positionTitle': string;
     /**
      * 
@@ -77,12 +83,6 @@ export interface ApplicationViewModel {
      * @memberof ApplicationViewModel
      */
     'url': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationViewModel
-     */
-    'site': string;
     /**
      * 
      * @type {string}

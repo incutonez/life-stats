@@ -55,12 +55,6 @@ export interface ApplicationNestedViewModel {
      * @type {string}
      * @memberof ApplicationNestedViewModel
      */
-    'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationNestedViewModel
-     */
     'positionTitle': string;
     /**
      * 
@@ -79,12 +73,6 @@ export interface ApplicationNestedViewModel {
      * @type {string}
      * @memberof ApplicationNestedViewModel
      */
-    'site': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationNestedViewModel
-     */
     'compensation': string;
     /**
      * 
@@ -92,6 +80,18 @@ export interface ApplicationNestedViewModel {
      * @memberof ApplicationNestedViewModel
      */
     'comments': Array<CommentViewModel>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApplicationNestedViewModel
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApplicationNestedViewModel
+     */
+    'site': string;
 }
 
 

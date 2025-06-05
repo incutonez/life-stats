@@ -152,3 +152,7 @@ export function downloadFile(blob: Blob, name = "download", extension = MimeType
 	a.click();
 	URL.revokeObjectURL(url);
 }
+
+export function updateAppTitle(feature: string) {
+	document.title = `Life Stats - ${feature}`;
+}

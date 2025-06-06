@@ -13,6 +13,7 @@
     "db:migration:add": "cd packages/api && npm run db:migration:add",
     "explode": "npm cache clean --force && npx rimraf package-lock.json **/node_modules --glob && npm i",
     "spec:build": "cd packages/spec && npm run generate",
+    "spec:strava:build": "cd packages/specStrava && npm run generate",
     "ui": "cd packages/ui && npm run dev",
     "ui:build": "cd packages/ui && npm run build",
     "ui:commit": "cd packages/ui && npm run lint",

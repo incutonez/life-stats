@@ -1,0 +1,20 @@
+{
+  "name": "@incutonez/life-stats-spec-strava",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "npx tsc --project tsconfig.json",
+    "generate": "npx rimraf generated dist && npx openapi-generator-cli generate -g typescript-axios -i /local/swagger.json -o /local/generated/ -p withSeparateModelsAndApi=true,apiPackage=api,modelPackage=models,supportsES6=true,withInterfaces=true && npm run build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "typescript": "latest"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.20.2"
+  }
+}

@@ -1,5 +1,6 @@
 ﻿<script setup lang="ts">
 import { ref } from "vue";
+import { StravaActivitiesAPI } from "@/api.ts";
 import BaseButton from "@/components/BaseButton.vue";
 import { IconActivities, IconDownload, IconHistory } from "@/components/Icons.ts";
 import { useExerciseRoutes } from "@/views/exercises/composables/routes.ts";
@@ -19,6 +20,11 @@ function onClickHistory() {
 
 function onClickImport() {
 	showActivitiesImport.value = true;
+}
+
+async function onClickImportStrava() {
+	const response = await StravaActivitiesAPI.getLoggedInAthleteActivities();
+	console.info(response);
 }
 </script>
 
@@ -47,6 +53,12 @@ function onClickImport() {
 			text="Import"
 			theme="navigation"
 			@click="onClickImport"
+		/>
+		<BaseButton
+			:icon="IconDownload"
+			text="Import Strava"
+			theme="navigation"
+			@click="onClickImportStrava"
 		/>
 	</nav>
 </template>

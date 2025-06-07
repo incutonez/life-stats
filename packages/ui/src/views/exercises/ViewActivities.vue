@@ -13,6 +13,7 @@ const selectedRecord = ref<ExerciseActivityViewModel>();
 const showDeleteDialog = ref(false);
 const { data } = useListActivities();
 const { deleteRecord, deletingRecord } = useDeleteActivity();
+// TODOJEF: Add edit and create action
 const { table, search } = useTableData<ExerciseActivityViewModel>({
 	data,
 	paginated: true,

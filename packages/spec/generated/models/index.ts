@@ -27,3 +27,5 @@ export * from './exercise-activity-type-view-model';
 export * from './exercise-activity-view-model';
 export * from './exercise-attribute-type-create-view-model';
 export * from './exercise-attribute-type-view-model';
+export * from './user-create-view-model';
+export * from './user-view-model';

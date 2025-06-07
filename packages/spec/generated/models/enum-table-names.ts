@@ -29,7 +29,8 @@ export const EnumTableNames = {
     JobApplications: 'applications',
     JobCompanies: 'companies',
     JobComments: 'comments',
-    UnitTypes: 'unitTypes'
+    UnitTypes: 'unitTypes',
+    Users: 'users'
 } as const;
 
 export type EnumTableNames = typeof EnumTableNames[keyof typeof EnumTableNames];

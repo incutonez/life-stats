@@ -12,8 +12,8 @@ export function dateToUTC(date: string | Date | number) {
 	return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
 }
 
-export function addMetaInfo(value: Record<string, unknown>, user_id: string, created_at?: Date, updated_at?: Date) {
-	Object.assign(value, {
+export function addMetaInfo<T extends Record<string, unknown>>(value: T, user_id: string, created_at?: Date, updated_at?: Date) {
+	return Object.assign(value, {
 		userId: user_id,
 		dateCreated: created_at?.getTime(),
 		dateUpdated: updated_at?.getTime(),

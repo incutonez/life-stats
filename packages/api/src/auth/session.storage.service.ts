@@ -1,7 +1,6 @@
 ﻿import { Injectable } from "@nestjs/common";
-import { JWTPayload } from "express-oauth2-jwt-bearer";
 import { ClsService } from "nestjs-cls";
-import { ISessionStorage } from "@/types";
+import { IAuthUser, ISessionStorage } from "@/types";
 
 @Injectable()
 export class SessionStorageService {
@@ -15,8 +14,12 @@ export class SessionStorageService {
 		return this.cls.get("measurementSystem");
 	}
 
-	setUser(payload: JWTPayload) {
+	setUser(payload: IAuthUser) {
 		this.cls.set("user", payload);
+	}
+
+	getUser() {
+		return this.cls.get("user");
 	}
 
 	getUserId() {

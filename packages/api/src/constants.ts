@@ -20,6 +20,7 @@ export type EnumAuditActionTypes = typeof EnumAuditActionTypes[keyof typeof Enum
 export const EnumFeatures = {
 	jobs: "Jobs",
 	exercises: "Exercises",
+	users: "Users",
 } as const;
 export type EnumFeatures = typeof EnumFeatures[keyof typeof EnumFeatures];
 
@@ -33,7 +34,8 @@ export const EnumTableNames = {
 	JobCompanies: "companies",
 	JobComments: "comments",
 	UnitTypes: "unitTypes",
-};
+	Users: "users",
+} as const;
 export type EnumTableNames = typeof EnumTableNames[keyof typeof EnumTableNames];
 
 export const EnumUnitTypes = {

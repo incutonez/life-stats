@@ -128,7 +128,6 @@ function onClickCell(cell: Cell<TData, unknown>) {
 							:render="header.column.columnDef.header"
 							:props="header.getContext()"
 						/>
-						<!-- TODOJEF: Add SortIcon here -->
 					</th>
 				</tr>
 			</thead>

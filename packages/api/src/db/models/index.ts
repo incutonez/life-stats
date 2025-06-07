@@ -8,6 +8,7 @@ import { ExerciseActivityAttributeModel } from "@/db/models/ExerciseActivityAttr
 import { ExerciseActivityModel } from "@/db/models/ExerciseActivityModel";
 import { ExerciseActivityTypesModel } from "@/db/models/ExerciseActivityTypesModel";
 import { ExerciseAttributeTypesModel } from "@/db/models/ExerciseAttributeTypesModel";
+import { UserModel } from "@/db/models/UserModel";
 import { isObject } from "@/utils";
 
 export interface IAuditFeatures {
@@ -24,12 +25,15 @@ export const AuditedFeatures: IAuditFeatures[] = [{
 }, {
 	models: ExerciseModels,
 	feature: EnumFeatures.exercises,
+}, {
+	models: [UserModel],
+	feature: EnumFeatures.users,
 }];
-export const AllModels = [...JobModels, ...ExerciseModels, AuditModel];
+export const AllModels = [...JobModels, ...ExerciseModels, UserModel, AuditModel];
 
 function sanitizeDataType(value: any) {
 	if (Array.isArray(value)) {
-		value.forEach((item: any) => sanitizeDataType(item));
+		value.forEach((item) => sanitizeDataType(item));
 	}
 	else if (isObject(value)) {
 		sanitizeData(value);

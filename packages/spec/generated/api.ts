@@ -21,4 +21,5 @@ export * from './api/audits-api';
 export * from './api/companies-api';
 export * from './api/exercises-api';
 export * from './api/jobs-api';
+export * from './api/users-api';
 

@@ -10,8 +10,15 @@ declare module "@nestjs/common" {
 	}
 }
 
+export interface IAuthUser extends JWTPayload {
+	first_name: string;
+	last_name?: string;
+	email: string;
+	nickname: string;
+}
+
 export interface ISessionStorage extends ClsStore {
-	user: JWTPayload;
+	user: IAuthUser;
 	measurementSystem: "imperial" | "metric";
 }
 

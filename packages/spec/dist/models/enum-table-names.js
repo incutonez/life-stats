@@ -7,5 +7,6 @@ export const EnumTableNames = {
     JobApplications: 'applications',
     JobCompanies: 'companies',
     JobComments: 'comments',
-    UnitTypes: 'unitTypes'
+    UnitTypes: 'unitTypes',
+    Users: 'users'
 };

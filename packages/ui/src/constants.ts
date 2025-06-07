@@ -30,3 +30,5 @@ export const RouteLogin = "login";
  * If the user isn't logged in, let's remember the route they were going to, so we can restore it after they log in
  */
 export const restoreRoute = ref<RouteLocationRaw>();
+
+export const QueryKeyUser = "user";

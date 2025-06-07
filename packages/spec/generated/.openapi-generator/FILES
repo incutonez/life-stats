@@ -9,6 +9,7 @@ api/audits-api.ts
 api/companies-api.ts
 api/exercises-api.ts
 api/jobs-api.ts
+api/users-api.ts
 base.ts
 common.ts
 configuration.ts
@@ -44,3 +45,5 @@ models/exercise-activity-view-model.ts
 models/exercise-attribute-type-create-view-model.ts
 models/exercise-attribute-type-view-model.ts
 models/index.ts
+models/user-create-view-model.ts
+models/user-view-model.ts

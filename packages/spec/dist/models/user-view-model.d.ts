@@ -7,5 +7,6 @@ export interface UserViewModel {
     'email': string;
     'nickname'?: string;
     'id': string;
+    'lastAccessed': number;
     'settings': object;
 }

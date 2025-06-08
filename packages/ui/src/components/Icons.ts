@@ -45,3 +45,7 @@ export { default as IconHistory } from "@material-symbols/svg-400/outlined/histo
 export { default as IconExercises } from "@material-symbols/svg-400/outlined/fitness_center.svg";
 
 export { default as IconActivities } from "@material-symbols/svg-400/outlined/overview.svg";
+
+export { default as IconAuthorize } from "@material-symbols/svg-400/outlined/approval_delegation.svg";
+
+export { default as IconSync } from "@material-symbols/svg-400/outlined/sync.svg";

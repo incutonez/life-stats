@@ -1,7 +1,7 @@
 ﻿import { reactive } from "vue";
 import {
 	ApplicationsApi,
-	AuditsApi,
+	AuditsApi, AuthApi,
 	CompaniesApi,
 	Configuration,
 	ExercisesApi,
@@ -26,3 +26,5 @@ export const CompaniesAPI = new CompaniesApi(apiConfig);
 export const AuditsAPI = new AuditsApi(apiConfig);
 
 export const UsersAPI = new UsersApi(apiConfig);
+
+export const AuthAPI = new AuthApi(apiConfig);

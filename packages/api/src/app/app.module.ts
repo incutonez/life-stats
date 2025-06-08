@@ -3,7 +3,7 @@ import { ClsModule } from "nestjs-cls";
 import { AppController } from "@/app/app.controller";
 import { AppService } from "@/app/app.service";
 import { AuditsModule } from "@/audits/audits.module";
-import { AuthStorageModule } from "@/auth/auth.storage.module";
+import { AuthModule } from "@/auth/auth.module";
 import { DatabaseModule } from "@/db/database.module";
 import { ExercisesModule } from "@/exercises/exercises.module";
 import { JobsModule } from "@/jobs/jobs.module";
@@ -15,7 +15,7 @@ import { UsersModule } from "@/users/users.module";
  */
 @Module({
 	imports: [
-		AuthStorageModule,
+		AuthModule,
 		DatabaseModule,
 		AuditsModule,
 		JobsModule,

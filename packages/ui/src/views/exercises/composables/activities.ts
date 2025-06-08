@@ -2,10 +2,10 @@
 import {
 	EnumActivitySource,
 	type ExerciseActivityCreateViewModel,
-	type ExerciseActivityViewModel,
+	type ExerciseActivityViewModel, type StravaTokenViewModel,
 } from "@incutonez/life-stats-spec";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
-import { ExercisesAPI } from "@/api.ts";
+import { AuthAPI, ExercisesAPI } from "@/api.ts";
 import { getInvalidateQueryPredicate, useInvalidateQueries } from "@/composables/app.ts";
 import {
 	ActivitiesAPI,
@@ -17,6 +17,22 @@ import {
 interface IImportMutation {
 	file: File;
 	source: EnumActivitySource;
+}
+
+export const stravaToken = ref<StravaTokenViewModel>();
+
+/**
+ * If token is a string, then it's the auth code that we received, and we'll turn it into a proper accessToken when the
+ * sync call returns
+ */
+export function setStravaToken(token: StravaTokenViewModel | string) {
+	if (typeof token === "string") {
+		token = {
+			accessToken: token,
+		};
+	}
+	localStorage.setItem("stravaToken", JSON.stringify(token));
+	stravaToken.value = token;
 }
 
 export function useListActivities() {
@@ -114,6 +130,40 @@ export function useUploadActivities() {
 		addedRecords,
 		addingRecords,
 		createApplications,
+	};
+}
+
+export function useStravaSync() {
+	const syncingRecords = ref(false);
+	const syncMutation = useMutation({
+		async mutationFn(token: StravaTokenViewModel) {
+			syncingRecords.value = true;
+			await AuthAPI.syncStravaActivities(token, {
+				// Set a 2 minute timeout, just in case it's a very large upload
+				timeout: 120000,
+			});
+			syncingRecords.value = false;
+		},
+	});
+
+	async function syncStravaActivities(code?: string) {
+		let $stravaToken: StravaTokenViewModel | undefined;
+		if (code) {
+			$stravaToken = {
+				accessToken: code,
+			};
+		}
+		else {
+			$stravaToken = unref(stravaToken);
+		}
+		if ($stravaToken) {
+			return syncMutation.mutateAsync($stravaToken);
+		}
+	}
+
+	return {
+		syncingRecords,
+		syncStravaActivities,
 	};
 }
 

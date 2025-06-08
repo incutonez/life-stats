@@ -70,6 +70,12 @@ export interface UserViewModel {
     'id': string;
     /**
      * 
+     * @type {number}
+     * @memberof UserViewModel
+     */
+    'lastAccessed': number;
+    /**
+     * 
      * @type {object}
      * @memberof UserViewModel
      */

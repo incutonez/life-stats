@@ -17,7 +17,11 @@ export class UserCreateViewModel extends BaseViewModel {
 }
 
 export class UserSettingsViewModel {
+	declare exercises: UserSettingsExerciseViewModel;
+}
 
+export class UserSettingsExerciseViewModel {
+	declare weight?: number;
 }
 
 export class UserViewModel extends UserCreateViewModel {

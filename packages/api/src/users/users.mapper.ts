@@ -21,7 +21,9 @@ export class UsersMapper {
 		return {
 			nickname,
 			email,
-			settings: {},
+			settings: {
+				exercises: {},
+			},
 			user_id: userId,
 			first_name: firstName,
 			last_name: lastName,

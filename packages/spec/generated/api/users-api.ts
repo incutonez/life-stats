@@ -24,6 +24,8 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 // @ts-ignore
 import { UserCreateViewModel } from '../models';
 // @ts-ignore
+import { UserSettingsViewModel } from '../models';
+// @ts-ignore
 import { UserViewModel } from '../models';
 /**
  * UsersApi - axios parameter creator
@@ -95,6 +97,45 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {string} userId 
+         * @param {UserSettingsViewModel} userSettingsViewModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateUserSettings: async (userId: string, userSettingsViewModel: UserSettingsViewModel, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userId' is not null or undefined
+            assertParamExists('updateUserSettings', 'userId', userId)
+            // verify required parameter 'userSettingsViewModel' is not null or undefined
+            assertParamExists('updateUserSettings', 'userSettingsViewModel', userSettingsViewModel)
+            const localVarPath = `/users/{userId}/settings`
+                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(userSettingsViewModel, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -124,6 +165,17 @@ export const UsersApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getUserProfile(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
+        /**
+         * 
+         * @param {string} userId 
+         * @param {UserSettingsViewModel} userSettingsViewModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateUserSettings(userId: string, userSettingsViewModel: UserSettingsViewModel, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserSettingsViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateUserSettings(userId, userSettingsViewModel, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
     }
 };
 
@@ -151,6 +203,16 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
         getUserProfile(options?: any): AxiosPromise<UserViewModel> {
             return localVarFp.getUserProfile(options).then((request) => request(axios, basePath));
         },
+        /**
+         * 
+         * @param {string} userId 
+         * @param {UserSettingsViewModel} userSettingsViewModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateUserSettings(userId: string, userSettingsViewModel: UserSettingsViewModel, options?: any): AxiosPromise<UserSettingsViewModel> {
+            return localVarFp.updateUserSettings(userId, userSettingsViewModel, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -176,6 +238,16 @@ export interface UsersApiInterface {
      * @memberof UsersApiInterface
      */
     getUserProfile(options?: AxiosRequestConfig): AxiosPromise<UserViewModel>;
+
+    /**
+     * 
+     * @param {string} userId 
+     * @param {UserSettingsViewModel} userSettingsViewModel 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApiInterface
+     */
+    updateUserSettings(userId: string, userSettingsViewModel: UserSettingsViewModel, options?: AxiosRequestConfig): AxiosPromise<UserSettingsViewModel>;
 
 }
 
@@ -205,5 +277,17 @@ export class UsersApi extends BaseAPI implements UsersApiInterface {
      */
     public getUserProfile(options?: AxiosRequestConfig) {
         return UsersApiFp(this.configuration).getUserProfile(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} userId 
+     * @param {UserSettingsViewModel} userSettingsViewModel 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public updateUserSettings(userId: string, userSettingsViewModel: UserSettingsViewModel, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).updateUserSettings(userId, userSettingsViewModel, options).then((request) => request(this.axios, this.basePath));
     }
 }

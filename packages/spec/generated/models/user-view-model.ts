@@ -13,6 +13,9 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import { UserSettingsViewModel } from './user-settings-view-model';
 
 /**
  * 
@@ -76,9 +79,9 @@ export interface UserViewModel {
     'lastAccessed': number;
     /**
      * 
-     * @type {object}
+     * @type {UserSettingsViewModel}
      * @memberof UserViewModel
      */
-    'settings': object;
+    'settings': UserSettingsViewModel;
 }
 

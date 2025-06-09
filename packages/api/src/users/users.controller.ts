@@ -1,9 +1,9 @@
-﻿import { Body, Controller, HttpCode, HttpStatus, NotFoundException, Post, Res } from "@nestjs/common";
+﻿import { Body, Controller, HttpCode, HttpStatus, NotFoundException, Param, Post, Put, Res } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { UseValidationPipe } from "@/constants";
 import { UsersService } from "@/users/users.service";
-import { UserCreateViewModel, UserViewModel } from "@/viewModels/user.viewmodel";
+import { UserCreateViewModel, UserSettingsViewModel, UserViewModel } from "@/viewModels/user.viewmodel";
 
 @ApiTags("users")
 @Controller("users")
@@ -33,6 +33,15 @@ export class UsersController {
 				res.status(HttpStatus.OK);
 			}
 			return response.viewModel;
+		}
+		throw new NotFoundException("User not found");
+	}
+
+	@Put(":userId/settings")
+	async updateUserSettings(@Param("userId") userId: string, @Body() body: UserSettingsViewModel): Promise<UserSettingsViewModel> {
+		const response = await this.service.updateUserSettings(userId, body);
+		if (response) {
+			return response;
 		}
 		throw new NotFoundException("User not found");
 	}

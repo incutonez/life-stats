@@ -1,3 +1,4 @@
+import { UserSettingsViewModel } from './user-settings-view-model';
 export interface UserViewModel {
     'userId'?: string;
     'dateCreated'?: number;
@@ -8,5 +9,5 @@ export interface UserViewModel {
     'nickname'?: string;
     'id': string;
     'lastAccessed': number;
-    'settings': object;
+    'settings': UserSettingsViewModel;
 }

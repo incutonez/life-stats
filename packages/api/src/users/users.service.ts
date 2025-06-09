@@ -3,7 +3,7 @@ import { SessionStorageService } from "@/auth/session.storage.service";
 import { SESSION_STORAGE } from "@/constants";
 import { UserModel } from "@/db/models/UserModel";
 import { UsersMapper } from "@/users/users.mapper";
-import { UserCreateViewModel } from "@/viewModels/user.viewmodel";
+import { UserCreateViewModel, UserSettingsViewModel } from "@/viewModels/user.viewmodel";
 
 @Injectable()
 export class UsersService {
@@ -21,6 +21,13 @@ export class UsersService {
 			entity,
 			created,
 		};
+	}
+
+	async getUserSettings(userId: string) {
+		const entity = await UserModel.findByPk(userId);
+		if (entity) {
+			return this.mapper.entityToViewModel(entity).settings;
+		}
 	}
 
 	async getUserProfile() {
@@ -48,6 +55,15 @@ export class UsersService {
 				created,
 				viewModel: this.mapper.entityToViewModel(entity),
 			};
+		}
+	}
+
+	async updateUserSettings(userId: string, settings: UserSettingsViewModel) {
+		const entity = await UserModel.findByPk(userId);
+		if (entity) {
+			entity.settings = settings;
+			await entity.save();
+			return entity.settings;
 		}
 	}
 }

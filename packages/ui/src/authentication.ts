@@ -14,7 +14,7 @@ export const auth0 = createAuth0({
 	},
 });
 
-export const user = computed(() => unref(auth0.user));
+export const authUser = computed(() => unref(auth0.user));
 
 export const isAuthenticated = computed(() => unref(auth0.isAuthenticated));
 

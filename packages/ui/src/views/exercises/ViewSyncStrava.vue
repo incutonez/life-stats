@@ -1,15 +1,17 @@
 ﻿<script setup lang="ts">
+import { ref } from "vue";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
 import FieldLabel from "@/components/FieldLabel.vue";
 import { IconAuthorize, IconSync } from "@/components/Icons.ts";
-import { useStravaSync } from "@/views/exercises/composables/activities.ts";
+import { initStravaToken, stravaToken, useStravaSync } from "@/views/exercises/composables/activities.ts";
 import { useExerciseRoutes } from "@/views/exercises/composables/routes.ts";
 
-const urlParams = new URLSearchParams(location.hash);
-const code = urlParams.get("code") ?? "";
+const showSelf = ref(true);
 const { viewActivities, viewStravaSync } = useExerciseRoutes();
 const { syncStravaActivities, syncingRecords } = useStravaSync();
+
+initStravaToken();
 
 /**
  * Our hands are tied with Strava... we MUST redirect the user to their authorize endpoint, which gives us back a code
@@ -24,14 +26,15 @@ async function onClickAuthorize() {
 }
 
 async function onClickSync() {
-	await syncStravaActivities(code);
+	await syncStravaActivities();
+	showSelf.value = false;
 }
 
 function onCloseDialog() {
 	viewActivities();
 }
 
-if (code) {
+if (stravaToken.value) {
 	// Make sure we remove the code from the URL
 	viewStravaSync();
 }
@@ -39,9 +42,9 @@ if (code) {
 
 <template>
 	<BaseDialog
+		v-model="showSelf"
 		title="Sync Strava"
-		:model-value="true"
-		body-class="flex flex-col"
+		body-class="flex flex-col space-y-2"
 		@close="onCloseDialog"
 	>
 		<template #content>
@@ -50,7 +53,7 @@ if (code) {
 				<BaseButton
 					:icon="IconAuthorize"
 					text="Authorize"
-					:disabled="!!code"
+					:disabled="!!stravaToken"
 					@click="onClickAuthorize"
 				/>
 			</section>
@@ -59,7 +62,7 @@ if (code) {
 				<BaseButton
 					:icon="IconSync"
 					:loading="syncingRecords"
-					:disabled="!code"
+					:disabled="!stravaToken"
 					text="Sync"
 					@click="onClickSync"
 				/>

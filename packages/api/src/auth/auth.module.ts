@@ -1,8 +1,6 @@
 ﻿import { Global, Module } from "@nestjs/common";
 import { APP_GUARD } from "@nestjs/core";
-import { AuthController } from "@/auth/auth.controller";
 import { AuthGuard } from "@/auth/auth.guard";
-import { AuthService } from "@/auth/auth.service";
 import { SessionStorageService } from "@/auth/session.storage.service";
 import { SESSION_STORAGE } from "@/constants";
 
@@ -17,8 +15,7 @@ import { SESSION_STORAGE } from "@/constants";
 	}, {
 		provide: SESSION_STORAGE,
 		useClass: SessionStorageService,
-	}, AuthService],
+	}],
 	exports: [SESSION_STORAGE],
-	controllers: [AuthController],
 })
 export class AuthModule {}

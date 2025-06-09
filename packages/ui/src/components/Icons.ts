@@ -49,3 +49,5 @@ export { default as IconActivities } from "@material-symbols/svg-400/outlined/ov
 export { default as IconAuthorize } from "@material-symbols/svg-400/outlined/approval_delegation.svg";
 
 export { default as IconSync } from "@material-symbols/svg-400/outlined/sync.svg";
+
+export { default as IconSettings } from "@material-symbols/svg-400/outlined/settings.svg";

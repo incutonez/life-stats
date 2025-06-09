@@ -9,10 +9,12 @@ export type IUserModel = ModelInterface<UserModel>;
 export type IUserCreateModel = Omit<IUserModel, "id" | "settings"> & {
 	settings: IUserSettingsModel;
 };
-export type IUserSettingsModel = ModelInterface<UserSettingsModel>;
+export interface IUserSettingsExercisesModel {
+	weight?: number;
+}
 
-export class UserSettingsModel {
-
+export interface IUserSettingsModel {
+	exercises: IUserSettingsExercisesModel;
 }
 
 @BaseTable(EnumTableNames.Users)
@@ -36,11 +38,11 @@ export class UserModel extends BaseModel {
 	declare last_accessed: Date;
 
 	@Attribute(DataTypes.JSON)
-	get settings(): UserSettingsModel {
-		return JSON.parse(this.getDataValue("settings") ?? {});
+	get settings(): IUserSettingsModel {
+		return JSON.parse(this.getDataValue("settings"));
 	}
 
-	set settings(value: UserSettingsModel) {
+	set settings(value: IUserSettingsModel) {
 		this.setDataValue("settings", JSON.stringify(value));
 	}
 }

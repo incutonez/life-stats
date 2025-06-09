@@ -10,7 +10,7 @@
 	watch, watchEffect,
 } from "vue";
 import type { UserViewModel } from "@incutonez/life-stats-spec";
-import { type Query, useQuery, useQueryClient } from "@tanstack/vue-query";
+import { type Query, useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import { apiConfig, UsersAPI } from "@/api.ts";
 import { QueryKeyUser } from "@/constants.ts";
 
@@ -82,6 +82,7 @@ export function injectGlobalError() {
 }
 
 export function useUserProfile() {
+	const updatingSettings = ref(false);
 	const userProfile = ref<UserViewModel>();
 	const enabled = ref(false);
 	const query = useQuery({
@@ -93,9 +94,27 @@ export function useUserProfile() {
 			return data;
 		},
 	});
+	const mutationSettings = useMutation({
+		async mutationFn() {
+			const $userProfile = unref(userProfile);
+			if ($userProfile) {
+				updatingSettings.value = true;
+				const { data } = await UsersAPI.updateUserSettings($userProfile.id, $userProfile.settings);
+				$userProfile.settings = data;
+				updatingSettings.value = false;
+			}
+		},
+	});
+
+	async function updateSettings() {
+		return mutationSettings.mutateAsync();
+	}
+
 	const provider = {
 		userProfile,
 		query,
+		updatingSettings,
+		updateSettings,
 	};
 
 	provide(InjectionUserProfile, provider);

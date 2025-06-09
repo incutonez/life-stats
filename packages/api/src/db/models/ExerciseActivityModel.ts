@@ -39,6 +39,9 @@ export class ExerciseActivityModel extends BaseModel {
 	declare source?: EnumActivitySource;
 
 	@Attribute(DataTypes.STRING)
+	declare source_id?: string;
+
+	@Attribute(DataTypes.STRING)
 	@NotNull
 	declare activity_type_id: string;
 

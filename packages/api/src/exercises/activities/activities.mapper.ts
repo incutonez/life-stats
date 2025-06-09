@@ -1,6 +1,6 @@
 ﻿import { Inject, Injectable } from "@nestjs/common";
 import { SessionStorageService } from "@/auth/session.storage.service";
-import { EnumUnitTypes, SESSION_STORAGE } from "@/constants";
+import { SESSION_STORAGE } from "@/constants";
 import {
 	IExerciseActivityAttributeCreate,
 	IExerciseActivityAttributeModel,
@@ -12,9 +12,9 @@ import {
 } from "@/db/models/ExerciseActivityModel";
 import { IExerciseActivityTypeCreate, IExerciseActivityTypesModel } from "@/db/models/ExerciseActivityTypesModel";
 import { IExerciseAttributeTypeCreate, IExerciseAttributeTypesModel } from "@/db/models/ExerciseAttributeTypesModel";
-import { EnumActivitySource, EnumAttributeType } from "@/exercises/constants";
-import { IStubAttributeOptions, IUploadStrava } from "@/exercises/types";
-import { addMetaInfo, convertToUnit, dateToUTC, localizeValue } from "@/utils";
+import { EnumAttributeType } from "@/exercises/constants";
+import { IStubAttributeOptions } from "@/exercises/types";
+import { addMetaInfo, convertToUnit, localizeValue } from "@/utils";
 import { IExerciseActivityAttributeCreateViewModel, IExerciseActivityAttributeViewModel } from "@/viewModels/exercises/exercise.activity.attribute.viewmodel";
 import {
 	IExerciseActivityTypeCreateViewModel,
@@ -222,60 +222,6 @@ export class ActivitiesMapper {
 			activity_type_id: activityType.id,
 			user_id: userId ?? defaultUserId,
 			date_occurred: dateOccurred,
-		};
-	}
-
-	stravaToViewModel(model: IUploadStrava): IExerciseActivityCreateViewModel {
-		const userId = this.storage.getUserId();
-		const attributes: (IExerciseActivityAttributeCreateViewModel | undefined)[] = [
-			// Time should be stored in seconds
-			this.stubAttribute(model["Start Time"], "Time Start", {
-				unit: EnumUnitTypes.Seconds,
-				unitConversion: EnumUnitTypes.Hours,
-			}),
-			this.stubAttribute(model["Other Time"], "Time End", {
-				unit: EnumUnitTypes.Seconds,
-				unitConversion: EnumUnitTypes.Hours,
-			}),
-			this.stubAttribute(model["Elapsed Time"], "Time Elapsed", {
-				unit: EnumUnitTypes.Seconds,
-				unitConversion: EnumUnitTypes.Hours,
-			}),
-			this.stubAttribute(model["Moving Time"], "Time Moving", {
-				unit: EnumUnitTypes.Seconds,
-				unitConversion: EnumUnitTypes.Hours,
-			}),
-			this.stubAttribute(model["Distance"], "Distance", {
-				unit: EnumUnitTypes.Kilometers,
-			}),
-			this.stubAttribute(model["Max Speed"], "Speed Max", {
-				unit: EnumUnitTypes.MetersPerSecond,
-				unitConversion: EnumUnitTypes.KilometersPerHour,
-			}),
-			this.stubAttribute(model["Average Speed"], "Speed Average", {
-				unit: EnumUnitTypes.MetersPerSecond,
-				unitConversion: EnumUnitTypes.KilometersPerHour,
-			}),
-			this.stubAttribute(model["Elevation Low"], "Elevation Low", {
-				unit: EnumUnitTypes.Meters,
-			}),
-			this.stubAttribute(model["Elevation High"], "Elevation High", {
-				unit: EnumUnitTypes.Meters,
-			}),
-			this.stubAttribute(model["Calories"], "Calories"),
-		];
-
-		return {
-			userId,
-			source: EnumActivitySource.Strava,
-			dateOccurred: dateToUTC(model["Activity Date"]),
-			title: model["Activity Name"],
-			description: model["Activity Description"],
-			activityType: {
-				userId,
-				name: model["Activity Type"],
-			},
-			attributes: attributes.filter((value) => value !== undefined),
 		};
 	}
 }

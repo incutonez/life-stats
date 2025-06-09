@@ -1,3 +1,9 @@
+## [2.7.0](https://github.com/incutonez/life-stats/compare/v2.6.0...v2.7.0) (2025-06-09)
+
+### Features
+
+* Attempting to Use Strava's API ([#56](https://github.com/incutonez/life-stats/issues/56)) ([df0e164](https://github.com/incutonez/life-stats/commit/df0e164047c781dc2b8483d8b55007a19e78fe90))
+
 ## [2.6.0](https://github.com/incutonez/life-stats/compare/v2.5.0...v2.6.0) (2025-06-05)
 
 ### Features

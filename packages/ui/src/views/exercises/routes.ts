@@ -1,7 +1,13 @@
 ﻿import { type RouteRecordRaw } from "vue-router";
-import { RouteExercises, RouteExercisesActivities, RouteExercisesHistory } from "@/views/exercises/constants.ts";
+import {
+	RouteExercises,
+	RouteExercisesActivities,
+	RouteExercisesActivitiesStravaSync,
+	RouteExercisesHistory,
+} from "@/views/exercises/constants.ts";
 import ViewActivities from "@/views/exercises/ViewActivities.vue";
 import ViewExercisesHistory from "@/views/exercises/ViewExercisesHistory.vue";
+import ViewSyncStrava from "@/views/exercises/ViewSyncStrava.vue";
 
 export const ExercisesRoutes: RouteRecordRaw = {
 	path: "/exercises",
@@ -13,6 +19,11 @@ export const ExercisesRoutes: RouteRecordRaw = {
 		path: "activities",
 		name: RouteExercisesActivities,
 		component: ViewActivities,
+		children: [{
+			path: "syncStrava",
+			name: RouteExercisesActivitiesStravaSync,
+			component: ViewSyncStrava,
+		}],
 	}, {
 		path: "history",
 		name: RouteExercisesHistory,

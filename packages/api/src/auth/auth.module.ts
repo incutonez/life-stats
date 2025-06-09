@@ -18,4 +18,4 @@ import { SESSION_STORAGE } from "@/constants";
 	}],
 	exports: [SESSION_STORAGE],
 })
-export class AuthStorageModule {}
+export class AuthModule {}

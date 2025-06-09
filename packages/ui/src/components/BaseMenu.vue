@@ -22,7 +22,7 @@ const currentMenu = ref("");
 			</MenubarTrigger>
 			<MenubarPortal>
 				<MenubarContent
-					class="outline-none bg-white border shadow-lg"
+					class="outline-none bg-white border shadow-lg z-1"
 					align="start"
 					:side-offset="2"
 				>

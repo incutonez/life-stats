@@ -7,10 +7,10 @@ import { RouteExercisesActivities, RouteExercisesHistory } from "@/views/exercis
 import ViewActivitiesImport from "@/views/exercises/ViewActivitiesImport.vue";
 
 const showActivitiesImport = ref(false);
-const { isRouteSelected, viewHistory, ViewActivities } = useExerciseRoutes();
+const { isRouteSelected, viewHistory, viewActivities } = useExerciseRoutes();
 
 function onClickViewActivities() {
-	ViewActivities();
+	viewActivities();
 }
 
 function onClickHistory() {

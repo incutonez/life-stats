@@ -1,6 +1,11 @@
 ﻿import { useRouter } from "vue-router";
 import { useBaseRoutes } from "@/composables/routes.ts";
-import { RouteExercises, RouteExercisesActivities, RouteExercisesHistory } from "@/views/exercises/constants.ts";
+import {
+	RouteExercises,
+	RouteExercisesActivities,
+	RouteExercisesActivitiesStravaSync,
+	RouteExercisesHistory,
+} from "@/views/exercises/constants.ts";
 
 export function useExerciseRoutes() {
 	const router = useRouter();
@@ -13,9 +18,14 @@ export function useExerciseRoutes() {
 				name: RouteExercises,
 			});
 		},
-		ViewActivities() {
+		viewActivities() {
 			return router.push({
 				name: RouteExercisesActivities,
+			});
+		},
+		viewStravaSync() {
+			return router.push({
+				name: RouteExercisesActivitiesStravaSync,
 			});
 		},
 		viewHistory() {

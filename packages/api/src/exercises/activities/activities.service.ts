@@ -1,5 +1,4 @@
 ﻿import { Injectable } from "@nestjs/common";
-import Papa from "papaparse";
 import {
 	ExerciseActivityAttributeModel,
 	IExerciseActivityAttributeCreate,
@@ -14,14 +13,9 @@ import {
 } from "@/db/models/ExerciseActivityTypesModel";
 import { ExerciseAttributeTypesModel, IExerciseAttributeTypeCreate } from "@/db/models/ExerciseAttributeTypesModel";
 import { ActivitiesMapper } from "@/exercises/activities/activities.mapper";
-import { EnumActivitySource } from "@/exercises/constants";
-import { IUploadStrava } from "@/exercises/types";
-import { IUploadViewModelsResponse } from "@/types";
-import { getErrorMessage } from "@/utils";
 import {
 	ExerciseActivityCreateViewModel,
 	ExerciseActivityListViewModel,
-	IExerciseActivityCreateViewModel,
 	IExerciseActivityViewModel,
 } from "@/viewModels/exercises/exercise.activity.viewmodel";
 
@@ -142,21 +136,6 @@ export class ActivitiesService {
 		});
 	}
 
-	importActivities(file: Express.Multer.File, source: EnumActivitySource) {
-		const contents = file.buffer.toString("utf8");
-		const results: IExerciseActivityCreateViewModel[] = [];
-		if (source === EnumActivitySource.Strava) {
-			const { data } = Papa.parse<IUploadStrava>(contents, {
-				header: true,
-				skipEmptyLines: true,
-			});
-			for (const item of data) {
-				results.push(this.mapper.stravaToViewModel(item));
-			}
-		}
-		return results;
-	}
-
 	async createActivityWithResponse(viewModel: ExerciseActivityCreateViewModel) {
 		const activityId = await this.createActivity(viewModel);
 		return this.getActivity(activityId);
@@ -171,22 +150,5 @@ export class ActivitiesService {
 			await this.createActivityAttribute(attribute, id);
 		}
 		return id;
-	}
-
-	async uploadActivities(viewModels: ExerciseActivityCreateViewModel[]) {
-		const results: IUploadViewModelsResponse = {
-			successful: 0,
-			errors: [],
-		};
-		for (const viewModel of viewModels) {
-			try {
-				await this.createActivity(viewModel);
-				results.successful++;
-			}
-			catch (error: unknown) {
-				results.errors.push(getErrorMessage(error));
-			}
-		}
-		return results;
 	}
 }

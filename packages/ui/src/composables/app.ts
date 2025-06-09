@@ -7,13 +7,20 @@
 	provide,
 	ref,
 	unref,
-	watch,
+	watch, watchEffect,
 } from "vue";
-import { type Query, useQueryClient } from "@tanstack/vue-query";
+import type { UserViewModel } from "@incutonez/life-stats-spec";
+import { type Query, useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
+import { apiConfig, UsersAPI } from "@/api.ts";
+import { QueryKeyUser } from "@/constants.ts";
 
 export type TUseGlobalError = ReturnType<typeof useGlobalError>;
 
-export const GlobalErrorKey: InjectionKey<TUseGlobalError> = Symbol("globalError");
+export const InjectionGlobalError: InjectionKey<TUseGlobalError> = Symbol("globalError");
+
+export type TUseUserProfile = ReturnType<typeof useUserProfile>;
+
+export const InjectionUserProfile: InjectionKey<TUseUserProfile> = Symbol("userProfile");
 
 // This only gets called from App.vue, and then any component can inject it with the function below
 export function useGlobalError() {
@@ -39,7 +46,7 @@ export function useGlobalError() {
 		resetError,
 	};
 
-	provide(GlobalErrorKey, provider);
+	provide(InjectionGlobalError, provider);
 
 	watch(errorMsgStack, ($errorMsgStack) => showErrorDialog.value = !!$errorMsgStack);
 
@@ -71,7 +78,56 @@ export function useGlobalError() {
 }
 
 export function injectGlobalError() {
-	return inject(GlobalErrorKey) as TUseGlobalError;
+	return inject(InjectionGlobalError) as TUseGlobalError;
+}
+
+export function useUserProfile() {
+	const updatingSettings = ref(false);
+	const userProfile = ref<UserViewModel>();
+	const enabled = ref(false);
+	const query = useQuery({
+		enabled,
+		queryKey: [QueryKeyUser],
+		async queryFn() {
+			const { data } = await UsersAPI.getUserProfile();
+			userProfile.value = data;
+			return data;
+		},
+	});
+	const mutationSettings = useMutation({
+		async mutationFn() {
+			const $userProfile = unref(userProfile);
+			if ($userProfile) {
+				updatingSettings.value = true;
+				const { data } = await UsersAPI.updateUserSettings($userProfile.id, $userProfile.settings);
+				$userProfile.settings = data;
+				updatingSettings.value = false;
+			}
+		},
+	});
+
+	async function updateSettings() {
+		return mutationSettings.mutateAsync();
+	}
+
+	const provider = {
+		userProfile,
+		query,
+		updatingSettings,
+		updateSettings,
+	};
+
+	provide(InjectionUserProfile, provider);
+
+	/* We don't simply use isAuthenticated because that changes too quickly, before we've actually set the autorization
+	 * header.  So instead, we check to see when this is set, so we can enable loading the user profile */
+	watchEffect(() => enabled.value = !!apiConfig.baseOptions.headers.authorization);
+
+	return provider;
+}
+
+export function injectUserProfile() {
+	return inject(InjectionUserProfile) as TUseUserProfile;
 }
 
 export function getInvalidateQueryPredicate(queryKey: string) {

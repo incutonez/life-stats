@@ -13,6 +13,7 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { UseValidationPipe } from "@/constants";
 import { ActivitiesService } from "@/exercises/activities/activities.service";
+import { StravaService } from "@/exercises/activities/strava.service";
 import { EnumActivitySource } from "@/exercises/constants";
 import { ExerciseActivityUpload } from "@/exercises/types";
 import { IUploadViewModelsResponse } from "@/types";
@@ -20,11 +21,12 @@ import {
 	ExerciseActivityCreateViewModel,
 	ExerciseActivityViewModel, IExerciseActivityCreateViewModel,
 } from "@/viewModels/exercises/exercise.activity.viewmodel";
+import { StravaTokenViewModel } from "@/viewModels/exercises/strava.token.viewmodel";
 
 @ApiTags("activities")
 @Controller("activities")
 export class ActivitiesController {
-	constructor(private readonly service: ActivitiesService) {
+	constructor(private readonly service: ActivitiesService, private readonly stravaService: StravaService) {
 	}
 
 	@Post("list")
@@ -33,24 +35,30 @@ export class ActivitiesController {
 		return this.service.listActivities();
 	}
 
-	@Post("import/:source")
+	@Post("strava/import")
 	@ApiConsumes("multipart/form-data")
 	@UseInterceptors(FileInterceptor("file"))
 	@HttpCode(HttpStatus.OK)
 	@ApiOkResponse({
 		type: [ExerciseActivityCreateViewModel],
 	})
-	async importActivities(@Body() _body: ExerciseActivityUpload, @UploadedFile("file") file: Express.Multer.File, @Param("source") source: EnumActivitySource): Promise<IExerciseActivityCreateViewModel[]> {
-		return this.service.importActivities(file, source);
+	async importStravaActivities(@Body() _body: ExerciseActivityUpload, @UploadedFile("file") file: Express.Multer.File, @Param("source") source: EnumActivitySource): Promise<IExerciseActivityCreateViewModel[]> {
+		return this.stravaService.importActivities(file, source);
 	}
 
-	@Post("upload")
+	@Post("strava/upload")
 	@ApiBody({
 		type: [ExerciseActivityCreateViewModel],
 	})
 	@UseValidationPipe()
-	async uploadActivities(@Body() models: ExerciseActivityCreateViewModel[]): Promise<IUploadViewModelsResponse> {
-		return this.service.uploadActivities(models);
+	async uploadStravaActivities(@Body() models: ExerciseActivityCreateViewModel[]): Promise<IUploadViewModelsResponse> {
+		return this.stravaService.uploadActivities(models);
+	}
+
+	@Post("strava/sync/:userId")
+	@UseValidationPipe()
+	async syncStravaActivities(@Body() body: StravaTokenViewModel, @Param("userId") userId: string) {
+		return this.stravaService.syncActivities(body, userId);
 	}
 
 	@Post("")

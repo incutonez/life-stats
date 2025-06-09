@@ -3,10 +3,11 @@ import { ClsModule } from "nestjs-cls";
 import { AppController } from "@/app/app.controller";
 import { AppService } from "@/app/app.service";
 import { AuditsModule } from "@/audits/audits.module";
-import { AuthStorageModule } from "@/auth/auth.storage.module";
+import { AuthModule } from "@/auth/auth.module";
 import { DatabaseModule } from "@/db/database.module";
 import { ExercisesModule } from "@/exercises/exercises.module";
 import { JobsModule } from "@/jobs/jobs.module";
+import { UsersModule } from "@/users/users.module";
 
 /**
  * We handle the env configuration in db/config.ts.  It's a little confusing, but that's the very first file that's
@@ -14,11 +15,12 @@ import { JobsModule } from "@/jobs/jobs.module";
  */
 @Module({
 	imports: [
-		AuthStorageModule,
+		AuthModule,
 		DatabaseModule,
 		AuditsModule,
 		JobsModule,
 		ExercisesModule,
+		UsersModule,
 		ClsModule.forRoot({
 			global: true,
 			middleware: {

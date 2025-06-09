@@ -27,3 +27,8 @@ export * from './exercise-activity-type-view-model';
 export * from './exercise-activity-view-model';
 export * from './exercise-attribute-type-create-view-model';
 export * from './exercise-attribute-type-view-model';
+export * from './strava-token-view-model';
+export * from './user-create-view-model';
+export * from './user-settings-exercise-view-model';
+export * from './user-settings-view-model';
+export * from './user-view-model';

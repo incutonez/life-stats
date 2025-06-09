@@ -13,4 +13,6 @@ export const RouteExercises = "exercises";
 
 export const RouteExercisesActivities = `${RouteExercises}-activities`;
 
+export const RouteExercisesActivitiesStravaSync = `${RouteExercisesActivities}-strava-sync`;
+
 export const RouteExercisesHistory = `${RouteExercises}-history`;

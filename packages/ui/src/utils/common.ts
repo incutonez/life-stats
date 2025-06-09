@@ -2,7 +2,7 @@
 import MimeTypes from "mime-types";
 import PapaParse from "papaparse";
 import { v4 } from "uuid";
-import { user } from "@/authentication.ts";
+import { authUser } from "@/authentication.ts";
 import { UserLanguage } from "@/constants.ts";
 import type { IOption, IPluginPaste, TLabelAlign } from "@/types/components.ts";
 
@@ -102,7 +102,7 @@ export function getEnumDisplay(enums: Record<string, number | string>, value?: s
 }
 
 export function getUserName(value: string) {
-	return value === user.value?.sub ? user.value.name : value;
+	return value === authUser.value?.sub ? authUser.value.name : value;
 }
 
 export function pasteToApplicationViewModel(value: string) {

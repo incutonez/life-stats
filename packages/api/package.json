@@ -26,6 +26,7 @@
     "@nestjs/swagger": "^11.2.0",
     "@sequelize/core": "^7.0.0-alpha.46",
     "@sequelize/sqlite3": "^7.0.0-alpha.46",
+    "axios": "^1.9.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "compression": "^1.8.0",

@@ -7,6 +7,7 @@ export interface IBaseButtonProps extends /* @vue-ignore */ ButtonHTMLAttributes
 	theme?: "normal" | "info" | "plain" | "table" | "close" | "danger" | "navigation";
 	icon?: object | string;
 	loading?: boolean;
+	disabled?: boolean;
 }
 
 const { text = undefined, theme = "normal", icon = undefined, disabled = false, loading = false } = defineProps<IBaseButtonProps>();

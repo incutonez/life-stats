@@ -148,6 +148,7 @@ export function useUserNameColumn<T>(): ITableColumn<T> {
 			cellCls: "w-0",
 			columnAlign: "center",
 		},
+		// TODO: Replace with getting this in the API call, not here
 		cell: (props) => getUserName(props.getValue<string>()),
 	};
 }

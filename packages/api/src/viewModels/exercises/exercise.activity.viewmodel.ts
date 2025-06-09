@@ -26,6 +26,8 @@ export class ExerciseActivityCreateViewModel extends BaseViewModel {
 	})
 	declare source?: EnumActivitySource;
 
+	declare sourceId?: string;
+
 	declare dateOccurred: number;
 
 	declare activityType: ExerciseActivityTypeCreateViewModel;

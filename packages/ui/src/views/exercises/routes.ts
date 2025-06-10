@@ -3,9 +3,10 @@ import {
 	RouteExercises,
 	RouteExercisesActivities,
 	RouteExercisesActivitiesStravaSync,
-	RouteExercisesHistory,
+	RouteExercisesHistory, RouteViewActivity,
 } from "@/views/exercises/constants.ts";
 import ViewActivities from "@/views/exercises/ViewActivities.vue";
+import ViewActivity from "@/views/exercises/ViewActivity.vue";
 import ViewExercisesHistory from "@/views/exercises/ViewExercisesHistory.vue";
 import ViewSyncStrava from "@/views/exercises/ViewSyncStrava.vue";
 
@@ -23,6 +24,11 @@ export const ExercisesRoutes: RouteRecordRaw = {
 			path: "syncStrava",
 			name: RouteExercisesActivitiesStravaSync,
 			component: ViewSyncStrava,
+		}, {
+			path: ":activityId",
+			name: RouteViewActivity,
+			component: ViewActivity,
+			props: true,
 		}],
 	}, {
 		path: "history",

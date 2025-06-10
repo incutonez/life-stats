@@ -4,6 +4,7 @@ import { Reflector } from "@nestjs/core";
 import { auth } from "express-oauth2-jwt-bearer";
 import { SessionStorageService } from "@/auth/session.storage.service";
 import { IS_PUBLIC_KEY, SESSION_STORAGE } from "@/constants";
+import { UsersService } from "@/users/users.service";
 
 const { AUTH0_DOMAIN, AUTH0_AUDIENCE } = env;
 const checkJWT = auth({
@@ -13,7 +14,7 @@ const checkJWT = auth({
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-	constructor(@Inject(SESSION_STORAGE) private storage: SessionStorageService, private reflector: Reflector) {
+	constructor(@Inject(SESSION_STORAGE) private storage: SessionStorageService, private readonly usersService: UsersService, private reflector: Reflector) {
 	}
 
 	async canActivate(context: ExecutionContext) {
@@ -32,7 +33,9 @@ export class AuthGuard implements CanActivate {
 				throw err;
 			}
 		});
+		const userSettings = await this.usersService.getUserSettings(req.auth.payload.sub!);
 		this.storage.setUser(req.auth.payload);
+		this.storage.setUserSettings(userSettings!);
 		return true;
 	}
 }

@@ -80,6 +80,12 @@ export type EnumMappedUnitTypes = typeof EnumMappedUnitTypes[keyof typeof EnumMa
 
 export const SecondsInHour = 60 * 60;
 
+/**
+ * According to https://www.mindful.sodexo.com/the-magic-formula-for-weight-loss/, if you burn or cut ~3500 calories,
+ * you would lose 1 lb.
+ */
+export const PoundToCalories = 3500;
+
 export function UseValidationPipe() {
 	return UsePipes(new ValidationPipe({
 		transform: true,

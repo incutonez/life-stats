@@ -19,3 +19,20 @@ export function BaseTable(tableName: EnumTableNames) {
 		updatedAt: UpdatedAtField,
 	});
 }
+
+/**
+ * The normal validator for enums relies on the key being a string, but sometimes we have keys being numbers, and
+ * that's what this decorator solves... adds validation to make sure the values contain the value
+ */
+export function AttributeEnum<T extends Record<string, number>>(values: T) {
+	return Attribute({
+		type: DataTypes.INTEGER,
+		validate: {
+			validator(value: T[keyof T]) {
+				if (value !== undefined && !Object.values(values).includes(value)) {
+					throw new Error("value not in EnumUnitTypes");
+				}
+			},
+		},
+	});
+}

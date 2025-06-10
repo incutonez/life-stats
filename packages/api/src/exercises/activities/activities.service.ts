@@ -95,6 +95,11 @@ export class ActivitiesService {
 		}
 	}
 
+	async getActivityTypes(addMeta = false) {
+		const entities = await ExerciseActivityTypesModel.findAll();
+		return entities.map((entity) => this.mapper.entityActivityTypeToViewModel(entity, addMeta));
+	}
+
 	async updateActivity(viewModel: IExerciseActivityViewModel) {
 		const record = await this.getActivityRaw(viewModel.id);
 		if (record) {

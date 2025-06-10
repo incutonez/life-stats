@@ -1,6 +1,7 @@
 ﻿import { Injectable } from "@nestjs/common";
 import { ClsService } from "nestjs-cls";
 import { IAuthUser, ISessionStorage } from "@/types";
+import { UserSettingsViewModel } from "@/viewModels/user.viewmodel";
 
 @Injectable()
 export class SessionStorageService {
@@ -24,5 +25,13 @@ export class SessionStorageService {
 
 	getUserId() {
 		return this.cls.get("user").sub!;
+	}
+
+	setUserSettings(userSettings: UserSettingsViewModel) {
+		this.cls.set("userSettings", userSettings);
+	}
+
+	getUserSettings() {
+		return this.cls.get("userSettings");
 	}
 }

@@ -7,6 +7,7 @@
 
 @theme {
     --default-font-family: "Open Sans";
+    --spacing-form: 0.75rem;
 }
 
 html, body, #app {
@@ -69,6 +70,10 @@ input[type=number] {
         @apply flex items-center pr-0;
     }
     
+    .field-combo-box:has(input:invalid) {
+        @apply ring-red-500;
+    }
+    
     .field-text {
         @apply w-full invalid:ring-red-500;
     }
@@ -79,10 +84,6 @@ input[type=number] {
     
     .field-checkbox {
         @apply bg-white hover:bg-sky-100 flex size-5 appearance-none items-center justify-center rounded-md outline-none border border-gray-500;
-    }
-    
-    .table-row:last-child > td {
-        @apply !border-b-0;
     }
     
     .base-button {

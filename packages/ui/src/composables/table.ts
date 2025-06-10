@@ -84,10 +84,11 @@ export function useTableData<TData = unknown>({ data, columns, sortInitial, sear
 	};
 }
 
-export function useTableActions<T>(buttons: ITableAction<T>[]) {
+export function useTableActions<T>(buttons: ITableAction<T>[]): ITableColumn<T> {
 	return {
 		header: "Actions",
 		meta: {
+			columnAlign: "center",
 			columnWidth: "w-24",
 			cellCls: "w-24",
 		},

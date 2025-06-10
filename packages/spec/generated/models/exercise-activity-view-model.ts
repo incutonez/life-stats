@@ -79,16 +79,46 @@ export interface ExerciseActivityViewModel {
     'title': string;
     /**
      * 
+     * @type {number}
+     * @memberof ExerciseActivityViewModel
+     */
+    'weight'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExerciseActivityViewModel
+     */
+    'duration'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof ExerciseActivityViewModel
      */
     'description'?: string;
     /**
      * 
+     * @type {string}
+     * @memberof ExerciseActivityViewModel
+     */
+    'sourceId'?: string;
+    /**
+     * 
      * @type {number}
      * @memberof ExerciseActivityViewModel
      */
     'dateOccurred': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExerciseActivityViewModel
+     */
+    'calories'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExerciseActivityViewModel
+     */
+    'weightLost'?: number;
 }
 
 

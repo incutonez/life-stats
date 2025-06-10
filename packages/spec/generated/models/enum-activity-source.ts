@@ -21,7 +21,8 @@
  */
 
 export const EnumActivitySource = {
-    Strava: 'strava'
+    None: -1,
+    Strava: 1
 } as const;
 
 export type EnumActivitySource = typeof EnumActivitySource[keyof typeof EnumActivitySource];

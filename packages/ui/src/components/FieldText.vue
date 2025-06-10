@@ -30,7 +30,7 @@ function updateValue(value: string) {
 		modelValue = value.trim();
 	}
 	if (modelModifiers.number) {
-		modelValue = parseInt(value, 10);
+		modelValue = parseFloat(value);
 		if (isNaN(modelValue)) {
 			modelValue = undefined;
 		}

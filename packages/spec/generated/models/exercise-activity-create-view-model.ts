@@ -61,10 +61,28 @@ export interface ExerciseActivityCreateViewModel {
     'title': string;
     /**
      * 
+     * @type {number}
+     * @memberof ExerciseActivityCreateViewModel
+     */
+    'weight'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExerciseActivityCreateViewModel
+     */
+    'duration'?: number;
+    /**
+     * 
      * @type {string}
      * @memberof ExerciseActivityCreateViewModel
      */
     'description'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ExerciseActivityCreateViewModel
+     */
+    'sourceId'?: string;
     /**
      * 
      * @type {number}
@@ -83,6 +101,18 @@ export interface ExerciseActivityCreateViewModel {
      * @memberof ExerciseActivityCreateViewModel
      */
     'attributes': Array<ExerciseActivityAttributeCreateViewModel>;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExerciseActivityCreateViewModel
+     */
+    'calories'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof ExerciseActivityCreateViewModel
+     */
+    'weightLost'?: number;
 }
 
 

@@ -7,14 +7,13 @@ import {
 import TableData from "@/components/TableData.vue";
 import { useDateColumn, useTableData } from "@/composables/table.ts";
 import type { ITableColumn, ITableData } from "@/types/components.ts";
-import { getEnumDisplay } from "@/utils/common.ts";
 import { numberToDisplay } from "@/utils/formatters.ts";
 
 export function useActivitiesColumns<T extends ExerciseActivityCreateViewModel>(): ITableColumn<T>[] {
 	return [
 		useDateColumn("dateOccurred", "Date"), {
 			accessorKey: "activityType.name",
-			header: "Activity",
+			header: "Type",
 			meta: {
 				columnWidth: "w-max",
 				columnAlign: "center",
@@ -25,6 +24,28 @@ export function useActivitiesColumns<T extends ExerciseActivityCreateViewModel>(
 		}, {
 			accessorKey: "description",
 			header: "Description",
+		}, {
+			accessorKey: "calories",
+			header: "Calories Burned",
+			meta: {
+				columnWidth: "min-w-36",
+				columnAlign: "center",
+			},
+			cell(info) {
+				const value = info.getValue<number>();
+				return value ? numberToDisplay(value) : "";
+			},
+		}, {
+			accessorKey: "weightLost",
+			header: "Weight Lost (lbs)",
+			meta: {
+				columnWidth: "min-w-40",
+				columnAlign: "center",
+			},
+			cell(info) {
+				const value = info.getValue<number>();
+				return value ? numberToDisplay(value) : "";
+			},
 		}, {
 			accessorKey: "source",
 			header: "Source",
@@ -46,27 +67,7 @@ export function useActivitiesColumns<T extends ExerciseActivityCreateViewModel>(
 						desc: false,
 						id: "attributeTypeName",
 					}],
-					columns: [{
-						id: "attributeTypeName",
-						accessorKey: "attributeType.name",
-						header: "Attribute",
-					}, {
-						accessorKey: "value",
-						header: "Value",
-						meta: {
-							cellCls: "!border-r-0",
-						},
-						cell(info) {
-							const { original } = info.row;
-							const display: string[] = [getEnumDisplay(EnumUnitTypes, original.unitDisplay ?? original.unit)];
-							const value = original.valueDisplay || original.value;
-							const attributeType = original.attributeType.type;
-							if (attributeType === "number") {
-								display.unshift(numberToDisplay(value));
-							}
-							return display.join(" ");
-						},
-					}],
+					columns: useAttributesColumns(),
 				});
 				return h<ITableData<ExerciseActivityAttributeViewModel>>(TableData, {
 					table: attributesTable.table,
@@ -76,4 +77,57 @@ export function useActivitiesColumns<T extends ExerciseActivityCreateViewModel>(
 			},
 		},
 	];
+}
+
+export function useAttributesColumns<T extends ExerciseActivityAttributeViewModel>(): ITableColumn<T>[] {
+	return [{
+		id: "attributeTypeName",
+		accessorKey: "attributeType.name",
+		header: "Attribute",
+	}, {
+		accessorKey: "value",
+		header: "Value",
+		meta: {
+			cellCls: "!border-r-0",
+		},
+		cell(info) {
+			const { original } = info.row;
+			const display: string[] = [];
+			const value = original.valueDisplay || original.value;
+			const attributeType = original.attributeType.type;
+			switch (original.unitDisplay ?? original.unit) {
+				case EnumUnitTypes.KilometersPerHour:
+					display.push("kph");
+					break;
+				case EnumUnitTypes.Meters:
+					display.push("m");
+					break;
+				case EnumUnitTypes.Kilometers:
+					display.push("km");
+					break;
+				case EnumUnitTypes.MilesPerHour:
+					display.push("mph");
+					break;
+				case EnumUnitTypes.Feet:
+					display.push("ft");
+					break;
+				case EnumUnitTypes.Miles:
+					display.push("mi");
+					break;
+				case EnumUnitTypes.Hours:
+					display.push("hrs");
+					break;
+				case EnumUnitTypes.Minutes:
+					display.push("mins");
+					break;
+				case EnumUnitTypes.Seconds:
+					display.push("secs");
+					break;
+			}
+			if (attributeType === "number") {
+				display.unshift(numberToDisplay(value));
+			}
+			return display.join(" ");
+		},
+	}];
 }

@@ -12,7 +12,7 @@ import {
 } from "@/db/models/ExerciseActivityModel";
 import { IExerciseActivityTypeCreate, IExerciseActivityTypesModel } from "@/db/models/ExerciseActivityTypesModel";
 import { IExerciseAttributeTypeCreate, IExerciseAttributeTypesModel } from "@/db/models/ExerciseAttributeTypesModel";
-import { EnumAttributeType } from "@/exercises/constants";
+import { EnumActivitySource, EnumAttributeType } from "@/exercises/constants";
 import { IStubAttributeOptions } from "@/exercises/types";
 import { addMetaInfo, convertToUnit, localizeValue } from "@/utils";
 import { IExerciseActivityAttributeCreateViewModel, IExerciseActivityAttributeViewModel } from "@/viewModels/exercises/exercise.activity.attribute.viewmodel";
@@ -57,12 +57,17 @@ export class ActivitiesMapper {
 		return undefined;
 	}
 
-	entityToViewModel({ id, user_id, title, activity_type, created_at, updated_at, attributes = [], source, description, date_occurred }: IExerciseActivityModel, addMeta = true): IExerciseActivityViewModel {
+	entityToViewModel({ id, user_id, calories, weight_lost, duration, weight, source_id, title, activity_type, created_at, updated_at, attributes = [], source, description, date_occurred }: IExerciseActivityModel, addMeta = true): IExerciseActivityViewModel {
 		const response = {
 			id,
 			source,
 			description,
 			title,
+			weight,
+			duration,
+			calories,
+			weightLost: weight_lost,
+			sourceId: source_id,
 			activityType: this.entityActivityTypeToViewModel(activity_type),
 			attributes: attributes.map((attribute) => this.entityActivityAttributeToViewModel(attribute)),
 			dateOccurred: date_occurred,
@@ -197,12 +202,16 @@ export class ActivitiesMapper {
 		};
 	}
 
-	viewModelCreateToEntity({ userId, source, activityType, attributes, description, title, dateOccurred }: IExerciseActivityCreateViewModel): IExerciseActivityCreate {
+	viewModelCreateToEntity({ userId, weight = this.storage.getUserSettings().exercises.weight, duration, source = EnumActivitySource.None, sourceId, activityType, attributes, description, title, dateOccurred }: IExerciseActivityCreateViewModel): IExerciseActivityCreate {
 		const defaultUserId = this.storage.getUserId();
+		sourceId = source === EnumActivitySource.None ? "" : sourceId;
 		return {
 			source,
 			title,
 			description,
+			weight,
+			duration,
+			source_id: sourceId,
 			// Appease TS... we'll be setting this when we have the value from the DB entry
 			activity_type_id: "",
 			user_id: userId ?? defaultUserId,
@@ -212,13 +221,17 @@ export class ActivitiesMapper {
 		};
 	}
 
-	viewModelToEntity({ id, userId, source, activityType, description, title, dateOccurred }: IExerciseActivityViewModel): IExerciseActivityUpdateModel {
+	viewModelToEntity({ id, userId, duration, weight = this.storage.getUserSettings().exercises.weight, source = EnumActivitySource.None, sourceId, activityType, description, title, dateOccurred }: IExerciseActivityViewModel): IExerciseActivityUpdateModel {
 		const defaultUserId = this.storage.getUserId();
+		sourceId = source === EnumActivitySource.None ? "" : sourceId;
 		return {
 			id,
 			source,
 			title,
 			description,
+			weight,
+			duration,
+			source_id: sourceId,
 			activity_type_id: activityType.id,
 			user_id: userId ?? defaultUserId,
 			date_occurred: dateOccurred,

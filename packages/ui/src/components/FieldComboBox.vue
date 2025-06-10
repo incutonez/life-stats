@@ -64,26 +64,25 @@ function onClickInput() {
 }
 
 function onBlurInput() {
-	if (customValue) {
-		const $search = unref(search);
-		if ($search) {
-			if (valueOnly) {
-				model.value = $search;
-			}
-			else {
-				model.value = {
-					[valueField]: "custom",
-					[displayField]: $search,
-				};
-			}
+	const $search = unref(search);
+	if (customValue && $search) {
+		if (valueOnly) {
+			model.value = $search;
 		}
 		else {
-			search.value = getOptionDisplayValue(model.value);
+			model.value = {
+				[valueField]: "custom",
+				[displayField]: $search,
+			};
 		}
 	}
 	// Enforce a selection
-	else if (required) {
+	if (required) {
 		search.value = getOptionDisplayValue(model.value);
+	}
+	// Otherwise, if we have no search value, let's remove the selection
+	else if (!$search) {
+		model.value = undefined;
 	}
 }
 </script>
@@ -109,6 +108,7 @@ function onBlurInput() {
 				class="field-text-input w-full min-w-0"
 				placeholder="Placeholder..."
 				:display-value="getInputDisplay"
+				:required="required"
 				@click="onClickInput"
 				@blur="onBlurInput"
 			/>

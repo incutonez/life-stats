@@ -19,6 +19,10 @@ export type IExerciseActivityCreateViewModel = ModelInterface<ExerciseActivityCr
 export class ExerciseActivityCreateViewModel extends BaseViewModel {
 	declare title: string;
 
+	declare weight?: number;
+
+	declare duration?: number;
+
 	declare description?: string;
 
 	@ApiEnum({
@@ -33,6 +37,10 @@ export class ExerciseActivityCreateViewModel extends BaseViewModel {
 	declare activityType: ExerciseActivityTypeCreateViewModel;
 
 	declare attributes: ExerciseActivityAttributeCreateViewModel[];
+
+	declare calories?: number;
+
+	declare weightLost?: number;
 }
 
 export class ExerciseActivityViewModel extends ExerciseActivityCreateViewModel {

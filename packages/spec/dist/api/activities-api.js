@@ -64,11 +64,27 @@ export const ActivitiesApiAxiosParamCreator = function (configuration) {
                 options: localVarRequestOptions,
             };
         },
-        importStravaActivities: async (source, file, options = {}) => {
-            assertParamExists('importStravaActivities', 'source', source);
+        getActivityTypes: async (options = {}) => {
+            const localVarPath = `/exercises/activities/activity-types`;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        importStravaActivities: async (file, options = {}) => {
             assertParamExists('importStravaActivities', 'file', file);
-            const localVarPath = `/exercises/activities/strava/import`
-                .replace(`{${"source"}}`, encodeURIComponent(String(source)));
+            const localVarPath = `/exercises/activities/strava/import`;
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
@@ -109,11 +125,9 @@ export const ActivitiesApiAxiosParamCreator = function (configuration) {
                 options: localVarRequestOptions,
             };
         },
-        syncStravaActivities: async (userId, stravaTokenViewModel, options = {}) => {
-            assertParamExists('syncStravaActivities', 'userId', userId);
+        syncStravaActivities: async (stravaTokenViewModel, options = {}) => {
             assertParamExists('syncStravaActivities', 'stravaTokenViewModel', stravaTokenViewModel);
-            const localVarPath = `/exercises/activities/strava/sync/{userId}`
-                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
+            const localVarPath = `/exercises/activities/strava/sync`;
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {
@@ -193,16 +207,20 @@ export const ActivitiesApiFp = function (configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getActivity(activityId, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
-        async importStravaActivities(source, file, options) {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.importStravaActivities(source, file, options);
+        async getActivityTypes(options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getActivityTypes(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        async importStravaActivities(file, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.importStravaActivities(file, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         async listActivities(options) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listActivities(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
-        async syncStravaActivities(userId, stravaTokenViewModel, options) {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.syncStravaActivities(userId, stravaTokenViewModel, options);
+        async syncStravaActivities(stravaTokenViewModel, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.syncStravaActivities(stravaTokenViewModel, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         async updateActivity(activityId, exerciseActivityViewModel, options) {
@@ -227,14 +245,17 @@ export const ActivitiesApiFactory = function (configuration, basePath, axios) {
         getActivity(activityId, options) {
             return localVarFp.getActivity(activityId, options).then((request) => request(axios, basePath));
         },
-        importStravaActivities(source, file, options) {
-            return localVarFp.importStravaActivities(source, file, options).then((request) => request(axios, basePath));
+        getActivityTypes(options) {
+            return localVarFp.getActivityTypes(options).then((request) => request(axios, basePath));
+        },
+        importStravaActivities(file, options) {
+            return localVarFp.importStravaActivities(file, options).then((request) => request(axios, basePath));
         },
         listActivities(options) {
             return localVarFp.listActivities(options).then((request) => request(axios, basePath));
         },
-        syncStravaActivities(userId, stravaTokenViewModel, options) {
-            return localVarFp.syncStravaActivities(userId, stravaTokenViewModel, options).then((request) => request(axios, basePath));
+        syncStravaActivities(stravaTokenViewModel, options) {
+            return localVarFp.syncStravaActivities(stravaTokenViewModel, options).then((request) => request(axios, basePath));
         },
         updateActivity(activityId, exerciseActivityViewModel, options) {
             return localVarFp.updateActivity(activityId, exerciseActivityViewModel, options).then((request) => request(axios, basePath));
@@ -254,14 +275,17 @@ export class ActivitiesApi extends BaseAPI {
     getActivity(activityId, options) {
         return ActivitiesApiFp(this.configuration).getActivity(activityId, options).then((request) => request(this.axios, this.basePath));
     }
-    importStravaActivities(source, file, options) {
-        return ActivitiesApiFp(this.configuration).importStravaActivities(source, file, options).then((request) => request(this.axios, this.basePath));
+    getActivityTypes(options) {
+        return ActivitiesApiFp(this.configuration).getActivityTypes(options).then((request) => request(this.axios, this.basePath));
+    }
+    importStravaActivities(file, options) {
+        return ActivitiesApiFp(this.configuration).importStravaActivities(file, options).then((request) => request(this.axios, this.basePath));
     }
     listActivities(options) {
         return ActivitiesApiFp(this.configuration).listActivities(options).then((request) => request(this.axios, this.basePath));
     }
-    syncStravaActivities(userId, stravaTokenViewModel, options) {
-        return ActivitiesApiFp(this.configuration).syncStravaActivities(userId, stravaTokenViewModel, options).then((request) => request(this.axios, this.basePath));
+    syncStravaActivities(stravaTokenViewModel, options) {
+        return ActivitiesApiFp(this.configuration).syncStravaActivities(stravaTokenViewModel, options).then((request) => request(this.axios, this.basePath));
     }
     updateActivity(activityId, exerciseActivityViewModel, options) {
         return ActivitiesApiFp(this.configuration).updateActivity(activityId, exerciseActivityViewModel, options).then((request) => request(this.axios, this.basePath));

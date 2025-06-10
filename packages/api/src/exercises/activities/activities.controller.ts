@@ -17,6 +17,7 @@ import { StravaService } from "@/exercises/activities/strava.service";
 import { EnumActivitySource } from "@/exercises/constants";
 import { ExerciseActivityUpload } from "@/exercises/types";
 import { IUploadViewModelsResponse } from "@/types";
+import { ExerciseActivityTypeViewModel } from "@/viewModels/exercises/exercise.activity.type.viewmodel";
 import {
 	ExerciseActivityCreateViewModel,
 	ExerciseActivityViewModel, IExerciseActivityCreateViewModel,
@@ -42,8 +43,8 @@ export class ActivitiesController {
 	@ApiOkResponse({
 		type: [ExerciseActivityCreateViewModel],
 	})
-	async importStravaActivities(@Body() _body: ExerciseActivityUpload, @UploadedFile("file") file: Express.Multer.File, @Param("source") source: EnumActivitySource): Promise<IExerciseActivityCreateViewModel[]> {
-		return this.stravaService.importActivities(file, source);
+	async importStravaActivities(@Body() _body: ExerciseActivityUpload, @UploadedFile("file") file: Express.Multer.File): Promise<IExerciseActivityCreateViewModel[]> {
+		return this.stravaService.importActivities(file, EnumActivitySource.Strava);
 	}
 
 	@Post("strava/upload")
@@ -55,10 +56,15 @@ export class ActivitiesController {
 		return this.stravaService.uploadActivities(models);
 	}
 
-	@Post("strava/sync/:userId")
+	@Post("strava/sync")
 	@UseValidationPipe()
-	async syncStravaActivities(@Body() body: StravaTokenViewModel, @Param("userId") userId: string) {
-		return this.stravaService.syncActivities(body, userId);
+	async syncStravaActivities(@Body() body: StravaTokenViewModel) {
+		return this.stravaService.syncActivities(body);
+	}
+
+	@Get("activity-types")
+	async getActivityTypes(): Promise<ExerciseActivityTypeViewModel[]> {
+		return this.service.getActivityTypes();
 	}
 
 	@Post("")

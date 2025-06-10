@@ -2,6 +2,7 @@ import { Model } from "@sequelize/core";
 import { AuthResult, JWTPayload } from "express-oauth2-jwt-bearer";
 import { ClsStore } from "nestjs-cls";
 import { BaseModel } from "@/db/models/BaseModel";
+import { UserSettingsViewModel } from "@/viewModels/user.viewmodel";
 
 // Have to make sure we add the auth property to our Request
 declare module "@nestjs/common" {
@@ -19,6 +20,7 @@ export interface IAuthUser extends JWTPayload {
 
 export interface ISessionStorage extends ClsStore {
 	user: IAuthUser;
+	userSettings: UserSettingsViewModel;
 	measurementSystem: "imperial" | "metric";
 }
 

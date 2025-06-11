@@ -22,6 +22,6 @@ const componentClasses = computed(() => {
 <template>
 	<article :class="componentClasses">
 		<FieldLabel :text="label" />
-		<span>{{ value }}</span>
+		<span class="text-sm font-semibold">{{ value }}</span>
 	</article>
 </template>

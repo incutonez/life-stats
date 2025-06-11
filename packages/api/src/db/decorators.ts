@@ -29,7 +29,7 @@ export function AttributeEnum<T extends Record<string, number>>(values: T) {
 		type: DataTypes.INTEGER,
 		validate: {
 			validator(value: T[keyof T]) {
-				if (value !== undefined && !Object.values(values).includes(value)) {
+				if (!(value === 0 || !!value) && !Object.values(values).includes(value)) {
 					throw new Error("value not in EnumUnitTypes");
 				}
 			},

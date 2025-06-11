@@ -94,7 +94,6 @@ function onBlurInput() {
 			}
 			else {
 				model.value = {
-					[valueField]: "custom",
 					[displayField]: $search,
 				};
 			}

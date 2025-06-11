@@ -1,4 +1,4 @@
-﻿import { ActivitiesApi, EnumActivitySource } from "@incutonez/life-stats-spec";
+﻿import { ActivitiesApi, EnumActivitySource, EnumUnitTypes } from "@incutonez/life-stats-spec";
 import { apiConfig } from "@/api.ts";
 import { enumToOptions } from "@/utils/common.ts";
 
@@ -26,3 +26,5 @@ export const RouteExercisesHistory = `${RouteExercises}-history`;
 
 // We don't want to display None in the UI... they'll just simply remove the value in the combo
 export const ActivitySourceOptions = enumToOptions(EnumActivitySource).filter((item) => item.id !== EnumActivitySource.None);
+
+export const UnitTypeOptions = enumToOptions(EnumUnitTypes).sort((lhs, rhs) => lhs.display.localeCompare(rhs.display));

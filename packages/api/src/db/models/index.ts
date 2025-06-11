@@ -1,5 +1,6 @@
 ﻿import { CreatedAtField, EnumAuditActionTypes, EnumFeatures, UpdatedAtField } from "@/constants";
 import { ApplicationModel } from "@/db/models/ApplicationModel";
+import { AttributeTypeModel } from "@/db/models/AttributeTypeModel";
 import { AuditModel } from "@/db/models/AuditModel";
 import { BaseModel } from "@/db/models/BaseModel";
 import { CommentModel } from "@/db/models/CommentModel";
@@ -7,7 +8,6 @@ import { CompanyModel } from "@/db/models/CompanyModel";
 import { ExerciseActivityAttributeModel } from "@/db/models/ExerciseActivityAttributeModel";
 import { ExerciseActivityModel } from "@/db/models/ExerciseActivityModel";
 import { ExerciseActivityTypesModel } from "@/db/models/ExerciseActivityTypesModel";
-import { ExerciseAttributeTypesModel } from "@/db/models/ExerciseAttributeTypesModel";
 import { UserModel } from "@/db/models/UserModel";
 import { isObject } from "@/utils";
 
@@ -17,8 +17,9 @@ export interface IAuditFeatures {
 	primaryKey?: string;
 }
 
+export const SystemModels = [UserModel, AttributeTypeModel];
 export const JobModels = [ApplicationModel, CommentModel, CompanyModel];
-export const ExerciseModels = [ExerciseActivityModel, ExerciseActivityAttributeModel, ExerciseAttributeTypesModel, ExerciseActivityTypesModel];
+export const ExerciseModels = [ExerciseActivityModel, ExerciseActivityAttributeModel, ExerciseActivityTypesModel];
 export const AuditedFeatures: IAuditFeatures[] = [{
 	models: JobModels,
 	feature: EnumFeatures.jobs,
@@ -26,10 +27,10 @@ export const AuditedFeatures: IAuditFeatures[] = [{
 	models: ExerciseModels,
 	feature: EnumFeatures.exercises,
 }, {
-	models: [UserModel],
-	feature: EnumFeatures.users,
+	models: SystemModels,
+	feature: EnumFeatures.system,
 }];
-export const AllModels = [...JobModels, ...ExerciseModels, UserModel, AuditModel];
+export const AllModels = [...JobModels, ...ExerciseModels, ...SystemModels, AuditModel];
 
 function sanitizeDataType(value: any) {
 	if (Array.isArray(value)) {

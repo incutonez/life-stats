@@ -1,6 +1,7 @@
 ﻿<script setup lang="ts">
 import { computed, ref, unref, watch } from "vue";
-import type { ExerciseActivityAttributeViewModel } from "@incutonez/life-stats-spec";
+import { type ExerciseActivityAttributeViewModel } from "@incutonez/life-stats-spec";
+import clone from "just-clone";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
 import FieldComboBox from "@/components/FieldComboBox.vue";
@@ -8,16 +9,19 @@ import FieldDate from "@/components/FieldDate.vue";
 import FieldDisplay from "@/components/FieldDisplay.vue";
 import FieldNumber from "@/components/FieldNumber.vue";
 import FieldText from "@/components/FieldText.vue";
-import { IconSave } from "@/components/Icons.ts";
+import { IconAdd, IconDelete, IconEdit, IconSave } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
 import { injectUserProfile } from "@/composables/app.ts";
-import { useTableData } from "@/composables/table.ts";
+import { useTableActions, useTableData } from "@/composables/table.ts";
+import { getUniqueId } from "@/utils/common.ts";
 import { numberToDisplay } from "@/utils/formatters.ts";
-import { provideActivityRecord } from "@/views/exercises/composables/activities.ts";
+import { provideActivityRecord, useDeleteActivity } from "@/views/exercises/composables/activities.ts";
 import { useExerciseRoutes } from "@/views/exercises/composables/routes.ts";
 import { useAttributesColumns } from "@/views/exercises/composables/table.ts";
 import { ActivitySourceOptions } from "@/views/exercises/constants.ts";
 import FieldActivityTypes from "@/views/exercises/shared/FieldActivityTypes.vue";
+import ViewAttribute from "@/views/exercises/ViewAttribute.vue";
+import DeleteDialog from "@/views/shared/DeleteDialog.vue";
 
 interface IViewActivityProps {
 	activityId: string;
@@ -25,19 +29,32 @@ interface IViewActivityProps {
 
 const props = defineProps<IViewActivityProps>();
 const show = ref(true);
+const showDeleteDialog = ref(false);
+const showAttributeDialog = ref(false);
 const recordId = computed(() => props.activityId);
-const { save, savingRecord, viewRecord, isEdit } = provideActivityRecord(recordId);
+const { deletingRecord, deleteRecord } = useDeleteActivity();
+const { save, savingRecord, viewRecord, isEdit, selectedAttributeRecord, attributeRecords } = provideActivityRecord(recordId);
 const { viewActivities } = useExerciseRoutes();
 const { userProfile } = injectUserProfile();
 const dialogTitle = computed(() => isEdit.value ? "Edit Activity" : "Create Activity");
-const attributes = computed(() => viewRecord.value?.attributes);
 const attributesTable = useTableData<ExerciseActivityAttributeViewModel>({
-	data: attributes,
+	data: attributeRecords,
 	sortInitial: [{
 		desc: false,
 		id: "attributeTypeName",
 	}],
-	columns: useAttributesColumns(),
+	columns: [useTableActions([{
+		icon: IconEdit,
+		handler(record) {
+			selectedAttributeRecord.value = clone(record);
+			showAttributeDialog.value = true;
+		},
+	}, {
+		icon: IconDelete,
+		handler({ id }) {
+			viewRecord.value!.attributes = attributeRecords.value.filter((item) => item.id !== id);
+		},
+	}]), ...useAttributesColumns()],
 });
 
 async function onClickSave() {
@@ -45,8 +62,29 @@ async function onClickSave() {
 	show.value = false;
 }
 
+function onClickDeleteButton() {
+	showDeleteDialog.value = true;
+}
+
+async function onClickDelete() {
+	await deleteRecord(viewRecord.value);
+	show.value = false;
+}
+
 function onClose() {
 	viewActivities();
+}
+
+function onClickAddAttribute() {
+	selectedAttributeRecord.value = {
+		id: getUniqueId(),
+		value: "",
+		attributeType: {
+			id: "",
+			name: "",
+		},
+	};
+	showAttributeDialog.value = true;
 }
 
 watch(userProfile, ($userProfile) => {
@@ -128,21 +166,48 @@ watch(userProfile, ($userProfile) => {
 				/>
 				<FieldDisplay
 					v-if="viewRecord.weightLost"
-					:value="numberToDisplay(viewRecord.weightLost)"
-					label="Weight Lost (lbs)"
+					:value="numberToDisplay(viewRecord.weightLost, 2, 'lbs')"
+					label="Weight Lost"
 					label-align="top"
 				/>
 			</section>
-			<section class="flex-1">
+			<section class="flex-1 flex flex-col space-y-2">
+				<section class="ml-auto">
+					<BaseButton
+						:icon="IconAdd"
+						text="Attribute"
+						theme="info"
+						@click="onClickAddAttribute"
+					/>
+				</section>
 				<TableData :table="attributesTable.table" />
 			</section>
 		</template>
 		<template #footer>
 			<BaseButton
+				v-if="isEdit"
+				text="Delete"
+				theme="danger"
+				:loading="deletingRecord"
+				:icon="IconDelete"
+				@click="onClickDeleteButton"
+			/>
+			<BaseButton
 				text="Save"
+				theme="info"
 				:loading="savingRecord"
 				:icon="IconSave"
 				@click="onClickSave"
+			/>
+			<DeleteDialog
+				v-model="showDeleteDialog"
+				entity-name="this activity"
+				:loading="deletingRecord"
+				@delete="onClickDelete"
+			/>
+			<ViewAttribute
+				v-if="showAttributeDialog"
+				v-model="showAttributeDialog"
 			/>
 		</template>
 	</BaseDialog>

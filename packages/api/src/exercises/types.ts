@@ -1,6 +1,5 @@
 ﻿import { ApiProperty } from "@nestjs/swagger";
 import { EnumUnitTypes } from "@/constants";
-import { EnumAttributeType } from "@/exercises/constants";
 
 export class ExerciseActivityUpload {
 	@ApiProperty({
@@ -12,7 +11,6 @@ export class ExerciseActivityUpload {
 }
 
 export interface IStubAttributeOptions {
-	type?: EnumAttributeType;
 	unit?: EnumUnitTypes;
 	unitConversion?: EnumUnitTypes;
 }

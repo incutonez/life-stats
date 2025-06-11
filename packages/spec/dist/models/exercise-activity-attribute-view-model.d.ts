@@ -1,6 +1,6 @@
+import { AttributeTypeViewModel } from './attribute-type-view-model';
 import { EnumUnitTypes } from './enum-unit-types';
 import { ExerciseActivityViewModel } from './exercise-activity-view-model';
-import { ExerciseAttributeTypeViewModel } from './exercise-attribute-type-view-model';
 export interface ExerciseActivityAttributeViewModel {
     'userId'?: string;
     'dateCreated'?: number;
@@ -9,7 +9,7 @@ export interface ExerciseActivityAttributeViewModel {
     'unitDisplay'?: EnumUnitTypes;
     'id': string;
     'activity'?: ExerciseActivityViewModel;
-    'attributeType': ExerciseAttributeTypeViewModel;
+    'attributeType': AttributeTypeViewModel;
     'value': string;
     'valueDisplay'?: string;
 }

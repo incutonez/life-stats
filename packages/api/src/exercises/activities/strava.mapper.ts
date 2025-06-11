@@ -1,8 +1,8 @@
 ﻿import { Inject, Injectable } from "@nestjs/common";
 import { SessionStorageService } from "@/auth/session.storage.service";
-import { EnumUnitTypes, SecondsInHour, SESSION_STORAGE } from "@/constants";
+import { EnumUnitTypes, PoundToCalories, SecondsInHour, SESSION_STORAGE } from "@/constants";
 import { ActivitiesMapper } from "@/exercises/activities/activities.mapper";
-import { EnumActivitySource } from "@/exercises/constants";
+import { calculateCalories, EnumActivitySource } from "@/exercises/constants";
 import { IStravaActivity, IStravaImport } from "@/exercises/types";
 import { dateToUTC } from "@/utils";
 import { IExerciseActivityAttributeCreateViewModel } from "@/viewModels/exercises/exercise.activity.attribute.viewmodel";
@@ -15,9 +15,12 @@ export class StravaMapper {
 
 	apiToViewModel(entity: IStravaActivity): IExerciseActivityCreateViewModel {
 		const userId = this.storage.getUserId();
-		const weight = this.storage.getUserSettings().exercises.weight;
+		const activityType = entity.type;
+		const duration = entity.moving_time / SecondsInHour;
+		const weight = this.storage.getUserSettings().exercises.weight ?? 200;
+		const calories = calculateCalories(activityType, duration, weight);
 		const attributes: (IExerciseActivityAttributeCreateViewModel | undefined)[] = [
-			this.activitiesMapper.stubAttribute(entity.elapsed_time.toString(), "Time Elapsed", {
+			this.activitiesMapper.stubAttribute(entity.elapsed_time.toString(), "Duration Total", {
 				unit: EnumUnitTypes.Seconds,
 				unitConversion: EnumUnitTypes.Hours,
 			}),
@@ -47,14 +50,16 @@ export class StravaMapper {
 		return {
 			userId,
 			weight,
-			duration: entity.moving_time / SecondsInHour,
+			duration,
+			calories,
+			weightLost: calories ? calories / PoundToCalories : undefined,
 			dateOccurred: new Date(entity.start_date).getTime(),
 			source: EnumActivitySource.Strava,
 			sourceId: entity.id.toString(),
 			title: entity.name,
 			activityType: {
 				userId,
-				name: entity.type,
+				name: activityType,
 			},
 			attributes: attributes.filter((value) => value !== undefined),
 		};
@@ -63,10 +68,12 @@ export class StravaMapper {
 	importToViewModel(entity: IStravaImport): IExerciseActivityCreateViewModel {
 		const userId = this.storage.getUserId();
 		const activityType = entity["Activity Type"];
-		const weight = this.storage.getUserSettings().exercises.weight;
+		const duration = parseFloat(entity["Moving Time"]) / SecondsInHour;
+		const weight = this.storage.getUserSettings().exercises.weight ?? 200;
+		const calories = calculateCalories(activityType, duration, weight);
 		const attributes: (IExerciseActivityAttributeCreateViewModel | undefined)[] = [
 			// Time should be stored in seconds
-			this.activitiesMapper.stubAttribute(entity["Elapsed Time"], "Time Elapsed", {
+			this.activitiesMapper.stubAttribute(entity["Elapsed Time"], "Duration Total", {
 				unit: EnumUnitTypes.Seconds,
 				unitConversion: EnumUnitTypes.Hours,
 			}),
@@ -92,7 +99,9 @@ export class StravaMapper {
 		return {
 			userId,
 			weight,
-			duration: parseFloat(entity["Moving Time"]) / SecondsInHour,
+			duration,
+			calories,
+			weightLost: calories ? calories / PoundToCalories : undefined,
 			source: EnumActivitySource.Strava,
 			sourceId: entity["Activity ID"],
 			dateOccurred: dateToUTC(entity["Activity Date"]),

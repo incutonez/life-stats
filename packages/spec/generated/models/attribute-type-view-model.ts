@@ -15,42 +15,48 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { EnumAttributeType } from './enum-attribute-type';
+import { EnumFeatures } from './enum-features';
 
 /**
  * 
  * @export
- * @interface ExerciseAttributeTypeCreateViewModel
+ * @interface AttributeTypeViewModel
  */
-export interface ExerciseAttributeTypeCreateViewModel {
+export interface AttributeTypeViewModel {
     /**
      * 
      * @type {string}
-     * @memberof ExerciseAttributeTypeCreateViewModel
+     * @memberof AttributeTypeViewModel
      */
     'userId'?: string;
     /**
      * 
      * @type {number}
-     * @memberof ExerciseAttributeTypeCreateViewModel
+     * @memberof AttributeTypeViewModel
      */
     'dateCreated'?: number;
     /**
      * 
      * @type {number}
-     * @memberof ExerciseAttributeTypeCreateViewModel
+     * @memberof AttributeTypeViewModel
      */
     'dateUpdated'?: number;
     /**
      * 
-     * @type {EnumAttributeType}
-     * @memberof ExerciseAttributeTypeCreateViewModel
+     * @type {EnumFeatures}
+     * @memberof AttributeTypeViewModel
      */
-    'type': EnumAttributeType;
+    'feature'?: EnumFeatures;
     /**
      * 
      * @type {string}
-     * @memberof ExerciseAttributeTypeCreateViewModel
+     * @memberof AttributeTypeViewModel
+     */
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AttributeTypeViewModel
      */
     'name': string;
 }

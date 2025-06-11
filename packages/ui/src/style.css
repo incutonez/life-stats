@@ -41,7 +41,7 @@ input[type=number] {
 
 @layer components {
     .field-label {
-        @apply uppercase font-semibold text-gray-800 text-sm;
+        @apply uppercase font-semibold text-slate-600 text-sm;
     }
 
     .field-label-top {
@@ -64,6 +64,9 @@ input[type=number] {
     .field-combo-box,
     .field-text {
         @apply rounded-md h-8 py-1 px-2 text-sm ring-1 ring-inset ring-offset-0 ring-gray-500 focus-within:ring-sky-600 bg-white text-gray-800 disabled:bg-gray-200 disabled:opacity-100;
+        &:has([aria-readonly="true"]) {
+            @apply pointer-events-none cursor-not-allowed ring-transparent font-semibold px-0;
+        }
     }
 
     .field-date-picker {

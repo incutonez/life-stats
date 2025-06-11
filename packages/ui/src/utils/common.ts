@@ -1,4 +1,4 @@
-﻿import { type ApplicationViewModel, EnumApplicationStatus } from "@incutonez/life-stats-spec";
+﻿import { type ApplicationViewModel, EnumApplicationStatus, EnumFeatures } from "@incutonez/life-stats-spec";
 import MimeTypes from "mime-types";
 import PapaParse from "papaparse";
 import { v4 } from "uuid";
@@ -153,6 +153,6 @@ export function downloadFile(blob: Blob, name = "download", extension = MimeType
 	URL.revokeObjectURL(url);
 }
 
-export function updateAppTitle(feature: string) {
-	document.title = `Life Stats - ${feature}`;
+export function updateAppTitle(feature: EnumFeatures) {
+	document.title = `Life Stats - ${capitalize(getEnumDisplay(EnumFeatures, feature))}`;
 }

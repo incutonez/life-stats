@@ -11,8 +11,8 @@
 } from "vue";
 import type { UserViewModel } from "@incutonez/life-stats-spec";
 import { type Query, useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
-import { apiConfig, UsersAPI } from "@/api.ts";
-import { QueryKeyUser } from "@/constants.ts";
+import { apiConfig, AttributeTypesAPI, UsersAPI } from "@/api.ts";
+import { QueryGetAttributeTypes, QueryKeyUser } from "@/constants.ts";
 
 export type TUseGlobalError = ReturnType<typeof useGlobalError>;
 
@@ -153,5 +153,15 @@ export function useInvalidateQueries(shouldInvalidate: MaybeRef<boolean>, queryK
 		if (unref(shouldInvalidate)) {
 			await queryClient.invalidateQueries(getInvalidateQueryPredicate(queryKey));
 		}
+	});
+}
+
+export function useGetAttributeTypes() {
+	return useQuery({
+		queryKey: [QueryGetAttributeTypes],
+		async queryFn() {
+			const { data } = await AttributeTypesAPI.getAttributeTypes();
+			return data.sort((lhs, rhs) => lhs.name.localeCompare(rhs.name));
+		},
 	});
 }

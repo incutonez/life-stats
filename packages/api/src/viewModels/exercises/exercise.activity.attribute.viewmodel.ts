@@ -1,15 +1,12 @@
 ﻿import { EnumUnitTypes } from "@/constants";
 import { ModelInterface } from "@/types";
+import { AttributeTypeCreateViewModel, AttributeTypeViewModel } from "@/viewModels/attribute.type.viewmodel";
 import { BaseViewModel } from "@/viewModels/BaseViewModel";
 import { ApiEnum } from "@/viewModels/decorators";
 import {
 	ExerciseActivityCreateViewModel,
 	ExerciseActivityViewModel,
 } from "@/viewModels/exercises/exercise.activity.viewmodel";
-import {
-	ExerciseAttributeTypeCreateViewModel,
-	ExerciseAttributeTypeViewModel,
-} from "@/viewModels/exercises/exercise.attribute.type.viewmodel";
 
 export type IExerciseActivityAttributeViewModel = ModelInterface<ExerciseActivityAttributeViewModel>;
 
@@ -32,7 +29,7 @@ export class ExerciseActivityAttributeCreateViewModel extends BaseViewModel {
 
 	declare activity?: ExerciseActivityCreateViewModel;
 
-	declare attributeType: ExerciseAttributeTypeCreateViewModel;
+	declare attributeType: AttributeTypeCreateViewModel;
 }
 
 export class ExerciseActivityAttributeViewModel extends ExerciseActivityAttributeCreateViewModel {
@@ -40,5 +37,5 @@ export class ExerciseActivityAttributeViewModel extends ExerciseActivityAttribut
 
 	declare activity?: ExerciseActivityViewModel;
 
-	declare attributeType: ExerciseAttributeTypeViewModel;
+	declare attributeType: AttributeTypeViewModel;
 }

@@ -1,5 +1,5 @@
 export const EnumFeatures = {
-    jobs: 'Jobs',
-    exercises: 'Exercises',
-    users: 'Users'
+    jobs: 1,
+    exercises: 2,
+    system: 3
 };

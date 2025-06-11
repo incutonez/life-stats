@@ -49,8 +49,6 @@ export class StravaService {
 			url: "https://www.strava.com/oauth/token",
 			method: "POST",
 		});
-		// Set the weight temporarily (if not already set), so we can calculate it for calories
-		this.storage.getUserSettings().exercises.weight ??= 200;
 		return {
 			accessToken: data.access_token,
 			refreshToken: data.refresh_token,

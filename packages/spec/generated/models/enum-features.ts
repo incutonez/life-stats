@@ -21,9 +21,9 @@
  */
 
 export const EnumFeatures = {
-    jobs: 'Jobs',
-    exercises: 'Exercises',
-    users: 'Users'
+    jobs: 1,
+    exercises: 2,
+    system: 3
 } as const;
 
 export type EnumFeatures = typeof EnumFeatures[keyof typeof EnumFeatures];

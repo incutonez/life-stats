@@ -7,14 +7,6 @@ export const EnumActivitySource = {
 } as const;
 export type EnumActivitySource = typeof EnumActivitySource[keyof typeof EnumActivitySource];
 
-export const EnumAttributeType = {
-	String: "string",
-	Boolean: "boolean",
-	Number: "number",
-	Date: "date",
-} as const;
-export type EnumAttributeType = typeof EnumAttributeType[keyof typeof EnumAttributeType];
-
 export const EnumMETValue = {
 	Walk: 6,
 	Hike: 7,

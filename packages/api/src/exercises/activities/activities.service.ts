@@ -1,4 +1,5 @@
 ﻿import { Injectable } from "@nestjs/common";
+import { AttributeTypesService } from "@/attributeTypes/attributeTypes.service";
 import {
 	ExerciseActivityAttributeModel,
 	IExerciseActivityAttributeCreate,
@@ -11,7 +12,6 @@ import {
 	ExerciseActivityTypesModel,
 	IExerciseActivityTypeCreate,
 } from "@/db/models/ExerciseActivityTypesModel";
-import { ExerciseAttributeTypesModel, IExerciseAttributeTypeCreate } from "@/db/models/ExerciseAttributeTypesModel";
 import { ActivitiesMapper } from "@/exercises/activities/activities.mapper";
 import {
 	ExerciseActivityCreateViewModel,
@@ -21,7 +21,7 @@ import {
 
 @Injectable()
 export class ActivitiesService {
-	constructor(private mapper: ActivitiesMapper) {
+	constructor(private mapper: ActivitiesMapper, private readonly attributeTypesService: AttributeTypesService) {
 	}
 
 	async listActivities(): Promise<ExerciseActivityListViewModel> {
@@ -54,22 +54,8 @@ export class ActivitiesService {
 		return this.mapper.entityActivityTypeToViewModel(entity);
 	}
 
-	async createAttributeType({ name, type, user_id }: IExerciseAttributeTypeCreate) {
-		const [entity] = await ExerciseAttributeTypesModel.findOrCreate({
-			where: {
-				name,
-			},
-			defaults: {
-				name,
-				type,
-				user_id,
-			},
-		});
-		return entity;
-	}
-
 	async createActivityAttribute(model: IExerciseActivityAttributeCreate, activityId: string) {
-		const attributeType = await this.createAttributeType(model.attribute_type);
+		const attributeType = await this.attributeTypesService.createAttributeTypeRaw(model.attribute_type);
 		model.attribute_type_id = attributeType.id;
 		model.activity_id = activityId;
 		return ExerciseActivityAttributeModel.create(model);

@@ -1,10 +1,14 @@
 ﻿import { UserLanguage } from "@/constants.ts";
 
-export function numberToDisplay(value: string | number, maximumFractionDigits = 2) {
+export function numberToDisplay(value: string | number, maximumFractionDigits = 2, unit = "") {
 	if (typeof value === "string") {
 		value = parseFloat(value);
 	}
-	return new Intl.NumberFormat(UserLanguage, {
+	value = new Intl.NumberFormat(UserLanguage, {
 		maximumFractionDigits,
 	}).format(value);
+	if (unit) {
+		value += ` ${unit}`;
+	}
+	return value;
 }

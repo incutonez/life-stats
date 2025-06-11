@@ -1,6 +1,6 @@
-﻿import { computed, type InjectionKey, provide, type Ref, ref, toRaw, unref, watch } from "vue";
+﻿import { computed, inject, type InjectionKey, provide, type Ref, ref, toRaw, unref, watch } from "vue";
 import {
-	EnumActivitySource,
+	EnumActivitySource, type ExerciseActivityAttributeViewModel,
 	type ExerciseActivityCreateViewModel,
 	type ExerciseActivityViewModel, type StravaTokenViewModel,
 } from "@incutonez/life-stats-spec";
@@ -206,6 +206,8 @@ export function provideActivityRecord(recordId: Ref<string>) {
 	const updated = ref(false);
 	const savingRecord = ref(false);
 	const viewRecord = ref<ExerciseActivityViewModel>();
+	const selectedAttributeRecord = ref<ExerciseActivityAttributeViewModel>();
+	const attributeRecords = computed(() => viewRecord.value?.attributes ?? []);
 	const isEdit = computed(() => !!viewRecord.value?.id);
 	const query = useQuery({
 		queryKey: [QueryKeyActivity, recordId],
@@ -247,12 +249,32 @@ export function provideActivityRecord(recordId: Ref<string>) {
 		savingRecord.value = false;
 	}
 
+	function saveSelectedAttribute(attributeRecord = selectedAttributeRecord.value) {
+		const $attributeRecords = viewRecord.value?.attributes;
+		if (!$attributeRecords || !attributeRecord) {
+			return;
+		}
+		const id = attributeRecord.id;
+		const foundIndex = $attributeRecords.findIndex((attribute) => attribute.id === id) ?? -1;
+		if (foundIndex >= 0) {
+			$attributeRecords[foundIndex] = attributeRecord;
+		}
+		else {
+			$attributeRecords.push(attributeRecord);
+		}
+		// Must change the reference, so the grid updates
+		viewRecord.value!.attributes = [...$attributeRecords];
+	}
+
 	const provider = {
 		save,
 		query,
 		isEdit,
 		viewRecord,
+		attributeRecords,
 		savingRecord,
+		selectedAttributeRecord,
+		saveSelectedAttribute,
 	};
 
 	watch(query.data, ($data) => {
@@ -268,6 +290,10 @@ export function provideActivityRecord(recordId: Ref<string>) {
 	provide(ActivityViewRecordKey, provider);
 
 	return provider;
+}
+
+export function injectActivityRecord() {
+	return inject(ActivityViewRecordKey) as TActivityViewRecord;
 }
 
 export function useGetActivityTypes() {

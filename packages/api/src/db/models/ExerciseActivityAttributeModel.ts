@@ -2,15 +2,15 @@
 import { Attribute, BelongsTo, NotNull } from "@sequelize/core/decorators-legacy";
 import { EnumTableNames, EnumUnitTypes } from "@/constants";
 import { AttributeEnum, BaseTable, PrimaryKeyGuid } from "@/db/decorators";
+import { AttributeTypeModel, IAttributeTypeCreate } from "@/db/models/AttributeTypeModel";
 import { BaseModel } from "@/db/models/BaseModel";
 import { ExerciseActivityModel } from "@/db/models/ExerciseActivityModel";
-import { ExerciseAttributeTypesModel, IExerciseAttributeTypeCreate } from "@/db/models/ExerciseAttributeTypesModel";
 import { ModelInterface } from "@/types";
 
 export type IExerciseActivityAttributeModel = ModelInterface<ExerciseActivityAttributeModel>;
 
 export type IExerciseActivityAttributeCreate = Omit<IExerciseActivityAttributeModel, "id" | "attribute_type"> & {
-	attribute_type: IExerciseAttributeTypeCreate;
+	attribute_type: IAttributeTypeCreate;
 };
 
 @BaseTable(EnumTableNames.ExerciseActivityAttributes)
@@ -40,8 +40,8 @@ export class ExerciseActivityAttributeModel extends BaseModel {
 	})
 	declare activity?: NonAttribute<ExerciseActivityModel>;
 
-	@BelongsTo(() => ExerciseAttributeTypesModel, {
+	@BelongsTo(() => AttributeTypeModel, {
 		foreignKey: "attribute_type_id",
 	})
-	declare attribute_type: NonAttribute<ExerciseAttributeTypesModel>;
+	declare attribute_type: NonAttribute<AttributeTypeModel>;
 }

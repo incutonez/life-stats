@@ -1,6 +1,7 @@
 ﻿import { Inject, Injectable } from "@nestjs/common";
+import { AttributeTypesMapper } from "@/attributeTypes/attributeTypes.mapper";
 import { SessionStorageService } from "@/auth/session.storage.service";
-import { SESSION_STORAGE } from "@/constants";
+import { EnumFeatures, SESSION_STORAGE } from "@/constants";
 import {
 	IExerciseActivityAttributeCreate,
 	IExerciseActivityAttributeModel,
@@ -11,8 +12,7 @@ import {
 	IExerciseActivityUpdateModel,
 } from "@/db/models/ExerciseActivityModel";
 import { IExerciseActivityTypeCreate, IExerciseActivityTypesModel } from "@/db/models/ExerciseActivityTypesModel";
-import { IExerciseAttributeTypeCreate, IExerciseAttributeTypesModel } from "@/db/models/ExerciseAttributeTypesModel";
-import { EnumActivitySource, EnumAttributeType } from "@/exercises/constants";
+import { EnumActivitySource } from "@/exercises/constants";
 import { IStubAttributeOptions } from "@/exercises/types";
 import { addMetaInfo, convertToUnit, localizeValue } from "@/utils";
 import { IExerciseActivityAttributeCreateViewModel, IExerciseActivityAttributeViewModel } from "@/viewModels/exercises/exercise.activity.attribute.viewmodel";
@@ -21,17 +21,13 @@ import {
 	IExerciseActivityTypeViewModel,
 } from "@/viewModels/exercises/exercise.activity.type.viewmodel";
 import { IExerciseActivityCreateViewModel,	IExerciseActivityViewModel } from "@/viewModels/exercises/exercise.activity.viewmodel";
-import {
-	IExerciseAttributeTypeCreateViewModel,
-	IExerciseAttributeTypeViewModel,
-} from "@/viewModels/exercises/exercise.attribute.type.viewmodel";
 
 @Injectable()
 export class ActivitiesMapper {
-	constructor(@Inject(SESSION_STORAGE) private readonly storage: SessionStorageService) {
+	constructor(@Inject(SESSION_STORAGE) private readonly storage: SessionStorageService, private readonly attributeTypesMapper: AttributeTypesMapper) {
 	}
 
-	stubAttribute(value: string | undefined, field: string, { type, unit, unitConversion }: IStubAttributeOptions = {}): IExerciseActivityAttributeCreateViewModel | undefined {
+	stubAttribute(value: string | undefined, field: string, { unit, unitConversion }: IStubAttributeOptions = {}): IExerciseActivityAttributeCreateViewModel | undefined {
 		if (value) {
 			const userId = this.storage.getUserId();
 			const convertedValue = convertToUnit({
@@ -50,7 +46,7 @@ export class ActivitiesMapper {
 					id: "",
 					user_id: userId,
 					name: field,
-					type: type ?? EnumAttributeType.Number,
+					feature: EnumFeatures.exercises,
 				},
 			});
 		}
@@ -78,19 +74,6 @@ export class ActivitiesMapper {
 		return response;
 	}
 
-	entityAttributeTypeToViewModel({ id, name, type, attributes, user_id, created_at, updated_at }: IExerciseAttributeTypesModel, addMeta = false): IExerciseAttributeTypeViewModel {
-		const response = {
-			id,
-			name,
-			type,
-			attributes: attributes?.map((attribute) => this.entityActivityAttributeToViewModel(attribute)),
-		};
-		if (addMeta) {
-			addMetaInfo(response, user_id, created_at, updated_at);
-		}
-		return response;
-	}
-
 	entityActivityAttributeToViewModel({ id, attribute_type, activity, unit_display, user_id, created_at, updated_at, value, unit }: IExerciseActivityAttributeModel, addMeta = false) {
 		const localizedValue = localizeValue({
 			value,
@@ -102,7 +85,7 @@ export class ActivitiesMapper {
 			value: localizedValue.value,
 			unit: localizedValue.unit,
 			activity: activity && this.entityToViewModel(activity),
-			attributeType: this.entityAttributeTypeToViewModel(attribute_type),
+			attributeType: this.attributeTypesMapper.entityToViewModel(attribute_type),
 		};
 		if (unit_display) {
 			const convertedValue = convertToUnit({
@@ -129,23 +112,6 @@ export class ActivitiesMapper {
 			addMetaInfo(response, user_id, created_at, updated_at);
 		}
 		return response;
-	}
-
-	viewModelAttributeTypeToEntity({ id, userId, name, type }: IExerciseAttributeTypeViewModel): IExerciseAttributeTypesModel {
-		return {
-			id,
-			name,
-			type,
-			user_id: userId ?? this.storage.getUserId(),
-		};
-	}
-
-	viewModelCreateAttributeTypeToEntity({ userId, name, type }: IExerciseAttributeTypeCreateViewModel): IExerciseAttributeTypeCreate {
-		return {
-			name,
-			type,
-			user_id: userId ?? this.storage.getUserId(),
-		};
 	}
 
 	viewModelCreateActivityTypeToEntity({ name, userId }: IExerciseActivityTypeCreateViewModel): IExerciseActivityTypeCreate {
@@ -179,7 +145,7 @@ export class ActivitiesMapper {
 			attribute_type_id: "",
 			unit_display: unitDisplay,
 			user_id: userId ?? this.storage.getUserId(),
-			attribute_type: this.viewModelCreateAttributeTypeToEntity(attributeType),
+			attribute_type: this.attributeTypesMapper.viewModelCreateToEntity(attributeType),
 		};
 	}
 
@@ -198,7 +164,7 @@ export class ActivitiesMapper {
 			attribute_type_id: attributeType.id,
 			unit_display: unitDisplay,
 			user_id: userId ?? this.storage.getUserId(),
-			attribute_type: this.viewModelAttributeTypeToEntity(attributeType),
+			attribute_type: this.attributeTypesMapper.viewModelToEntity(attributeType),
 		};
 	}
 

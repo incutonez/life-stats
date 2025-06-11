@@ -93,7 +93,6 @@ export function imperialToMetric(unit?: EnumUnitTypes) {
 }
 
 export function localizeValue({ value, unit, measurementSystem, reverse }: IValueToLocalUnit): IValueToLocalUnitResponse {
-	let parsedValue = parseFloat(value);
 	if (reverse && measurementSystem === "imperial") {
 		unit = imperialToMetric(unit);
 	}
@@ -102,6 +101,7 @@ export function localizeValue({ value, unit, measurementSystem, reverse }: IValu
 	if (!mappedUnit) {
 		return {
 			value,
+			unit,
 		};
 	}
 	if (measurementSystem === "imperial") {
@@ -132,6 +132,7 @@ export function localizeValue({ value, unit, measurementSystem, reverse }: IValu
 				break;
 		}
 	}
+	let parsedValue = parseFloat(value);
 	// We store things in metric, so if they're coming from imperial, let's make sure we reverse it
 	if (reverse && measurementSystem === "imperial") {
 		const temp = mappedUnit;

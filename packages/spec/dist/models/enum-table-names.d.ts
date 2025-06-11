@@ -3,7 +3,7 @@ export declare const EnumTableNames: {
     readonly ExerciseActivities: "exerciseActivities";
     readonly ExerciseActivityTypes: "exerciseActivityTypes";
     readonly ExerciseActivityAttributes: "exerciseActivityAttributes";
-    readonly ExerciseAttributeTypes: "exerciseAttributeTypes";
+    readonly AttributeTypes: "attributeTypes";
     readonly JobApplications: "applications";
     readonly JobCompanies: "companies";
     readonly JobComments: "comments";

@@ -1,3 +1,9 @@
+## [2.9.0](https://github.com/incutonez/life-stats/compare/v2.8.0...v2.9.0) (2025-06-11)
+
+### Features
+
+* Adding Create/Update Activity ([#58](https://github.com/incutonez/life-stats/issues/58)) ([360bf7b](https://github.com/incutonez/life-stats/commit/360bf7b619f15cb610281b06b68f8b289e296e3f))
+
 ## [2.8.0](https://github.com/incutonez/life-stats/compare/v2.7.0...v2.8.0) (2025-06-09)
 
 ### Features

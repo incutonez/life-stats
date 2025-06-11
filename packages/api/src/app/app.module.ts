@@ -2,6 +2,7 @@ import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
 import { ClsModule } from "nestjs-cls";
 import { AppController } from "@/app/app.controller";
 import { AppService } from "@/app/app.service";
+import { AttributeTypesModule } from "@/attributeTypes/attributeTypes.module";
 import { AuditsModule } from "@/audits/audits.module";
 import { AuthModule } from "@/auth/auth.module";
 import { DatabaseModule } from "@/db/database.module";
@@ -21,6 +22,7 @@ import { UsersModule } from "@/users/users.module";
 		JobsModule,
 		ExercisesModule,
 		UsersModule,
+		AttributeTypesModule,
 		ClsModule.forRoot({
 			global: true,
 			middleware: {

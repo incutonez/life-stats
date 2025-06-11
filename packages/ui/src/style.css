@@ -7,6 +7,7 @@
 
 @theme {
     --default-font-family: "Open Sans";
+    --spacing-form: 0.75rem;
 }
 
 html, body, #app {
@@ -40,7 +41,7 @@ input[type=number] {
 
 @layer components {
     .field-label {
-        @apply uppercase font-semibold text-gray-800 text-sm;
+        @apply uppercase font-semibold text-slate-600 text-sm;
     }
 
     .field-label-top {
@@ -63,10 +64,17 @@ input[type=number] {
     .field-combo-box,
     .field-text {
         @apply rounded-md h-8 py-1 px-2 text-sm ring-1 ring-inset ring-offset-0 ring-gray-500 focus-within:ring-sky-600 bg-white text-gray-800 disabled:bg-gray-200 disabled:opacity-100;
+        &:has([aria-readonly="true"]) {
+            @apply pointer-events-none cursor-not-allowed ring-transparent font-semibold px-0;
+        }
     }
 
     .field-date-picker {
         @apply flex items-center pr-0;
+    }
+    
+    .field-combo-box:has(input:invalid) {
+        @apply ring-red-500;
     }
     
     .field-text {
@@ -79,10 +87,6 @@ input[type=number] {
     
     .field-checkbox {
         @apply bg-white hover:bg-sky-100 flex size-5 appearance-none items-center justify-center rounded-md outline-none border border-gray-500;
-    }
-    
-    .table-row:last-child > td {
-        @apply !border-b-0;
     }
     
     .base-button {

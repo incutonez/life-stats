@@ -116,11 +116,13 @@ export interface IFieldComboBoxProps<TData extends object> {
 	 */
 	customValue?: boolean;
 	required?: boolean;
+	readOnly?: boolean;
 	options: TData[];
 	label?: string;
 	labelAlign?: TLabelAlign;
 	comboWidth?: string;
 	virtualScroll?: boolean;
+	autoFocus?: boolean;
 }
 
 export type IExtendedComboBox<T extends object> = Partial<IFieldComboBoxProps<T>>;

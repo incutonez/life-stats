@@ -23,8 +23,15 @@ export class UsersService {
 		};
 	}
 
+	/**
+	 * This gets the user by the Auth0 user_id, not the unique ID we assign it in the DB... this is just easier for us
+	 */
 	async getUserSettings(userId: string) {
-		const entity = await UserModel.findByPk(userId);
+		const entity = await UserModel.findOne({
+			where: {
+				user_id: userId,
+			},
+		});
 		if (entity) {
 			return this.mapper.entityToViewModel(entity).settings;
 		}

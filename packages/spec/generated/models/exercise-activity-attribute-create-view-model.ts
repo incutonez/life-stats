@@ -15,13 +15,13 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import { AttributeTypeCreateViewModel } from './attribute-type-create-view-model';
+// May contain unused imports in some cases
+// @ts-ignore
 import { EnumUnitTypes } from './enum-unit-types';
 // May contain unused imports in some cases
 // @ts-ignore
 import { ExerciseActivityCreateViewModel } from './exercise-activity-create-view-model';
-// May contain unused imports in some cases
-// @ts-ignore
-import { ExerciseAttributeTypeCreateViewModel } from './exercise-attribute-type-create-view-model';
 
 /**
  * 
@@ -79,10 +79,10 @@ export interface ExerciseActivityAttributeCreateViewModel {
     'activity'?: ExerciseActivityCreateViewModel;
     /**
      * 
-     * @type {ExerciseAttributeTypeCreateViewModel}
+     * @type {AttributeTypeCreateViewModel}
      * @memberof ExerciseActivityAttributeCreateViewModel
      */
-    'attributeType': ExerciseAttributeTypeCreateViewModel;
+    'attributeType': AttributeTypeCreateViewModel;
 }
 
 

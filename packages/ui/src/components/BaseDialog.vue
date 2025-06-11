@@ -95,7 +95,7 @@ defineExpose({
 					/>
 				</header>
 				<section
-					class="flex-1 overflow-auto p-2"
+					class="flex-1 overflow-auto p-form"
 					:class="bodyClass"
 				>
 					<slot name="content" />

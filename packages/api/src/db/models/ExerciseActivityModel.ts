@@ -1,30 +1,26 @@
 ﻿import { DataTypes, NonAttribute } from "@sequelize/core";
-import { Attribute, BelongsTo, HasMany, NotNull, Table } from "@sequelize/core/decorators-legacy";
-import { CreatedAtField, EnumTableNames, UpdatedAtField } from "@/constants";
-import { PrimaryKeyGuid } from "@/db/decorators";
+import { Attribute, BelongsTo, HasMany, NotNull } from "@sequelize/core/decorators-legacy";
+import { EnumTableNames, PoundToCalories } from "@/constants";
+import { AttributeEnum, BaseTable, PrimaryKeyGuid } from "@/db/decorators";
 import { BaseModel } from "@/db/models/BaseModel";
 import {
 	ExerciseActivityAttributeModel,
 	IExerciseActivityAttributeCreate,
 } from "@/db/models/ExerciseActivityAttributeModel";
 import { ExerciseActivityTypesModel, IExerciseActivityTypeCreate } from "@/db/models/ExerciseActivityTypesModel";
-import { EnumActivitySource } from "@/exercises/constants";
+import { calculateCalories, EnumActivitySource } from "@/exercises/constants";
 import { ModelInterface } from "@/types";
 
 export type IExerciseActivityModel = ModelInterface<ExerciseActivityModel>;
 
-export type IExerciseActivityUpdateModel = Omit<IExerciseActivityModel, "attributes" | "activity_type">;
+export type IExerciseActivityUpdateModel = Omit<IExerciseActivityModel, "attributes" | "activity_type" | "calories" | "weight_lost">;
 
-export type IExerciseActivityCreate = Omit<IExerciseActivityModel, "id" | "activity_type" | "attributes"> & {
+export type IExerciseActivityCreate = Omit<IExerciseActivityModel, "id" | "activity_type" | "attributes" | "calories" | "weight_lost"> & {
 	activity_type: IExerciseActivityTypeCreate;
 	attributes: IExerciseActivityAttributeCreate[];
 };
 
-@Table({
-	tableName: EnumTableNames.ExerciseActivities,
-	createdAt: CreatedAtField,
-	updatedAt: UpdatedAtField,
-})
+@BaseTable(EnumTableNames.ExerciseActivities)
 export class ExerciseActivityModel extends BaseModel {
 	@PrimaryKeyGuid()
 	declare id: string;
@@ -32,10 +28,16 @@ export class ExerciseActivityModel extends BaseModel {
 	@Attribute(DataTypes.STRING)
 	declare title: string;
 
+	@Attribute(DataTypes.DOUBLE)
+	declare weight?: number;
+
+	@Attribute(DataTypes.DOUBLE)
+	declare duration?: number;
+
 	@Attribute(DataTypes.STRING)
 	declare description?: string;
 
-	@Attribute(DataTypes.ENUM(Object.values(EnumActivitySource)))
+	@AttributeEnum(EnumActivitySource)
 	declare source?: EnumActivitySource;
 
 	@Attribute(DataTypes.STRING)
@@ -58,4 +60,20 @@ export class ExerciseActivityModel extends BaseModel {
 		foreignKey: "activity_type_id",
 	})
 	declare activity_type: NonAttribute<ExerciseActivityTypesModel>;
+
+	@Attribute(DataTypes.VIRTUAL(DataTypes.DOUBLE, ["duration", "activity_type_id", "weight"]))
+	get calories(): NonAttribute<number | undefined> {
+		const duration = this.get("duration");
+		if (duration) {
+			return calculateCalories(this.get("activity_type").name, duration, this.get("weight"));
+		}
+	}
+
+	@Attribute(DataTypes.VIRTUAL(DataTypes.DOUBLE, ["calories"]))
+	get weight_lost(): NonAttribute<number | undefined> {
+		const calories = this.get("calories");
+		if (calories) {
+			return calories / PoundToCalories;
+		}
+	}
 }

@@ -106,7 +106,7 @@ watch([internalModel, () => format], ([$internalModel, $format]) => {
 			</DatePickerField>
 			<DatePickerContent
 				:side-offset="4"
-				class="rounded-xl bg-white border shadow-sm will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
+				class="z-1 rounded-xl bg-white border shadow-sm will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
 			>
 				<DatePickerArrow class="fill-white stroke-gray-300" />
 				<DatePickerCalendar

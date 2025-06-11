@@ -1,15 +1,20 @@
-﻿import { ref, unref } from "vue";
+﻿import { computed, inject, type InjectionKey, provide, type Ref, ref, toRaw, unref, watch } from "vue";
 import {
-	EnumActivitySource,
+	EnumActivitySource, type ExerciseActivityAttributeViewModel,
 	type ExerciseActivityCreateViewModel,
 	type ExerciseActivityViewModel, type StravaTokenViewModel,
 } from "@incutonez/life-stats-spec";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
+import clone from "just-clone";
 import { ExercisesAPI } from "@/api.ts";
-import { getInvalidateQueryPredicate, injectUserProfile, useInvalidateQueries } from "@/composables/app.ts";
 import {
-	ActivitiesAPI,
-	QueryKeyActivities,
+	getInvalidateQueryPredicate,
+	useInvalidateQueries,
+} from "@/composables/app.ts";
+import { RouteCreate } from "@/constants.ts";
+import {
+	ActivitiesAPI, QueryGetActivityTypes,
+	QueryKeyActivities, QueryKeyActivity,
 	QueryKeyExercises,
 	QueryListExercisesAudits,
 } from "@/views/exercises/constants.ts";
@@ -18,6 +23,9 @@ interface IImportMutation {
 	file: File;
 	source: EnumActivitySource;
 }
+
+type TActivityViewRecord = ReturnType<typeof provideActivityRecord>;
+const ActivityViewRecordKey: InjectionKey<TActivityViewRecord> = Symbol("activityViewRecordKey");
 
 const urlParams = new URLSearchParams(location.hash);
 
@@ -95,8 +103,8 @@ export function useImportActivities() {
 	const importFile = ref<File>();
 	const uploadingFile = ref(false);
 	const importMutations = useMutation({
-		async mutationFn({ source, file }: IImportMutation) {
-			return ActivitiesAPI.importStravaActivities(source, file);
+		async mutationFn({ file }: IImportMutation) {
+			return ActivitiesAPI.importStravaActivities(file);
 		},
 	});
 
@@ -156,11 +164,10 @@ export function useUploadActivities() {
 export function useStravaSync() {
 	const added = ref(false);
 	const syncingRecords = ref(false);
-	const { userProfile } = injectUserProfile();
 	const syncMutation = useMutation({
 		async mutationFn(token: StravaTokenViewModel) {
 			syncingRecords.value = true;
-			const { data } = await ActivitiesAPI.syncStravaActivities(userProfile.value!.id, token, {
+			const { data } = await ActivitiesAPI.syncStravaActivities(token, {
 				// Set a 2 minute timeout, just in case it's a very large upload
 				timeout: 120000,
 			});
@@ -191,6 +198,110 @@ export function useListExercisesHistory() {
 		async queryFn() {
 			const { data } = await ExercisesAPI.getExercisesHistory();
 			return data.data;
+		},
+	});
+}
+
+export function provideActivityRecord(recordId: Ref<string>) {
+	const updated = ref(false);
+	const savingRecord = ref(false);
+	const viewRecord = ref<ExerciseActivityViewModel>();
+	const selectedAttributeRecord = ref<ExerciseActivityAttributeViewModel>();
+	const attributeRecords = computed(() => viewRecord.value?.attributes ?? []);
+	const isEdit = computed(() => !!viewRecord.value?.id);
+	const query = useQuery({
+		queryKey: [QueryKeyActivity, recordId],
+		async queryFn(): Promise<ExerciseActivityViewModel> {
+			const $recordId = unref(recordId);
+			if ($recordId === RouteCreate) {
+				// Default model
+				return {
+					id: "",
+					title: "",
+					dateOccurred: Date.now(),
+					attributes: [],
+					activityType: {
+						id: "",
+						name: "",
+					},
+				};
+			}
+			const { data } = await ActivitiesAPI.getActivity(recordId.value);
+			return data;
+		},
+	});
+	const mutation = useMutation({
+		async mutationFn() {
+			const $viewRecord = unref(viewRecord);
+			if ($viewRecord?.id) {
+				return ActivitiesAPI.updateActivity($viewRecord.id, $viewRecord);
+			}
+			else if ($viewRecord) {
+				return ActivitiesAPI.createActivity($viewRecord);
+			}
+		},
+	});
+
+	async function save() {
+		savingRecord.value = true;
+		await mutation.mutateAsync();
+		updated.value = true;
+		savingRecord.value = false;
+	}
+
+	function saveSelectedAttribute(attributeRecord = selectedAttributeRecord.value) {
+		const $attributeRecords = viewRecord.value?.attributes;
+		if (!$attributeRecords || !attributeRecord) {
+			return;
+		}
+		const id = attributeRecord.id;
+		const foundIndex = $attributeRecords.findIndex((attribute) => attribute.id === id) ?? -1;
+		if (foundIndex >= 0) {
+			$attributeRecords[foundIndex] = attributeRecord;
+		}
+		else {
+			$attributeRecords.push(attributeRecord);
+		}
+		// Must change the reference, so the grid updates
+		viewRecord.value!.attributes = [...$attributeRecords];
+	}
+
+	const provider = {
+		save,
+		query,
+		isEdit,
+		viewRecord,
+		attributeRecords,
+		savingRecord,
+		selectedAttributeRecord,
+		saveSelectedAttribute,
+	};
+
+	watch(query.data, ($data) => {
+		if ($data) {
+			viewRecord.value = clone(toRaw($data));
+		}
+	}, {
+		immediate: true,
+	});
+
+	useInvalidateQueries(updated, QueryKeyExercises);
+
+	provide(ActivityViewRecordKey, provider);
+
+	return provider;
+}
+
+export function injectActivityRecord() {
+	return inject(ActivityViewRecordKey) as TActivityViewRecord;
+}
+
+export function useGetActivityTypes() {
+	return useQuery({
+		queryKey: [QueryGetActivityTypes],
+		async queryFn() {
+			const { data } = await ActivitiesAPI.getActivityTypes();
+			return data;
 		},
 	});
 }

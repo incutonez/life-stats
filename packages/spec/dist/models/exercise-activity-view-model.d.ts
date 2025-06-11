@@ -10,6 +10,11 @@ export interface ExerciseActivityViewModel {
     'activityType': ExerciseActivityTypeViewModel;
     'attributes': Array<ExerciseActivityAttributeViewModel>;
     'title': string;
+    'weight'?: number;
+    'duration'?: number;
     'description'?: string;
+    'sourceId'?: string;
     'dateOccurred': number;
+    'calories'?: number;
+    'weightLost'?: number;
 }

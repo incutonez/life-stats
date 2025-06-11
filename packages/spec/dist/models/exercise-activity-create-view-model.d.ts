@@ -7,8 +7,13 @@ export interface ExerciseActivityCreateViewModel {
     'dateUpdated'?: number;
     'source'?: EnumActivitySource;
     'title': string;
+    'weight'?: number;
+    'duration'?: number;
     'description'?: string;
+    'sourceId'?: string;
     'dateOccurred': number;
     'activityType': ExerciseActivityTypeCreateViewModel;
     'attributes': Array<ExerciseActivityAttributeCreateViewModel>;
+    'calories'?: number;
+    'weightLost'?: number;
 }

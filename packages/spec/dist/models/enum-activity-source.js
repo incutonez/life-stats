@@ -1,3 +1,4 @@
 export const EnumActivitySource = {
-    Strava: 'strava'
+    None: -1,
+    Strava: 1
 };

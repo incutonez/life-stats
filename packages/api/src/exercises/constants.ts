@@ -2,17 +2,10 @@
 const PoundsToKilograms = 0.4536;
 
 export const EnumActivitySource = {
-	Strava: "strava",
+	None: -1,
+	Strava: 1,
 } as const;
 export type EnumActivitySource = typeof EnumActivitySource[keyof typeof EnumActivitySource];
-
-export const EnumAttributeType = {
-	String: "string",
-	Boolean: "boolean",
-	Number: "number",
-	Date: "date",
-} as const;
-export type EnumAttributeType = typeof EnumAttributeType[keyof typeof EnumAttributeType];
 
 export const EnumMETValue = {
 	Walk: 6,

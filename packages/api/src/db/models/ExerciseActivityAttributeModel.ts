@@ -1,23 +1,19 @@
 ﻿import { DataTypes, NonAttribute } from "@sequelize/core";
-import { Attribute, BelongsTo, NotNull, Table, ValidateAttribute } from "@sequelize/core/decorators-legacy";
-import { CreatedAtField, EnumTableNames, EnumUnitTypes, UpdatedAtField } from "@/constants";
-import { PrimaryKeyGuid } from "@/db/decorators";
+import { Attribute, BelongsTo, NotNull } from "@sequelize/core/decorators-legacy";
+import { EnumTableNames, EnumUnitTypes } from "@/constants";
+import { AttributeEnum, BaseTable, PrimaryKeyGuid } from "@/db/decorators";
+import { AttributeTypeModel, IAttributeTypeCreate } from "@/db/models/AttributeTypeModel";
 import { BaseModel } from "@/db/models/BaseModel";
 import { ExerciseActivityModel } from "@/db/models/ExerciseActivityModel";
-import { ExerciseAttributeTypesModel, IExerciseAttributeTypeCreate } from "@/db/models/ExerciseAttributeTypesModel";
 import { ModelInterface } from "@/types";
 
 export type IExerciseActivityAttributeModel = ModelInterface<ExerciseActivityAttributeModel>;
 
 export type IExerciseActivityAttributeCreate = Omit<IExerciseActivityAttributeModel, "id" | "attribute_type"> & {
-	attribute_type: IExerciseAttributeTypeCreate;
+	attribute_type: IAttributeTypeCreate;
 };
 
-@Table({
-	tableName: EnumTableNames.ExerciseActivityAttributes,
-	createdAt: CreatedAtField,
-	updatedAt: UpdatedAtField,
-})
+@BaseTable(EnumTableNames.ExerciseActivityAttributes)
 export class ExerciseActivityAttributeModel extends BaseModel {
 	@PrimaryKeyGuid()
 	declare id: string;
@@ -33,24 +29,10 @@ export class ExerciseActivityAttributeModel extends BaseModel {
 	@Attribute(DataTypes.STRING)
 	declare value: string;
 
-	@Attribute(DataTypes.INTEGER)
-	@ValidateAttribute({
-		validator(value: EnumUnitTypes) {
-			if (!Object.values(EnumUnitTypes).includes(value)) {
-				throw new Error("value not in EnumUnitTypes");
-			}
-		},
-	})
+	@AttributeEnum(EnumUnitTypes)
 	declare unit?: EnumUnitTypes;
 
-	@Attribute(DataTypes.INTEGER)
-	@ValidateAttribute({
-		validator(value: EnumUnitTypes) {
-			if (!Object.values(EnumUnitTypes).includes(value)) {
-				throw new Error("value not in EnumUnitTypes");
-			}
-		},
-	})
+	@AttributeEnum(EnumUnitTypes)
 	declare unit_display?: EnumUnitTypes;
 
 	@BelongsTo(() => ExerciseActivityModel, {
@@ -58,8 +40,8 @@ export class ExerciseActivityAttributeModel extends BaseModel {
 	})
 	declare activity?: NonAttribute<ExerciseActivityModel>;
 
-	@BelongsTo(() => ExerciseAttributeTypesModel, {
+	@BelongsTo(() => AttributeTypeModel, {
 		foreignKey: "attribute_type_id",
 	})
-	declare attribute_type: NonAttribute<ExerciseAttributeTypesModel>;
+	declare attribute_type: NonAttribute<AttributeTypeModel>;
 }

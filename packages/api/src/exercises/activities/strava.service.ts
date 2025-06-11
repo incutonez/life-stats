@@ -10,7 +10,6 @@ import { StravaMapper } from "@/exercises/activities/strava.mapper";
 import { EnumActivitySource } from "@/exercises/constants";
 import { IStravaActivity, IStravaAuthResponse, IStravaImport } from "@/exercises/types";
 import { IUploadViewModelsResponse } from "@/types";
-import { UsersService } from "@/users/users.service";
 import { getErrorMessage } from "@/utils";
 import {
 	ExerciseActivityCreateViewModel,
@@ -22,7 +21,7 @@ const PerPage = 200;
 
 @Injectable()
 export class StravaService {
-	constructor(private readonly usersService: UsersService, private readonly activitiesService: ActivitiesService, private readonly mapper: StravaMapper, @Inject(SESSION_STORAGE) private readonly storage: SessionStorageService) {
+	constructor(private readonly activitiesService: ActivitiesService, private readonly mapper: StravaMapper, @Inject(SESSION_STORAGE) private readonly storage: SessionStorageService) {
 	}
 
 	async getUserAccessToken({ expirationDate = 0, refreshToken = "", accessToken }: StravaTokenViewModel): Promise<StravaTokenViewModel | undefined> {
@@ -106,7 +105,7 @@ export class StravaService {
 		return data;
 	}
 
-	async syncActivities(stravaToken: StravaTokenViewModel, userId: string): Promise<StravaTokenViewModel | undefined> {
+	async syncActivities(stravaToken: StravaTokenViewModel): Promise<StravaTokenViewModel | undefined> {
 		// Let's find the user's latest strava activity, so we have a starting point for filtering out records from Strava
 		const lastActivity = await ExerciseActivityModel.findOne({
 			where: {
@@ -115,7 +114,6 @@ export class StravaService {
 			},
 			order: [["date_occurred", "DESC"]],
 		});
-		const userSettings = await this.usersService.getUserSettings(userId);
 		const response = await this.getUserAccessToken(stravaToken);
 		if (response) {
 			let page = 1;
@@ -128,7 +126,7 @@ export class StravaService {
 			const afterTimestamp = lastActivity && lastActivity.date_occurred / 1000 || undefined;
 			while (hasMoreRecord) {
 				const data = await this.getActivitiesRaw(response.accessToken, page++, afterTimestamp);
-				allRecords.push(...data.map((item) => this.mapper.apiToViewModel(item, userSettings)));
+				allRecords.push(...data.map((item) => this.mapper.apiToViewModel(item)));
 				// If we're less than the page limit, then we know we've hit the end of the records, so we'll break
 				hasMoreRecord = data.length >= PerPage;
 			}

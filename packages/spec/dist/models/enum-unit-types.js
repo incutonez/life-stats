@@ -12,5 +12,9 @@ export const EnumUnitTypes = {
     MetersPerSecond: 11,
     KilometersPerHour: 12,
     MilesPerHour: 13,
-    FeetPerSecond: 13
+    FeetPerSecond: 14,
+    String: 15,
+    Number: 16,
+    Boolean: 17,
+    Date: 18
 };

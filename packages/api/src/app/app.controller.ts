@@ -4,11 +4,11 @@ import { AppInfoViewModel } from "@/viewModels/app.info.viewmodel";
 
 @Controller()
 export class AppController {
-	constructor(private readonly appService: AppService) {
+	constructor(private readonly service: AppService) {
 	}
 
 	@Get("info")
 	getInfo(): AppInfoViewModel {
-		return this.appService.getInfo();
+		return this.service.getInfo();
 	}
 }

@@ -1,6 +1,6 @@
 export declare const EnumFeatures: {
-    readonly jobs: "Jobs";
-    readonly exercises: "Exercises";
-    readonly users: "Users";
+    readonly jobs: 1;
+    readonly exercises: 2;
+    readonly system: 3;
 };
 export type EnumFeatures = typeof EnumFeatures[keyof typeof EnumFeatures];

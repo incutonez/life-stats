@@ -3,7 +3,7 @@ export const EnumTableNames = {
     ExerciseActivities: 'exerciseActivities',
     ExerciseActivityTypes: 'exerciseActivityTypes',
     ExerciseActivityAttributes: 'exerciseActivityAttributes',
-    ExerciseAttributeTypes: 'exerciseAttributeTypes',
+    AttributeTypes: 'attributeTypes',
     JobApplications: 'applications',
     JobCompanies: 'companies',
     JobComments: 'comments',

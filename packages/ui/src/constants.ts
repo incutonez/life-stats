@@ -31,4 +31,8 @@ export const RouteLogin = "login";
  */
 export const restoreRoute = ref<RouteLocationRaw>();
 
-export const QueryKeyUser = "user";
+export const QueryKeySystem = "system-";
+
+export const QueryKeyUser = `${QueryKeySystem}user`;
+
+export const QueryGetAttributeTypes = `${QueryKeySystem}getAttributeTypes`;

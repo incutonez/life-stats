@@ -83,6 +83,7 @@ function onCloseDialog() {
 				<TableData
 					class="max-h-[70vh] max-w-[90vw]"
 					:table="table"
+					table-layout="table-auto"
 				/>
 			</section>
 		</template>

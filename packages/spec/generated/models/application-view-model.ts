@@ -22,6 +22,9 @@ import { CompanyViewModel } from './company-view-model';
 // May contain unused imports in some cases
 // @ts-ignore
 import { EnumApplicationStatus } from './enum-application-status';
+// May contain unused imports in some cases
+// @ts-ignore
+import { EnumLocationTypes } from './enum-location-types';
 
 /**
  * 
@@ -53,6 +56,12 @@ export interface ApplicationViewModel {
      * @memberof ApplicationViewModel
      */
     'status': EnumApplicationStatus;
+    /**
+     * 
+     * @type {EnumLocationTypes}
+     * @memberof ApplicationViewModel
+     */
+    'locationType': EnumLocationTypes;
     /**
      * 
      * @type {string}

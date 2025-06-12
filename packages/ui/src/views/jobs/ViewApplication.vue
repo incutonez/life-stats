@@ -1,8 +1,9 @@
 ﻿<script setup lang="ts">
-import { computed, ref, unref, watch } from "vue";
+import { computed, reactive, ref, unref, watch } from "vue";
 import type { CommentViewModel } from "@incutonez/life-stats-spec";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
+import BaseTabs, { type IBaseTabProps } from "@/components/BaseTabs.vue";
 import FieldDate from "@/components/FieldDate.vue";
 import FieldText from "@/components/FieldText.vue";
 import { IconAdd, IconDelete, IconEdit, IconSave } from "@/components/Icons.ts";
@@ -14,6 +15,7 @@ import { provideApplicationRecord, useDeleteApplication } from "@/views/jobs/com
 import { useJobRoutes } from "@/views/jobs/composables/routes.ts";
 import FieldApplicationStatus from "@/views/jobs/shared/FieldApplicationStatus.vue";
 import FieldCompanies from "@/views/jobs/shared/FieldCompanies.vue";
+import FieldLocationTypes from "@/views/jobs/shared/FieldLocationTypes.vue";
 import DeleteDialog from "@/views/shared/DeleteDialog.vue";
 
 export interface IViewApplicationProps {
@@ -32,7 +34,14 @@ const { deleteApplication, deletingApplication } = useDeleteApplication();
 const data = ref<CommentViewModel[]>([]);
 const title = computed(() => isEdit.value ? "Edit Application" : "Add Application");
 const { viewApplicationParent } = useJobRoutes();
-const { table } = useTableData<CommentViewModel>({
+const tabs = reactive<IBaseTabProps[]>([{
+	title: "Comments",
+	contentClasses: "flex flex-col gap-2 pt-2",
+}, {
+	title: "Links",
+	contentClasses: "flex flex-col gap-2 pt-2",
+}]);
+const commentsTable = useTableData<CommentViewModel>({
 	data,
 	columns: [useTableActions([{
 		icon: IconEdit,
@@ -124,37 +133,50 @@ watch(() => viewRecord.value?.comments, ($comments = []) => {
 		@close="onCloseView"
 	>
 		<template #content>
-			<section class="flex flex-col space-y-4">
-				<section class="flex space-x-4">
+			<section class="flex flex-col gap-form">
+				<section class="flex gap-form">
 					<FieldCompanies
 						v-model="viewRecord.company"
 						label-align="top"
 						:custom-value="true"
-						class="w-48"
 						required
+						class="flex-1"
 					/>
 					<FieldText
 						v-model="viewRecord.positionTitle"
 						label="Position"
 						label-align="top"
-						wrapper-cls="w-48"
-						required
-					/>
-					<FieldDate
-						v-model="viewRecord.dateApplied"
-						label="Applied"
-						label-align="top"
+						wrapper-cls="flex-1"
 						required
 					/>
 				</section>
-				<section class="flex space-x-4">
+				<section class="flex gap-form">
+					<FieldApplicationStatus
+						v-model="viewRecord.status"
+						class="flex-1"
+						required
+					/>
+					<div class="flex flex-1">
+						<FieldDate
+							v-model="viewRecord.dateApplied"
+							label="Applied On"
+							label-align="top"
+							required
+						/>
+					</div>
+				</section>
+				<section class="flex gap-form">
 					<FieldText
 						v-model="viewRecord.compensation"
 						label="Compensation"
 						label-align="top"
-						wrapper-cls="w-48"
+						wrapper-cls="flex-1"
 					/>
-					<FieldApplicationStatus v-model="viewRecord.status" />
+					<FieldLocationTypes
+						v-model="viewRecord.locationType"
+						class="flex-1"
+						required
+					/>
 				</section>
 				<FieldText
 					v-model="viewRecord.url"
@@ -164,18 +186,30 @@ watch(() => viewRecord.value?.comments, ($comments = []) => {
 					required
 				/>
 			</section>
-			<section class="flex flex-col space-y-2">
-				<BaseButton
-					text="Comment"
-					class="self-start"
-					theme="info"
-					:icon="IconAdd"
-					@click="onClickAddComment"
-				/>
-				<TableData
-					class="flex-1"
-					:table="table"
-				/>
+			<section class="flex flex-col space-y-2 flex-1">
+				<BaseTabs :tabs="tabs">
+					<template #Comments>
+						<BaseButton
+							text="Comment"
+							class="self-start ml-2"
+							theme="info"
+							:icon="IconAdd"
+							@click="onClickAddComment"
+						/>
+						<TableData
+							class="flex-1 border-0 border-t"
+							:table="commentsTable.table"
+						/>
+					</template>
+					<template #Links>
+						<BaseButton
+							text="Link"
+							theme="info"
+							class="self-start ml-2"
+							:icon="IconAdd"
+						/>
+					</template>
+				</BaseTabs>
 			</section>
 			<ViewCommentDialog
 				v-model="showCommentDialog"

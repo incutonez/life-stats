@@ -2,21 +2,22 @@
 import Papa from "papaparse";
 import { SessionStorageService } from "@/auth/session.storage.service";
 import { SESSION_STORAGE } from "@/constants";
-import { ApplicationModel } from "@/db/models/ApplicationModel";
-import { CommentModel } from "@/db/models/CommentModel";
 import { ApplicationsMapper } from "@/jobs/applications/applications.mapper";
 import { CommentsMapper } from "@/jobs/applications/comments.mapper";
 import { IUploadApplicationModel } from "@/jobs/applications/types";
 import { CompaniesService } from "@/jobs/companies/companies.service";
-import { EnumApplicationStatus, IUploadViewModelsResponse } from "@/types";
-import { getErrorMessage } from "@/utils";
+import { EnumApplicationStatus } from "@/jobs/constants";
+import { ApplicationModel } from "@/jobs/models/ApplicationModel";
+import { CommentModel } from "@/jobs/models/CommentModel";
 import {
 	ApplicationCreateViewModel,
 	ApplicationListViewModel, ApplicationViewModel,
 	IApplicationCreateViewModel,
-} from "@/viewModels/application.viewmodel";
+} from "@/jobs/viewModels/application.viewmodel";
+import { ICommentViewModel } from "@/jobs/viewModels/comment.viewmodel";
+import { IUploadViewModelsResponse } from "@/types";
+import { getErrorMessage } from "@/utils";
 import { ApiPaginatedRequest } from "@/viewModels/base.list.viewmodel";
-import { ICommentViewModel } from "@/viewModels/comment.viewmodel";
 
 const CSVFields = [
 	"company",

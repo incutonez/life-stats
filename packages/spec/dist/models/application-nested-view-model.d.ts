@@ -1,3 +1,4 @@
+import { ApplicationLinkViewModel } from './application-link-view-model';
 import { CommentViewModel } from './comment-view-model';
 import { EnumApplicationStatus } from './enum-application-status';
 import { EnumLocationTypes } from './enum-location-types';
@@ -12,6 +13,7 @@ export interface ApplicationNestedViewModel {
     'url': string;
     'compensation': string;
     'comments': Array<CommentViewModel>;
+    'links'?: Array<ApplicationLinkViewModel>;
     'id': string;
     'site': string;
 }

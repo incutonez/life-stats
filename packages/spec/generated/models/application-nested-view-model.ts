@@ -15,6 +15,9 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import { ApplicationLinkViewModel } from './application-link-view-model';
+// May contain unused imports in some cases
+// @ts-ignore
 import { CommentViewModel } from './comment-view-model';
 // May contain unused imports in some cases
 // @ts-ignore
@@ -89,6 +92,12 @@ export interface ApplicationNestedViewModel {
      * @memberof ApplicationNestedViewModel
      */
     'comments': Array<CommentViewModel>;
+    /**
+     * 
+     * @type {Array<ApplicationLinkViewModel>}
+     * @memberof ApplicationNestedViewModel
+     */
+    'links'?: Array<ApplicationLinkViewModel>;
     /**
      * 
      * @type {string}

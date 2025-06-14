@@ -17,3 +17,9 @@ export const EnumApplicationStatus = {
 	Ghosted: 7,
 } as const;
 export type EnumApplicationStatus = typeof EnumApplicationStatus[keyof typeof EnumApplicationStatus];
+
+export const EnumLinkType = {
+	To: 1,
+	From: 2,
+} as const;
+export type EnumLinkType = typeof EnumLinkType[keyof typeof EnumLinkType];

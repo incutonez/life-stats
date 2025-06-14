@@ -1,3 +1,4 @@
+import { ApplicationLinkViewModel } from './application-link-view-model';
 import { CommentViewModel } from './comment-view-model';
 import { CompanyViewModel } from './company-view-model';
 import { EnumApplicationStatus } from './enum-application-status';
@@ -16,4 +17,5 @@ export interface ApplicationViewModel {
     'compensation': string;
     'company': CompanyViewModel;
     'comments': Array<CommentViewModel>;
+    'links'?: Array<ApplicationLinkViewModel>;
 }

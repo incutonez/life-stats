@@ -1,6 +1,6 @@
 ﻿<script setup lang="ts">
 import { computed, reactive, ref, unref, watch } from "vue";
-import type { CommentViewModel } from "@incutonez/life-stats-spec";
+import { type CommentViewModel } from "@incutonez/life-stats-spec";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
 import BaseTabs, { type IBaseTabProps } from "@/components/BaseTabs.vue";
@@ -10,12 +10,14 @@ import { IconAdd, IconDelete, IconEdit, IconSave } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
 import { useDateCreatedColumn, useDateUpdatedColumn, useTableActions, useTableData } from "@/composables/table.ts";
 import { getUniqueId } from "@/utils/common.ts";
+import ApplicationLinksTab from "@/views/jobs/applications/ApplicationLinksTab.vue";
 import ViewCommentDialog from "@/views/jobs/applications/ViewCommentDialog.vue";
 import { provideApplicationRecord, useDeleteApplication } from "@/views/jobs/composables/applications.ts";
 import { useJobRoutes } from "@/views/jobs/composables/routes.ts";
 import FieldApplicationStatus from "@/views/jobs/shared/FieldApplicationStatus.vue";
 import FieldCompanies from "@/views/jobs/shared/FieldCompanies.vue";
 import FieldLocationTypes from "@/views/jobs/shared/FieldLocationTypes.vue";
+import ViewApplicationLinks from "@/views/jobs/ViewApplicationLinks.vue";
 import DeleteDialog from "@/views/shared/DeleteDialog.vue";
 
 export interface IViewApplicationProps {
@@ -25,13 +27,14 @@ export interface IViewApplicationProps {
 const props = defineProps<IViewApplicationProps>();
 const open = ref(true);
 const showCommentDialog = ref(false);
+const showApplicationLinksDialog = ref(false);
 const selectedComment = ref<CommentViewModel>();
 const comment = computed(() => selectedComment.value?.comment ?? "");
 const applicationId = computed(() => props.applicationId);
 const { viewRecord, save, pastedRecord, isEdit, savingApplication } = provideApplicationRecord(applicationId);
 const showDelete = ref(false);
 const { deleteApplication, deletingApplication } = useDeleteApplication();
-const data = ref<CommentViewModel[]>([]);
+const commentData = ref<CommentViewModel[]>([]);
 const title = computed(() => isEdit.value ? "Edit Application" : "Add Application");
 const { viewApplicationParent } = useJobRoutes();
 const tabs = reactive<IBaseTabProps[]>([{
@@ -42,7 +45,7 @@ const tabs = reactive<IBaseTabProps[]>([{
 	contentClasses: "flex flex-col gap-2 pt-2",
 }]);
 const commentsTable = useTableData<CommentViewModel>({
-	data,
+	data: commentData,
 	columns: [useTableActions([{
 		icon: IconEdit,
 		handler(record) {
@@ -116,7 +119,7 @@ async function onClickDelete() {
  * Source: https://tanstack.com/table/latest/docs/framework/vue/guide/table-state#using-reactive-data
  */
 watch(() => viewRecord.value?.comments, ($comments = []) => {
-	data.value = [...$comments];
+	commentData.value = [...$comments];
 }, {
 	immediate: true,
 	deep: true,
@@ -202,12 +205,7 @@ watch(() => viewRecord.value?.comments, ($comments = []) => {
 						/>
 					</template>
 					<template #Links>
-						<BaseButton
-							text="Link"
-							theme="info"
-							class="self-start ml-2"
-							:icon="IconAdd"
-						/>
+						<ApplicationLinksTab />
 					</template>
 				</BaseTabs>
 			</section>
@@ -221,6 +219,11 @@ watch(() => viewRecord.value?.comments, ($comments = []) => {
 				entity-name="this application"
 				:loading="deletingApplication"
 				@delete="onClickDelete"
+			/>
+			<ViewApplicationLinks
+				v-model="showApplicationLinksDialog"
+				:filter-id="viewRecord.id"
+				:initial-ids="viewRecord.links?.map(({id}) => id)"
 			/>
 		</template>
 		<template #footer>

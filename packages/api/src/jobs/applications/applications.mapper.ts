@@ -7,10 +7,10 @@ import { SESSION_STORAGE } from "@/constants";
 import { CommentsMapper } from "@/jobs/applications/comments.mapper";
 import { IUploadApplicationModel } from "@/jobs/applications/types";
 import { CompaniesMapper } from "@/jobs/companies/companies.mapper";
-import { EnumApplicationStatus, EnumLocationTypes } from "@/jobs/constants";
+import { EnumApplicationStatus, EnumLinkType, EnumLocationTypes } from "@/jobs/constants";
 import { ApplicationModel, IApplicationCreateModel, IApplicationUpdateModel } from "@/jobs/models/ApplicationModel";
 import {
-	IApplicationCreateViewModel,
+	IApplicationCreateViewModel, IApplicationLinkViewModel,
 	IApplicationNestedViewModel,
 	IApplicationUpdateViewModel,
 	IApplicationViewModel,
@@ -72,7 +72,7 @@ export class ApplicationsMapper implements OnModuleInit {
 	 * There are times (like when we do GET applicationId), where we want to use the actual status and not the altered one
 	 * we use in the list, which is why we have the rawStatus param
 	 */
-	entityToViewModel({ id, updated_at, location_type, created_at, user_id, company, position_title, date_applied, url, compensation, status, comments }: ApplicationModel, rawStatus = false): IApplicationViewModel {
+	entityToViewModel({ id, updated_at, linked = [], links = [], location_type, created_at, user_id, company, position_title, date_applied, url, compensation, status, comments }: ApplicationModel, rawStatus = false): IApplicationViewModel {
 		return {
 			id,
 			url,
@@ -87,6 +87,16 @@ export class ApplicationsMapper implements OnModuleInit {
 			dateApplied: date_applied,
 			company: this.companiesMapper.entityToViewModel(company),
 			comments: comments.map((comment) => this.commentsMapper.entityToViewModel(comment)) ?? [],
+			links: [...linked.map((linkedItem) => this.entityLinkedToViewModel(linkedItem, EnumLinkType.To)), ...links.map((linkedItem) => this.entityLinkedToViewModel(linkedItem, EnumLinkType.From))],
+		};
+	}
+
+	entityLinkedToViewModel({ id, position_title, status }: ApplicationModel, type: EnumLinkType): IApplicationLinkViewModel {
+		return {
+			id,
+			status,
+			type,
+			positionTitle: position_title,
 		};
 	}
 

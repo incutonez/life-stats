@@ -6,7 +6,7 @@ import { ApplicationsMapper } from "@/jobs/applications/applications.mapper";
 import { CommentsMapper } from "@/jobs/applications/comments.mapper";
 import { IUploadApplicationModel } from "@/jobs/applications/types";
 import { CompaniesService } from "@/jobs/companies/companies.service";
-import { EnumApplicationStatus } from "@/jobs/constants";
+import { EnumApplicationStatus, EnumLinkType } from "@/jobs/constants";
 import { ApplicationModel } from "@/jobs/models/ApplicationModel";
 import { CommentModel } from "@/jobs/models/CommentModel";
 import {
@@ -53,7 +53,7 @@ export class ApplicationsService {
 		};
 	}
 
-	async getApplicationRaw(id: string) {
+	async getApplicationEntity(id: string) {
 		return ApplicationModel.findByPk(id, {
 			include: [{
 				all: true,
@@ -63,14 +63,14 @@ export class ApplicationsService {
 	}
 
 	async getApplication(id: string) {
-		const entity = await this.getApplicationRaw(id);
+		const entity = await this.getApplicationEntity(id);
 		if (entity) {
 			return this.mapper.entityToViewModel(entity, true);
 		}
 	}
 
 	async deleteApplication(id: string) {
-		const model = await this.getApplicationRaw(id);
+		const model = await this.getApplicationEntity(id);
 		if (model) {
 			return model.destroy();
 		}
@@ -82,6 +82,13 @@ export class ApplicationsService {
 			raw: true,
 		});
 		const { id } = entity;
+		/**
+		 * TODOJEF:
+		 * - Need to add linking here in the create
+		 * - Need to clean up the linking UI and add additional columns
+		 * - Potentially change the display of the link combobox, so it's more clear what we're selecting
+		 * - Need to fix the row numbering, as it doesn't show the proper ordering when sorting or filtering
+		 */
 		await Promise.all(model.comments.map((comment) => {
 			comment.applicationId = id;
 			return this.createApplicationComment(comment);
@@ -107,19 +114,19 @@ export class ApplicationsService {
 	}
 
 	async updateApplication(viewModel: ApplicationViewModel) {
-		const record = await this.getApplicationRaw(viewModel.id);
-		if (record) {
-			const { comments } = record;
+		const entity = await this.getApplicationEntity(viewModel.id);
+		if (entity) {
+			const { comments } = entity;
 			/* Let's force updatedAt to change... this is helpful for scenarios where the associations change, but the parent
 			 * record doesn't, but we still want to show that the overall entity was updated */
-			record.changed("updated_at", true);
+			entity.changed("updated_at", true);
 			viewModel.company = await this.companiesService.createCompany(viewModel.company.name);
 			for (const viewModelComment of viewModel.comments) {
 				const { id } = viewModelComment;
 				const found = comments.find((comment) => comment.id === id);
 				if (found) {
 					// Remove from the existing comments, so we have the remaining comments at the end, which are deletes
-					record.comments.splice(record.comments.indexOf(found), 1);
+					entity.comments.splice(entity.comments.indexOf(found), 1);
 					if (found.comment !== viewModelComment.comment) {
 						await found.update(viewModelComment);
 					}
@@ -131,8 +138,19 @@ export class ApplicationsService {
 				}
 			}
 			// Any remaining comments in the DB model were removed in the UI
-			await Promise.all(record.comments.map((comment) => comment.destroy()));
-			await record.update(this.mapper.viewModelToEntity(viewModel));
+			await Promise.all(entity.comments.map((comment) => comment.destroy()));
+			const linkedTo: string[] = [];
+			const linkedFrom: string[] = [];
+			viewModel.links?.forEach((viewModelLink) => {
+				if (viewModelLink.type === EnumLinkType.To) {
+					linkedTo.push(viewModelLink.id);
+				}
+				else {
+					linkedFrom.push(viewModelLink.id);
+				}
+			});
+			await Promise.all([entity.setLinked(linkedTo), entity.setLinks(linkedFrom)]);
+			await entity.update(this.mapper.viewModelToEntity(viewModel));
 			return this.getApplication(viewModel.id);
 		}
 	}

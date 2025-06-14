@@ -1,5 +1,9 @@
 ﻿import { computed, inject, type InjectionKey, provide, type Ref, ref, toRaw, unref, watch } from "vue";
-import { type ApplicationViewModel, EnumApplicationStatus, EnumLocationTypes } from "@incutonez/life-stats-spec";
+import {
+	type ApplicationViewModel,
+	EnumApplicationStatus,
+	EnumLocationTypes,
+} from "@incutonez/life-stats-spec";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import clone from "just-clone";
 import { ApplicationsAPI, JobsAPI } from "@/api.ts";
@@ -225,6 +229,10 @@ export function provideApplicationRecord(applicationId: Ref<string>) {
 	provide(ApplicationViewRecordKey, provider);
 
 	return provider;
+}
+
+export function injectApplicationRecord() {
+	return inject(ApplicationViewRecordKey) as TApplicationViewRecord;
 }
 
 export function useListJobsHistory() {

@@ -25,6 +25,7 @@ models/activity-type-view-model.ts
 models/activity-view-model.ts
 models/api-paginated-request.ts
 models/app-info-view-model.ts
+models/application-link-view-model.ts
 models/application-list-view-model.ts
 models/application-nested-view-model.ts
 models/application-view-model.ts
@@ -42,6 +43,7 @@ models/enum-activity-source.ts
 models/enum-application-status.ts
 models/enum-audit-action-types.ts
 models/enum-features.ts
+models/enum-link-type.ts
 models/enum-location-types.ts
 models/enum-table-names.ts
 models/enum-unit-types.ts

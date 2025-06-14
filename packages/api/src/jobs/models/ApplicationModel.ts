@@ -1,5 +1,5 @@
-﻿import { DataTypes, NonAttribute } from "@sequelize/core";
-import { Attribute, BelongsTo, HasMany, NotNull } from "@sequelize/core/decorators-legacy";
+﻿import { BelongsToManySetAssociationsMixin, DataTypes, NonAttribute } from "@sequelize/core";
+import { Attribute, BelongsTo, BelongsToMany, HasMany, NotNull } from "@sequelize/core/decorators-legacy";
 import { EnumTableNames } from "@/constants";
 import { AttributeEnum, BaseTable, PrimaryKeyGuid } from "@/db/decorators";
 import { BaseModel } from "@/db/models/BaseModel";
@@ -50,4 +50,18 @@ export class ApplicationModel extends BaseModel {
 		foreignKey: "application_id",
 	})
 	declare comments: NonAttribute<CommentModel[]>;
+
+	@BelongsToMany(() => ApplicationModel, {
+		through: "ApplicationLinks",
+		inverse: {
+			as: "links",
+		},
+	})
+	declare linked?: NonAttribute<ApplicationModel[]>;
+
+	declare links?: NonAttribute<ApplicationModel[]>;
+
+	declare setLinks: BelongsToManySetAssociationsMixin<ApplicationModel, ApplicationModel["id"]>;
+
+	declare setLinked: BelongsToManySetAssociationsMixin<ApplicationModel, ApplicationModel["id"]>;
 }

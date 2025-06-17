@@ -1,3 +1,9 @@
+## [2.11.4](https://github.com/incutonez/life-stats/compare/v2.11.3...v2.11.4) (2025-06-17)
+
+### Bug Fixes
+
+* Changing to whitespace-break-spaces ([#65](https://github.com/incutonez/life-stats/issues/65)) ([b121681](https://github.com/incutonez/life-stats/commit/b12168163e851b45fcdfff88d0f372501dcee3e0))
+
 ## [2.11.3](https://github.com/incutonez/life-stats/compare/v2.11.2...v2.11.3) (2025-06-17)
 
 ### Bug Fixes

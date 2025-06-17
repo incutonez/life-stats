@@ -10,7 +10,7 @@ import { injectGlobalError } from "@/composables/app.ts";
 import {
 	useDateCreatedColumn,
 	useDateUpdatedColumn,
-	useExpandableRow,
+	useExpandableRow, useRowNumbering,
 	useTableActions,
 	useTableData,
 } from "@/composables/table.ts";
@@ -54,6 +54,7 @@ const { table, search } = useTableData<ApplicationViewModel>({
 	}],
 });
 columns.value = [
+	useRowNumbering(),
 	useExpandableRow(),
 	useTableActions([{
 		icon: IconEdit,
@@ -78,6 +79,10 @@ function renderCommentRows({ row }: ISubRowRenderer<ApplicationViewModel>) {
 		data: row.original.comments,
 		columns: [{
 			accessorKey: "comment",
+			header: "Comment",
+			cell(info) {
+				return h("pre", null, info.getValue<string>());
+			},
 			// eslint-disable-next-line @incutonez/array-bracket-newline
 		}, useDateCreatedColumn(), useDateUpdatedColumn()],
 	});

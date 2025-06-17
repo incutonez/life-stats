@@ -2,7 +2,7 @@
 import type {
 	Cell as ITanStackCell,
 	CellContext as ITanStackCellContext,
-	ColumnDef as ITanStackColumn, ExpandedState,
+	ColumnDef as ITanStackColumn, ColumnDefBase, ColumnDefTemplate, ExpandedState,
 	Header as ITanStackHeader,
 	Row as ITanStackRow,
 	SortingState as ITanStackSort,
@@ -15,17 +15,28 @@ export type ISortIdentity = -1 | 1;
 
 export interface ITable<TData = unknown> extends ITanStackTable<TData> {
 	getColumnSortIdentity: (columnId: string) => ISortIdentity;
+	getSortedRowIndex: (columnId: string) => number;
 }
 
 export type ITableRow<TData = unknown> = ITanStackRow<TData>;
 
 export type ITableCell<TData = unknown, TValue = unknown> = ITanStackCell<TData, TValue>;
 
-export type ITableCellContext<TData = unknown, TValue = unknown> = ITanStackCellContext<TData, TValue>;
+export interface ITableCellContext<TData = unknown, TValue = unknown> extends Omit<ITanStackCellContext<TData, TValue>, "table"> {
+	table: ITable<TData>;
+}
 
 export type ITableHeader<TData = unknown, TValue = unknown> = ITanStackHeader<TData, TValue>;
 
-export type ITableColumn<TData = unknown> = ITanStackColumn<TData>;
+/* We have to first omit all "cell" properties from each union type... because under the hood, ITanStackColumn unions
+ * A LOT of types AND interfaces, so it gets quite hairy.  Exclude didn't work here because it lost the type of cell
+ * when we added our own
+ * Idea from https://stackoverflow.com/a/62928916/1253609 */
+export type ITableColumnOmit<TData = unknown, T = ITanStackColumn<TData>> = T extends ColumnDefBase<TData> ? Omit<T, "cell"> : never;
+
+export type ITableColumn<TData = unknown> = ITableColumnOmit<TData> & {
+	cell?: ColumnDefTemplate<ITableCellContext<TData>>;
+};
 
 export type ITableSort = ITanStackSort;
 
@@ -36,6 +47,18 @@ export type TTableExpandedState = ExpandedState;
 export type TComboBoxValue = AcceptableValue;
 
 export type TInputValue = string | number | null | undefined;
+
+export interface IBaseTabProps {
+	title: string;
+	value?: string;
+	disabled?: boolean;
+	contentClasses?: string;
+}
+
+export interface IBaseTabsProps {
+	tabs: IBaseTabProps[];
+	orientation?: "horizontal" | "vertical";
+}
 
 export interface IChangeEvent<T extends HTMLElement> extends Event {
 	target: T;

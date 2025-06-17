@@ -35,7 +35,9 @@ const commentsTable = useTableData<CommentViewModel>({
 		accessorKey: "comment",
 		header: "Comment",
 		cell(info) {
-			return h("pre", null, info.getValue<string>());
+			return h("pre", {
+				class: "whitespace-normal",
+			}, info.getValue<string>());
 		},
 	}, useDateCreatedColumn(), useDateUpdatedColumn()],
 });

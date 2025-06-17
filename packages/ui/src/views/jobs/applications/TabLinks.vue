@@ -15,6 +15,10 @@ const selectedLinkRecordId = ref<string>("");
 const linksData = ref<ApplicationLinkViewModel[]>([]);
 const linksTable = useTableData<ApplicationLinkViewModel>({
 	data: linksData,
+	sortInitial: [{
+		id: "dateApplied",
+		desc: true,
+	}],
 	columns: [
 		useTableActions([{
 			icon: IconEdit,

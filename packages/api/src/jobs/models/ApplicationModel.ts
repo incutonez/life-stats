@@ -31,7 +31,7 @@ export class ApplicationModel extends BaseModel {
 	@Attribute(DataTypes.STRING)
 	declare compensation: string;
 
-	@Attribute(DataTypes.INTEGER)
+	@AttributeEnum(EnumApplicationStatus)
 	declare status: EnumApplicationStatus;
 
 	@AttributeEnum(EnumLocationTypes)

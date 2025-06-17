@@ -8,4 +8,5 @@ export interface ApplicationLinkViewModel {
     'type': EnumLinkType;
     'id': string;
     'positionTitle'?: string;
+    'dateApplied': number;
 }

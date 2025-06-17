@@ -1,103 +1,57 @@
 ﻿<script setup lang="ts">
-import { computed, reactive, ref, unref, watch } from "vue";
-import { type CommentViewModel } from "@incutonez/life-stats-spec";
+import { computed, reactive, ref, unref } from "vue";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
-import BaseTabs, { type IBaseTabProps } from "@/components/BaseTabs.vue";
-import FieldDate from "@/components/FieldDate.vue";
-import FieldText from "@/components/FieldText.vue";
-import { IconAdd, IconDelete, IconEdit, IconSave } from "@/components/Icons.ts";
-import TableData from "@/components/TableData.vue";
-import { useDateCreatedColumn, useDateUpdatedColumn, useTableActions, useTableData } from "@/composables/table.ts";
-import { getUniqueId } from "@/utils/common.ts";
-import ApplicationLinksTab from "@/views/jobs/applications/ApplicationLinksTab.vue";
-import ViewCommentDialog from "@/views/jobs/applications/ViewCommentDialog.vue";
+import BaseTabs from "@/components/BaseTabs.vue";
+import { IconDelete, IconSave } from "@/components/Icons.ts";
+import type { IBaseTabProps } from "@/types/components.ts";
+import TabComments from "@/views/jobs/applications/TabComments.vue";
+import TabDetails from "@/views/jobs/applications/TabDetails.vue";
+import TabLinks from "@/views/jobs/applications/TabLinks.vue";
 import { provideApplicationRecord, useDeleteApplication } from "@/views/jobs/composables/applications.ts";
 import { useJobRoutes } from "@/views/jobs/composables/routes.ts";
-import FieldApplicationStatus from "@/views/jobs/shared/FieldApplicationStatus.vue";
-import FieldCompanies from "@/views/jobs/shared/FieldCompanies.vue";
-import FieldLocationTypes from "@/views/jobs/shared/FieldLocationTypes.vue";
 import ViewApplicationLinks from "@/views/jobs/ViewApplicationLinks.vue";
 import DeleteDialog from "@/views/shared/DeleteDialog.vue";
 
 export interface IViewApplicationProps {
 	applicationId: string;
+	suppressRouting?: boolean;
 }
 
 const props = defineProps<IViewApplicationProps>();
 const open = ref(true);
-const showCommentDialog = ref(false);
 const showApplicationLinksDialog = ref(false);
-const selectedComment = ref<CommentViewModel>();
-const comment = computed(() => selectedComment.value?.comment ?? "");
 const applicationId = computed(() => props.applicationId);
 const { viewRecord, save, pastedRecord, isEdit, savingApplication } = provideApplicationRecord(applicationId);
 const showDelete = ref(false);
 const { deleteApplication, deletingApplication } = useDeleteApplication();
-const commentData = ref<CommentViewModel[]>([]);
-const title = computed(() => isEdit.value ? "Edit Application" : "Add Application");
+const title = computed(() => isEdit.value ? "Edit Application:" : "Create Application");
+const subtitle = computed(() => {
+	let title = "";
+	const $viewRecord = unref(viewRecord);
+	if (isEdit.value && $viewRecord) {
+		title = `${$viewRecord.company.name} - ${$viewRecord.positionTitle}`;
+	}
+	return title;
+});
 const { viewApplicationParent } = useJobRoutes();
 const tabs = reactive<IBaseTabProps[]>([{
+	title: "Details",
+	contentClasses: "flex flex-col items-start gap-2 p-2 border-0",
+}, {
 	title: "Comments",
-	contentClasses: "flex flex-col gap-2 pt-2",
+	contentClasses: "flex flex-col gap-2 pt-2 border-0",
 }, {
 	title: "Links",
-	contentClasses: "flex flex-col gap-2 pt-2",
+	contentClasses: "flex flex-col gap-2 pt-2 border-0",
 }]);
-const commentsTable = useTableData<CommentViewModel>({
-	data: commentData,
-	columns: [useTableActions([{
-		icon: IconEdit,
-		handler(record) {
-			selectedComment.value = record;
-			showCommentDialog.value = true;
-		},
-	}, {
-		icon: IconDelete,
-		handler(record) {
-			const { id } = record;
-			const found = viewRecord.value!.comments.findIndex((item) => item.id === id);
-			if (found >= 0) {
-				viewRecord.value!.comments.splice(found, 1);
-			}
-		},
-	}]), {
-		accessorKey: "comment",
-		header: "Name",
-	}, useDateCreatedColumn(), useDateUpdatedColumn()],
-});
 
 function onCloseView() {
 	pastedRecord.value = undefined;
-	viewApplicationParent();
-}
-
-function onClickAddComment() {
-	selectedComment.value = undefined;
-	showCommentDialog.value = true;
-}
-
-function onClickUpdateComment(value: string) {
-	const $viewRecord = unref(viewRecord);
-	const $selectedComment = unref(selectedComment);
-	if (!$viewRecord) {
+	if (props.suppressRouting) {
 		return;
 	}
-	if ($selectedComment) {
-		const found = $viewRecord.comments.find(({ id }) => id === $selectedComment.id);
-		if (found) {
-			found.comment = value;
-		}
-	}
-	else {
-		$viewRecord.comments.push({
-			comment: value,
-			id: getUniqueId(),
-			userId: "",
-			applicationId: "",
-		});
-	}
-	showCommentDialog.value = false;
+	viewApplicationParent();
 }
 
 async function onClickSave() {
@@ -113,17 +67,6 @@ async function onClickDelete() {
 	await deleteApplication(viewRecord.value);
 	open.value = false;
 }
-
-/**
- * TanStack Table uses a shallow ref for the data, so we have to create a new reference in order for it to update
- * Source: https://tanstack.com/table/latest/docs/framework/vue/guide/table-state#using-reactive-data
- */
-watch(() => viewRecord.value?.comments, ($comments = []) => {
-	commentData.value = [...$comments];
-}, {
-	immediate: true,
-	deep: true,
-});
 </script>
 
 <template>
@@ -131,89 +74,27 @@ watch(() => viewRecord.value?.comments, ($comments = []) => {
 		v-if="viewRecord"
 		v-model="open"
 		:title="title"
+		:subtitle="subtitle"
+		:tabs="tabs"
 		class="size-9/10"
-		body-class="flex space-x-4"
+		body-padding=""
 		@close="onCloseView"
 	>
 		<template #content>
-			<section class="flex flex-col gap-form">
-				<section class="flex gap-form">
-					<FieldCompanies
-						v-model="viewRecord.company"
-						label-align="top"
-						:custom-value="true"
-						required
-						class="flex-1"
-					/>
-					<FieldText
-						v-model="viewRecord.positionTitle"
-						label="Position"
-						label-align="top"
-						wrapper-cls="flex-1"
-						required
-					/>
-				</section>
-				<section class="flex gap-form">
-					<FieldApplicationStatus
-						v-model="viewRecord.status"
-						class="flex-1"
-						required
-					/>
-					<div class="flex flex-1">
-						<FieldDate
-							v-model="viewRecord.dateApplied"
-							label="Applied On"
-							label-align="top"
-							required
-						/>
-					</div>
-				</section>
-				<section class="flex gap-form">
-					<FieldText
-						v-model="viewRecord.compensation"
-						label="Compensation"
-						label-align="top"
-						wrapper-cls="flex-1"
-					/>
-					<FieldLocationTypes
-						v-model="viewRecord.locationType"
-						class="flex-1"
-						required
-					/>
-				</section>
-				<FieldText
-					v-model="viewRecord.url"
-					label="URL"
-					wrapper-cls="flex-1"
-					label-align="top"
-					required
-				/>
-			</section>
-			<section class="flex flex-col space-y-2 flex-1">
-				<BaseTabs :tabs="tabs">
-					<template #Comments>
-						<BaseButton
-							text="Comment"
-							class="self-start ml-2"
-							theme="info"
-							:icon="IconAdd"
-							@click="onClickAddComment"
-						/>
-						<TableData
-							class="flex-1 border-0 border-t"
-							:table="commentsTable.table"
-						/>
-					</template>
-					<template #Links>
-						<ApplicationLinksTab />
-					</template>
-				</BaseTabs>
-			</section>
-			<ViewCommentDialog
-				v-model="showCommentDialog"
-				:comment="comment"
-				@click:update="onClickUpdateComment"
-			/>
+			<BaseTabs
+				:tabs="tabs"
+				orientation="vertical"
+			>
+				<template #Details>
+					<TabDetails />
+				</template>
+				<template #Comments>
+					<TabComments />
+				</template>
+				<template #Links>
+					<TabLinks />
+				</template>
+			</BaseTabs>
 			<DeleteDialog
 				v-model="showDelete"
 				entity-name="this application"

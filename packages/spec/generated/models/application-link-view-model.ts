@@ -68,6 +68,12 @@ export interface ApplicationLinkViewModel {
      * @memberof ApplicationLinkViewModel
      */
     'positionTitle'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ApplicationLinkViewModel
+     */
+    'dateApplied': number;
 }
 
 

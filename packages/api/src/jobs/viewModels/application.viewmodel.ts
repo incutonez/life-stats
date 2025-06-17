@@ -63,6 +63,8 @@ export class ApplicationLinkViewModel extends BaseViewModel {
 		EnumLinkType,
 	})
 	declare type: EnumLinkType;
+
+	declare dateApplied: number;
 }
 
 export class ApplicationNestedViewModel extends OmitType(ApplicationViewModel, ["company"]) {}

@@ -91,11 +91,12 @@ export class ApplicationsMapper implements OnModuleInit {
 		};
 	}
 
-	entityLinkedToViewModel({ id, position_title, status }: ApplicationModel, type: EnumLinkType): IApplicationLinkViewModel {
+	entityLinkedToViewModel({ id, position_title, status, date_applied }: ApplicationModel, type: EnumLinkType): IApplicationLinkViewModel {
 		return {
 			id,
 			status,
 			type,
+			dateApplied: date_applied,
 			positionTitle: position_title,
 		};
 	}

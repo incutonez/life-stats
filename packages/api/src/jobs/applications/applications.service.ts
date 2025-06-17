@@ -76,23 +76,17 @@ export class ApplicationsService {
 		}
 	}
 
-	async createApplication(model: ApplicationCreateViewModel, useAppliedDate = false) {
-		model.company = await this.companiesService.createCompany(model.company.name);
-		const entity = await ApplicationModel.create(this.mapper.createViewModelToEntity(model, useAppliedDate), {
+	async createApplication(viewModel: ApplicationCreateViewModel, useAppliedDate = false) {
+		viewModel.company = await this.companiesService.createCompany(viewModel.company.name);
+		const entity = await ApplicationModel.create(this.mapper.createViewModelToEntity(viewModel, useAppliedDate), {
 			raw: true,
 		});
 		const { id } = entity;
-		/**
-		 * TODOJEF:
-		 * - Need to add linking here in the create
-		 * - Need to clean up the linking UI and add additional columns
-		 * - Potentially change the display of the link combobox, so it's more clear what we're selecting
-		 * - Need to fix the row numbering, as it doesn't show the proper ordering when sorting or filtering
-		 */
-		await Promise.all(model.comments.map((comment) => {
+		await Promise.all(viewModel.comments.map((comment) => {
 			comment.applicationId = id;
 			return this.createApplicationComment(comment);
 		}));
+		await this.setApplicationLinks(viewModel, entity);
 		return this.getApplication(id);
 	}
 
@@ -139,20 +133,24 @@ export class ApplicationsService {
 			}
 			// Any remaining comments in the DB model were removed in the UI
 			await Promise.all(entity.comments.map((comment) => comment.destroy()));
-			const linkedTo: string[] = [];
-			const linkedFrom: string[] = [];
-			viewModel.links?.forEach((viewModelLink) => {
-				if (viewModelLink.type === EnumLinkType.To) {
-					linkedTo.push(viewModelLink.id);
-				}
-				else {
-					linkedFrom.push(viewModelLink.id);
-				}
-			});
-			await Promise.all([entity.setLinked(linkedTo), entity.setLinks(linkedFrom)]);
+			await this.setApplicationLinks(viewModel, entity);
 			await entity.update(this.mapper.viewModelToEntity(viewModel));
 			return this.getApplication(viewModel.id);
 		}
+	}
+
+	async setApplicationLinks(viewModel: ApplicationViewModel | ApplicationCreateViewModel, entity: ApplicationModel) {
+		const linkedTo: string[] = [];
+		const linkedFrom: string[] = [];
+		viewModel.links?.forEach((viewModelLink) => {
+			if (viewModelLink.type === EnumLinkType.To) {
+				linkedTo.push(viewModelLink.id);
+			}
+			else {
+				linkedFrom.push(viewModelLink.id);
+			}
+		});
+		return Promise.all([entity.setLinked(linkedTo), entity.setLinks(linkedFrom)]);
 	}
 
 	async createApplicationComment(model: ICommentViewModel) {

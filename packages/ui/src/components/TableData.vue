@@ -30,13 +30,13 @@ function getHeaderClass(header: ITableHeader<TData>) {
 	const meta = header.column.columnDef.meta;
 	const cls = ["p-2 border-r border-b border-b sticky top-0", isSubRow ? "" : "z-1", getAlignment(meta?.columnAlign), meta?.columnWidth ?? "min-w-64"];
 	if (header.column.getCanSort()) {
-		cls.push("cursor-pointer select-none hover:bg-blue-300");
+		cls.push("cursor-pointer select-none hover:bg-sky-200");
 	}
 	if (header.column.getIsSorted()) {
-		cls.push("bg-blue-400");
+		cls.push("bg-sky-300");
 	}
 	else {
-		cls.push("bg-gray-300");
+		cls.push("bg-gray-200");
 	}
 	return cls.join(" ");
 }
@@ -94,13 +94,15 @@ function getHeaderTitle({ column }: ITableHeader<TData>) {
 }
 
 function getHeaderTextCls(header: ITableHeader<TData>) {
-	return header.column.getCanSort() ? "" : "";
+	if (header.column.getIsSorted()) {
+		return "italic";
+	}
+	return "";
 }
 
 function getSortIconCls({ column }: ITableHeader<TData>) {
 	let cls = "";
-	const sortDir = column.getIsSorted();
-	if (sortDir === "asc") {
+	if (column.getIsSorted() === "asc") {
 		cls = "rotate-180 -scale-x-90";
 	}
 	return cls;
@@ -132,20 +134,22 @@ function onClickCell(cell: ITableCell<TData>) {
 						:title="getHeaderTitle(header)"
 						@click="header.column.getToggleSortingHandler()?.($event)"
 					>
-						<span :class="getHeaderTextCls(header)">
-							<FlexRender
-								:render="header.column.columnDef.header"
-								:props="header.getContext()"
-							/>
-						</span>
-						<span
-							v-if="header.column.getCanSort()"
-							v-show="header.column.getIsSorted()"
-							class="absolute right-2"
-							:class="getSortIconCls(header)"
-						>
-							<IconSort class="size-6" />
-						</span>
+						<div class="inline-flex">
+							<span :class="getHeaderTextCls(header)">
+								<FlexRender
+									:render="header.column.columnDef.header"
+									:props="header.getContext()"
+								/>
+							</span>
+							<span
+								v-if="header.column.getCanSort()"
+								v-show="header.column.getIsSorted()"
+								class="ml-auto"
+								:class="getSortIconCls(header)"
+							>
+								<IconSort class="size-6" />
+							</span>
+						</div>
 					</th>
 				</tr>
 			</thead>

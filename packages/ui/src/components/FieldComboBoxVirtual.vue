@@ -1,6 +1,9 @@
 ﻿<script setup lang="ts" generic="T extends object">
-import { computed, ref, unref } from "vue";
-import { useVirtualizer, type VirtualItem } from "@tanstack/vue-virtual";
+/**
+ * TODO: We should refactor this to use common functionality between FieldComboBox and this component
+ */
+import { computed, type Ref, ref, unref, watch } from "vue";
+import { useVirtualizer } from "@tanstack/vue-virtual";
 import { ComboboxAnchor,
 	ComboboxContent,
 	ComboboxInput,
@@ -11,7 +14,7 @@ import { ComboboxAnchor,
 import FieldLabel from "@/components/FieldLabel.vue";
 import { IconExpandAll } from "@/components/Icons.ts";
 import type { IFieldComboBoxProps, TComboBoxValue } from "@/types/components.ts";
-import { getLabelAlign, isObject } from "@/utils/common.ts";
+import { getLabelAlign } from "@/utils/common.ts";
 
 /**
  * Keyboard navigation is a little busted in the virtual scroller
@@ -21,17 +24,9 @@ const { options, displayField, valueField, labelAlign = "left", comboWidth = "w-
 const parentRef = ref();
 const search = ref("");
 const open = ref(false);
+// Generic support isn't the greatest in Vue... https://stackoverflow.com/a/78910699/1253609
+const filteredOptions = ref([]) as Ref<T[]>;
 const scrollItem = ref<HTMLElement>();
-const filteredOptions = computed(() => {
-	const $search = unref(search);
-	const value = getOptionDisplayValue(model.value);
-	// We don't want to filter the list if we've selected an item
-	if ($search && $search !== value) {
-		const regex = new RegExp($search, "ig");
-		return options.filter(({ [displayField as keyof T]: value }) => regex.test(String(value)));
-	}
-	return options;
-});
 /**
  * Reka UI uses TanStack Virtual under the hood but has some issues... they scroll things into view manually through a
  * hook, and then call the virtualizer.scrollToIndex method
@@ -52,27 +47,40 @@ const wrapperClasses = computed(() => {
 	};
 });
 
-function getComboBoxItemValue(row: VirtualItem) {
-	const record = filteredOptions.value[row.index];
+function getComboBoxItemValue(record: T | number) {
+	record = typeof record === "number" ? filteredOptions.value[record] as T : record;
 	if (valueOnly) {
 		return record[valueField as keyof T] as TComboBoxValue;
 	}
 	return record;
 }
 
+function getComboBoxItemDisplay(record?: T) {
+	if (record === undefined) {
+		return "";
+	}
+	return record[displayField as keyof T] as string;
+}
+
 function getOptionDisplayValue(record?: TComboBoxValue) {
-	let value;
-	if (isObject(record)) {
-		value = (record as T)[displayField as keyof T] as string;
+	// Search value
+	if (typeof record === "string") {
+		record = filteredOptions.value.find((option) => option[valueField as keyof T] === record);
 	}
-	else if (record !== undefined && record !== null) {
-		value = options.find((option) => option[valueField as keyof T] === record)?.[displayField as keyof T] as string;
+	// Index value
+	else if (typeof record === "number") {
+		record = filteredOptions.value[record];
 	}
-	return value ?? "";
+	return getComboBoxItemDisplay(record as T);
 }
 
 function getInputDisplay(record: TComboBoxValue) {
 	return getOptionDisplayValue(record);
+}
+
+function onFocusInput() {
+	// Clear the filteredOptions whenever we gain focus, this is so the list will show all options until the search changes
+	filteredOptions.value = options;
 }
 
 function onClickInput() {
@@ -83,29 +91,41 @@ function onClickInput() {
 }
 
 function onBlurInput() {
+	// If the options are showing, then we don't want to trigger this handler
 	if (open.value) {
 		return;
 	}
-	if (customValue) {
-		const $search = unref(search);
-		if ($search) {
-			if (valueOnly) {
-				model.value = $search;
-			}
-			else {
-				model.value = {
-					[displayField]: $search,
-				};
-			}
-		}
-		else {
-			search.value = getOptionDisplayValue(model.value);
-		}
-	}
 	// Enforce a selection
-	else if (required) {
+	if (!customValue) {
 		search.value = getOptionDisplayValue(model.value);
 	}
+}
+
+function onChangeInput() {
+	const $search = unref(search);
+	if ($search) {
+		const found = options.find((option) => getComboBoxItemDisplay(option) === $search);
+		if (found) {
+			model.value = getComboBoxItemValue(found);
+		}
+		else if (customValue) {
+			model.value = {
+				[displayField]: $search,
+			};
+		}
+	}
+	// Otherwise, if we have no search value, let's remove the selection
+	else {
+		model.value = getComboBoxItemValue({
+			[valueField]: "",
+			[displayField]: "",
+		} as T);
+	}
+}
+
+function onPressTab() {
+	// When the user presses the tab, let's make sure the list is closed
+	open.value = false;
 }
 
 function onInputKeyDown() {
@@ -123,6 +143,23 @@ function onInputKeyDown() {
 function onHighlight(payload?: { ref: HTMLElement }) {
 	scrollItem.value = payload?.ref;
 }
+
+watch(search, ($search) => {
+	// No need to filter if we're not showing the list
+	if (!open.value) {
+		return;
+	}
+	// We don't want to filter the list if we've selected an item
+	if ($search) {
+		const regex = new RegExp($search, "ig");
+		filteredOptions.value = options.filter((option) => regex.test(getComboBoxItemDisplay(option)));
+	}
+	else {
+		filteredOptions.value = options;
+	}
+});
+
+watch(() => options, ($options) => filteredOptions.value = $options);
 </script>
 
 <template>
@@ -149,8 +186,11 @@ function onHighlight(payload?: { ref: HTMLElement }) {
 				placeholder="Placeholder..."
 				:display-value="getInputDisplay"
 				:required="required"
+				@input="onChangeInput"
 				@click="onClickInput"
 				@blur="onBlurInput"
+				@focus="onFocusInput"
+				@keydown.tab="onPressTab"
 				@keydown.down.up="onInputKeyDown"
 			/>
 			<ComboboxTrigger class="cursor-pointer">
@@ -182,10 +222,10 @@ function onHighlight(payload?: { ref: HTMLElement }) {
 								v-for="virtualRow in items"
 								:key="virtualRow.key as PropertyKey"
 								:data-index="virtualRow.index"
-								:value="getComboBoxItemValue(virtualRow)"
+								:value="getComboBoxItemValue(virtualRow.index)"
 								class="text-sm w-full flex items-center py-2 cursor-pointer relative select-none data-[disabled]:text-gray-200 data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-sky-200 aria-[selected=true]:font-semibold aria-[selected=true]:bg-sky-200"
 							>
-								<span class="px-2">{{ filteredOptions[virtualRow.index][displayField as keyof T] }}</span>
+								<span class="px-2">{{ getOptionDisplayValue(virtualRow.index) }}</span>
 							</ComboboxItem>
 						</div>
 					</div>

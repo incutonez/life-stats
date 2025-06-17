@@ -1,5 +1,6 @@
-﻿import { h, isRef, ref, unref, type VNode, watch } from "vue";
+﻿import { computed, h, isRef, ref, unref, type VNode, watch } from "vue";
 import {
+	type ColumnDef,
 	getCoreRowModel,
 	getExpandedRowModel,
 	getFilteredRowModel, getPaginationRowModel,
@@ -13,7 +14,6 @@ import type {
 	ISortIdentity,
 	ITable,
 	ITableAction,
-	ITableCellContext,
 	ITableColumn,
 	IUseTableData,
 	TTableExpandedState,
@@ -24,12 +24,13 @@ export function useTableData<TData = unknown>({ data, columns, sortInitial, sear
 	const sorting = ref(sortInitial);
 	const search = ref(searchInitial);
 	const expanded = ref<TTableExpandedState>({});
-	const table = useVueTable({
+	const table = useVueTable<TData>({
 		get data() {
 			return unref(data) ?? [];
 		},
 		get columns() {
-			return unref(columns) ?? [];
+			// TODO: Find out how to fix this... we can't use our custom table defs here because TS gets angry
+			return unref(columns as ColumnDef<TData>[]) ?? [];
 		},
 		globalFilterFn: "includesString",
 		getCoreRowModel: getCoreRowModel(),
@@ -65,6 +66,7 @@ export function useTableData<TData = unknown>({ data, columns, sortInitial, sear
 			expanded.value = typeof updaterOrValue === "function" ? updaterOrValue(expanded.value) : updaterOrValue;
 		},
 	}) as ITable<TData>;
+	const sortedRows = computed(() => table.getSortedRowModel().flatRows);
 
 	table.getColumnSortIdentity = (columnId: string) => {
 		let identity: ISortIdentity = 1;
@@ -73,6 +75,10 @@ export function useTableData<TData = unknown>({ data, columns, sortInitial, sear
 			identity = $sorting.find(({ id }) => id === columnId)?.desc ? 1 : -1;
 		}
 		return identity;
+	};
+
+	table.getSortedRowIndex = (columnId: string) => {
+		return (sortedRows.value.findIndex((row) => row.id === columnId) || 0) + 1;
 	};
 
 	// Whenever the data changes, we have to make sure we reset the expanded state, as it could be invalid
@@ -92,7 +98,7 @@ export function useTableActions<T>(buttons: ITableAction<T>[]): ITableColumn<T> 
 			columnWidth: "w-24",
 			cellCls: "w-24",
 		},
-		cell(info: ITableCellContext<T>) {
+		cell(info) {
 			const children: VNode[] = [];
 			for (const button of buttons) {
 				const { canClick } = button;
@@ -119,7 +125,8 @@ export function useRowNumbering<T>(): ITableColumn<T> {
 	return {
 		accessorKey: "id",
 		header: "Row",
-		cell: (info) => parseInt(info.row.id) + 1,
+		enableSorting: false,
+		cell: (info) => info.table.getSortedRowIndex(info.row.id),
 		meta: {
 			columnWidth: "min-w-auto",
 			columnAlign: "center",
@@ -131,7 +138,7 @@ export function useDateColumn<T>(accessorKey: string, header: string, width = "m
 	return {
 		accessorKey,
 		header,
-		cell: (info) => {
+		cell(info) {
 			return h(CellDateTime, {
 				value: info.getValue<number>(),
 			});
@@ -174,7 +181,7 @@ export function useExpandableRow<T>(): ITableColumn<T> {
 			columnWidth: "min-w-12 w-12",
 			cellCls: "min-w-12 w-12",
 		},
-		cell({ row }: ITableCellContext<T>) {
+		cell({ row }) {
 			if (row.getCanExpand()) {
 				return h("article", {
 					class: "flex place-content-center",

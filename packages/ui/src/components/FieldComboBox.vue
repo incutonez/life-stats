@@ -1,4 +1,7 @@
 ﻿<script setup lang="ts" generic="T extends object">
+/**
+ * TODO: We should refactor this to use common functionality between FieldComboBoxVirtual and this component
+ */
 import { computed, ref, unref, watch } from "vue";
 import {
 	ComboboxAnchor,

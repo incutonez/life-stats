@@ -1,7 +1,10 @@
 /**
  * In order to use this, go to about:debugging#/runtime/this-firefox and load the manifest.json file as the Temporary Add-on
  */
-const MatchRegex = /Viewed|Applied/;
+ const HideViewed = true;
+ const HideApplied = true;
+ const HidePromoted = true;
+const MatchRegex = [HideViewed ? "Viewed" : "", HideApplied ? "Applied" : "", HidePromoted ? "Promoted" : ""].filter(Boolean).join("|");
 const Today = new Date();
 const OneWeek = 604800000;
 const HoursAgoRegex = /(\d+) hours ago/;

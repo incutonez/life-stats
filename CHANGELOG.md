@@ -1,3 +1,9 @@
+## [2.11.3](https://github.com/incutonez/life-stats/compare/v2.11.2...v2.11.3) (2025-06-17)
+
+### Bug Fixes
+
+* Fixing Overflowing Comments ([#64](https://github.com/incutonez/life-stats/issues/64)) ([3cb59c3](https://github.com/incutonez/life-stats/commit/3cb59c3a3deab0448429b1ddd9a21a4f5a4f6519))
+
 ## [2.11.2](https://github.com/incutonez/life-stats/compare/v2.11.1...v2.11.2) (2025-06-17)
 
 ### Bug Fixes

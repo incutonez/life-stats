@@ -81,7 +81,9 @@ function renderCommentRows({ row }: ISubRowRenderer<ApplicationViewModel>) {
 			accessorKey: "comment",
 			header: "Comment",
 			cell(info) {
-				return h("pre", null, info.getValue<string>());
+				return h("pre", {
+					class: "whitespace-normal",
+				}, info.getValue<string>());
 			},
 			// eslint-disable-next-line @incutonez/array-bracket-newline
 		}, useDateCreatedColumn(), useDateUpdatedColumn()],

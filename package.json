@@ -16,6 +16,7 @@
     "ui": "cd packages/ui && npm run dev",
     "ui:build": "cd packages/ui && npm run build",
     "ui:commit": "cd packages/ui && npm run lint",
+    "ui:docker": "cd packages/ui && docker compose build && docker compose up",
     "update:deps": "node ./updateDependencies.js",
     "update:versions": "node ./updateVersions.js",
     "prepare": "npx husky"

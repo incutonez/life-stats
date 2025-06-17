@@ -36,7 +36,7 @@ const commentsTable = useTableData<CommentViewModel>({
 		header: "Comment",
 		cell(info) {
 			return h("pre", {
-				class: "whitespace-normal",
+				class: "whitespace-break-spaces",
 			}, info.getValue<string>());
 		},
 	}, useDateCreatedColumn(), useDateUpdatedColumn()],

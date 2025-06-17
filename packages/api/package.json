@@ -26,7 +26,7 @@
     "@nestjs/swagger": "^11.2.0",
     "@sequelize/core": "^7.0.0-alpha.46",
     "@sequelize/sqlite3": "^7.0.0-alpha.46",
-    "axios": "^1.9.0",
+    "axios": "^1.10.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "compression": "^1.8.0",
@@ -52,17 +52,17 @@
     "@nestjs/schematics": "^11.0.5",
     "@stylistic/eslint-plugin-ts": "^4.4.1",
     "@swc/cli": "^0.7.7",
-    "@swc/core": "^1.11.31",
+    "@swc/core": "^1.12.1",
     "@types/compression": "^1.8.1",
     "@types/express": "^5.0.3",
     "@types/multer": "^1.4.13",
-    "@types/node": "^22.15.30",
+    "@types/node": "^24.0.3",
     "@types/papaparse": "^5.3.16",
     "@types/readline-sync": "^1.4.8",
     "@types/sequelize": "^4.28.20",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
-    "eslint": "^9.28.0",
+    "eslint": "^9.29.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "globals": "^16.2.0",
     "source-map-support": "^0.5.21",
@@ -70,6 +70,6 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "latest",
     "typescript": "latest",
-    "typescript-eslint": "^8.33.1"
+    "typescript-eslint": "^8.34.0"
   }
 }

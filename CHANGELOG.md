@@ -1,3 +1,9 @@
+## [2.10.0](https://github.com/incutonez/life-stats/compare/v2.9.0...v2.10.0) (2025-06-17)
+
+### Features
+
+* Adding Functionality to Jobs ([#60](https://github.com/incutonez/life-stats/issues/60)) ([bbd8737](https://github.com/incutonez/life-stats/commit/bbd873702578302683ed128096f2338fe17a3119))
+
 ## [2.9.0](https://github.com/incutonez/life-stats/compare/v2.8.0...v2.9.0) (2025-06-11)
 
 ### Features

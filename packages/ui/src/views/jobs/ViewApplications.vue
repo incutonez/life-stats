@@ -82,7 +82,7 @@ function renderCommentRows({ row }: ISubRowRenderer<ApplicationViewModel>) {
 			header: "Comment",
 			cell(info) {
 				return h("pre", {
-					class: "whitespace-normal",
+					class: "whitespace-break-spaces",
 				}, info.getValue<string>());
 			},
 			// eslint-disable-next-line @incutonez/array-bracket-newline

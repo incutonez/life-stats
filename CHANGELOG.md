@@ -1,3 +1,9 @@
+## [2.11.2](https://github.com/incutonez/life-stats/compare/v2.11.1...v2.11.2) (2025-06-17)
+
+### Bug Fixes
+
+* Updating package-lock.json ([#63](https://github.com/incutonez/life-stats/issues/63)) ([1804be2](https://github.com/incutonez/life-stats/commit/1804be24f879dc366245200492af986adc94a8b4))
+
 ## [2.11.1](https://github.com/incutonez/life-stats/compare/v2.11.0...v2.11.1) (2025-06-17)
 
 ### Bug Fixes

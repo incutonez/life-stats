@@ -1,3 +1,9 @@
+## [2.12.0](https://github.com/incutonez/life-stats/compare/v2.11.4...v2.12.0) (2025-06-18)
+
+### Features
+
+* Adding Dockerfiles ([#66](https://github.com/incutonez/life-stats/issues/66)) ([96076db](https://github.com/incutonez/life-stats/commit/96076dbdc10697c5336a7ea6eb214c16570df137))
+
 ## [2.11.4](https://github.com/incutonez/life-stats/compare/v2.11.3...v2.11.4) (2025-06-17)
 
 ### Bug Fixes

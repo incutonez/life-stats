@@ -33,4 +33,9 @@ jobs:
           GH_TOKEN: ${{ secrets.SEMANTIC_RELEASE }}
         run: npm run update:versions
       - name: Build
-        run: npm run build
+        run: npm run ui:build:gh
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: packages/ui/dist

@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
+    "build:test": "vue-tsc -b && vite build --mode=GitHubPages",
     "preview": "vite preview",
     "lint": "npx eslint --fix"
   },

@@ -9,6 +9,7 @@
     "api": "cd packages/api && npm run start:dev",
     "api:build": "cd packages/api && npm run build",
     "api:commit": "cd packages/api && npm run lint",
+    "api:docker": "docker compose -f docker/api.compose.yaml build && docker compose -f docker/api.compose.yaml up",
     "db:migration": "cd packages/api && npm run db:migration",
     "db:migration:add": "cd packages/api && npm run db:migration:add",
     "explode": "npm cache clean --force && npx rimraf package-lock.json **/node_modules --glob && npm i",
@@ -16,7 +17,7 @@
     "ui": "cd packages/ui && npm run dev",
     "ui:build": "cd packages/ui && npm run build",
     "ui:commit": "cd packages/ui && npm run lint",
-    "ui:docker": "cd packages/ui && docker compose build && docker compose up",
+    "ui:docker": "docker compose -f docker/ui.compose.yaml build && docker compose -f docker/ui.compose.yaml up",
     "update:deps": "node ./updateDependencies.js",
     "update:versions": "node ./updateVersions.js",
     "prepare": "npx husky"

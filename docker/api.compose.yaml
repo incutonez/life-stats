@@ -1,0 +1,9 @@
+﻿services:
+  api:
+    volumes:
+      - ../../data:/usr/data
+    build:
+      context: ../
+      dockerfile: ./docker/api.Dockerfile
+    ports:
+      - "3000:3000"

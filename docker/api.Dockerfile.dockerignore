@@ -4,3 +4,5 @@
 .husky
 .idea
 browserPlugin
+packages/ui
+packages/spec

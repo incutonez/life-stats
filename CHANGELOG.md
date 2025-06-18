@@ -1,3 +1,9 @@
+## [2.13.1](https://github.com/incutonez/life-stats/compare/v2.13.0...v2.13.1) (2025-06-18)
+
+### Bug Fixes
+
+* Fixing redirect_ui, so it's accurate with pathname ([#69](https://github.com/incutonez/life-stats/issues/69)) ([496183d](https://github.com/incutonez/life-stats/commit/496183dd5117698674460c0df8c523ad3cfef405))
+
 ## [2.13.0](https://github.com/incutonez/life-stats/compare/v2.12.0...v2.13.0) (2025-06-18)
 
 ### Features

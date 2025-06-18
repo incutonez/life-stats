@@ -1,3 +1,9 @@
+## [2.13.0](https://github.com/incutonez/life-stats/compare/v2.12.0...v2.13.0) (2025-06-18)
+
+### Features
+
+* Adding UI Deployment to GH Pages ([#68](https://github.com/incutonez/life-stats/issues/68)) ([7389cb2](https://github.com/incutonez/life-stats/commit/7389cb2f2d13a8e0d2831fb7269e22cc373fd926))
+
 ## [2.12.0](https://github.com/incutonez/life-stats/compare/v2.11.4...v2.12.0) (2025-06-18)
 
 ### Features

@@ -9,7 +9,7 @@ export const auth0 = createAuth0({
 	 * Source: https://stackoverflow.com/a/63627875/1253609 */
 	cacheLocation: "localstorage",
 	authorizationParams: {
-		redirect_uri: window.location.origin,
+		redirect_uri: `${location.origin}${location.pathname}`,
 		audience: import.meta.env.VITE_AUTH0_AUDIENCE,
 	},
 });

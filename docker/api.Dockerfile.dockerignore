@@ -1,0 +1,8 @@
+﻿**/node_modules
+.git
+.github
+.husky
+.idea
+browserPlugin
+packages/ui
+packages/spec

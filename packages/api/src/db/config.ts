@@ -17,7 +17,7 @@ import { AllModels } from "@/db/models";
 /* Ensure that we have our env vars loaded... at this point, the app hasn't bootstrapped, and Nest hasn't had time to
  * load the vars using its config service */
 configDotenv({
-	path: [".env.local", ".env"],
+	path: [".env.prod", ".env.local", ".env"],
 });
 
 const { DATABASE_PASSWORD } = env;

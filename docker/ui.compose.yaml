@@ -1,0 +1,7 @@
+﻿services:
+  ui:
+    build:
+      context: ../
+      dockerfile: ./docker/ui.Dockerfile
+    ports:
+      - "9091:8080"

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@auth0/auth0-vue": "^2.4.0",
+    "@incutonez/life-stats-spec": "file:../spec",
     "@internationalized/date": "^3.8.2",
     "@material-symbols/svg-400": "^0.31.7",
     "@reduxjs/toolkit": "^2.8.2",

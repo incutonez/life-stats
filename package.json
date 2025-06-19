@@ -16,7 +16,6 @@
     "spec:build": "cd packages/spec && npm run generate",
     "ui": "cd packages/ui && npm run dev",
     "ui:build": "cd packages/ui && npm run build",
-    "ui:build:gh": "cd packages/ui && npm run build:test",
     "ui:commit": "cd packages/ui && npm run lint",
     "ui:docker": "docker compose -f docker/ui.compose.yaml build && docker compose -f docker/ui.compose.yaml up",
     "update:deps": "node ./updateDependencies.js",

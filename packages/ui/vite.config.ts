@@ -6,9 +6,8 @@ import { defineConfig } from "vite";
 import svgLoader from "vite-svg-loader";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
+export default defineConfig(() => {
 	return {
-		base: mode === "GitHubPages" ? "/life-stats/" : "",
 		// svgLoader is needed for material symbols
 		plugins: [vue(), svgLoader(), tailwindcss(), basicSsl({
 			name: "Life Stats",

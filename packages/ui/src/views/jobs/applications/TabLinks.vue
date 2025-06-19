@@ -54,7 +54,7 @@ const linksTable = useTableData<ApplicationLinkViewModel>({
 			header: "Status",
 			cell: (info) => getEnumDisplay(EnumApplicationStatus, info.getValue<number>()),
 			meta: {
-				columnWidth: "max-w-fit",
+				columnWidth: "min-w-fit",
 				columnAlign: "center",
 			},
 		},
@@ -68,7 +68,7 @@ const applicationRecords = computed(() => {
 	/* Right now we filter out the current view record and anything that's not its company... I'm not sure why you'd want
    * to link an application to another application if they don't have the same company, unless maybe the company name
    * changes?  But then I'd think you'd just modify the company record's name */
-	return items.filter((item) => item.id !== id && item.company.id === companyId);
+	return items.filter((item) => item.id !== id && item.company.id === companyId).sort((lhs, rhs) => lhs.positionTitle.localeCompare(rhs.positionTitle));
 });
 const selectedIds = computed({
 	get() {

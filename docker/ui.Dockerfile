@@ -25,7 +25,7 @@ RUN npm i
 # build app for production with minification
 RUN npm run ui:build
 
-COPY ./packages/ui/dist ../ui
+RUN mv ./packages/ui/dist/* ../ui
 
 WORKDIR /usr/ui
 

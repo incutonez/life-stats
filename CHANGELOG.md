@@ -1,3 +1,9 @@
+## [2.13.2](https://github.com/incutonez/life-stats/compare/v2.13.1...v2.13.2) (2025-06-19)
+
+### Bug Fixes
+
+* Miscellaneous Fixes ([#70](https://github.com/incutonez/life-stats/issues/70)) ([044ca1d](https://github.com/incutonez/life-stats/commit/044ca1d289f3f4365459ec66dc359c84b73a4283))
+
 ## [2.13.1](https://github.com/incutonez/life-stats/compare/v2.13.0...v2.13.1) (2025-06-18)
 
 ### Bug Fixes

@@ -1,3 +1,9 @@
+## [2.14.2](https://github.com/incutonez/life-stats/compare/v2.14.1...v2.14.2) (2025-06-20)
+
+### Bug Fixes
+
+* Renaming Strava ENV var ([#73](https://github.com/incutonez/life-stats/issues/73)) ([50b1716](https://github.com/incutonez/life-stats/commit/50b17160f175be43692751a510bf9484c7538a07))
+
 ## [2.14.1](https://github.com/incutonez/life-stats/compare/v2.14.0...v2.14.1) (2025-06-20)
 
 ### Bug Fixes

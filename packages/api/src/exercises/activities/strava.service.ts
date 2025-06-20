@@ -34,8 +34,8 @@ export class StravaService {
 		}
 		const refresh = expirationDate !== 0;
 		const params: Record<string, string> = {
-			client_id: env.VITE_STRAVA_CLIENT_ID!,
-			client_secret: env.VITE_STRAVA_CLIENT_SECRET!,
+			client_id: env.STRAVA_CLIENT_ID!,
+			client_secret: env.STRAVA_CLIENT_SECRET!,
 			grant_type: refresh ? "refresh_token" : "authorization_code",
 		};
 		if (refresh) {

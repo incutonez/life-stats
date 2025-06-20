@@ -9,7 +9,7 @@
     "api": "cd packages/api && npm run start:dev",
     "api:build": "cd packages/api && npm run build",
     "api:commit": "cd packages/api && npm run lint",
-    "api:docker": "npm run certs force && docker compose -f docker/api.compose.yaml build api && docker compose -f docker/api.compose.yaml up api",
+    "api:docker": "npm run certs && docker compose -f docker/api.compose.yaml build api && docker compose -f docker/api.compose.yaml up api",
     "api:docker:test": "docker compose -f docker/api.compose.yaml build api-test && docker compose -f docker/api.compose.yaml up api-test",
     "certs": "npx tsx certs.ts",
     "db:migration": "cd packages/api && npm run db:migration",

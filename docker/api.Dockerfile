@@ -6,12 +6,10 @@ WORKDIR /usr/app
 COPY . .
 
 # install project dependencies
-RUN npm i
+RUN npm ci --include=dev
 
 # build app for production with minification
 RUN npm run api:build
-
-RUN mv docker/api.env.prod packages/api/.env.prod
 
 WORKDIR /usr/app/packages/api
 

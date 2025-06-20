@@ -5,3 +5,10 @@
       dockerfile: ./docker/ui.Dockerfile
     ports:
       - "9091:8080"
+    environment:
+      - NODE_ENV=production
+  ui-test:
+    extends:
+      service: ui
+    environment:
+      - NODE_ENV=test

@@ -1,5 +1,6 @@
 ﻿import { reactive } from "vue";
 import {
+	AppApi,
 	ApplicationsApi, AttributeTypesApi,
 	AuditsApi,
 	CompaniesApi,
@@ -9,11 +10,13 @@ import {
 } from "@incutonez/life-stats-spec";
 
 export const apiConfig = reactive(new Configuration({
-	basePath: import.meta.env.VITE_BASE_API || `http://${location.hostname}:3000`,
+	basePath: import.meta.env.VITE_BASE_API || `${location.protocol}//${location.hostname}:3000`,
 	baseOptions: {
 		headers: {},
 	},
 }));
+
+export const AppAPI = new AppApi(apiConfig);
 
 export const JobsAPI = new JobsApi(apiConfig);
 

@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { env } from "node:process";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
@@ -8,7 +9,12 @@ import * as path from "path";
 import { AppModule } from "@/app/app.module";
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule);
+	const app = await NestFactory.create(AppModule, {
+		httpsOptions: env.NODE_ENV === "development" ? undefined : {
+			key: readFileSync(path.join(__dirname, env.CERT_KEY_PATH!)),
+			cert: readFileSync(path.join(__dirname, env.CERT_CRT_PATH!)),
+		},
+	});
 	app.enableCors();
 	app.use(compression());
 	app.use(json({

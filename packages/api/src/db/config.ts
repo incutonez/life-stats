@@ -20,6 +20,8 @@ configDotenv({
 	path: [".env.prod", ".env.local", ".env"],
 });
 
+process.env.NODE_ENV ??= "development";
+
 const { DATABASE_PASSWORD } = env;
 const dbPath = getDBPath();
 if (DATABASE_PASSWORD && dbPath && dbPath !== DataBaseStoragePath && !fileExistsSync(DataBaseStoragePath)) {

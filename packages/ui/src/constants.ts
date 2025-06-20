@@ -1,5 +1,6 @@
 ﻿import { ref } from "vue";
 import type { RouteLocationRaw } from "vue-router";
+import type { AppInfoViewModel } from "@incutonez/life-stats-spec";
 import type { IOption } from "@/types/components.ts";
 
 export const UserLanguage = navigator.language;
@@ -36,3 +37,5 @@ export const QueryKeySystem = "system-";
 export const QueryKeyUser = `${QueryKeySystem}user`;
 
 export const QueryGetAttributeTypes = `${QueryKeySystem}getAttributeTypes`;
+
+export const AppInfo = ref<AppInfoViewModel>();

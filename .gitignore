@@ -11,8 +11,10 @@ node_modules
 dist
 dist-ssr
 *.local
+.env.prod
 !packages/spec/dist
 packages/api/src/db/data.db
+certs
 
 # Editor directories and files
 .vscode/*

@@ -10,6 +10,7 @@ import { reduxStore } from "@/stores/main.ts";
 
 const app = createApp(App);
 app.use(auth0);
+
 try {
 	/* Very first thing we do is check to see if we've got an existing session... this helps to determine where we should
 		 * first land in the app, and it gives us the control instead of cycling routes for users with an active session */

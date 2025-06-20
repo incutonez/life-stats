@@ -1,3 +1,9 @@
+## [2.14.1](https://github.com/incutonez/life-stats/compare/v2.14.0...v2.14.1) (2025-06-20)
+
+### Bug Fixes
+
+* Not Force Clearing Certs ([#72](https://github.com/incutonez/life-stats/issues/72)) ([17d634b](https://github.com/incutonez/life-stats/commit/17d634ba9eb63636b6d50d143062df434afae663))
+
 ## [2.14.0](https://github.com/incutonez/life-stats/compare/v2.13.2...v2.14.0) (2025-06-20)
 
 ### Features

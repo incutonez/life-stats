@@ -1,3 +1,9 @@
+## [2.14.0](https://github.com/incutonez/life-stats/compare/v2.13.2...v2.14.0) (2025-06-20)
+
+### Features
+
+* Reworking HTTPS ([#71](https://github.com/incutonez/life-stats/issues/71)) ([02540d9](https://github.com/incutonez/life-stats/commit/02540d9fc26d13d1f51e3d642082cdc584802d74))
+
 ## [2.13.2](https://github.com/incutonez/life-stats/compare/v2.13.1...v2.13.2) (2025-06-19)
 
 ### Bug Fixes

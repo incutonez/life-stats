@@ -7,8 +7,6 @@ WORKDIR /usr/tmp
 # copy everything from the root workspace
 COPY . .
 
-ARG NODE_ENV=production
-
 # install simple http server for serving static content
 RUN npm i -g http-server
 

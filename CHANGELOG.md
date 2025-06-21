@@ -1,3 +1,9 @@
+## [2.14.3](https://github.com/incutonez/life-stats/compare/v2.14.2...v2.14.3) (2025-06-21)
+
+### Bug Fixes
+
+* Modifying Docker Configs ([#74](https://github.com/incutonez/life-stats/issues/74)) ([b913a4e](https://github.com/incutonez/life-stats/commit/b913a4ea7199464d2a4fc4c6ee2d4d9429569f63))
+
 ## [2.14.2](https://github.com/incutonez/life-stats/compare/v2.14.1...v2.14.2) (2025-06-20)
 
 ### Bug Fixes

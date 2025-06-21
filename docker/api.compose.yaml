@@ -1,16 +1,19 @@
 ﻿services:
   api:
-    volumes:
-      - ../../data:/usr/data
-    build:
-      context: ../
-      dockerfile: ./docker/api.Dockerfile
+    extends:
+      file: api.common.yaml
+      service: base
+    profiles:
+      - production
     environment:
       - NODE_ENV=production
-    ports:
-      - "3000:3000"
+    volumes:
+      - ../../data:/usr/data
   api-test:
     extends:
-      service: api
+      file: api.common.yaml
+      service: base
+    profiles:
+      - test
     environment:
       - NODE_ENV=test

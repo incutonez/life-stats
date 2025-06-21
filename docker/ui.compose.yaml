@@ -1,14 +1,17 @@
 ﻿services:
   ui:
-    build:
-      context: ../
-      dockerfile: ./docker/ui.Dockerfile
-    ports:
-      - "9091:8080"
+    extends:
+      file: ui.common.yaml
+      service: base
+    profiles:
+      - production
     environment:
       - NODE_ENV=production
   ui-test:
     extends:
-      service: ui
+      file: ui.common.yaml
+      service: base
+    profiles:
+      - test
     environment:
       - NODE_ENV=test

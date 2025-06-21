@@ -1,0 +1,9 @@
+﻿# Per the docs, if we have a separate file for our common functionality, it's not included in the final build, but if we
+# had this in the api.compose.yaml file, it would be included in the build
+services:
+  base:
+    build:
+      context: ../
+      dockerfile: ./docker/api.Dockerfile
+    ports:
+      - "3000:3000"

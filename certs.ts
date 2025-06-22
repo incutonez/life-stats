@@ -5,7 +5,9 @@
 import { execSync } from "child_process";
 import { existsSync, mkdirSync } from "fs";
 
-const ForceCreate = process.argv[2] !== undefined;
+const { argv } = process;
+const SubDomain = argv.indexOf("dev") !== -1 ? "dev" : "prod";
+const ForceCreate = argv.indexOf("force") !== -1;
 const CertsDir = "certs";
 const AuthorityKey = `${CertsDir}/ca.key`;
 const AuthorityCert = `${CertsDir}/ca.crt`;
@@ -26,5 +28,5 @@ if (!existsSync(AuthorityKey)){
 }
 
 if (!existsSync(CertKey)){
-	execSync(`npx mkcert create-cert --ca-key ${AuthorityKey} --ca-cert ${AuthorityCert} --key ${CertKey} --cert ${CertCrt}`);
+	execSync(`npx mkcert create-cert --ca-key ${AuthorityKey} --ca-cert ${AuthorityCert} --key ${CertKey} --cert ${CertCrt} --domains ${SubDomain}.incutonez`);
 }

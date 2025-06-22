@@ -14,6 +14,6 @@ RUN npm run api:build
 FROM node:lts-alpine AS main
 
 COPY --from=build /app /
-WORKDIR /packages/api/dist
+WORKDIR /packages/api
 EXPOSE 3000
-CMD [ "node", "main.js" ]
+CMD [ "node", "dist/main.js" ]

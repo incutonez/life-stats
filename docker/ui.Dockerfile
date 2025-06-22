@@ -13,12 +13,16 @@ RUN npm run ui:build:prod
 
 FROM node:lts-alpine AS main
 
-COPY --from=build /app/packages/ui/dist/* /app
+WORKDIR /app
 
-COPY --from=build /app/certs/* /app
+RUN mkdir -p /app/certs
+
+COPY --from=build /app/packages/ui/dist .
+
+COPY --from=build /app/certs certs
 
 # install simple http server for serving static content
 RUN npm i -g http-server
 
 EXPOSE 8080
-CMD [ "http-server", "-S", "-C", "cert.crt", "-K", "cert.key", "--cors", "/app" ]
+CMD [ "http-server", "-S", "-C", "certs/cert.crt", "-K", "certs/cert.key", "--cors", "." ]

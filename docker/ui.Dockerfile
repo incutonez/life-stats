@@ -1,28 +1,24 @@
-﻿FROM node:lts-alpine
+﻿FROM node:lts-alpine AS build
 
-RUN mkdir -p /usr/ui
-
-WORKDIR /usr/tmp
+WORKDIR /app
 
 # copy everything from the root workspace
 COPY . .
 
-# install simple http server for serving static content
-RUN npm i -g http-server
-
 # install project dependencies
-RUN npm ci --include=dev
+RUN npm ci -w packages/ui -w packages/spec
 
 # build app for production with minification
 RUN npm run ui:build:prod
 
-RUN mv ./packages/ui/dist/* ../ui
+FROM node:lts-alpine AS main
 
-RUN mv certs ../ui
+COPY --from=build /app/packages/ui/dist/* /app
 
-WORKDIR /usr/ui
+COPY --from=build /app/certs/* /app
 
-RUN rm -rf /usr/tmp
+# install simple http server for serving static content
+RUN npm i -g http-server
 
 EXPOSE 8080
-CMD [ "http-server", "-S", "-C", "certs/cert.crt", "-K", "certs/cert.key", "--cors", "." ]
+CMD [ "http-server", "-S", "-C", "cert.crt", "-K", "cert.key", "--cors", "/app" ]

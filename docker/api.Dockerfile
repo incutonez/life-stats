@@ -1,17 +1,19 @@
-﻿FROM node:lts-alpine
+﻿FROM node:lts-alpine AS build
 
-WORKDIR /usr/app
+WORKDIR /app
 
 # copy everything from the root workspace
 COPY . .
 
 # install project dependencies
-RUN npm ci --include=dev
+RUN npm ci -w packages/api
 
 # build app for production with minification
 RUN npm run api:build
 
-WORKDIR /usr/app/packages/api
+FROM node:lts-alpine AS main
 
+COPY --from=build /app /
+WORKDIR /packages/api/dist
 EXPOSE 3000
-CMD [ "npm", "run", "start:prod" ]
+CMD [ "node", "main.js" ]

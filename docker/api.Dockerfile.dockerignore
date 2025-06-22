@@ -3,6 +3,7 @@
 .github
 .husky
 .idea
+docker
 browserPlugin
 packages/ui
 packages/spec

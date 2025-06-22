@@ -5,13 +5,9 @@
       service: base
     profiles:
       - production
-    environment:
-      - NODE_ENV=production
   ui-test:
     extends:
       file: ui.common.yaml
       service: base
     profiles:
       - test
-    environment:
-      - NODE_ENV=test

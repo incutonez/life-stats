@@ -6,11 +6,10 @@ import { env } from "node:process";
 import { Sequelize } from "@sequelize/core";
 import { SqliteDialect } from "@sequelize/sqlite3";
 import { configDotenv } from "dotenv";
-import { writeFileSync } from "fs";
+import { existsSync, writeFileSync } from "fs";
 import readlineSync from "readline-sync";
 import { Readable } from "stream";
 import { create, extract } from "tar";
-import { fileExistsSync } from "tsconfig-paths/lib/filesystem";
 import { DataBaseStoragePath, EncryptionAlgorithm } from "@/constants";
 import { AllModels } from "@/db/models";
 
@@ -24,7 +23,7 @@ process.env.NODE_ENV ??= "development";
 
 const { DATABASE_PASSWORD } = env;
 const dbPath = getDBPath();
-if (DATABASE_PASSWORD && dbPath && dbPath !== DataBaseStoragePath && !fileExistsSync(DataBaseStoragePath)) {
+if (DATABASE_PASSWORD && dbPath && dbPath !== DataBaseStoragePath && !existsSync(DataBaseStoragePath)) {
 	decrypt(dbPath);
 }
 
@@ -53,7 +52,7 @@ export function getPassword() {
 }
 
 export function decrypt(inPath: string) {
-	if (!fileExistsSync(inPath)) {
+	if (!existsSync(inPath)) {
 		return;
 	}
 	const key = getPassword();

@@ -1,3 +1,9 @@
+## [2.14.4](https://github.com/incutonez/life-stats/compare/v2.14.3...v2.14.4) (2025-06-22)
+
+### Bug Fixes
+
+* Adding Docker Optimizations ([#75](https://github.com/incutonez/life-stats/issues/75)) ([94a1181](https://github.com/incutonez/life-stats/commit/94a1181a4b7624629b4f2388edb3e0d0c91f1b1c))
+
 ## [2.14.3](https://github.com/incutonez/life-stats/compare/v2.14.2...v2.14.3) (2025-06-21)
 
 ### Bug Fixes

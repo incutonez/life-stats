@@ -1,4 +1,5 @@
 ﻿FROM node:lts-alpine AS build
+USER node
 
 WORKDIR /app
 # copy everything from the root workspace
@@ -9,9 +10,9 @@ RUN npm ci -w packages/api
 RUN npm run api:build
 ENV NODE_ENV=production
 RUN npm ci --only=production && npm cache clean --force
-USER node
 
 FROM node:lts-alpine AS main
+USER node
 
 WORKDIR /app
 COPY --chown=node:node --from=build /app/node_modules ./node_modules

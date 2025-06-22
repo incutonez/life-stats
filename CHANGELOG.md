@@ -1,3 +1,9 @@
+## [2.14.5](https://github.com/incutonez/life-stats/compare/v2.14.4...v2.14.5) (2025-06-22)
+
+### Bug Fixes
+
+* Adding Sub Domain for Cert Generation ([#76](https://github.com/incutonez/life-stats/issues/76)) ([e43866c](https://github.com/incutonez/life-stats/commit/e43866c498104404f4ab2ed379a1088695a2f4ff))
+
 ## [2.14.4](https://github.com/incutonez/life-stats/compare/v2.14.3...v2.14.4) (2025-06-22)
 
 ### Bug Fixes

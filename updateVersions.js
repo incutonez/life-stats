@@ -14,6 +14,7 @@ if (nextReleaseVersion) {
 		}, {
 			stdio,
 		});
+		execSync("git add .");
 	}
 }
 execSync("npx semantic-release --deps.bump=inherit", {

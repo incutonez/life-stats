@@ -1,3 +1,19 @@
+## [2.14.9](https://github.com/incutonez/life-stats/compare/v2.14.8...v2.14.9) (2025-06-24)
+
+### Bug Fixes
+
+* DOING ([#82](https://github.com/incutonez/life-stats/issues/82)) ([989bd41](https://github.com/incutonez/life-stats/commit/989bd410041e3aaa59a7d48a21eae508c6d8cde2))
+* Hopefully Updating Package Versions ([#83](https://github.com/incutonez/life-stats/issues/83)) ([f8dbcb9](https://github.com/incutonez/life-stats/commit/f8dbcb99028fd0b9f52a897afb80b2d1741fbe7e))
+* testing ([75a6020](https://github.com/incutonez/life-stats/commit/75a602040f00316f42035d5a9c8f57694cd35ca9))
+* testing ([409a3eb](https://github.com/incutonez/life-stats/commit/409a3ebfd8f157621dd0cfe3c1ba072379c28a88))
+* testing ([4407872](https://github.com/incutonez/life-stats/commit/4407872812408e185ee4bd495cc23f21f7c29dfe))
+* testing ([4ab07c0](https://github.com/incutonez/life-stats/commit/4ab07c093f2b1ff09aff5416dbd5406051a423a8))
+* testing ([c911ac5](https://github.com/incutonez/life-stats/commit/c911ac5470e05c2e1e472bf80b6b6c704bdf5d70))
+* testing ([786fe69](https://github.com/incutonez/life-stats/commit/786fe69d1fde12852fd46995f57e7f2d6417df96))
+* Testing ([6351b9f](https://github.com/incutonez/life-stats/commit/6351b9f35dc873694c577a5be965775ca4636a24))
+* Testing ([e0bffff](https://github.com/incutonez/life-stats/commit/e0bffff863447e7ec650584a31fd61a23baf4818))
+* Testing ([7cd9b6d](https://github.com/incutonez/life-stats/commit/7cd9b6da48f5fd701f577757726d5e207d8dc0cb))
+
 ## [2.14.8](https://github.com/incutonez/life-stats/compare/v2.14.7...v2.14.8) (2025-06-24)
 
 ### Bug Fixes

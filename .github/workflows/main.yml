@@ -37,5 +37,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.SEMANTIC_RELEASE }}
         run: npm run update:versions
-#      - name: Build
-#        run: npm run build
+      - name: Build
+        run: npm run build

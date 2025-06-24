@@ -1,3 +1,9 @@
+## [2.14.14](https://github.com/incutonez/life-stats/compare/v2.14.13...v2.14.14) (2025-06-24)
+
+### Bug Fixes
+
+* Fixing Self Signed Cert Domain ([#86](https://github.com/incutonez/life-stats/issues/86)) ([c9a4a12](https://github.com/incutonez/life-stats/commit/c9a4a12dc77250d14f5bfe76dfe0f94d6bd4ef7c))
+
 ## [2.14.13](https://github.com/incutonez/life-stats/compare/v2.14.12...v2.14.13) (2025-06-24)
 
 ### Bug Fixes

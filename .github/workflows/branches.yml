@@ -45,6 +45,6 @@ jobs:
           GH_TOKEN: ${{ secrets.SEMANTIC_RELEASE }}
         run: npx semantic-release --dry-run --no-ci
       - name: ECHO
-        run: echo ${{ github.next_version }}
+        run: echo ${{ github.next_release_version }} "$GITHUB_NEXT_RELEASE_VERSION"
       - name: DUMP
         run: echo '${{ toJSON(github) }}' 

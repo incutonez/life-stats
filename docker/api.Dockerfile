@@ -16,8 +16,9 @@ USER node
 
 WORKDIR /app
 COPY --chown=node:node --from=build /app/node_modules ./node_modules
-COPY --chown=node:node --from=build /app/packages/api/dist .
+COPY --chown=node:node --from=build /app/packages/api/package.json .
+COPY --chown=node:node --from=build /app/packages/api/dist dist
 COPY --chown=node:node --from=build /app/packages/api/.env* .
-COPY --chown=node:node --from=build /app/certs certs
+COPY --chown=node:node --from=build /app/certs dist/certs
 EXPOSE 3000
-CMD [ "node", "main.js" ]
+CMD [ "npm", "run", "start:prod" ]

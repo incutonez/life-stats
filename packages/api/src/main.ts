@@ -15,6 +15,9 @@ async function bootstrap() {
 			cert: readFileSync(path.join(__dirname, env.CERT_CRT_PATH!)),
 		},
 	});
+	if (env.API_PREFIX) {
+		app.setGlobalPrefix(env.API_PREFIX);
+	}
 	app.enableCors();
 	app.use(compression());
 	app.use(json({

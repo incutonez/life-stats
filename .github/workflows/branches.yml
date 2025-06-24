@@ -39,3 +39,12 @@ jobs:
         run: npm ci
       - name: Error Free
         run: npm run build
+      - name: Get Next Release Version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.SEMANTIC_RELEASE }}
+        run: npx semantic-release --dry-run --no-ci
+      - name: ECHO
+        run: echo ${{ github.next_release_version }} "$GITHUB_NEXT_RELEASE_VERSION"
+      - name: DUMP
+        run: echo '${{ toJSON(github) }}' 

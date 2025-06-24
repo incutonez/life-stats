@@ -1,3 +1,9 @@
+## [2.14.7](https://github.com/incutonez/life-stats/compare/v2.14.6...v2.14.7) (2025-06-24)
+
+### Bug Fixes
+
+* Testing Version Updates ([#80](https://github.com/incutonez/life-stats/issues/80)) ([5485109](https://github.com/incutonez/life-stats/commit/5485109ef9bcbb8c51723fb2429669932e7b2412))
+
 ## [2.14.6](https://github.com/incutonez/life-stats/compare/v2.14.5...v2.14.6) (2025-06-24)
 
 ### Bug Fixes

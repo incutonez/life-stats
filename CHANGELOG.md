@@ -1,3 +1,9 @@
+## [2.14.13](https://github.com/incutonez/life-stats/compare/v2.14.12...v2.14.13) (2025-06-24)
+
+### Bug Fixes
+
+* Adding Proper Fix ([#85](https://github.com/incutonez/life-stats/issues/85)) ([b4ec8e1](https://github.com/incutonez/life-stats/commit/b4ec8e12631d0cd6dc70e0b5e677ea3c7ab80c78))
+
 ## [2.14.12](https://github.com/incutonez/life-stats/compare/v2.14.11...v2.14.12) (2025-06-24)
 
 ### Bug Fixes

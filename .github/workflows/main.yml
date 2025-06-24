@@ -33,7 +33,7 @@ jobs:
           GH_TOKEN: ${{ secrets.SEMANTIC_RELEASE }}
         run: npx semantic-release --dry-run --no-ci
       - name: ECHO
-        run: node updateVersions.js --version ${{ github.next_release_version }}
+        run: node updateVersions.js --version $NEXT_RELEASE_VERSION
 #      - name: Release
 #        env:
 #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

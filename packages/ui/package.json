@@ -1,6 +1,6 @@
 {
   "name": "@incutonez/life-stats-ui",
-  "version": "0.0.1",
+  "version": "2.14.12",
   "type": "module",
   "scripts": {
     "dev": "vite",

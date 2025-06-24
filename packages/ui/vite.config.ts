@@ -5,12 +5,21 @@ import { defineConfig } from "vite";
 import svgLoader from "vite-svg-loader";
 
 // https://vitejs.dev/config/
-export default defineConfig(() => {
+export default defineConfig(({ mode }) => {
 	return {
 		// svgLoader is needed for material symbols
 		plugins: [vue(), svgLoader(), tailwindcss()],
 		build: {
 			target: "esnext",
+			rollupOptions: {
+				input: mode === "test" ? "index.test.html" : "index.html",
+				output: {
+					"index.test.html": "index.html",
+					assetFileNames: "assets/index[extname]",
+					chunkFileNames: "assets/index.[hash].js",
+					entryFileNames: "assets/index.js",
+				},
+			},
 		},
 		resolve: {
 			alias: [{

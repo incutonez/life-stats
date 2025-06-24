@@ -6,6 +6,7 @@
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
     "build:prod": "vite build",
+    "build:test": "vite build --mode test",
     "preview": "vite preview",
     "lint": "npx eslint --fix"
   },

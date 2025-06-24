@@ -54,7 +54,8 @@
   },
   "release": {
     "branches": [
-      "main"
+      "main",
+      "testing"
     ],
     "plugins": [
       [

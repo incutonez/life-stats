@@ -60,7 +60,7 @@
       [
         "@semantic-release/exec",
         {
-          "verifyReleaseCmd": "NEXT_RELEASE_VERSION=${nextRelease.version}"
+          "verifyReleaseCmd": "export NEXT_RELEASE_VERSION=${nextRelease.version}"
         }
       ],
       [

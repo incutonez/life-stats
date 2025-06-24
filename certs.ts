@@ -28,5 +28,5 @@ if (!existsSync(AuthorityKey)){
 }
 
 if (!existsSync(CertKey)){
-	execSync(`npx mkcert create-cert --ca-key ${AuthorityKey} --ca-cert ${AuthorityCert} --key ${CertKey} --cert ${CertCrt} --domains ${SubDomain}.incutonez`);
+	execSync(`npx mkcert create-cert --ca-key ${AuthorityKey} --ca-cert ${AuthorityCert} --key ${CertKey} --cert ${CertCrt} --domains ${SubDomain}.incutonez.com`);
 }

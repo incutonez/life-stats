@@ -10,16 +10,12 @@ export default defineConfig(({ mode }) => {
 	return {
 		// svgLoader is needed for material symbols
 		plugins: [vue(), svgLoader(), tailwindcss(), {
-			// Taken from https://github.com/vitejs/vite/discussions/3456#discussioncomment-750002
+			/* Taken from https://github.com/vitejs/vite/discussions/3456#discussioncomment-750002
+			 * And https://vite.dev/guide/api-plugin#transformindexhtml */
 			name: "transform-test-html",
 			apply: "build",
-			transformIndexHtml: {
-				order: "pre",
-				handler: () => {
-					if (mode === "test") {
-						return readFileSync("./index.test.html", "utf-8");
-					}
-				},
+			transformIndexHtml(html) {
+				return html.replace("    <!-- Analytics Here -->\r\n", mode === "test" ? readFileSync("index.analytics.html", "utf8") : "");
 			},
 		}],
 		build: {

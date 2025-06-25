@@ -13,10 +13,13 @@ export default defineConfig(({ mode }) => {
 			// Taken from https://github.com/vitejs/vite/discussions/3456#discussioncomment-750002
 			name: "transform-test-html",
 			apply: "build",
-			async transformIndexHtml() {
-				if (mode === "test") {
-					return readFileSync("./index.test.html", "utf-8");
-				}
+			transformIndexHtml: {
+				order: "pre",
+				handler: () => {
+					if (mode === "test") {
+						return readFileSync("./index.test.html", "utf-8");
+					}
+				},
 			},
 		}],
 		build: {

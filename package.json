@@ -21,7 +21,7 @@
     "ui:build:prod": "cd packages/ui && npm run build:prod",
     "ui:commit": "cd packages/ui && npm run lint",
     "ui:docker": "docker compose -f docker/ui.compose.yaml --profile production",
-    "ui:docker:test": "docker compose -f docker/ui.compose.yaml --profile test --progress=plain",
+    "ui:docker:test": "docker compose -f docker/ui.compose.yaml --profile test",
     "update:deps": "node ./updateDependencies.js",
     "update:versions": "node ./updateVersions.js",
     "prepare": "npx husky"

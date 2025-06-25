@@ -1,3 +1,9 @@
+## [2.15.0](https://github.com/incutonez/life-stats/compare/v2.14.14...v2.15.0) (2025-06-25)
+
+### Features
+
+* Adding GA and Persisting DB in Test ([#87](https://github.com/incutonez/life-stats/issues/87)) ([b533755](https://github.com/incutonez/life-stats/commit/b533755bca2f04a886c59a89b9774deb3313b529))
+
 ## [2.14.14](https://github.com/incutonez/life-stats/compare/v2.14.13...v2.14.14) (2025-06-24)
 
 ### Bug Fixes

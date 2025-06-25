@@ -1,3 +1,9 @@
+## [2.15.1](https://github.com/incutonez/life-stats/compare/v2.15.0...v2.15.1) (2025-06-25)
+
+### Bug Fixes
+
+* Fixing index.test.html transform order ([#88](https://github.com/incutonez/life-stats/issues/88)) ([400b9f2](https://github.com/incutonez/life-stats/commit/400b9f27e359d4158de7dd083ec6c6c48a0fc4f9))
+
 ## [2.15.0](https://github.com/incutonez/life-stats/compare/v2.14.14...v2.15.0) (2025-06-25)
 
 ### Features

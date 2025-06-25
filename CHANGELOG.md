@@ -1,3 +1,9 @@
+## [2.16.0](https://github.com/incutonez/life-stats/compare/v2.15.2...v2.16.0) (2025-06-25)
+
+### Features
+
+* Adding Version Display ([#90](https://github.com/incutonez/life-stats/issues/90)) ([3bb1128](https://github.com/incutonez/life-stats/commit/3bb1128961be2bf4e60cff1b437d6e7570205e74))
+
 ## [2.15.2](https://github.com/incutonez/life-stats/compare/v2.15.1...v2.15.2) (2025-06-25)
 
 ### Bug Fixes

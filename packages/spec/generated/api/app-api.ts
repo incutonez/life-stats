@@ -22,7 +22,7 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 // @ts-ignore
-import { AppInfoViewModel } from '../models';
+import { AppMetaViewModel } from '../models';
 /**
  * AppApi - axios parameter creator
  * @export
@@ -73,7 +73,7 @@ export const AppApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getInfo(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppInfoViewModel>> {
+        async getInfo(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppMetaViewModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getInfo(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
@@ -92,7 +92,7 @@ export const AppApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInfo(options?: any): AxiosPromise<AppInfoViewModel> {
+        getInfo(options?: any): AxiosPromise<AppMetaViewModel> {
             return localVarFp.getInfo(options).then((request) => request(axios, basePath));
         },
     };
@@ -110,7 +110,7 @@ export interface AppApiInterface {
      * @throws {RequiredError}
      * @memberof AppApiInterface
      */
-    getInfo(options?: AxiosRequestConfig): AxiosPromise<AppInfoViewModel>;
+    getInfo(options?: AxiosRequestConfig): AxiosPromise<AppMetaViewModel>;
 
 }
 

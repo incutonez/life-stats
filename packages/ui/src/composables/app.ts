@@ -9,10 +9,10 @@
 	unref,
 	watch, watchEffect,
 } from "vue";
-import type { UserViewModel } from "@incutonez/life-stats-spec";
+import type { AppMetaViewModel, UserViewModel } from "@incutonez/life-stats-spec";
 import { type Query, useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
-import { apiConfig, AttributeTypesAPI, UsersAPI } from "@/api.ts";
-import { QueryGetAttributeTypes, QueryKeyUser } from "@/constants.ts";
+import { apiConfig, AppAPI, AttributeTypesAPI, UsersAPI } from "@/api.ts";
+import { QueryGetAttributeTypes, QueryKeyAppMeta, QueryKeyUser } from "@/constants.ts";
 
 export type TUseGlobalError = ReturnType<typeof useGlobalError>;
 
@@ -21,6 +21,10 @@ export const InjectionGlobalError: InjectionKey<TUseGlobalError> = Symbol("globa
 export type TUseUserProfile = ReturnType<typeof useUserProfile>;
 
 export const InjectionUserProfile: InjectionKey<TUseUserProfile> = Symbol("userProfile");
+
+export type TUseAppMeta = ReturnType<typeof useAppMeta>;
+
+export const InjectionAppMeta: InjectionKey<TUseAppMeta> = Symbol("appMeta");
 
 // This only gets called from App.vue, and then any component can inject it with the function below
 export function useGlobalError() {
@@ -81,6 +85,36 @@ export function injectGlobalError() {
 	return inject(InjectionGlobalError) as TUseGlobalError;
 }
 
+export function useAppMeta() {
+	const enabled = ref(false);
+	const appMeta = ref<AppMetaViewModel>();
+	const query = useQuery({
+		enabled,
+		queryKey: [QueryKeyAppMeta],
+		async queryFn() {
+			const { data } = await AppAPI.getInfo();
+			appMeta.value = data;
+			return data;
+		},
+	});
+	const provider = {
+		appMeta,
+		query,
+	};
+
+	provide(InjectionAppMeta, provider);
+
+	/* We don't simply use isAuthenticated because that changes too quickly, before we've actually set the authorization
+	 * header.  So instead, we check to see when this is set, so we can enable loading the user profile */
+	watchEffect(() => enabled.value = !!apiConfig.baseOptions.headers.authorization);
+
+	return provider;
+}
+
+export function injectAppMeta() {
+	return inject(InjectionAppMeta) as TUseAppMeta;
+}
+
 export function useUserProfile() {
 	const updatingSettings = ref(false);
 	const userProfile = ref<UserViewModel>();
@@ -119,7 +153,7 @@ export function useUserProfile() {
 
 	provide(InjectionUserProfile, provider);
 
-	/* We don't simply use isAuthenticated because that changes too quickly, before we've actually set the autorization
+	/* We don't simply use isAuthenticated because that changes too quickly, before we've actually set the authorization
 	 * header.  So instead, we check to see when this is set, so we can enable loading the user profile */
 	watchEffect(() => enabled.value = !!apiConfig.baseOptions.headers.authorization);
 

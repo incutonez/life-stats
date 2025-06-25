@@ -6,7 +6,7 @@ export * from './activity-type-create-view-model';
 export * from './activity-type-view-model';
 export * from './activity-view-model';
 export * from './api-paginated-request';
-export * from './app-info-view-model';
+export * from './app-meta-view-model';
 export * from './application-link-view-model';
 export * from './application-list-view-model';
 export * from './application-nested-view-model';

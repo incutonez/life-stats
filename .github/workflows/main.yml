@@ -27,6 +27,11 @@ jobs:
         run: npm set "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}"
       - name: Install dependencies
         run: npm clean-install
+      - name: Set Next Release Env Var
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.SEMANTIC_RELEASE }}
+        run: npx semantic-release --dry-run --no-ci
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

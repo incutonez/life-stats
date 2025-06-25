@@ -17,3 +17,5 @@
       - test
     environment:
       - NODE_ENV=test
+    volumes:
+      - ../packages/api/src/db:/usr/data

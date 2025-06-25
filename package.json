@@ -1,6 +1,6 @@
 {
   "name": "@incutonez/life-stats",
-  "version": "2.14.5",
+  "version": "2.15.2",
   "description": "Life Stats Monorepo",
   "main": "index.js",
   "type": "module",
@@ -57,6 +57,12 @@
       "main"
     ],
     "plugins": [
+      [
+        "@semantic-release/exec",
+        {
+          "verifyReleaseCmd": "echo \"NEXT_RELEASE_VERSION=${nextRelease.version}\" >> $GITHUB_ENV"
+        }
+      ],
       [
         "@semantic-release/commit-analyzer",
         {

@@ -5,14 +5,14 @@ import { Inject, Injectable, OnApplicationShutdown } from "@nestjs/common";
 import { Sequelize } from "@sequelize/core";
 import { DataBaseStoragePath, SEQUELIZE } from "@/constants";
 import { encrypt, getDBPath } from "@/db/config";
-import { AppInfoViewModel } from "@/viewModels/app.info.viewmodel";
+import { IAppMetaViewModel } from "@/viewModels/app.meta.viewmodel";
 
 @Injectable()
 export class AppService implements OnApplicationShutdown {
 	constructor(@Inject(SEQUELIZE) private sequelize: Sequelize) {
 	}
 
-	getInfo(): AppInfoViewModel {
+	getInfo(): IAppMetaViewModel {
 		return {
 			version: env.npm_package_version as string,
 		};

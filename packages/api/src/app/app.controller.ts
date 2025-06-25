@@ -1,7 +1,7 @@
 import { Controller, Get } from "@nestjs/common";
 import { AppService } from "@/app/app.service";
 import { Public } from "@/constants";
-import { AppInfoViewModel } from "@/viewModels/app.info.viewmodel";
+import { AppMetaViewModel } from "@/viewModels/app.meta.viewmodel";
 
 @Controller()
 export class AppController {
@@ -10,7 +10,7 @@ export class AppController {
 
 	@Public()
 	@Get("info")
-	getInfo(): AppInfoViewModel {
+	getInfo(): AppMetaViewModel {
 		return this.service.getInfo();
 	}
 }

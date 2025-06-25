@@ -24,7 +24,7 @@ models/activity-type-create-view-model.ts
 models/activity-type-view-model.ts
 models/activity-view-model.ts
 models/api-paginated-request.ts
-models/app-info-view-model.ts
+models/app-meta-view-model.ts
 models/application-link-view-model.ts
 models/application-list-view-model.ts
 models/application-nested-view-model.ts

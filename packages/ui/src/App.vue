@@ -4,7 +4,7 @@ import { useRoute } from "vue-router";
 import { EnumFeatures } from "@incutonez/life-stats-spec";
 import { isAuthenticated } from "@/authentication.ts";
 import LoadingMask from "@/components/LoadingMask.vue";
-import { useGlobalError, useUserProfile } from "@/composables/app.ts";
+import { useAppMeta, useGlobalError, useUserProfile } from "@/composables/app.ts";
 import { updateAppTitle } from "@/utils/common.ts";
 import { RouteExercises } from "@/views/exercises/constants.ts";
 import NavigationExercises from "@/views/exercises/NavigationExercises.vue";
@@ -29,6 +29,7 @@ const navigationComponent = computed(() => {
 });
 
 useGlobalError();
+useAppMeta();
 useUserProfile();
 </script>
 

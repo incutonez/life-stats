@@ -44,5 +44,26 @@ This all started because I didn't want to manage job applications in an Excel sp
 
 1. Job Applications
    1. Allows uploading CSV data
+   2. Allows creating new applications
+   3. Allows adding comments to applications
+   4. Allows linking applications to others (for things like reposted roles)
 2. Exercises
    1. Allows uploading Strava CSV data
+   2. Allows importing from Strava, but you will have to auth first
+   3. Conversions between Metric and Imperial (given your browser's language setting)
+3. Auditing
+   1. Each feature has a "History" tab that shows your actions that have taken place throughout that feature
+
+## Test Environment
+
+The test environment was something I wanted to get up, so I could use it as part of my application portfolio, and I decided to use the following architecture:
+
+1. Cloudflare - for all my DNS concerns, using origin rule rewrites for the API and UI
+2. AWS
+   1. EC2 - for hosting my docker containers, added swap memory due to 1 GB micro instance limit and vite being a pig when building
+   2. Lambda - for running functions to start/stop the instance
+   3. EventBridge - for crontab scheduling of Lambda to start/stop instance
+3. Let's Encrypt/[certbot](https://certbot.eff.org/instructions?ws=other&os=snap) - for SSL certs
+4. [DDClient](https://ddclient.net/) - for updating the EC2 IP every time it starts, due to not having an Elastic IP
+5. Docker - for containerizing my API and UI code for easy deployments
+6. Google Analytics - for my analytics needs, had to customize [vite build](https://github.com/incutonez/life-stats/blob/main/packages/ui/vite.config.ts#L13-L19) to only include in test build

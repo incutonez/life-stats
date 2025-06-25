@@ -4,10 +4,11 @@ import { logOut } from "@/authentication.ts";
 import BaseMenu from "@/components/BaseMenu.vue";
 import BaseMenuItem from "@/components/BaseMenuItem.vue";
 import { IconLogOut, IconMenu, IconSettings } from "@/components/Icons.ts";
-import { injectUserProfile } from "@/composables/app.ts";
+import { injectAppMeta, injectUserProfile } from "@/composables/app.ts";
 import ViewUserSettings from "@/views/ViewUserSettings.vue";
 
 const showUserSettings = ref(false);
+const { appMeta } = injectAppMeta();
 const { userProfile } = injectUserProfile();
 const displayName = computed(() => {
 	const $user = unref(userProfile);
@@ -41,6 +42,10 @@ function onClickSettings() {
 					:icon="IconSettings"
 					@click="onClickSettings"
 				/>
+				<hr>
+				<div class="text-sm font-semibold px-3 py-1.5">
+					v{{ appMeta?.version }}
+				</div>
 			</template>
 		</BaseMenu>
 		<ViewUserSettings v-model="showUserSettings" />

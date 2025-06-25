@@ -17,13 +17,13 @@
 /**
  * 
  * @export
- * @interface AppInfoViewModel
+ * @interface AppMetaViewModel
  */
-export interface AppInfoViewModel {
+export interface AppMetaViewModel {
     /**
      * 
      * @type {string}
-     * @memberof AppInfoViewModel
+     * @memberof AppMetaViewModel
      */
     'version': string;
 }

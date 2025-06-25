@@ -11,3 +11,6 @@
       service: base
     profiles:
       - test
+    build:
+      args:
+        VITE_MODE: test

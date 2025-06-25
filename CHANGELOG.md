@@ -1,3 +1,9 @@
+## [2.15.2](https://github.com/incutonez/life-stats/compare/v2.15.1...v2.15.2) (2025-06-25)
+
+### Bug Fixes
+
+* Injecting Analytics Scripts Instead ([#89](https://github.com/incutonez/life-stats/issues/89)) ([01d2639](https://github.com/incutonez/life-stats/commit/01d26397648dc276b152bfe5a5456ab1a53df13c))
+
 ## [2.15.1](https://github.com/incutonez/life-stats/compare/v2.15.0...v2.15.1) (2025-06-25)
 
 ### Bug Fixes

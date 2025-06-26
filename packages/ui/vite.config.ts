@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
 			name: "transform-test-html",
 			apply: "build",
 			transformIndexHtml(html) {
-				return html.replace("    <!-- Analytics Here -->\r\n", mode === "test" ? readFileSync("index.analytics.html", "utf8") : "");
+				return html.replace("    <!-- Analytics Here -->", mode === "test" ? readFileSync("index.analytics.html", "utf8") : "");
 			},
 		}],
 		build: {

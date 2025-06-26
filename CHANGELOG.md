@@ -1,3 +1,9 @@
+## [2.16.2](https://github.com/incutonez/life-stats/compare/v2.16.1...v2.16.2) (2025-06-26)
+
+### Bug Fixes
+
+* Fixing Test GA Deployment ([#92](https://github.com/incutonez/life-stats/issues/92)) ([a3c9c32](https://github.com/incutonez/life-stats/commit/a3c9c321c9d956b009cc121e1d9da1c293f2a960))
+
 ## [2.16.1](https://github.com/incutonez/life-stats/compare/v2.16.0...v2.16.1) (2025-06-26)
 
 ### Bug Fixes

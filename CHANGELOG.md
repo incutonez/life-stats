@@ -1,3 +1,9 @@
+## [2.16.1](https://github.com/incutonez/life-stats/compare/v2.16.0...v2.16.1) (2025-06-26)
+
+### Bug Fixes
+
+* Attempting to fix test build on a Linux system (different line endings) ([#91](https://github.com/incutonez/life-stats/issues/91)) ([4eca756](https://github.com/incutonez/life-stats/commit/4eca7568c4709b6e63a02cfd7f8fe93aedbdc161))
+
 ## [2.16.0](https://github.com/incutonez/life-stats/compare/v2.15.2...v2.16.0) (2025-06-25)
 
 ### Features

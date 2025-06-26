@@ -1,3 +1,9 @@
+## [2.16.3](https://github.com/incutonez/life-stats/compare/v2.16.2...v2.16.3) (2025-06-26)
+
+### Bug Fixes
+
+* Removing Default DB Password from .env file ([#93](https://github.com/incutonez/life-stats/issues/93)) ([a801a18](https://github.com/incutonez/life-stats/commit/a801a18886127cbcdeebc56ebeb6b8ca7a815632))
+
 ## [2.16.2](https://github.com/incutonez/life-stats/compare/v2.16.1...v2.16.2) (2025-06-26)
 
 ### Bug Fixes

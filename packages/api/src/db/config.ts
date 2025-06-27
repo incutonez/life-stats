@@ -28,7 +28,7 @@ if (DATABASE_PASSWORD && dbPath && dbPath !== DataBaseStoragePath && !existsSync
 }
 
 export const sequelize = new Sequelize({
-	storage: DataBaseStoragePath,
+	storage: env.NODE_ENV === "test" ? dbPath : DataBaseStoragePath,
 	dialect: SqliteDialect,
 	logging: false,
 	models: AllModels,
@@ -44,6 +44,7 @@ export function getDBPath() {
 		}
 		return resolve(dbPath);
 	}
+	return "src/db/data.db";
 }
 
 export function getPassword() {

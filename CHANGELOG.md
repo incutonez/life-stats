@@ -1,3 +1,9 @@
+## [2.16.4](https://github.com/incutonez/life-stats/compare/v2.16.3...v2.16.4) (2025-06-27)
+
+### Bug Fixes
+
+* Fixing Test DB Location ([#94](https://github.com/incutonez/life-stats/issues/94)) ([82d91cc](https://github.com/incutonez/life-stats/commit/82d91cc5fd7ad79390cad11092834ae29db07390))
+
 ## [2.16.3](https://github.com/incutonez/life-stats/compare/v2.16.2...v2.16.3) (2025-06-26)
 
 ### Bug Fixes

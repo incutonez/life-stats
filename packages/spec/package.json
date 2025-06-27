@@ -1,6 +1,6 @@
 {
   "name": "@incutonez/life-stats-spec",
-  "version": "2.16.3",
+  "version": "2.16.4",
   "description": "",
   "main": "dist/index.js",
   "type": "module",

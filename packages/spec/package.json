@@ -15,6 +15,6 @@
     "typescript": "latest"
   },
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.20.2"
+    "@openapitools/openapi-generator-cli": "^2.21.0"
   }
 }

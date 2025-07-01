@@ -1,3 +1,9 @@
+## [2.17.0](https://github.com/incutonez/life-stats/compare/v2.16.4...v2.17.0) (2025-07-01)
+
+### Features
+
+* Switching to Google Tag Manager ([#96](https://github.com/incutonez/life-stats/issues/96)) ([e703f11](https://github.com/incutonez/life-stats/commit/e703f117aff1d7be65287214579b6d30a0b04522))
+
 ## [2.16.4](https://github.com/incutonez/life-stats/compare/v2.16.3...v2.16.4) (2025-06-27)
 
 ### Bug Fixes

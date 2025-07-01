@@ -15,7 +15,11 @@ export default defineConfig(({ mode }) => {
 			name: "transform-test-html",
 			apply: "build",
 			transformIndexHtml(html) {
-				return html.replace("<!-- Analytics Here -->", mode === "test" ? readFileSync("index.analytics.html", "utf8") : "");
+				if (mode === "test") {
+					const headHTML = readFileSync("index.analytics.head.html", "utf8");
+					const bodyHTML = readFileSync("index.analytics.body.html", "utf8");
+					return html.replace("<!-- Analytics Head Here -->", headHTML).replace("<!-- Analytics Body Here -->", bodyHTML);
+				}
 			},
 		}],
 		build: {

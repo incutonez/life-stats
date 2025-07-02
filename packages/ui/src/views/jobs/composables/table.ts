@@ -46,7 +46,6 @@ export function useApplicationsColumns(table: ITable<ApplicationViewModel>, show
 			if (lhsStatus === rhsStatus) {
 				return lhs.original.dateApplied < rhs.original.dateApplied ? -1 : 1;
 			}
-			// Rejections at the bottom
 			if (lhsStatus === Rejected) {
 				return -1;
 			}
@@ -71,28 +70,24 @@ export function useApplicationsColumns(table: ITable<ApplicationViewModel>, show
 			else if (rhsStatus === InterviewedAndRejected) {
 				return 1;
 			}
-			// First, we want to sort all applied statuses to the bottom EVERY TIME
 			else if (lhsStatus === Applied) {
 				return -1;
 			}
 			else if (rhsStatus === Applied) {
 				return 1;
 			}
-			// Next, we want to sort the current week to come after rejections EVERY TIME
 			else if (lhsStatus === CurrentWeek) {
 				return -1;
 			}
 			else if (rhsStatus === CurrentWeek) {
 				return 1;
 			}
-			// Next, we want to sort the current week to come after rejections EVERY TIME
 			else if (lhsStatus === Initial) {
 				return -1;
 			}
 			else if (rhsStatus === Initial) {
 				return 1;
 			}
-			// Next, we want to sort the current week to come after rejections EVERY TIME
 			else if (lhsStatus === Interviewing) {
 				return -1;
 			}

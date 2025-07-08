@@ -1,4 +1,4 @@
-import { UserSettingsViewModel } from './user-settings-view-model';
+import type { UserSettingsViewModel } from './user-settings-view-model';
 export interface UserViewModel {
     'userId'?: string;
     'dateCreated'?: number;

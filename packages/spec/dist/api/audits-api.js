@@ -1,6 +1,6 @@
 import globalAxios from 'axios';
 import { DUMMY_BASE_URL, setSearchParams, toPathString, createRequestFunction } from '../common';
-import { BASE_PATH, BaseAPI } from '../base';
+import { BASE_PATH, BaseAPI, operationServerMap } from '../base';
 export const AuditsApiAxiosParamCreator = function (configuration) {
     return {
         listAudits: async (options = {}) => {
@@ -28,7 +28,9 @@ export const AuditsApiFp = function (configuration) {
     return {
         async listAudits(options) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listAudits(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuditsApi.listAudits']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     };
 };

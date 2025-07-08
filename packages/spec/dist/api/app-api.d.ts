@@ -1,19 +1,19 @@
 import type { Configuration } from '../configuration';
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
-import { RequestArgs, BaseAPI } from '../base';
-import { AppMetaViewModel } from '../models';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
+import { type RequestArgs, BaseAPI } from '../base';
+import type { AppMetaViewModel } from '../models';
 export declare const AppApiAxiosParamCreator: (configuration?: Configuration) => {
-    getInfo: (options?: AxiosRequestConfig) => Promise<RequestArgs>;
+    getInfo: (options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
 };
 export declare const AppApiFp: (configuration?: Configuration) => {
-    getInfo(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppMetaViewModel>>;
+    getInfo(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppMetaViewModel>>;
 };
 export declare const AppApiFactory: (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) => {
-    getInfo(options?: any): AxiosPromise<AppMetaViewModel>;
+    getInfo(options?: RawAxiosRequestConfig): AxiosPromise<AppMetaViewModel>;
 };
 export interface AppApiInterface {
-    getInfo(options?: AxiosRequestConfig): AxiosPromise<AppMetaViewModel>;
+    getInfo(options?: RawAxiosRequestConfig): AxiosPromise<AppMetaViewModel>;
 }
 export declare class AppApi extends BaseAPI implements AppApiInterface {
-    getInfo(options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<AppMetaViewModel, any>>;
+    getInfo(options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<AppMetaViewModel, any>>;
 }

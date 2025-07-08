@@ -1,6 +1,6 @@
-import { ActivityAttributeCreateViewModel } from './activity-attribute-create-view-model';
-import { ActivityTypeCreateViewModel } from './activity-type-create-view-model';
-import { EnumActivitySource } from './enum-activity-source';
+import type { ActivityAttributeCreateViewModel } from './activity-attribute-create-view-model';
+import type { ActivityTypeCreateViewModel } from './activity-type-create-view-model';
+import type { EnumActivitySource } from './enum-activity-source';
 export interface ActivityCreateViewModel {
     'userId'?: string;
     'dateCreated'?: number;

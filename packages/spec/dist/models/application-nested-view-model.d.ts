@@ -1,7 +1,7 @@
-import { ApplicationLinkViewModel } from './application-link-view-model';
-import { CommentViewModel } from './comment-view-model';
-import { EnumApplicationStatus } from './enum-application-status';
-import { EnumLocationTypes } from './enum-location-types';
+import type { ApplicationLinkViewModel } from './application-link-view-model';
+import type { CommentViewModel } from './comment-view-model';
+import type { EnumApplicationStatus } from './enum-application-status';
+import type { EnumLocationTypes } from './enum-location-types';
 export interface ApplicationNestedViewModel {
     'userId'?: string;
     'dateCreated'?: number;

@@ -20,5 +20,5 @@
     "isolatedModules": true
   },
   "include": ["**/*.ts", "**/*.d.ts"],
-  "exclude": ["replaceEnum.ts"]
+  "exclude": ["generate.ts"]
 }

@@ -1,19 +1,19 @@
 import type { Configuration } from '../configuration';
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
-import { RequestArgs, BaseAPI } from '../base';
-import { AuditListViewModel } from '../models';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
+import { type RequestArgs, BaseAPI } from '../base';
+import type { AuditListViewModel } from '../models';
 export declare const JobsApiAxiosParamCreator: (configuration?: Configuration) => {
-    getJobsHistory: (options?: AxiosRequestConfig) => Promise<RequestArgs>;
+    getJobsHistory: (options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
 };
 export declare const JobsApiFp: (configuration?: Configuration) => {
-    getJobsHistory(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuditListViewModel>>;
+    getJobsHistory(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuditListViewModel>>;
 };
 export declare const JobsApiFactory: (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) => {
-    getJobsHistory(options?: any): AxiosPromise<AuditListViewModel>;
+    getJobsHistory(options?: RawAxiosRequestConfig): AxiosPromise<AuditListViewModel>;
 };
 export interface JobsApiInterface {
-    getJobsHistory(options?: AxiosRequestConfig): AxiosPromise<AuditListViewModel>;
+    getJobsHistory(options?: RawAxiosRequestConfig): AxiosPromise<AuditListViewModel>;
 }
 export declare class JobsApi extends BaseAPI implements JobsApiInterface {
-    getJobsHistory(options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<AuditListViewModel, any>>;
+    getJobsHistory(options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<AuditListViewModel, any>>;
 }

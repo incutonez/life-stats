@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { ApplicationViewModel } from './application-view-model';
+import type { ApplicationViewModel } from './application-view-model';
 
 /**
  * 

@@ -4,6 +4,7 @@ export interface ConfigurationParameters {
     password?: string;
     accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string) | ((name?: string, scopes?: string[]) => Promise<string>);
     basePath?: string;
+    serverIndex?: number;
     baseOptions?: any;
     formDataCtor?: new () => any;
 }
@@ -13,6 +14,7 @@ export declare class Configuration {
     password?: string;
     accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string) | ((name?: string, scopes?: string[]) => Promise<string>);
     basePath?: string;
+    serverIndex?: number;
     baseOptions?: any;
     formDataCtor?: new () => any;
     constructor(param?: ConfigurationParameters);

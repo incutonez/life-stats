@@ -1,7 +1,7 @@
-import { AuditDiffViewModel } from './audit-diff-view-model';
-import { EnumAuditActionTypes } from './enum-audit-action-types';
-import { EnumFeatures } from './enum-features';
-import { EnumTableNames } from './enum-table-names';
+import type { AuditDiffViewModel } from './audit-diff-view-model';
+import type { EnumAuditActionTypes } from './enum-audit-action-types';
+import type { EnumFeatures } from './enum-features';
+import type { EnumTableNames } from './enum-table-names';
 export interface AuditViewModel {
     'entity': EnumTableNames;
     'action': EnumAuditActionTypes;

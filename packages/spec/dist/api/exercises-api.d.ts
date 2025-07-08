@@ -1,19 +1,19 @@
 import type { Configuration } from '../configuration';
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
-import { RequestArgs, BaseAPI } from '../base';
-import { AuditListViewModel } from '../models';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
+import { type RequestArgs, BaseAPI } from '../base';
+import type { AuditListViewModel } from '../models';
 export declare const ExercisesApiAxiosParamCreator: (configuration?: Configuration) => {
-    getExercisesHistory: (options?: AxiosRequestConfig) => Promise<RequestArgs>;
+    getExercisesHistory: (options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
 };
 export declare const ExercisesApiFp: (configuration?: Configuration) => {
-    getExercisesHistory(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuditListViewModel>>;
+    getExercisesHistory(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuditListViewModel>>;
 };
 export declare const ExercisesApiFactory: (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) => {
-    getExercisesHistory(options?: any): AxiosPromise<AuditListViewModel>;
+    getExercisesHistory(options?: RawAxiosRequestConfig): AxiosPromise<AuditListViewModel>;
 };
 export interface ExercisesApiInterface {
-    getExercisesHistory(options?: AxiosRequestConfig): AxiosPromise<AuditListViewModel>;
+    getExercisesHistory(options?: RawAxiosRequestConfig): AxiosPromise<AuditListViewModel>;
 }
 export declare class ExercisesApi extends BaseAPI implements ExercisesApiInterface {
-    getExercisesHistory(options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<AuditListViewModel, any>>;
+    getExercisesHistory(options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<AuditListViewModel, any>>;
 }

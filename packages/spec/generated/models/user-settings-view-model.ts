@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { UserSettingsExerciseViewModel } from './user-settings-exercise-view-model';
+import type { UserSettingsExerciseViewModel } from './user-settings-exercise-view-model';
 
 /**
  * 

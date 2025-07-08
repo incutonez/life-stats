@@ -15,13 +15,13 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { ActivityAttributeCreateViewModel } from './activity-attribute-create-view-model';
+import type { ActivityAttributeCreateViewModel } from './activity-attribute-create-view-model';
 // May contain unused imports in some cases
 // @ts-ignore
-import { ActivityTypeCreateViewModel } from './activity-type-create-view-model';
+import type { ActivityTypeCreateViewModel } from './activity-type-create-view-model';
 // May contain unused imports in some cases
 // @ts-ignore
-import { EnumActivitySource } from './enum-activity-source';
+import type { EnumActivitySource } from './enum-activity-source';
 
 /**
  * 

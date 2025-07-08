@@ -14,15 +14,15 @@
 
 
 import type { Configuration } from '../configuration';
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '../common';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
+import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import { AuditListViewModel } from '../models';
+import type { AuditListViewModel } from '../models';
 /**
  * JobsApi - axios parameter creator
  * @export
@@ -34,7 +34,7 @@ export const JobsApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getJobsHistory: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getJobsHistory: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/jobs/history`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -73,9 +73,11 @@ export const JobsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getJobsHistory(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuditListViewModel>> {
+        async getJobsHistory(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuditListViewModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getJobsHistory(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['JobsApi.getJobsHistory']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -92,7 +94,7 @@ export const JobsApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getJobsHistory(options?: any): AxiosPromise<AuditListViewModel> {
+        getJobsHistory(options?: RawAxiosRequestConfig): AxiosPromise<AuditListViewModel> {
             return localVarFp.getJobsHistory(options).then((request) => request(axios, basePath));
         },
     };
@@ -110,7 +112,7 @@ export interface JobsApiInterface {
      * @throws {RequiredError}
      * @memberof JobsApiInterface
      */
-    getJobsHistory(options?: AxiosRequestConfig): AxiosPromise<AuditListViewModel>;
+    getJobsHistory(options?: RawAxiosRequestConfig): AxiosPromise<AuditListViewModel>;
 
 }
 
@@ -127,7 +129,8 @@ export class JobsApi extends BaseAPI implements JobsApiInterface {
      * @throws {RequiredError}
      * @memberof JobsApi
      */
-    public getJobsHistory(options?: AxiosRequestConfig) {
+    public getJobsHistory(options?: RawAxiosRequestConfig) {
         return JobsApiFp(this.configuration).getJobsHistory(options).then((request) => request(this.axios, this.basePath));
     }
 }
+

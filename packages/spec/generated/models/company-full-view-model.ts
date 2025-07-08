@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { ApplicationNestedViewModel } from './application-nested-view-model';
+import type { ApplicationNestedViewModel } from './application-nested-view-model';
 
 /**
  * 

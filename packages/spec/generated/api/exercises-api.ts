@@ -14,15 +14,15 @@
 
 
 import type { Configuration } from '../configuration';
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '../common';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
+import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import { AuditListViewModel } from '../models';
+import type { AuditListViewModel } from '../models';
 /**
  * ExercisesApi - axios parameter creator
  * @export
@@ -34,7 +34,7 @@ export const ExercisesApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getExercisesHistory: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getExercisesHistory: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/exercises/history`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -73,9 +73,11 @@ export const ExercisesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getExercisesHistory(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuditListViewModel>> {
+        async getExercisesHistory(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuditListViewModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getExercisesHistory(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ExercisesApi.getExercisesHistory']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -92,7 +94,7 @@ export const ExercisesApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getExercisesHistory(options?: any): AxiosPromise<AuditListViewModel> {
+        getExercisesHistory(options?: RawAxiosRequestConfig): AxiosPromise<AuditListViewModel> {
             return localVarFp.getExercisesHistory(options).then((request) => request(axios, basePath));
         },
     };
@@ -110,7 +112,7 @@ export interface ExercisesApiInterface {
      * @throws {RequiredError}
      * @memberof ExercisesApiInterface
      */
-    getExercisesHistory(options?: AxiosRequestConfig): AxiosPromise<AuditListViewModel>;
+    getExercisesHistory(options?: RawAxiosRequestConfig): AxiosPromise<AuditListViewModel>;
 
 }
 
@@ -127,7 +129,8 @@ export class ExercisesApi extends BaseAPI implements ExercisesApiInterface {
      * @throws {RequiredError}
      * @memberof ExercisesApi
      */
-    public getExercisesHistory(options?: AxiosRequestConfig) {
+    public getExercisesHistory(options?: RawAxiosRequestConfig) {
         return ExercisesApiFp(this.configuration).getExercisesHistory(options).then((request) => request(this.axios, this.basePath));
     }
 }
+

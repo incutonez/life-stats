@@ -1,4 +1,4 @@
-import { EnumAuditActionTypes } from './enum-audit-action-types';
+import type { EnumAuditActionTypes } from './enum-audit-action-types';
 export interface AuditDiffViewModel {
     'action': EnumAuditActionTypes;
     'field': string;

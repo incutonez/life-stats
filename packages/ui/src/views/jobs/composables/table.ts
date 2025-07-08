@@ -1,7 +1,7 @@
 ﻿import { h } from "vue";
 import { type ApplicationViewModel, EnumApplicationStatus, EnumLocationTypes } from "@incutonez/life-stats-spec";
 import { useDateColumn } from "@/composables/table.ts";
-import type { ITable, ITableColumn, ITableRow } from "@/types/components.ts";
+import type { ITableColumn, ITableRow } from "@/types/components.ts";
 import { getEnumDisplay } from "@/utils/common.ts";
 import CellLink from "@/views/jobs/applications/CellLink.vue";
 
@@ -30,7 +30,7 @@ export function getApplicationRowCls(row: ITableRow<ApplicationViewModel>) {
 	}
 }
 
-export function useApplicationsColumns(table: ITable<ApplicationViewModel>, showCompany = true) {
+export function useApplicationsColumns(showCompany = true) {
 	const columns: ITableColumn<ApplicationViewModel>[] = [{
 		accessorKey: "status",
 		header: "Status",

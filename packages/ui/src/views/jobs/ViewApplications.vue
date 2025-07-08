@@ -68,7 +68,7 @@ columns.value = [
 			showDelete.value = true;
 		},
 	}]),
-	...useApplicationsColumns(table, showCompany),
+	...useApplicationsColumns(showCompany),
 	useDateCreatedColumn(),
 	useDateUpdatedColumn(),
 ];

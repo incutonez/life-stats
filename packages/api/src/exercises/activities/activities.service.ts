@@ -143,7 +143,7 @@ export class ActivitiesService {
 					// Remove from the existing comments, so we have the remaining comments at the end, which are deletes
 					actions.splice(actions.indexOf(found), 1);
 					// Only apply an update if we deem the record has changed
-					if (!(found.value === modelAction.value && found.action_type_id === modelAction.action_type_id)) {
+					if (!(found.value === modelAction.value && found.order === modelAction.order && found.action_type_id === modelAction.action_type_id)) {
 						await found.update(modelAction);
 					}
 				}

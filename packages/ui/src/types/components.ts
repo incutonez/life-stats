@@ -87,6 +87,7 @@ export interface IUseTableData<TData = unknown> {
 	searchInitial?: string;
 	paginated?: boolean;
 	canExpand?: (row: ITableRow<TData>) => boolean;
+	getRowId?: (record: TData, index: number) => string;
 }
 
 export interface ISubRowRenderer<TData = unknown> {

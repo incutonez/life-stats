@@ -20,13 +20,16 @@
     "@tanstack/vue-query": "^5.81.2",
     "@tanstack/vue-table": "^8.21.3",
     "@tanstack/vue-virtual": "^3.13.11",
+    "@vueuse/integrations": "^13.5.0",
     "highlight.js": "^11.11.1",
     "just-clone": "^6.2.0",
     "mime-types": "^3.0.1",
     "papaparse": "^5.5.3",
     "reka-ui": "^2.3.1",
+    "sortablejs": "^1.15.6",
     "uuid": "^11.1.0",
     "vue": "^3.5.17",
+    "vue-component-type-helpers": "^3.0.1",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {

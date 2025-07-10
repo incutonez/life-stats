@@ -1,8 +1,9 @@
 import { CreationOptional, DataTypes, Model } from "@sequelize/core";
-import { Attribute } from "@sequelize/core/decorators-legacy";
+import { Attribute, NotNull } from "@sequelize/core/decorators-legacy";
 
 export class BaseModel extends Model {
 	@Attribute(DataTypes.STRING)
+	@NotNull
 	declare user_id: string;
 
 	@Attribute(DataTypes.DATE)

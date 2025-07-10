@@ -10,5 +10,6 @@ export const EnumTableNames = {
     unitTypes: 9,
     users: 10,
     exerciseActivityActions: 11,
-    exerciseActivityActionTypes: 12
+    exerciseActivityActionTypes: 12,
+    jobApplicationsLinked: 13
 };

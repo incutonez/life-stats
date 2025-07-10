@@ -1,9 +1,10 @@
 ﻿import { BelongsToManySetAssociationsMixin, DataTypes, NonAttribute } from "@sequelize/core";
-import { Attribute, BelongsTo, BelongsToMany, HasMany, NotNull } from "@sequelize/core/decorators-legacy";
+import { Attribute, BelongsTo, BelongsToMany, HasMany } from "@sequelize/core/decorators-legacy";
 import { EnumTableNames } from "@/constants";
-import { AttributeEnum, BaseTable, PrimaryKeyGuid } from "@/db/decorators";
+import { AttributeEnum, BaseTable, ForeignKeyGuid, PrimaryKeyGuid } from "@/db/decorators";
 import { BaseModel } from "@/db/models/BaseModel";
 import { EnumApplicationStatus, EnumLocationTypes } from "@/jobs/constants";
+import { ApplicationLinkedModel } from "@/jobs/models/ApplicationLinkedModel";
 import { CommentModel } from "@/jobs/models/CommentModel";
 import { CompanyModel } from "@/jobs/models/CompanyModel";
 import { ModelInterface } from "@/types";
@@ -37,8 +38,7 @@ export class ApplicationModel extends BaseModel {
 	@AttributeEnum(EnumLocationTypes)
 	declare location_type: EnumLocationTypes;
 
-	@Attribute(DataTypes.STRING)
-	@NotNull
+	@ForeignKeyGuid()
 	declare company_id: string;
 
 	@BelongsTo(() => CompanyModel, {
@@ -52,10 +52,14 @@ export class ApplicationModel extends BaseModel {
 	declare comments: NonAttribute<CommentModel[]>;
 
 	@BelongsToMany(() => ApplicationModel, {
-		through: "ApplicationLinks",
+		through: {
+			model: ApplicationLinkedModel,
+		},
 		inverse: {
 			as: "links",
 		},
+		foreignKey: "linked_id",
+		otherKey: "link_id",
 	})
 	declare linked?: NonAttribute<ApplicationModel[]>;
 

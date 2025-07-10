@@ -5,9 +5,17 @@ import { CreatedAtField, EnumTableNames, getTableName, UpdatedAtField } from "@/
 
 export function PrimaryKeyGuid() {
 	return Attribute({
-		type: DataTypes.UUID,
+		type: DataTypes.UUIDV4,
 		defaultValue: () => uuid(),
 		primaryKey: true,
+		allowNull: false,
+	});
+}
+
+export function ForeignKeyGuid() {
+	return Attribute({
+		type: DataTypes.UUIDV4,
+		defaultValue: () => uuid(),
 		allowNull: false,
 	});
 }

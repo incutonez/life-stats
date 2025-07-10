@@ -4,6 +4,7 @@ import { EnumTableNames, PoundToCalories } from "@/constants";
 import { AttributeEnum, BaseTable, PrimaryKeyGuid } from "@/db/decorators";
 import { BaseModel } from "@/db/models/BaseModel";
 import { calculateCalories, EnumActivitySource } from "@/exercises/constants";
+import { ActivityActionModel } from "@/exercises/models/ActivityActionModel";
 import {
 	ActivityAttributeModel,
 	IActivityAttributeCreate,
@@ -13,7 +14,7 @@ import { ModelInterface } from "@/types";
 
 export type IActivityModel = ModelInterface<ActivityModel>;
 
-export type IActivityUpdateModel = Omit<IActivityModel, "attributes" | "activity_type" | "calories" | "weight_lost">;
+export type IActivityUpdateModel = Omit<IActivityModel, "attributes" | "activity_type" | "calories" | "weight_lost" | "actions">;
 
 export type IActivityCreate = Omit<IActivityModel, "id" | "activity_type" | "attributes" | "calories" | "weight_lost"> & {
 	activity_type: IActivityTypeCreate;
@@ -60,6 +61,12 @@ export class ActivityModel extends BaseModel {
 		foreignKey: "activity_type_id",
 	})
 	declare activity_type: NonAttribute<ActivityTypeModel>;
+
+	@HasMany(() => ActivityActionModel, {
+		foreignKey: "activity_id",
+		inverse: "activity",
+	})
+	actions: NonAttribute<ActivityActionModel[]> = [];
 
 	@Attribute(DataTypes.VIRTUAL(DataTypes.DOUBLE, ["duration", "activity_type_id", "weight"]))
 	get calories(): NonAttribute<number | undefined> {

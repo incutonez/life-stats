@@ -17,7 +17,7 @@
 /**
  * 
  * @export
- * @enum {string}
+ * @enum {number}
  */
 
 export const EnumTableNames = {
@@ -30,7 +30,9 @@ export const EnumTableNames = {
     jobCompanies: 7,
     jobComments: 8,
     unitTypes: 9,
-    users: 10
+    users: 10,
+    exerciseActivityActions: 11,
+    exerciseActivityActionTypes: 12
 } as const;
 
 export type EnumTableNames = typeof EnumTableNames[keyof typeof EnumTableNames];

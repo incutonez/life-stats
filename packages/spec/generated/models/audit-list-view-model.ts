@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { AuditViewModel } from './audit-view-model';
+import type { AuditViewModel } from './audit-view-model';
 
 /**
  * 

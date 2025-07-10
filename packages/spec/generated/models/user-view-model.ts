@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { UserSettingsViewModel } from './user-settings-view-model';
+import type { UserSettingsViewModel } from './user-settings-view-model';
 
 /**
  * 

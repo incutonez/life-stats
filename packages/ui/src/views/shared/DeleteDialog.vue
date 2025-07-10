@@ -1,14 +1,15 @@
 ﻿<script setup lang="ts">
 import BaseButton from "@/components/BaseButton.vue";
-import BaseDialog, { type IBaseDialogEmits, type IBaseDialogProps } from "@/components/BaseDialog.vue";
+import BaseDialog from "@/components/BaseDialog.vue";
 import { IconDelete } from "@/components/Icons.ts";
+import type { BaseDialogEmits, BaseDialogProps } from "@/types/components.ts";
 
-export interface IDeleteDialogProp extends IBaseDialogProps {
+export interface IDeleteDialogProp extends BaseDialogProps {
 	entityName?: string;
 	loading?: boolean;
 }
 
-export interface IDeleteDialogEmits extends IBaseDialogEmits {
+export interface IDeleteDialogEmits extends BaseDialogEmits {
 	(event: "delete"): void;
 }
 

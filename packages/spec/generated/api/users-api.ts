@@ -14,19 +14,19 @@
 
 
 import type { Configuration } from '../configuration';
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '../common';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
+import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import { UserCreateViewModel } from '../models';
+import type { UserCreateViewModel } from '../models';
 // @ts-ignore
-import { UserSettingsViewModel } from '../models';
+import type { UserSettingsViewModel } from '../models';
 // @ts-ignore
-import { UserViewModel } from '../models';
+import type { UserViewModel } from '../models';
 /**
  * UsersApi - axios parameter creator
  * @export
@@ -39,7 +39,7 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUser: async (userCreateViewModel: UserCreateViewModel, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createUser: async (userCreateViewModel: UserCreateViewModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'userCreateViewModel' is not null or undefined
             assertParamExists('createUser', 'userCreateViewModel', userCreateViewModel)
             const localVarPath = `/users`;
@@ -73,7 +73,7 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserProfile: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getUserProfile: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/users/profile`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -104,7 +104,7 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUserSettings: async (userId: string, userSettingsViewModel: UserSettingsViewModel, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateUserSettings: async (userId: string, userSettingsViewModel: UserSettingsViewModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'userId' is not null or undefined
             assertParamExists('updateUserSettings', 'userId', userId)
             // verify required parameter 'userSettingsViewModel' is not null or undefined
@@ -152,18 +152,22 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createUser(userCreateViewModel: UserCreateViewModel, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async createUser(userCreateViewModel: UserCreateViewModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUser(userCreateViewModel, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UsersApi.createUser']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getUserProfile(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserViewModel>> {
+        async getUserProfile(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserViewModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getUserProfile(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UsersApi.getUserProfile']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -172,9 +176,11 @@ export const UsersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateUserSettings(userId: string, userSettingsViewModel: UserSettingsViewModel, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserSettingsViewModel>> {
+        async updateUserSettings(userId: string, userSettingsViewModel: UserSettingsViewModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserSettingsViewModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateUserSettings(userId, userSettingsViewModel, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UsersApi.updateUserSettings']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -192,7 +198,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUser(userCreateViewModel: UserCreateViewModel, options?: any): AxiosPromise<void> {
+        createUser(userCreateViewModel: UserCreateViewModel, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.createUser(userCreateViewModel, options).then((request) => request(axios, basePath));
         },
         /**
@@ -200,7 +206,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserProfile(options?: any): AxiosPromise<UserViewModel> {
+        getUserProfile(options?: RawAxiosRequestConfig): AxiosPromise<UserViewModel> {
             return localVarFp.getUserProfile(options).then((request) => request(axios, basePath));
         },
         /**
@@ -210,7 +216,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUserSettings(userId: string, userSettingsViewModel: UserSettingsViewModel, options?: any): AxiosPromise<UserSettingsViewModel> {
+        updateUserSettings(userId: string, userSettingsViewModel: UserSettingsViewModel, options?: RawAxiosRequestConfig): AxiosPromise<UserSettingsViewModel> {
             return localVarFp.updateUserSettings(userId, userSettingsViewModel, options).then((request) => request(axios, basePath));
         },
     };
@@ -229,7 +235,7 @@ export interface UsersApiInterface {
      * @throws {RequiredError}
      * @memberof UsersApiInterface
      */
-    createUser(userCreateViewModel: UserCreateViewModel, options?: AxiosRequestConfig): AxiosPromise<void>;
+    createUser(userCreateViewModel: UserCreateViewModel, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
     /**
      * 
@@ -237,7 +243,7 @@ export interface UsersApiInterface {
      * @throws {RequiredError}
      * @memberof UsersApiInterface
      */
-    getUserProfile(options?: AxiosRequestConfig): AxiosPromise<UserViewModel>;
+    getUserProfile(options?: RawAxiosRequestConfig): AxiosPromise<UserViewModel>;
 
     /**
      * 
@@ -247,7 +253,7 @@ export interface UsersApiInterface {
      * @throws {RequiredError}
      * @memberof UsersApiInterface
      */
-    updateUserSettings(userId: string, userSettingsViewModel: UserSettingsViewModel, options?: AxiosRequestConfig): AxiosPromise<UserSettingsViewModel>;
+    updateUserSettings(userId: string, userSettingsViewModel: UserSettingsViewModel, options?: RawAxiosRequestConfig): AxiosPromise<UserSettingsViewModel>;
 
 }
 
@@ -265,7 +271,7 @@ export class UsersApi extends BaseAPI implements UsersApiInterface {
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public createUser(userCreateViewModel: UserCreateViewModel, options?: AxiosRequestConfig) {
+    public createUser(userCreateViewModel: UserCreateViewModel, options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).createUser(userCreateViewModel, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -275,7 +281,7 @@ export class UsersApi extends BaseAPI implements UsersApiInterface {
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public getUserProfile(options?: AxiosRequestConfig) {
+    public getUserProfile(options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).getUserProfile(options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -287,7 +293,8 @@ export class UsersApi extends BaseAPI implements UsersApiInterface {
      * @throws {RequiredError}
      * @memberof UsersApi
      */
-    public updateUserSettings(userId: string, userSettingsViewModel: UserSettingsViewModel, options?: AxiosRequestConfig) {
+    public updateUserSettings(userId: string, userSettingsViewModel: UserSettingsViewModel, options?: RawAxiosRequestConfig) {
         return UsersApiFp(this.configuration).updateUserSettings(userId, userSettingsViewModel, options).then((request) => request(this.axios, this.basePath));
     }
 }
+

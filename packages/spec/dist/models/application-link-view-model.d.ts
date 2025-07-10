@@ -1,5 +1,5 @@
-import { EnumApplicationStatus } from './enum-application-status';
-import { EnumLinkType } from './enum-link-type';
+import type { EnumApplicationStatus } from './enum-application-status';
+import type { EnumLinkType } from './enum-link-type';
 export interface ApplicationLinkViewModel {
     'userId'?: string;
     'dateCreated'?: number;

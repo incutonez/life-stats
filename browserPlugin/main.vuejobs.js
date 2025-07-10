@@ -1,5 +1,5 @@
 const ParentCard = ".transition-all";
-const LastCompany = "GitLab";
+const LastCompany = "ARHS";
 let found = false;
 
 function docReady(fn) {

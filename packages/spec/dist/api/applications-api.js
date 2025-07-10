@@ -1,6 +1,6 @@
 import globalAxios from 'axios';
 import { DUMMY_BASE_URL, assertParamExists, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '../common';
-import { BASE_PATH, BaseAPI } from '../base';
+import { BASE_PATH, BaseAPI, operationServerMap } from '../base';
 export const ApplicationsApiAxiosParamCreator = function (configuration) {
     return {
         createApplication: async (applicationViewModel, options = {}) => {
@@ -165,31 +165,45 @@ export const ApplicationsApiFp = function (configuration) {
     return {
         async createApplication(applicationViewModel, options) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createApplication(applicationViewModel, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ApplicationsApi.createApplication']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         async createApplications(applicationViewModel, options) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createApplications(applicationViewModel, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ApplicationsApi.createApplications']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         async deleteApplication(applicationId, options) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteApplication(applicationId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ApplicationsApi.deleteApplication']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         async getApplication(applicationId, options) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getApplication(applicationId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ApplicationsApi.getApplication']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         async listApplications(apiPaginatedRequest, options) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listApplications(apiPaginatedRequest, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ApplicationsApi.listApplications']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         async updateApplication(applicationId, applicationViewModel, options) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateApplication(applicationId, applicationViewModel, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ApplicationsApi.updateApplication']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         async uploadApplications(addHeaders, file, options) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.uploadApplications(addHeaders, file, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ApplicationsApi.uploadApplications']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     };
 };

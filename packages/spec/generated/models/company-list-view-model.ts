@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { CompanyViewModel } from './company-view-model';
+import type { CompanyViewModel } from './company-view-model';
 
 /**
  * 

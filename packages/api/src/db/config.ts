@@ -32,6 +32,9 @@ export const sequelize = new Sequelize({
 	dialect: SqliteDialect,
 	logging: false,
 	models: AllModels,
+	sync: {
+		alter: true,
+	},
 });
 
 export function getDBPath() {

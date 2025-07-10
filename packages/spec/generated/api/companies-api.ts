@@ -14,17 +14,17 @@
 
 
 import type { Configuration } from '../configuration';
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '../common';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
+import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import { CompanyFullListViewModel } from '../models';
+import type { CompanyFullListViewModel } from '../models';
 // @ts-ignore
-import { CompanyListViewModel } from '../models';
+import type { CompanyListViewModel } from '../models';
 /**
  * CompaniesApi - axios parameter creator
  * @export
@@ -37,7 +37,7 @@ export const CompaniesApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteCompany: async (companyId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteCompany: async (companyId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'companyId' is not null or undefined
             assertParamExists('deleteCompany', 'companyId', companyId)
             const localVarPath = `/jobs/companies/{companyId}`
@@ -69,7 +69,7 @@ export const CompaniesApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCompanies: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getCompanies: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/jobs/companies`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -98,7 +98,7 @@ export const CompaniesApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCompaniesList: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getCompaniesList: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/jobs/companies/list`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -138,27 +138,33 @@ export const CompaniesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteCompany(companyId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async deleteCompany(companyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteCompany(companyId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompaniesApi.deleteCompany']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCompanies(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompanyListViewModel>> {
+        async getCompanies(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompanyListViewModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getCompanies(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompaniesApi.getCompanies']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getCompaniesList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompanyFullListViewModel>> {
+        async getCompaniesList(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompanyFullListViewModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getCompaniesList(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CompaniesApi.getCompaniesList']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -176,7 +182,7 @@ export const CompaniesApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteCompany(companyId: string, options?: any): AxiosPromise<void> {
+        deleteCompany(companyId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.deleteCompany(companyId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -184,7 +190,7 @@ export const CompaniesApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCompanies(options?: any): AxiosPromise<CompanyListViewModel> {
+        getCompanies(options?: RawAxiosRequestConfig): AxiosPromise<CompanyListViewModel> {
             return localVarFp.getCompanies(options).then((request) => request(axios, basePath));
         },
         /**
@@ -192,7 +198,7 @@ export const CompaniesApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getCompaniesList(options?: any): AxiosPromise<CompanyFullListViewModel> {
+        getCompaniesList(options?: RawAxiosRequestConfig): AxiosPromise<CompanyFullListViewModel> {
             return localVarFp.getCompaniesList(options).then((request) => request(axios, basePath));
         },
     };
@@ -211,7 +217,7 @@ export interface CompaniesApiInterface {
      * @throws {RequiredError}
      * @memberof CompaniesApiInterface
      */
-    deleteCompany(companyId: string, options?: AxiosRequestConfig): AxiosPromise<void>;
+    deleteCompany(companyId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
     /**
      * 
@@ -219,7 +225,7 @@ export interface CompaniesApiInterface {
      * @throws {RequiredError}
      * @memberof CompaniesApiInterface
      */
-    getCompanies(options?: AxiosRequestConfig): AxiosPromise<CompanyListViewModel>;
+    getCompanies(options?: RawAxiosRequestConfig): AxiosPromise<CompanyListViewModel>;
 
     /**
      * 
@@ -227,7 +233,7 @@ export interface CompaniesApiInterface {
      * @throws {RequiredError}
      * @memberof CompaniesApiInterface
      */
-    getCompaniesList(options?: AxiosRequestConfig): AxiosPromise<CompanyFullListViewModel>;
+    getCompaniesList(options?: RawAxiosRequestConfig): AxiosPromise<CompanyFullListViewModel>;
 
 }
 
@@ -245,7 +251,7 @@ export class CompaniesApi extends BaseAPI implements CompaniesApiInterface {
      * @throws {RequiredError}
      * @memberof CompaniesApi
      */
-    public deleteCompany(companyId: string, options?: AxiosRequestConfig) {
+    public deleteCompany(companyId: string, options?: RawAxiosRequestConfig) {
         return CompaniesApiFp(this.configuration).deleteCompany(companyId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -255,7 +261,7 @@ export class CompaniesApi extends BaseAPI implements CompaniesApiInterface {
      * @throws {RequiredError}
      * @memberof CompaniesApi
      */
-    public getCompanies(options?: AxiosRequestConfig) {
+    public getCompanies(options?: RawAxiosRequestConfig) {
         return CompaniesApiFp(this.configuration).getCompanies(options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -265,7 +271,8 @@ export class CompaniesApi extends BaseAPI implements CompaniesApiInterface {
      * @throws {RequiredError}
      * @memberof CompaniesApi
      */
-    public getCompaniesList(options?: AxiosRequestConfig) {
+    public getCompaniesList(options?: RawAxiosRequestConfig) {
         return CompaniesApiFp(this.configuration).getCompaniesList(options).then((request) => request(this.axios, this.basePath));
     }
 }
+

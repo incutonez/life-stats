@@ -1,30 +1,30 @@
 import type { Configuration } from '../configuration';
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
-import { RequestArgs, BaseAPI } from '../base';
-import { CompanyFullListViewModel } from '../models';
-import { CompanyListViewModel } from '../models';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
+import { type RequestArgs, BaseAPI } from '../base';
+import type { CompanyFullListViewModel } from '../models';
+import type { CompanyListViewModel } from '../models';
 export declare const CompaniesApiAxiosParamCreator: (configuration?: Configuration) => {
-    deleteCompany: (companyId: string, options?: AxiosRequestConfig) => Promise<RequestArgs>;
-    getCompanies: (options?: AxiosRequestConfig) => Promise<RequestArgs>;
-    getCompaniesList: (options?: AxiosRequestConfig) => Promise<RequestArgs>;
+    deleteCompany: (companyId: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    getCompanies: (options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    getCompaniesList: (options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
 };
 export declare const CompaniesApiFp: (configuration?: Configuration) => {
-    deleteCompany(companyId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>>;
-    getCompanies(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompanyListViewModel>>;
-    getCompaniesList(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompanyFullListViewModel>>;
+    deleteCompany(companyId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>>;
+    getCompanies(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompanyListViewModel>>;
+    getCompaniesList(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompanyFullListViewModel>>;
 };
 export declare const CompaniesApiFactory: (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) => {
-    deleteCompany(companyId: string, options?: any): AxiosPromise<void>;
-    getCompanies(options?: any): AxiosPromise<CompanyListViewModel>;
-    getCompaniesList(options?: any): AxiosPromise<CompanyFullListViewModel>;
+    deleteCompany(companyId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    getCompanies(options?: RawAxiosRequestConfig): AxiosPromise<CompanyListViewModel>;
+    getCompaniesList(options?: RawAxiosRequestConfig): AxiosPromise<CompanyFullListViewModel>;
 };
 export interface CompaniesApiInterface {
-    deleteCompany(companyId: string, options?: AxiosRequestConfig): AxiosPromise<void>;
-    getCompanies(options?: AxiosRequestConfig): AxiosPromise<CompanyListViewModel>;
-    getCompaniesList(options?: AxiosRequestConfig): AxiosPromise<CompanyFullListViewModel>;
+    deleteCompany(companyId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    getCompanies(options?: RawAxiosRequestConfig): AxiosPromise<CompanyListViewModel>;
+    getCompaniesList(options?: RawAxiosRequestConfig): AxiosPromise<CompanyFullListViewModel>;
 }
 export declare class CompaniesApi extends BaseAPI implements CompaniesApiInterface {
-    deleteCompany(companyId: string, options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<void, any>>;
-    getCompanies(options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<CompanyListViewModel, any>>;
-    getCompaniesList(options?: AxiosRequestConfig): Promise<import("axios").AxiosResponse<CompanyFullListViewModel, any>>;
+    deleteCompany(companyId: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<void, any>>;
+    getCompanies(options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<CompanyListViewModel, any>>;
+    getCompaniesList(options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<CompanyFullListViewModel, any>>;
 }

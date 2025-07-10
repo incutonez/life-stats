@@ -15,16 +15,16 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { ApplicationLinkViewModel } from './application-link-view-model';
+import type { ApplicationLinkViewModel } from './application-link-view-model';
 // May contain unused imports in some cases
 // @ts-ignore
-import { CommentViewModel } from './comment-view-model';
+import type { CommentViewModel } from './comment-view-model';
 // May contain unused imports in some cases
 // @ts-ignore
-import { EnumApplicationStatus } from './enum-application-status';
+import type { EnumApplicationStatus } from './enum-application-status';
 // May contain unused imports in some cases
 // @ts-ignore
-import { EnumLocationTypes } from './enum-location-types';
+import type { EnumLocationTypes } from './enum-location-types';
 
 /**
  * 

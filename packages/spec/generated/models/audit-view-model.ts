@@ -15,16 +15,16 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { AuditDiffViewModel } from './audit-diff-view-model';
+import type { AuditDiffViewModel } from './audit-diff-view-model';
 // May contain unused imports in some cases
 // @ts-ignore
-import { EnumAuditActionTypes } from './enum-audit-action-types';
+import type { EnumAuditActionTypes } from './enum-audit-action-types';
 // May contain unused imports in some cases
 // @ts-ignore
-import { EnumFeatures } from './enum-features';
+import type { EnumFeatures } from './enum-features';
 // May contain unused imports in some cases
 // @ts-ignore
-import { EnumTableNames } from './enum-table-names';
+import type { EnumTableNames } from './enum-table-names';
 
 /**
  * 

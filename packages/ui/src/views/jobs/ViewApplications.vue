@@ -49,7 +49,7 @@ const { table, search } = useTableData<ApplicationViewModel>({
 		return !!row.original.comments.length;
 	},
 	sortInitial: [{
-		id: "dateApplied",
+		id: "status",
 		desc: true,
 	}],
 });
@@ -68,7 +68,7 @@ columns.value = [
 			showDelete.value = true;
 		},
 	}]),
-	...useApplicationsColumns(table, showCompany),
+	...useApplicationsColumns(showCompany),
 	useDateCreatedColumn(),
 	useDateUpdatedColumn(),
 ];

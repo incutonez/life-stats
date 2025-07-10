@@ -17,7 +17,7 @@
 /**
  * 
  * @export
- * @enum {string}
+ * @enum {number}
  */
 
 export const EnumFeatures = {

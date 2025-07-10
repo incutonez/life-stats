@@ -1,7 +1,7 @@
 ﻿import { h } from "vue";
 import { type ApplicationViewModel, EnumApplicationStatus, EnumLocationTypes } from "@incutonez/life-stats-spec";
 import { useDateColumn } from "@/composables/table.ts";
-import type { ITable, ITableColumn, ITableRow } from "@/types/components.ts";
+import type { ITableColumn, ITableRow } from "@/types/components.ts";
 import { getEnumDisplay } from "@/utils/common.ts";
 import CellLink from "@/views/jobs/applications/CellLink.vue";
 
@@ -30,7 +30,7 @@ export function getApplicationRowCls(row: ITableRow<ApplicationViewModel>) {
 	}
 }
 
-export function useApplicationsColumns(table: ITable<ApplicationViewModel>, showCompany = true) {
+export function useApplicationsColumns(showCompany = true) {
 	const columns: ITableColumn<ApplicationViewModel>[] = [{
 		accessorKey: "status",
 		header: "Status",
@@ -40,34 +40,59 @@ export function useApplicationsColumns(table: ITable<ApplicationViewModel>, show
 		},
 		cell: (info) => getEnumDisplay(EnumApplicationStatus, info.getValue<number>()),
 		sortUndefined: "last",
-		sortingFn(lhs, rhs, columnId) {
-			const identity = table.getColumnSortIdentity(columnId);
+		sortingFn(lhs, rhs) {
 			const lhsStatus = lhs.original.status;
 			const rhsStatus = rhs.original.status;
-			// First, we want to sort all applied statuses to the bottom EVERY TIME
-			if (lhsStatus === Applied) {
-				return -1 * identity;
+			if (lhsStatus === rhsStatus) {
+				return lhs.original.dateApplied < rhs.original.dateApplied ? -1 : 1;
 			}
-			else if (rhsStatus === Applied) {
-				return identity;
-			}
-			// Next, we want to sort the current week to come after rejections EVERY TIME
-			else if (lhsStatus === CurrentWeek) {
-				return -1 * identity;
-			}
-			else if (rhsStatus === CurrentWeek) {
-				return identity;
-			}
-			// Then rejections
-			else if (lhsStatus === Rejected) {
-				return -1 * identity;
+			if (lhsStatus === Rejected) {
+				return -1;
 			}
 			else if (rhsStatus === Rejected) {
-				return identity;
+				return 1;
 			}
-			// Then we just do a normal sort between the rest of the statuses
-			else if (lhsStatus === rhsStatus) {
-				return 0;
+			else if (lhsStatus === Declined) {
+				return -1;
+			}
+			else if (rhsStatus === Declined) {
+				return 1;
+			}
+			else if (lhsStatus === Ghosted) {
+				return -1;
+			}
+			else if (rhsStatus === Ghosted) {
+				return 1;
+			}
+			else if (lhsStatus === InterviewedAndRejected) {
+				return -1;
+			}
+			else if (rhsStatus === InterviewedAndRejected) {
+				return 1;
+			}
+			else if (lhsStatus === Applied) {
+				return -1;
+			}
+			else if (rhsStatus === Applied) {
+				return 1;
+			}
+			else if (lhsStatus === CurrentWeek) {
+				return -1;
+			}
+			else if (rhsStatus === CurrentWeek) {
+				return 1;
+			}
+			else if (lhsStatus === Initial) {
+				return -1;
+			}
+			else if (rhsStatus === Initial) {
+				return 1;
+			}
+			else if (lhsStatus === Interviewing) {
+				return -1;
+			}
+			else if (rhsStatus === Interviewing) {
+				return 1;
 			}
 			return lhsStatus < rhsStatus ? -1 : 1;
 		},

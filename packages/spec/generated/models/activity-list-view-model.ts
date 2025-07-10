@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { ActivityViewModel } from './activity-view-model';
+import type { ActivityViewModel } from './activity-view-model';
 
 /**
  * 

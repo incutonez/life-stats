@@ -18,7 +18,7 @@ const { viewRecord } = injectApplicationRecord();
 			<FieldCompanies
 				v-model="viewRecord.company"
 				label-align="top"
-				:custom-value="true"
+				custom-value
 				required
 				class="flex-1"
 			/>

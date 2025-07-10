@@ -15,13 +15,16 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { ActivityAttributeViewModel } from './activity-attribute-view-model';
+import type { ActivityActionViewModel } from './activity-action-view-model';
 // May contain unused imports in some cases
 // @ts-ignore
-import { ActivityTypeViewModel } from './activity-type-view-model';
+import type { ActivityAttributeViewModel } from './activity-attribute-view-model';
 // May contain unused imports in some cases
 // @ts-ignore
-import { EnumActivitySource } from './enum-activity-source';
+import type { ActivityTypeViewModel } from './activity-type-view-model';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { EnumActivitySource } from './enum-activity-source';
 
 /**
  * 
@@ -107,6 +110,12 @@ export interface ActivityViewModel {
      * @memberof ActivityViewModel
      */
     'dateOccurred': number;
+    /**
+     * 
+     * @type {Array<ActivityActionViewModel>}
+     * @memberof ActivityViewModel
+     */
+    'actions': Array<ActivityActionViewModel>;
     /**
      * 
      * @type {number}

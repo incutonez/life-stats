@@ -15,13 +15,13 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { ActivityViewModel } from './activity-view-model';
+import type { ActivityViewModel } from './activity-view-model';
 // May contain unused imports in some cases
 // @ts-ignore
-import { AttributeTypeViewModel } from './attribute-type-view-model';
+import type { AttributeTypeViewModel } from './attribute-type-view-model';
 // May contain unused imports in some cases
 // @ts-ignore
-import { EnumUnitTypes } from './enum-unit-types';
+import type { EnumUnitTypes } from './enum-unit-types';
 
 /**
  * 

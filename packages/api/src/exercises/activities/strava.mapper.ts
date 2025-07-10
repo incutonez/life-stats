@@ -57,6 +57,7 @@ export class StravaMapper {
 			source: EnumActivitySource.Strava,
 			sourceId: entity.id.toString(),
 			title: entity.name,
+			actions: [],
 			activityType: {
 				userId,
 				name: activityType,
@@ -101,6 +102,7 @@ export class StravaMapper {
 			weight,
 			duration,
 			calories,
+			actions: [],
 			weightLost: calories ? calories / PoundToCalories : undefined,
 			source: EnumActivitySource.Strava,
 			sourceId: entity["Activity ID"],

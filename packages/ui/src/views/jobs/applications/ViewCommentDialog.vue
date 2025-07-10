@@ -1,11 +1,12 @@
 ﻿<script setup lang="ts">
 import { computed, ref } from "vue";
 import BaseButton from "@/components/BaseButton.vue";
-import BaseDialog, { type IBaseDialogProps } from "@/components/BaseDialog.vue";
+import BaseDialog from "@/components/BaseDialog.vue";
 import FieldTextArea from "@/components/FieldTextArea.vue";
 import { IconSave } from "@/components/Icons.ts";
+import type { BaseDialogProps } from "@/types/components.ts";
 
-interface IViewCommentDialogProps extends IBaseDialogProps {
+interface IViewCommentDialogProps extends BaseDialogProps {
 	comment: string;
 }
 

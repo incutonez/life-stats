@@ -48,7 +48,7 @@ export type TComboBoxValue = AcceptableValue;
 
 export type TInputValue = string | number | null | undefined;
 
-export interface IBaseTabProps {
+export interface IBaseTab {
 	title: string;
 	value?: string;
 	disabled?: boolean;
@@ -56,12 +56,28 @@ export interface IBaseTabProps {
 }
 
 export interface IBaseTabsProps {
-	tabs: IBaseTabProps[];
+	tabs: IBaseTab[];
 	orientation?: "horizontal" | "vertical";
 }
 
 export interface IChangeEvent<T extends HTMLElement> extends Event {
 	target: T;
+}
+
+export interface BaseDialogProps {
+	title?: string;
+	subtitle?: string;
+	bodyClass?: string;
+	bodyPadding?: string;
+	footerClass?: string;
+	closable?: boolean;
+	cancelConfig?: IBaseButtonProps;
+}
+
+export interface BaseDialogEmits {
+	(event: "close"): void;
+	(event: "cancel"): void;
+	(event: "open"): void;
 }
 
 export interface IUseTableData<TData = unknown> {
@@ -71,6 +87,7 @@ export interface IUseTableData<TData = unknown> {
 	searchInitial?: string;
 	paginated?: boolean;
 	canExpand?: (row: ITableRow<TData>) => boolean;
+	getRowId?: (record: TData, index: number) => string;
 }
 
 export interface ISubRowRenderer<TData = unknown> {

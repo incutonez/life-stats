@@ -20,11 +20,12 @@ import type {
 } from "@/types/components.ts";
 import { getUserName } from "@/utils/common.ts";
 
-export function useTableData<TData = unknown>({ data, columns, sortInitial, searchInitial = "", canExpand, paginated }: IUseTableData<TData>) {
+export function useTableData<TData = unknown>({ data, columns, sortInitial, searchInitial = "", canExpand, paginated, getRowId }: IUseTableData<TData>) {
 	const sorting = ref(sortInitial);
 	const search = ref(searchInitial);
 	const expanded = ref<TTableExpandedState>({});
 	const table = useVueTable<TData>({
+		getRowId,
 		get data() {
 			return unref(data) ?? [];
 		},

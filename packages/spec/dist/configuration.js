@@ -4,6 +4,7 @@ export class Configuration {
     password;
     accessToken;
     basePath;
+    serverIndex;
     baseOptions;
     formDataCtor;
     constructor(param = {}) {
@@ -12,7 +13,13 @@ export class Configuration {
         this.password = param.password;
         this.accessToken = param.accessToken;
         this.basePath = param.basePath;
-        this.baseOptions = param.baseOptions;
+        this.serverIndex = param.serverIndex;
+        this.baseOptions = {
+            ...param.baseOptions,
+            headers: {
+                ...param.baseOptions?.headers,
+            },
+        };
         this.formDataCtor = param.formDataCtor;
     }
     isJsonMime(mime) {

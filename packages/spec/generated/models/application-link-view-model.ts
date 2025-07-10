@@ -15,10 +15,10 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { EnumApplicationStatus } from './enum-application-status';
+import type { EnumApplicationStatus } from './enum-application-status';
 // May contain unused imports in some cases
 // @ts-ignore
-import { EnumLinkType } from './enum-link-type';
+import type { EnumLinkType } from './enum-link-type';
 
 /**
  * 

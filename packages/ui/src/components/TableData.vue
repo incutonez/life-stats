@@ -1,11 +1,20 @@
 ﻿<script setup lang="ts" generic="TData">
-import { computed } from "vue";
+import { computed, useTemplateRef } from "vue";
+import type { ComponentExposed } from "vue-component-type-helpers";
 import { FlexRender } from "@tanstack/vue-table";
 import { IconSort } from "@/components/Icons.ts";
+import type TableData from "@/components/TableData.vue";
 import type { ITableCell, ITableData, ITableHeader, ITableRow } from "@/types/components.ts";
+
+/**
+ * Apparently for generic components, you MUST use ComponentExposed if you'd like to ref it later on somewhere
+ * Source: https://github.com/vuejs/language-tools/issues/3206
+ */
+export type TableDataComponent<TData> = ComponentExposed<typeof TableData<TData>>;
 
 const { table, hideHeaders, rowCls, tableClasses = "", tableLayout = "table-fixed", isSubRow } = defineProps<ITableData<TData>>();
 const DefaultCellCls = "table-data-cell border-r border-b px-2 py-1";
+const rowBody = useTemplateRef<HTMLElement>("rowBody");
 const tableCls = computed(() => {
 	return {
 		[tableLayout]: true,
@@ -28,7 +37,7 @@ function getAlignment(columnAlign?: "left" | "center" | "right") {
 
 function getHeaderClass(header: ITableHeader<TData>) {
 	const meta = header.column.columnDef.meta;
-	const cls = ["p-2 border-r border-b border-b sticky top-0", isSubRow ? "" : "z-1", getAlignment(meta?.columnAlign), meta?.columnWidth ?? "min-w-64"];
+	const cls = ["p-2 border-r border-b border-b sticky top-0", isSubRow ? "" : "z-auto", getAlignment(meta?.columnAlign), meta?.columnWidth ?? "min-w-64"];
 	if (header.column.getCanSort()) {
 		cls.push("cursor-pointer select-none hover:bg-sky-200");
 	}
@@ -114,6 +123,10 @@ function onClickCell(cell: ITableCell<TData>) {
 		onClickCellFn(cell);
 	}
 }
+
+defineExpose({
+	rowBody,
+});
 </script>
 
 <template>
@@ -153,7 +166,7 @@ function onClickCell(cell: ITableCell<TData>) {
 					</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody ref="rowBody">
 				<template
 					v-for="row in table.getRowModel().rows"
 					:key="row.id"

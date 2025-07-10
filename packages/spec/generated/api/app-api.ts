@@ -14,15 +14,15 @@
 
 
 import type { Configuration } from '../configuration';
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '../common';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
+import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import { AppMetaViewModel } from '../models';
+import type { AppMetaViewModel } from '../models';
 /**
  * AppApi - axios parameter creator
  * @export
@@ -34,7 +34,7 @@ export const AppApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInfo: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getInfo: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/info`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -73,9 +73,11 @@ export const AppApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getInfo(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppMetaViewModel>> {
+        async getInfo(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AppMetaViewModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getInfo(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AppApi.getInfo']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -92,7 +94,7 @@ export const AppApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInfo(options?: any): AxiosPromise<AppMetaViewModel> {
+        getInfo(options?: RawAxiosRequestConfig): AxiosPromise<AppMetaViewModel> {
             return localVarFp.getInfo(options).then((request) => request(axios, basePath));
         },
     };
@@ -110,7 +112,7 @@ export interface AppApiInterface {
      * @throws {RequiredError}
      * @memberof AppApiInterface
      */
-    getInfo(options?: AxiosRequestConfig): AxiosPromise<AppMetaViewModel>;
+    getInfo(options?: RawAxiosRequestConfig): AxiosPromise<AppMetaViewModel>;
 
 }
 
@@ -127,7 +129,8 @@ export class AppApi extends BaseAPI implements AppApiInterface {
      * @throws {RequiredError}
      * @memberof AppApi
      */
-    public getInfo(options?: AxiosRequestConfig) {
+    public getInfo(options?: RawAxiosRequestConfig) {
         return AppApiFp(this.configuration).getInfo(options).then((request) => request(this.axios, this.basePath));
     }
 }
+

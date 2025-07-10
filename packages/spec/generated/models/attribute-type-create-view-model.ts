@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { EnumFeatures } from './enum-features';
+import type { EnumFeatures } from './enum-features';
 
 /**
  * 

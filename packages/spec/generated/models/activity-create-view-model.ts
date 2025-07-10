@@ -15,13 +15,16 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { ActivityAttributeCreateViewModel } from './activity-attribute-create-view-model';
+import type { ActivityActionViewModel } from './activity-action-view-model';
 // May contain unused imports in some cases
 // @ts-ignore
-import { ActivityTypeCreateViewModel } from './activity-type-create-view-model';
+import type { ActivityAttributeCreateViewModel } from './activity-attribute-create-view-model';
 // May contain unused imports in some cases
 // @ts-ignore
-import { EnumActivitySource } from './enum-activity-source';
+import type { ActivityTypeCreateViewModel } from './activity-type-create-view-model';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { EnumActivitySource } from './enum-activity-source';
 
 /**
  * 
@@ -101,6 +104,12 @@ export interface ActivityCreateViewModel {
      * @memberof ActivityCreateViewModel
      */
     'attributes': Array<ActivityAttributeCreateViewModel>;
+    /**
+     * 
+     * @type {Array<ActivityActionViewModel>}
+     * @memberof ActivityCreateViewModel
+     */
+    'actions': Array<ActivityActionViewModel>;
     /**
      * 
      * @type {number}

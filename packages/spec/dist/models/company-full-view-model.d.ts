@@ -1,4 +1,4 @@
-import { ApplicationNestedViewModel } from './application-nested-view-model';
+import type { ApplicationNestedViewModel } from './application-nested-view-model';
 export interface CompanyFullViewModel {
     'userId'?: string;
     'dateCreated'?: number;

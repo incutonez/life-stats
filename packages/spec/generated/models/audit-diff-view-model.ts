@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import { EnumAuditActionTypes } from './enum-audit-action-types';
+import type { EnumAuditActionTypes } from './enum-audit-action-types';
 
 /**
  * 

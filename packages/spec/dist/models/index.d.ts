@@ -1,3 +1,5 @@
+export * from './activity-action-type-view-model';
+export * from './activity-action-view-model';
 export * from './activity-attribute-create-view-model';
 export * from './activity-attribute-view-model';
 export * from './activity-create-view-model';

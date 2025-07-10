@@ -4,7 +4,7 @@ import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
 import BaseTabs from "@/components/BaseTabs.vue";
 import { IconDelete, IconSave } from "@/components/Icons.ts";
-import type { IBaseTabProps } from "@/types/components.ts";
+import type { IBaseTab } from "@/types/components.ts";
 import TabComments from "@/views/jobs/applications/TabComments.vue";
 import TabDetails from "@/views/jobs/applications/TabDetails.vue";
 import TabLinks from "@/views/jobs/applications/TabLinks.vue";
@@ -35,7 +35,7 @@ const subtitle = computed(() => {
 	return title;
 });
 const { viewApplicationParent } = useJobRoutes();
-const tabs = reactive<IBaseTabProps[]>([{
+const tabs = reactive<IBaseTab[]>([{
 	title: "Details",
 	contentClasses: "flex flex-col items-start gap-2 p-2 border-0",
 }, {
@@ -75,7 +75,6 @@ async function onClickDelete() {
 		v-model="open"
 		:title="title"
 		:subtitle="subtitle"
-		:tabs="tabs"
 		class="size-9/10"
 		body-padding=""
 		@close="onCloseView"

@@ -1,4 +1,4 @@
-import { EnumFeatures } from './enum-features';
+import type { EnumFeatures } from './enum-features';
 export interface AttributeTypeCreateViewModel {
     'userId'?: string;
     'dateCreated'?: number;

@@ -14,15 +14,15 @@
 
 
 import type { Configuration } from '../configuration';
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '../common';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
+import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import { AuditListViewModel } from '../models';
+import type { AuditListViewModel } from '../models';
 /**
  * AuditsApi - axios parameter creator
  * @export
@@ -34,7 +34,7 @@ export const AuditsApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listAudits: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        listAudits: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/audits/list`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -73,9 +73,11 @@ export const AuditsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listAudits(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuditListViewModel>> {
+        async listAudits(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuditListViewModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listAudits(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuditsApi.listAudits']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -92,7 +94,7 @@ export const AuditsApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listAudits(options?: any): AxiosPromise<AuditListViewModel> {
+        listAudits(options?: RawAxiosRequestConfig): AxiosPromise<AuditListViewModel> {
             return localVarFp.listAudits(options).then((request) => request(axios, basePath));
         },
     };
@@ -110,7 +112,7 @@ export interface AuditsApiInterface {
      * @throws {RequiredError}
      * @memberof AuditsApiInterface
      */
-    listAudits(options?: AxiosRequestConfig): AxiosPromise<AuditListViewModel>;
+    listAudits(options?: RawAxiosRequestConfig): AxiosPromise<AuditListViewModel>;
 
 }
 
@@ -127,7 +129,8 @@ export class AuditsApi extends BaseAPI implements AuditsApiInterface {
      * @throws {RequiredError}
      * @memberof AuditsApi
      */
-    public listAudits(options?: AxiosRequestConfig) {
+    public listAudits(options?: RawAxiosRequestConfig) {
         return AuditsApiFp(this.configuration).listAudits(options).then((request) => request(this.axios, this.basePath));
     }
 }
+

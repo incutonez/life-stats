@@ -34,7 +34,7 @@ columns.value = [useExpandableRow(), useTableActions([{
 		// Must update the reference in order to trigger the data table reload
 		addedApplications.value = addedApplications.value.filter((item) => item !== record);
 	},
-}]), ...useApplicationsColumns(table, true)];
+}]), ...useApplicationsColumns(true)];
 
 function renderCommentRows({ row }: ISubRowRenderer<ApplicationViewModel>) {
 	const table = useTableData<CommentViewModel>({

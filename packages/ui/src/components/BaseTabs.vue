@@ -1,16 +1,20 @@
 ﻿<script setup lang="ts">
-import { ref } from "vue";
+import { watch } from "vue";
 import { TabsContent, TabsList, TabsRoot, TabsTrigger } from "reka-ui";
 import { IconArrowRight } from "@/components/Icons.ts";
 import type { IBaseTabsProps } from "@/types/components.ts";
 
 const props = defineProps<IBaseTabsProps>();
-const activeTab = ref(getDefaultSelectedTab());
+const activeTab = defineModel<string | number>();
 
-function getDefaultSelectedTab() {
-	const [firstTab] = props.tabs;
-	return firstTab?.value ?? firstTab?.title;
-}
+// Set default tab for the 1st time
+watch(() => props.tabs, ([firstTab]) => {
+	activeTab.value = firstTab?.value ?? firstTab?.title;
+}, {
+	immediate: true,
+	// Only want this to happen the 1st time
+	once: true,
+});
 </script>
 
 <template>
@@ -18,7 +22,6 @@ function getDefaultSelectedTab() {
 		v-model="activeTab"
 		as="article"
 		class="base-tabs"
-		:default-value="getDefaultSelectedTab()"
 		:orientation="orientation"
 	>
 		<TabsList
@@ -42,7 +45,8 @@ function getDefaultSelectedTab() {
 		<TabsContent
 			v-for="tab in tabs"
 			:key="`content-${tab.value ?? tab.title}`"
-			class="flex-1 border overflow-auto"
+			as="article"
+			class="flex-1 overflow-auto"
 			:class="tab.contentClasses"
 			:value="tab.value ?? tab.title"
 		>

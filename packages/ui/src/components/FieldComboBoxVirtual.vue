@@ -159,7 +159,11 @@ watch(search, ($search) => {
 	}
 });
 
-watch(() => options, ($options) => filteredOptions.value = $options);
+watch(() => options, ($options) => {
+	filteredOptions.value = $options;
+}, {
+	immediate: true,
+});
 </script>
 
 <template>
@@ -200,7 +204,7 @@ watch(() => options, ($options) => filteredOptions.value = $options);
 		<ComboboxPortal>
 			<ComboboxContent
 				position="popper"
-				class="z-1 bg-white w-(--reka-combobox-trigger-width) shadow-lg border"
+				class="z-auto bg-white w-(--reka-combobox-trigger-width) shadow-lg border"
 			>
 				<div
 					ref="parentRef"

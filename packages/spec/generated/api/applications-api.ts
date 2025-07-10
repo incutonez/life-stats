@@ -14,19 +14,19 @@
 
 
 import type { Configuration } from '../configuration';
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from '../common';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
+import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import { ApiPaginatedRequest } from '../models';
+import type { ApiPaginatedRequest } from '../models';
 // @ts-ignore
-import { ApplicationListViewModel } from '../models';
+import type { ApplicationListViewModel } from '../models';
 // @ts-ignore
-import { ApplicationViewModel } from '../models';
+import type { ApplicationViewModel } from '../models';
 /**
  * ApplicationsApi - axios parameter creator
  * @export
@@ -39,7 +39,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createApplication: async (applicationViewModel: ApplicationViewModel, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createApplication: async (applicationViewModel: ApplicationViewModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'applicationViewModel' is not null or undefined
             assertParamExists('createApplication', 'applicationViewModel', applicationViewModel)
             const localVarPath = `/jobs/applications`;
@@ -74,7 +74,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createApplications: async (applicationViewModel: Array<ApplicationViewModel>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createApplications: async (applicationViewModel: Array<ApplicationViewModel>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'applicationViewModel' is not null or undefined
             assertParamExists('createApplications', 'applicationViewModel', applicationViewModel)
             const localVarPath = `/jobs/applications/bulk`;
@@ -109,7 +109,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteApplication: async (applicationId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteApplication: async (applicationId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'applicationId' is not null or undefined
             assertParamExists('deleteApplication', 'applicationId', applicationId)
             const localVarPath = `/jobs/applications/{applicationId}`
@@ -142,7 +142,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getApplication: async (applicationId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getApplication: async (applicationId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'applicationId' is not null or undefined
             assertParamExists('getApplication', 'applicationId', applicationId)
             const localVarPath = `/jobs/applications/{applicationId}`
@@ -175,7 +175,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listApplications: async (apiPaginatedRequest: ApiPaginatedRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        listApplications: async (apiPaginatedRequest: ApiPaginatedRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'apiPaginatedRequest' is not null or undefined
             assertParamExists('listApplications', 'apiPaginatedRequest', apiPaginatedRequest)
             const localVarPath = `/jobs/applications/list`;
@@ -211,7 +211,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateApplication: async (applicationId: string, applicationViewModel: ApplicationViewModel, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateApplication: async (applicationId: string, applicationViewModel: ApplicationViewModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'applicationId' is not null or undefined
             assertParamExists('updateApplication', 'applicationId', applicationId)
             // verify required parameter 'applicationViewModel' is not null or undefined
@@ -250,7 +250,7 @@ export const ApplicationsApiAxiosParamCreator = function (configuration?: Config
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadApplications: async (addHeaders: boolean, file: File, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        uploadApplications: async (addHeaders: boolean, file: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'addHeaders' is not null or undefined
             assertParamExists('uploadApplications', 'addHeaders', addHeaders)
             // verify required parameter 'file' is not null or undefined
@@ -306,9 +306,11 @@ export const ApplicationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createApplication(applicationViewModel: ApplicationViewModel, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async createApplication(applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createApplication(applicationViewModel, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ApplicationsApi.createApplication']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -316,9 +318,11 @@ export const ApplicationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createApplications(applicationViewModel: Array<ApplicationViewModel>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async createApplications(applicationViewModel: Array<ApplicationViewModel>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createApplications(applicationViewModel, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ApplicationsApi.createApplications']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -326,9 +330,11 @@ export const ApplicationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteApplication(applicationId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async deleteApplication(applicationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteApplication(applicationId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ApplicationsApi.deleteApplication']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -336,9 +342,11 @@ export const ApplicationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getApplication(applicationId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApplicationViewModel>> {
+        async getApplication(applicationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApplicationViewModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getApplication(applicationId, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ApplicationsApi.getApplication']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -346,9 +354,11 @@ export const ApplicationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listApplications(apiPaginatedRequest: ApiPaginatedRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApplicationListViewModel>> {
+        async listApplications(apiPaginatedRequest: ApiPaginatedRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApplicationListViewModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.listApplications(apiPaginatedRequest, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ApplicationsApi.listApplications']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -357,9 +367,11 @@ export const ApplicationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateApplication(applicationId: string, applicationViewModel: ApplicationViewModel, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApplicationViewModel>> {
+        async updateApplication(applicationId: string, applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApplicationViewModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateApplication(applicationId, applicationViewModel, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ApplicationsApi.updateApplication']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -368,9 +380,11 @@ export const ApplicationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadApplications(addHeaders: boolean, file: File, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ApplicationViewModel>>> {
+        async uploadApplications(addHeaders: boolean, file: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ApplicationViewModel>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.uploadApplications(addHeaders, file, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ApplicationsApi.uploadApplications']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
@@ -388,7 +402,7 @@ export const ApplicationsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createApplication(applicationViewModel: ApplicationViewModel, options?: any): AxiosPromise<object> {
+        createApplication(applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): AxiosPromise<object> {
             return localVarFp.createApplication(applicationViewModel, options).then((request) => request(axios, basePath));
         },
         /**
@@ -397,7 +411,7 @@ export const ApplicationsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createApplications(applicationViewModel: Array<ApplicationViewModel>, options?: any): AxiosPromise<object> {
+        createApplications(applicationViewModel: Array<ApplicationViewModel>, options?: RawAxiosRequestConfig): AxiosPromise<object> {
             return localVarFp.createApplications(applicationViewModel, options).then((request) => request(axios, basePath));
         },
         /**
@@ -406,7 +420,7 @@ export const ApplicationsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteApplication(applicationId: string, options?: any): AxiosPromise<void> {
+        deleteApplication(applicationId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.deleteApplication(applicationId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -415,7 +429,7 @@ export const ApplicationsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getApplication(applicationId: string, options?: any): AxiosPromise<ApplicationViewModel> {
+        getApplication(applicationId: string, options?: RawAxiosRequestConfig): AxiosPromise<ApplicationViewModel> {
             return localVarFp.getApplication(applicationId, options).then((request) => request(axios, basePath));
         },
         /**
@@ -424,7 +438,7 @@ export const ApplicationsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listApplications(apiPaginatedRequest: ApiPaginatedRequest, options?: any): AxiosPromise<ApplicationListViewModel> {
+        listApplications(apiPaginatedRequest: ApiPaginatedRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApplicationListViewModel> {
             return localVarFp.listApplications(apiPaginatedRequest, options).then((request) => request(axios, basePath));
         },
         /**
@@ -434,7 +448,7 @@ export const ApplicationsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateApplication(applicationId: string, applicationViewModel: ApplicationViewModel, options?: any): AxiosPromise<ApplicationViewModel> {
+        updateApplication(applicationId: string, applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): AxiosPromise<ApplicationViewModel> {
             return localVarFp.updateApplication(applicationId, applicationViewModel, options).then((request) => request(axios, basePath));
         },
         /**
@@ -444,7 +458,7 @@ export const ApplicationsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadApplications(addHeaders: boolean, file: File, options?: any): AxiosPromise<Array<ApplicationViewModel>> {
+        uploadApplications(addHeaders: boolean, file: File, options?: RawAxiosRequestConfig): AxiosPromise<Array<ApplicationViewModel>> {
             return localVarFp.uploadApplications(addHeaders, file, options).then((request) => request(axios, basePath));
         },
     };
@@ -463,7 +477,7 @@ export interface ApplicationsApiInterface {
      * @throws {RequiredError}
      * @memberof ApplicationsApiInterface
      */
-    createApplication(applicationViewModel: ApplicationViewModel, options?: AxiosRequestConfig): AxiosPromise<object>;
+    createApplication(applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): AxiosPromise<object>;
 
     /**
      * 
@@ -472,7 +486,7 @@ export interface ApplicationsApiInterface {
      * @throws {RequiredError}
      * @memberof ApplicationsApiInterface
      */
-    createApplications(applicationViewModel: Array<ApplicationViewModel>, options?: AxiosRequestConfig): AxiosPromise<object>;
+    createApplications(applicationViewModel: Array<ApplicationViewModel>, options?: RawAxiosRequestConfig): AxiosPromise<object>;
 
     /**
      * 
@@ -481,7 +495,7 @@ export interface ApplicationsApiInterface {
      * @throws {RequiredError}
      * @memberof ApplicationsApiInterface
      */
-    deleteApplication(applicationId: string, options?: AxiosRequestConfig): AxiosPromise<void>;
+    deleteApplication(applicationId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
     /**
      * 
@@ -490,7 +504,7 @@ export interface ApplicationsApiInterface {
      * @throws {RequiredError}
      * @memberof ApplicationsApiInterface
      */
-    getApplication(applicationId: string, options?: AxiosRequestConfig): AxiosPromise<ApplicationViewModel>;
+    getApplication(applicationId: string, options?: RawAxiosRequestConfig): AxiosPromise<ApplicationViewModel>;
 
     /**
      * 
@@ -499,7 +513,7 @@ export interface ApplicationsApiInterface {
      * @throws {RequiredError}
      * @memberof ApplicationsApiInterface
      */
-    listApplications(apiPaginatedRequest: ApiPaginatedRequest, options?: AxiosRequestConfig): AxiosPromise<ApplicationListViewModel>;
+    listApplications(apiPaginatedRequest: ApiPaginatedRequest, options?: RawAxiosRequestConfig): AxiosPromise<ApplicationListViewModel>;
 
     /**
      * 
@@ -509,7 +523,7 @@ export interface ApplicationsApiInterface {
      * @throws {RequiredError}
      * @memberof ApplicationsApiInterface
      */
-    updateApplication(applicationId: string, applicationViewModel: ApplicationViewModel, options?: AxiosRequestConfig): AxiosPromise<ApplicationViewModel>;
+    updateApplication(applicationId: string, applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): AxiosPromise<ApplicationViewModel>;
 
     /**
      * 
@@ -519,7 +533,7 @@ export interface ApplicationsApiInterface {
      * @throws {RequiredError}
      * @memberof ApplicationsApiInterface
      */
-    uploadApplications(addHeaders: boolean, file: File, options?: AxiosRequestConfig): AxiosPromise<Array<ApplicationViewModel>>;
+    uploadApplications(addHeaders: boolean, file: File, options?: RawAxiosRequestConfig): AxiosPromise<Array<ApplicationViewModel>>;
 
 }
 
@@ -537,7 +551,7 @@ export class ApplicationsApi extends BaseAPI implements ApplicationsApiInterface
      * @throws {RequiredError}
      * @memberof ApplicationsApi
      */
-    public createApplication(applicationViewModel: ApplicationViewModel, options?: AxiosRequestConfig) {
+    public createApplication(applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig) {
         return ApplicationsApiFp(this.configuration).createApplication(applicationViewModel, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -548,7 +562,7 @@ export class ApplicationsApi extends BaseAPI implements ApplicationsApiInterface
      * @throws {RequiredError}
      * @memberof ApplicationsApi
      */
-    public createApplications(applicationViewModel: Array<ApplicationViewModel>, options?: AxiosRequestConfig) {
+    public createApplications(applicationViewModel: Array<ApplicationViewModel>, options?: RawAxiosRequestConfig) {
         return ApplicationsApiFp(this.configuration).createApplications(applicationViewModel, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -559,7 +573,7 @@ export class ApplicationsApi extends BaseAPI implements ApplicationsApiInterface
      * @throws {RequiredError}
      * @memberof ApplicationsApi
      */
-    public deleteApplication(applicationId: string, options?: AxiosRequestConfig) {
+    public deleteApplication(applicationId: string, options?: RawAxiosRequestConfig) {
         return ApplicationsApiFp(this.configuration).deleteApplication(applicationId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -570,7 +584,7 @@ export class ApplicationsApi extends BaseAPI implements ApplicationsApiInterface
      * @throws {RequiredError}
      * @memberof ApplicationsApi
      */
-    public getApplication(applicationId: string, options?: AxiosRequestConfig) {
+    public getApplication(applicationId: string, options?: RawAxiosRequestConfig) {
         return ApplicationsApiFp(this.configuration).getApplication(applicationId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -581,7 +595,7 @@ export class ApplicationsApi extends BaseAPI implements ApplicationsApiInterface
      * @throws {RequiredError}
      * @memberof ApplicationsApi
      */
-    public listApplications(apiPaginatedRequest: ApiPaginatedRequest, options?: AxiosRequestConfig) {
+    public listApplications(apiPaginatedRequest: ApiPaginatedRequest, options?: RawAxiosRequestConfig) {
         return ApplicationsApiFp(this.configuration).listApplications(apiPaginatedRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -593,7 +607,7 @@ export class ApplicationsApi extends BaseAPI implements ApplicationsApiInterface
      * @throws {RequiredError}
      * @memberof ApplicationsApi
      */
-    public updateApplication(applicationId: string, applicationViewModel: ApplicationViewModel, options?: AxiosRequestConfig) {
+    public updateApplication(applicationId: string, applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig) {
         return ApplicationsApiFp(this.configuration).updateApplication(applicationId, applicationViewModel, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -605,7 +619,8 @@ export class ApplicationsApi extends BaseAPI implements ApplicationsApiInterface
      * @throws {RequiredError}
      * @memberof ApplicationsApi
      */
-    public uploadApplications(addHeaders: boolean, file: File, options?: AxiosRequestConfig) {
+    public uploadApplications(addHeaders: boolean, file: File, options?: RawAxiosRequestConfig) {
         return ApplicationsApiFp(this.configuration).uploadApplications(addHeaders, file, options).then((request) => request(this.axios, this.basePath));
     }
 }
+

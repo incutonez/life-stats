@@ -1,4 +1,5 @@
-﻿import { CreatedAtField, EnumAuditActionTypes, EnumFeatures, EnumTableNames, UpdatedAtField } from "@/constants";
+﻿import { Model } from "@sequelize/core";
+import { CreatedAtField, EnumAuditActionTypes, EnumFeatures, EnumTableNames, UpdatedAtField } from "@/constants";
 import { AttributeTypeModel } from "@/db/models/AttributeTypeModel";
 import { AuditModel } from "@/db/models/AuditModel";
 import { BaseModel } from "@/db/models/BaseModel";
@@ -8,7 +9,7 @@ import { JobModels } from "@/jobs/models";
 import { isObject } from "@/utils";
 
 export interface IAuditFeatures {
-	models: typeof BaseModel[];
+	models: (typeof BaseModel | typeof Model)[];
 	feature: EnumFeatures;
 	primaryKey?: string;
 }

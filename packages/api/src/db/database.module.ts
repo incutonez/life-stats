@@ -8,6 +8,7 @@ import { addAuditing } from "@/db/models";
 	providers: [{
 		provide: SEQUELIZE,
 		useFactory: async () => {
+			await sequelize.sync();
 			addAuditing();
 			return sequelize;
 		},

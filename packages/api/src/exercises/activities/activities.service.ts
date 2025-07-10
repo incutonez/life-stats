@@ -162,12 +162,10 @@ export class ActivitiesService {
 	}
 
 	async deleteActivity(id: string) {
-		return ActivityModel.destroy({
-			where: {
-				id,
-			},
-			individualHooks: true,
-		});
+		const activity = await this.getActivityRaw(id);
+		if (activity) {
+			return activity.destroy();
+		}
 	}
 
 	async createActivityWithResponse(viewModel: ActivityCreateViewModel) {

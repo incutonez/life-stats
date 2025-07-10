@@ -1,7 +1,7 @@
 ﻿import { DataTypes } from "@sequelize/core";
-import { Attribute, NotNull } from "@sequelize/core/decorators-legacy";
+import { Attribute } from "@sequelize/core/decorators-legacy";
 import { EnumTableNames } from "@/constants";
-import { BaseTable, PrimaryKeyGuid } from "@/db/decorators";
+import { BaseTable, ForeignKeyGuid, PrimaryKeyGuid } from "@/db/decorators";
 import { BaseModel } from "@/db/models/BaseModel";
 import { ModelInterface } from "@/types";
 
@@ -14,8 +14,7 @@ export class CommentModel extends BaseModel {
 	@PrimaryKeyGuid()
 	declare id: string;
 
-	@Attribute(DataTypes.STRING)
-	@NotNull
+	@ForeignKeyGuid()
 	declare application_id: string;
 
 	@Attribute(DataTypes.STRING)

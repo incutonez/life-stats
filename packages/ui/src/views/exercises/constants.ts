@@ -10,6 +10,8 @@ export const QueryListExercisesAudits = `${QueryKeyExercises}listExercisesAudits
 
 export const QueryGetActivityTypes = `${QueryKeyExercises}getActivityTypes`;
 
+export const QueryGetActionTypes = `${QueryKeyExercises}getActionTypes`;
+
 export const QueryKeyActivities = `${QueryKeyExercises}activities`;
 
 export const QueryKeyActivity = `${QueryKeyActivities}activity`;

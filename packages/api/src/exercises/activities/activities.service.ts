@@ -1,6 +1,8 @@
 ﻿import { Injectable } from "@nestjs/common";
 import { AttributeTypesService } from "@/attributeTypes/attributeTypes.service";
 import { ActivitiesMapper } from "@/exercises/activities/activities.mapper";
+import { ActivityActionModel, IActivityActionModelCreate } from "@/exercises/models/ActivityActionModel";
+import { ActivityActionTypeModel } from "@/exercises/models/ActivityActionTypeModel";
 import {
 	ActivityAttributeModel,
 	IActivityAttributeCreate,
@@ -61,6 +63,24 @@ export class ActivitiesService {
 		return ActivityAttributeModel.create(model);
 	}
 
+	async createActionType(name: string) {
+		const [entity] = await ActivityActionTypeModel.findOrCreate({
+			where: {
+				name,
+			},
+			defaults: {
+				name,
+			},
+		});
+		return entity;
+	}
+
+	async createActivityAction(model: IActivityActionModelCreate) {
+		const actionType = await this.createActionType(model.action_type.name);
+		model.action_type_id = actionType.id;
+		return ActivityActionModel.create(model);
+	}
+
 	async createActivityEntity(model: IActivityCreate) {
 		return ActivityModel.create(model);
 	}
@@ -86,11 +106,16 @@ export class ActivitiesService {
 		return entities.map((entity) => this.mapper.entityActivityTypeToViewModel(entity, addMeta));
 	}
 
+	async getActionTypes(addMeta = false) {
+		const entities = await ActivityActionTypeModel.findAll();
+		return entities.map((entity) => this.mapper.entityActivityActionTypeToViewModel(entity, addMeta));
+	}
+
 	async updateActivity(viewModel: IActivityViewModel) {
 		const record = await this.getActivityRaw(viewModel.id);
 		if (record) {
-			const { attributes = [] } = record;
-			const { attributes: viewModelAttributes = [], activityType: viewModelActivityType } = viewModel;
+			const { attributes = [], actions = [] } = record;
+			const { attributes: viewModelAttributes = [], activityType: viewModelActivityType, actions: viewModelActions = [] } = viewModel;
 			// If the activityType has a different ID, then we need to create (or find) the activityType and reassign it in the viewModel
 			if (viewModelActivityType && viewModelActivityType.id !== record.activity_type_id) {
 				viewModel.activityType = await this.createActivityType(this.mapper.viewModelCreateActivityTypeToEntity(viewModelActivityType));
@@ -111,7 +136,25 @@ export class ActivitiesService {
 					await this.createActivityAttribute(modelAttribute, record.id);
 				}
 			}
-			// Any remaining comments in the DB model were removed in the UI
+			for (const viewModelAction of viewModelActions) {
+				const { id, ...modelAction } = this.mapper.viewModelActivityActionToEntity(viewModelAction, record.id);
+				const found = actions.find((action) => action.id === id);
+				if (found) {
+					// Remove from the existing comments, so we have the remaining comments at the end, which are deletes
+					actions.splice(actions.indexOf(found), 1);
+					// Only apply an update if we deem the record has changed
+					if (!(found.value === modelAction.value && found.action_type_id === modelAction.action_type_id)) {
+						await found.update(modelAction);
+					}
+				}
+				// New record
+				else {
+					await this.createActivityAction(modelAction);
+				}
+			}
+			// Any remaining records in the DB model were removed in the UI
+			await Promise.all(actions.map((action) => action.destroy()));
+			// Any remaining records in the DB model were removed in the UI
 			await Promise.all(attributes.map((attribute) => attribute.destroy()));
 			await record.update(this.mapper.viewModelToEntity(viewModel));
 			return this.getActivity(viewModel.id);
@@ -139,6 +182,10 @@ export class ActivitiesService {
 		const { id } = await this.createActivityEntity(model);
 		for (const attribute of model.attributes) {
 			await this.createActivityAttribute(attribute, id);
+		}
+		for (const action of model.actions) {
+			action.activity_id = id;
+			await this.createActivityAction(action);
 		}
 		return id;
 	}

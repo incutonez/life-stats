@@ -1,5 +1,6 @@
 ﻿import { computed, inject, type InjectionKey, provide, type Ref, ref, toRaw, unref, watch } from "vue";
 import {
+	type ActivityActionViewModel,
 	type ActivityAttributeViewModel,
 	type ActivityCreateViewModel,
 	type ActivityViewModel,
@@ -13,8 +14,9 @@ import {
 	useInvalidateQueries,
 } from "@/composables/app.ts";
 import { RouteCreate } from "@/constants.ts";
+import { getUniqueId } from "@/utils/common.ts";
 import {
-	ActivitiesAPI, QueryGetActivityTypes,
+	ActivitiesAPI, QueryGetActionTypes, QueryGetActivityTypes,
 	QueryKeyActivities, QueryKeyActivity,
 	QueryKeyExercises,
 	QueryListExercisesAudits,
@@ -203,10 +205,24 @@ export function useListExercisesHistory() {
 	});
 }
 
+export function defaultActivity(): ActivityViewModel {
+	return {
+		id: "",
+		title: "",
+		dateOccurred: Date.now(),
+		attributes: [],
+		actions: [],
+		activityType: {
+			id: "",
+			name: "",
+		},
+	};
+}
+
 export function provideActivityRecord(recordId: Ref<string>) {
 	const updated = ref(false);
 	const savingRecord = ref(false);
-	const viewRecord = ref<ActivityViewModel>();
+	const viewRecord = ref(defaultActivity());
 	const selectedAttributeRecord = ref<ActivityAttributeViewModel>();
 	const attributeRecords = computed(() => viewRecord.value?.attributes ?? []);
 	const isEdit = computed(() => !!viewRecord.value?.id);
@@ -216,16 +232,7 @@ export function provideActivityRecord(recordId: Ref<string>) {
 			const $recordId = unref(recordId);
 			if ($recordId === RouteCreate) {
 				// Default model
-				return {
-					id: "",
-					title: "",
-					dateOccurred: Date.now(),
-					attributes: [],
-					activityType: {
-						id: "",
-						name: "",
-					},
-				};
+				return defaultActivity();
 			}
 			const { data } = await ActivitiesAPI.getActivity(recordId.value);
 			return data;
@@ -248,6 +255,26 @@ export function provideActivityRecord(recordId: Ref<string>) {
 		await mutation.mutateAsync();
 		updated.value = true;
 		savingRecord.value = false;
+	}
+
+	function saveAction(actionRecord?: ActivityActionViewModel) {
+		if (!actionRecord) {
+			return;
+		}
+		const actionRecords = viewRecord.value.actions;
+		const id = actionRecord.id;
+		if (id) {
+			const foundIndex = actionRecords.findIndex((action) => action.id === id) ?? -1;
+			if (foundIndex >= 0) {
+				actionRecords[foundIndex] = actionRecord;
+			}
+		}
+		else {
+			actionRecord.id = getUniqueId();
+			actionRecords.push(actionRecord);
+		}
+		// Must change the reference, so the grid updates
+		viewRecord.value!.actions = [...actionRecords];
 	}
 
 	function saveSelectedAttribute(attributeRecord = selectedAttributeRecord.value) {
@@ -276,6 +303,7 @@ export function provideActivityRecord(recordId: Ref<string>) {
 		savingRecord,
 		selectedAttributeRecord,
 		saveSelectedAttribute,
+		saveAction,
 	};
 
 	watch(query.data, ($data) => {
@@ -302,6 +330,16 @@ export function useGetActivityTypes() {
 		queryKey: [QueryGetActivityTypes],
 		async queryFn() {
 			const { data } = await ActivitiesAPI.getActivityTypes();
+			return data;
+		},
+	});
+}
+
+export function useGetActionTypes() {
+	return useQuery({
+		queryKey: [QueryGetActionTypes],
+		async queryFn() {
+			const { data } = await ActivitiesAPI.getActionTypes();
 			return data;
 		},
 	});

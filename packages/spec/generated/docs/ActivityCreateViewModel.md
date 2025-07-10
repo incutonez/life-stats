@@ -17,6 +17,7 @@ Name | Type | Description | Notes
 **dateOccurred** | **number** |  | [default to undefined]
 **activityType** | [**ActivityTypeCreateViewModel**](ActivityTypeCreateViewModel.md) |  | [default to undefined]
 **attributes** | [**Array&lt;ActivityAttributeCreateViewModel&gt;**](ActivityAttributeCreateViewModel.md) |  | [default to undefined]
+**actions** | [**Array&lt;ActivityActionViewModel&gt;**](ActivityActionViewModel.md) |  | [default to undefined]
 **calories** | **number** |  | [optional] [default to undefined]
 **weightLost** | **number** |  | [optional] [default to undefined]
 
@@ -38,6 +39,7 @@ const instance: ActivityCreateViewModel = {
     dateOccurred,
     activityType,
     attributes,
+    actions,
     calories,
     weightLost,
 };

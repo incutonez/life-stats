@@ -164,7 +164,7 @@ watch(() => options, ($options) => filteredOptions.value = $options);
 		<ComboboxPortal>
 			<ComboboxContent
 				position="popper"
-				class="z-1 bg-white w-(--reka-combobox-trigger-width) shadow-lg border max-h-56 overflow-auto"
+				class="z-auto bg-white w-(--reka-combobox-trigger-width) shadow-lg border max-h-56 overflow-auto"
 				@pointer-down-outside="onMouseDownOut"
 			>
 				<ComboboxItem

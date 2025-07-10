@@ -16,6 +16,7 @@ import { ActivitiesService } from "@/exercises/activities/activities.service";
 import { StravaService } from "@/exercises/activities/strava.service";
 import { EnumActivitySource } from "@/exercises/constants";
 import { ExerciseActivityUpload } from "@/exercises/types";
+import { ActivityActionTypeViewModel } from "@/exercises/viewModels/activity.action.type.viewmodel";
 import { ActivityTypeViewModel } from "@/exercises/viewModels/activity.type.viewmodel";
 import {
 	ActivityCreateViewModel,
@@ -65,6 +66,11 @@ export class ActivitiesController {
 	@Get("activity-types")
 	async getActivityTypes(): Promise<ActivityTypeViewModel[]> {
 		return this.service.getActivityTypes();
+	}
+
+	@Get("action-types")
+	async getActionTypes(): Promise<ActivityActionTypeViewModel[]> {
+		return this.service.getActionTypes();
 	}
 
 	@Post("")

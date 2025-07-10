@@ -15,6 +15,9 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import type { ActivityActionViewModel } from './activity-action-view-model';
+// May contain unused imports in some cases
+// @ts-ignore
 import type { ActivityAttributeCreateViewModel } from './activity-attribute-create-view-model';
 // May contain unused imports in some cases
 // @ts-ignore
@@ -101,6 +104,12 @@ export interface ActivityCreateViewModel {
      * @memberof ActivityCreateViewModel
      */
     'attributes': Array<ActivityAttributeCreateViewModel>;
+    /**
+     * 
+     * @type {Array<ActivityActionViewModel>}
+     * @memberof ActivityCreateViewModel
+     */
+    'actions': Array<ActivityActionViewModel>;
     /**
      * 
      * @type {number}

@@ -15,6 +15,9 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import type { ActivityActionViewModel } from './activity-action-view-model';
+// May contain unused imports in some cases
+// @ts-ignore
 import type { ActivityAttributeViewModel } from './activity-attribute-view-model';
 // May contain unused imports in some cases
 // @ts-ignore
@@ -107,6 +110,12 @@ export interface ActivityViewModel {
      * @memberof ActivityViewModel
      */
     'dateOccurred': number;
+    /**
+     * 
+     * @type {Array<ActivityActionViewModel>}
+     * @memberof ActivityViewModel
+     */
+    'actions': Array<ActivityActionViewModel>;
     /**
      * 
      * @type {number}

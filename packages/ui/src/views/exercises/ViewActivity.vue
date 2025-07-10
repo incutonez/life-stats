@@ -1,26 +1,16 @@
 ﻿<script setup lang="ts">
-import { computed, ref, unref, watch } from "vue";
-import { type ActivityAttributeViewModel } from "@incutonez/life-stats-spec";
-import clone from "just-clone";
+import { computed, reactive, ref, unref, watch } from "vue";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
-import FieldComboBox from "@/components/FieldComboBox.vue";
-import FieldDate from "@/components/FieldDate.vue";
-import FieldDisplay from "@/components/FieldDisplay.vue";
-import FieldNumber from "@/components/FieldNumber.vue";
-import FieldText from "@/components/FieldText.vue";
-import { IconAdd, IconDelete, IconEdit, IconSave } from "@/components/Icons.ts";
-import TableData from "@/components/TableData.vue";
+import BaseTabs from "@/components/BaseTabs.vue";
+import { IconDelete, IconSave } from "@/components/Icons.ts";
 import { injectUserProfile } from "@/composables/app.ts";
-import { useTableActions, useTableData } from "@/composables/table.ts";
-import { getUniqueId } from "@/utils/common.ts";
-import { numberToDisplay } from "@/utils/formatters.ts";
+import type { IBaseTab } from "@/types/components.ts";
+import TabActions from "@/views/exercises/activities/TabActions.vue";
+import TabAttributes from "@/views/exercises/activities/TabAttributes.vue";
+import TabDetails from "@/views/exercises/activities/TabDetails.vue";
 import { provideActivityRecord, useDeleteActivity } from "@/views/exercises/composables/activities.ts";
 import { useExerciseRoutes } from "@/views/exercises/composables/routes.ts";
-import { useAttributesColumns } from "@/views/exercises/composables/table.ts";
-import { ActivitySourceOptions } from "@/views/exercises/constants.ts";
-import FieldActivityTypes from "@/views/exercises/shared/FieldActivityTypes.vue";
-import ViewAttribute from "@/views/exercises/ViewAttribute.vue";
 import DeleteDialog from "@/views/shared/DeleteDialog.vue";
 
 interface IViewActivityProps {
@@ -30,32 +20,21 @@ interface IViewActivityProps {
 const props = defineProps<IViewActivityProps>();
 const show = ref(true);
 const showDeleteDialog = ref(false);
-const showAttributeDialog = ref(false);
 const recordId = computed(() => props.activityId);
 const { deletingRecord, deleteRecord } = useDeleteActivity();
-const { save, savingRecord, viewRecord, isEdit, selectedAttributeRecord, attributeRecords } = provideActivityRecord(recordId);
+const { save, savingRecord, viewRecord, isEdit } = provideActivityRecord(recordId);
 const { viewActivities } = useExerciseRoutes();
 const { userProfile } = injectUserProfile();
 const dialogTitle = computed(() => isEdit.value ? "Edit Activity" : "Create Activity");
-const attributesTable = useTableData<ActivityAttributeViewModel>({
-	data: attributeRecords,
-	sortInitial: [{
-		desc: false,
-		id: "attributeTypeName",
-	}],
-	columns: [useTableActions([{
-		icon: IconEdit,
-		handler(record) {
-			selectedAttributeRecord.value = clone(record);
-			showAttributeDialog.value = true;
-		},
-	}, {
-		icon: IconDelete,
-		handler({ id }) {
-			viewRecord.value!.attributes = attributeRecords.value.filter((item) => item.id !== id);
-		},
-	}]), ...useAttributesColumns()],
-});
+const tabs = reactive<IBaseTab[]>([{
+	title: "Details",
+	contentClasses: "p-form",
+}, {
+	title: "Actions",
+	contentClasses: "overflow-hidden",
+}, {
+	title: "Attributes",
+}]);
 
 async function onClickSave() {
 	await save();
@@ -75,18 +54,6 @@ function onClose() {
 	viewActivities();
 }
 
-function onClickAddAttribute() {
-	selectedAttributeRecord.value = {
-		id: getUniqueId(),
-		value: "",
-		attributeType: {
-			id: "",
-			name: "",
-		},
-	};
-	showAttributeDialog.value = true;
-}
-
 watch(userProfile, ($userProfile) => {
 	const $viewRecord = unref(viewRecord);
 	if (!isEdit.value && $viewRecord && !$viewRecord.weight) {
@@ -100,88 +67,25 @@ watch(userProfile, ($userProfile) => {
 		v-if="!!viewRecord"
 		v-model="show"
 		:title="dialogTitle"
-		body-class="flex space-x-form"
+		body-padding=""
 		class="size-4/5"
 		@close="onClose"
 	>
 		<template #content>
-			<section class="flex flex-col space-y-form">
-				<FieldText
-					v-model="viewRecord.title"
-					label="Title"
-					label-align="top"
-					autofocus
-					required
-				/>
-				<FieldActivityTypes
-					v-model="viewRecord.activityType"
-					label="Type"
-					label-align="top"
-					required
-				/>
-				<FieldNumber
-					v-model="viewRecord.weight"
-					label="Weight (lbs)"
-					label-align="top"
-				/>
-				<FieldText
-					v-model="viewRecord.description"
-					label="Description"
-					label-align="top"
-				/>
-				<FieldDisplay
-					v-if="viewRecord.calories"
-					:value="numberToDisplay(viewRecord.calories)"
-					label="Calories Burned"
-					label-align="top"
-				/>
-			</section>
-			<section class="flex flex-col space-y-form">
-				<FieldDate
-					v-model="viewRecord.dateOccurred"
-					label="Date"
-					label-align="top"
-					class="self-start"
-					required
-				/>
-				<FieldNumber
-					v-model="viewRecord.duration"
-					label="Duration (hours)"
-					label-align="top"
-				/>
-				<FieldComboBox
-					v-model="viewRecord.source"
-					value-field="id"
-					display-field="display"
-					label="Source"
-					label-align="top"
-					value-only
-					:options="ActivitySourceOptions"
-				/>
-				<FieldText
-					v-if="!!viewRecord.source"
-					v-model="viewRecord.sourceId"
-					label="Source ID"
-					label-align="top"
-				/>
-				<FieldDisplay
-					v-if="viewRecord.weightLost"
-					:value="numberToDisplay(viewRecord.weightLost, 2, 'lbs')"
-					label="Weight Lost"
-					label-align="top"
-				/>
-			</section>
-			<section class="flex-1 flex flex-col space-y-2">
-				<section class="ml-auto">
-					<BaseButton
-						:icon="IconAdd"
-						text="Attribute"
-						theme="info"
-						@click="onClickAddAttribute"
-					/>
-				</section>
-				<TableData :table="attributesTable.table" />
-			</section>
+			<BaseTabs
+				:tabs="tabs"
+				orientation="vertical"
+			>
+				<template #Details>
+					<TabDetails />
+				</template>
+				<template #Actions>
+					<TabActions />
+				</template>
+				<template #Attributes>
+					<TabAttributes />
+				</template>
+			</BaseTabs>
 		</template>
 		<template #footer>
 			<BaseButton
@@ -204,10 +108,6 @@ watch(userProfile, ($userProfile) => {
 				entity-name="this activity"
 				:loading="deletingRecord"
 				@delete="onClickDelete"
-			/>
-			<ViewAttribute
-				v-if="showAttributeDialog"
-				v-model="showAttributeDialog"
 			/>
 		</template>
 	</BaseDialog>

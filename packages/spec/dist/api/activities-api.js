@@ -44,6 +44,24 @@ export const ActivitiesApiAxiosParamCreator = function (configuration) {
                 options: localVarRequestOptions,
             };
         },
+        getActionTypes: async (options = {}) => {
+            const localVarPath = `/exercises/activities/action-types`;
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
+            const localVarHeaderParameter = {};
+            const localVarQueryParameter = {};
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         getActivity: async (activityId, options = {}) => {
             assertParamExists('getActivity', 'activityId', activityId);
             const localVarPath = `/exercises/activities/{activityId}`
@@ -207,6 +225,12 @@ export const ActivitiesApiFp = function (configuration) {
             const localVarOperationServerBasePath = operationServerMap['ActivitiesApi.deleteActivity']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        async getActionTypes(options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getActionTypes(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ActivitiesApi.getActionTypes']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
         async getActivity(activityId, options) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getActivity(activityId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -260,6 +284,9 @@ export const ActivitiesApiFactory = function (configuration, basePath, axios) {
         deleteActivity(activityId, options) {
             return localVarFp.deleteActivity(activityId, options).then((request) => request(axios, basePath));
         },
+        getActionTypes(options) {
+            return localVarFp.getActionTypes(options).then((request) => request(axios, basePath));
+        },
         getActivity(activityId, options) {
             return localVarFp.getActivity(activityId, options).then((request) => request(axios, basePath));
         },
@@ -289,6 +316,9 @@ export class ActivitiesApi extends BaseAPI {
     }
     deleteActivity(activityId, options) {
         return ActivitiesApiFp(this.configuration).deleteActivity(activityId, options).then((request) => request(this.axios, this.basePath));
+    }
+    getActionTypes(options) {
+        return ActivitiesApiFp(this.configuration).getActionTypes(options).then((request) => request(this.axios, this.basePath));
     }
     getActivity(activityId, options) {
         return ActivitiesApiFp(this.configuration).getActivity(activityId, options).then((request) => request(this.axios, this.basePath));

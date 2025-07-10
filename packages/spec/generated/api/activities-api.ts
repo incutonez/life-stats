@@ -22,6 +22,8 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
+import type { ActivityActionTypeViewModel } from '../models';
+// @ts-ignore
 import type { ActivityCreateViewModel } from '../models';
 // @ts-ignore
 import type { ActivityListViewModel } from '../models';
@@ -91,6 +93,35 @@ export const ActivitiesApiAxiosParamCreator = function (configuration?: Configur
             }
 
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getActionTypes: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/exercises/activities/action-types`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -381,6 +412,17 @@ export const ActivitiesApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getActionTypes(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ActivityActionTypeViewModel>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getActionTypes(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ActivitiesApi.getActionTypes']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {string} activityId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -492,6 +534,14 @@ export const ActivitiesApiFactory = function (configuration?: Configuration, bas
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getActionTypes(options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityActionTypeViewModel>> {
+            return localVarFp.getActionTypes(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {string} activityId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -578,6 +628,14 @@ export interface ActivitiesApiInterface {
      * @memberof ActivitiesApiInterface
      */
     deleteActivity(activityId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ActivitiesApiInterface
+     */
+    getActionTypes(options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityActionTypeViewModel>>;
 
     /**
      * 
@@ -670,6 +728,16 @@ export class ActivitiesApi extends BaseAPI implements ActivitiesApiInterface {
      */
     public deleteActivity(activityId: string, options?: RawAxiosRequestConfig) {
         return ActivitiesApiFp(this.configuration).deleteActivity(activityId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ActivitiesApi
+     */
+    public getActionTypes(options?: RawAxiosRequestConfig) {
+        return ActivitiesApiFp(this.configuration).getActionTypes(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

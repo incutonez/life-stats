@@ -1,4 +1,5 @@
 ﻿import { EnumActivitySource } from "@/exercises/constants";
+import { ActivityActionViewModel } from "@/exercises/viewModels/activity.action.viewmodel";
 import {
 	ActivityAttributeCreateViewModel,
 	ActivityAttributeViewModel,
@@ -36,7 +37,9 @@ export class ActivityCreateViewModel extends BaseViewModel {
 
 	declare activityType: ActivityTypeCreateViewModel;
 
-	declare attributes: ActivityAttributeCreateViewModel[];
+	attributes: ActivityAttributeCreateViewModel[] = [];
+
+	actions: ActivityActionViewModel[] = [];
 
 	declare calories?: number;
 

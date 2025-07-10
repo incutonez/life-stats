@@ -28,7 +28,7 @@ function getAlignment(columnAlign?: "left" | "center" | "right") {
 
 function getHeaderClass(header: ITableHeader<TData>) {
 	const meta = header.column.columnDef.meta;
-	const cls = ["p-2 border-r border-b border-b sticky top-0", isSubRow ? "" : "z-1", getAlignment(meta?.columnAlign), meta?.columnWidth ?? "min-w-64"];
+	const cls = ["p-2 border-r border-b border-b sticky top-0", isSubRow ? "" : "z-auto", getAlignment(meta?.columnAlign), meta?.columnWidth ?? "min-w-64"];
 	if (header.column.getCanSort()) {
 		cls.push("cursor-pointer select-none hover:bg-sky-200");
 	}

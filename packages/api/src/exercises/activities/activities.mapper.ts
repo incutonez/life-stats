@@ -3,6 +3,8 @@ import { AttributeTypesMapper } from "@/attributeTypes/attributeTypes.mapper";
 import { SessionStorageService } from "@/auth/session.storage.service";
 import { EnumFeatures, SESSION_STORAGE } from "@/constants";
 import { EnumActivitySource } from "@/exercises/constants";
+import { IActivityActionModel } from "@/exercises/models/ActivityActionModel";
+import { IActivityActionTypeModel } from "@/exercises/models/ActivityActionTypeModel";
 import {
 	IActivityAttributeCreate,
 	IActivityAttributeModel,
@@ -14,6 +16,8 @@ import {
 } from "@/exercises/models/ActivityModel";
 import { IActivityTypeCreate, IActivityTypeModel } from "@/exercises/models/ActivityTypeModel";
 import { IStubAttributeOptions } from "@/exercises/types";
+import { IActivityActionTypeViewModel } from "@/exercises/viewModels/activity.action.type.viewmodel";
+import { IActivityActionViewModel } from "@/exercises/viewModels/activity.action.viewmodel";
 import { IActivityAttributeCreateViewModel, IActivityAttributeViewModel } from "@/exercises/viewModels/activity.attribute.viewmodel";
 import {
 	IActivityTypeCreateViewModel,
@@ -53,7 +57,7 @@ export class ActivitiesMapper {
 		return undefined;
 	}
 
-	entityToViewModel({ id, user_id, calories, weight_lost, duration, weight, source_id, title, activity_type, created_at, updated_at, attributes = [], source, description, date_occurred }: IActivityModel, addMeta = true): IActivityViewModel {
+	entityToViewModel({ id, user_id, actions = [], calories, weight_lost, duration, weight, source_id, title, activity_type, created_at, updated_at, attributes = [], source, description, date_occurred }: IActivityModel, addMeta = true): IActivityViewModel {
 		const response = {
 			id,
 			source,
@@ -66,12 +70,37 @@ export class ActivitiesMapper {
 			sourceId: source_id,
 			activityType: this.entityActivityTypeToViewModel(activity_type),
 			attributes: attributes.map((attribute) => this.entityActivityAttributeToViewModel(attribute)),
+			actions: actions.map((action) => this.entityActivityActionToViewModel(action)),
 			dateOccurred: date_occurred,
 		};
 		if (addMeta) {
 			addMetaInfo(response, user_id, created_at, updated_at);
 		}
 		return response;
+	}
+
+	entityActivityActionTypeToViewModel({ id, name, user_id, created_at, updated_at, actions = [] }: IActivityActionTypeModel, addMeta = false): IActivityActionTypeViewModel {
+		const viewModel = {
+			id,
+			name,
+			actions: actions.map((action) => this.entityActivityActionToViewModel(action)),
+		};
+		if (addMeta) {
+			addMetaInfo(viewModel, user_id, created_at, updated_at);
+		}
+		return viewModel;
+	}
+
+	entityActivityActionToViewModel({ id, user_id, updated_at, created_at, action_type, value, order }: IActivityActionModel): IActivityActionViewModel {
+		return {
+			id,
+			value,
+			order,
+			userId: user_id,
+			dateUpdated: updated_at?.getTime(),
+			dateCreated: created_at?.getTime(),
+			actionType: this.entityActivityActionTypeToViewModel(action_type),
+		};
 	}
 
 	entityActivityAttributeToViewModel({ id, attribute_type, activity, unit_display, user_id, created_at, updated_at, value, unit }: IActivityAttributeModel, addMeta = false) {
@@ -149,6 +178,22 @@ export class ActivitiesMapper {
 		};
 	}
 
+	viewModelActivityActionToEntity({ id, userId, actionType, value, order }: IActivityActionViewModel, activityId = ""): IActivityActionModel {
+		return {
+			id,
+			value,
+			order,
+			action_type_id: actionType.id,
+			user_id: userId ?? this.storage.getUserId(),
+			activity_id: activityId,
+			action_type: {
+				id: actionType.id,
+				name: actionType.name,
+				user_id: actionType.userId ?? this.storage.getUserId(),
+			},
+		};
+	}
+
 	viewModelActivityAttributeToEntity({ id, value, unit, unitDisplay, activity, userId, attributeType }: IActivityAttributeViewModel, activityId = activity?.id): IActivityAttributeModel {
 		const result = localizeValue({
 			value,
@@ -168,7 +213,7 @@ export class ActivitiesMapper {
 		};
 	}
 
-	viewModelCreateToEntity({ userId, weight = this.storage.getUserSettings().exercises.weight, duration, source = EnumActivitySource.None, sourceId, activityType, attributes, description, title, dateOccurred }: IActivityCreateViewModel): IActivityCreate {
+	viewModelCreateToEntity({ userId, weight = this.storage.getUserSettings().exercises.weight, duration, source = EnumActivitySource.None, sourceId, activityType, attributes, description, title, dateOccurred, actions = [] }: IActivityCreateViewModel): IActivityCreate {
 		const defaultUserId = this.storage.getUserId();
 		sourceId = source === EnumActivitySource.None ? "" : sourceId;
 		return {
@@ -184,6 +229,7 @@ export class ActivitiesMapper {
 			date_occurred: dateOccurred,
 			activity_type: this.viewModelCreateActivityTypeToEntity(activityType),
 			attributes: attributes.map((attribute) => this.viewModelCreateActivityAttributesToEntity(attribute)),
+			actions: actions.map((action) => this.viewModelActivityActionToEntity(action)),
 		};
 	}
 

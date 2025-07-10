@@ -9,5 +9,7 @@ export declare const EnumTableNames: {
     readonly jobComments: 8;
     readonly unitTypes: 9;
     readonly users: 10;
+    readonly exerciseActivityActions: 11;
+    readonly exerciseActivityActionTypes: 12;
 };
 export type EnumTableNames = typeof EnumTableNames[keyof typeof EnumTableNames];

@@ -1,6 +1,7 @@
 import type { Configuration } from '../configuration';
 import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import { type RequestArgs, BaseAPI } from '../base';
+import type { ActivityActionTypeViewModel } from '../models';
 import type { ActivityCreateViewModel } from '../models';
 import type { ActivityListViewModel } from '../models';
 import type { ActivityTypeViewModel } from '../models';
@@ -9,6 +10,7 @@ import type { StravaTokenViewModel } from '../models';
 export declare const ActivitiesApiAxiosParamCreator: (configuration?: Configuration) => {
     createActivity: (activityCreateViewModel: ActivityCreateViewModel, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
     deleteActivity: (activityId: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    getActionTypes: (options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
     getActivity: (activityId: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
     getActivityTypes: (options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
     importStravaActivities: (file: File, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
@@ -20,6 +22,7 @@ export declare const ActivitiesApiAxiosParamCreator: (configuration?: Configurat
 export declare const ActivitiesApiFp: (configuration?: Configuration) => {
     createActivity(activityCreateViewModel: ActivityCreateViewModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActivityViewModel>>;
     deleteActivity(activityId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>>;
+    getActionTypes(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ActivityActionTypeViewModel>>>;
     getActivity(activityId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActivityViewModel>>;
     getActivityTypes(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ActivityTypeViewModel>>>;
     importStravaActivities(file: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ActivityCreateViewModel>>>;
@@ -31,6 +34,7 @@ export declare const ActivitiesApiFp: (configuration?: Configuration) => {
 export declare const ActivitiesApiFactory: (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) => {
     createActivity(activityCreateViewModel: ActivityCreateViewModel, options?: RawAxiosRequestConfig): AxiosPromise<ActivityViewModel>;
     deleteActivity(activityId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    getActionTypes(options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityActionTypeViewModel>>;
     getActivity(activityId: string, options?: RawAxiosRequestConfig): AxiosPromise<ActivityViewModel>;
     getActivityTypes(options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityTypeViewModel>>;
     importStravaActivities(file: File, options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityCreateViewModel>>;
@@ -42,6 +46,7 @@ export declare const ActivitiesApiFactory: (configuration?: Configuration, baseP
 export interface ActivitiesApiInterface {
     createActivity(activityCreateViewModel: ActivityCreateViewModel, options?: RawAxiosRequestConfig): AxiosPromise<ActivityViewModel>;
     deleteActivity(activityId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+    getActionTypes(options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityActionTypeViewModel>>;
     getActivity(activityId: string, options?: RawAxiosRequestConfig): AxiosPromise<ActivityViewModel>;
     getActivityTypes(options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityTypeViewModel>>;
     importStravaActivities(file: File, options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityCreateViewModel>>;
@@ -53,6 +58,7 @@ export interface ActivitiesApiInterface {
 export declare class ActivitiesApi extends BaseAPI implements ActivitiesApiInterface {
     createActivity(activityCreateViewModel: ActivityCreateViewModel, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<ActivityViewModel, any>>;
     deleteActivity(activityId: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<void, any>>;
+    getActionTypes(options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<ActivityActionTypeViewModel[], any>>;
     getActivity(activityId: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<ActivityViewModel, any>>;
     getActivityTypes(options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<ActivityTypeViewModel[], any>>;
     importStravaActivities(file: File, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<ActivityCreateViewModel[], any>>;

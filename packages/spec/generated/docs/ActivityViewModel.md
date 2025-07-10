@@ -18,6 +18,7 @@ Name | Type | Description | Notes
 **description** | **string** |  | [optional] [default to undefined]
 **sourceId** | **string** |  | [optional] [default to undefined]
 **dateOccurred** | **number** |  | [default to undefined]
+**actions** | [**Array&lt;ActivityActionViewModel&gt;**](ActivityActionViewModel.md) |  | [default to undefined]
 **calories** | **number** |  | [optional] [default to undefined]
 **weightLost** | **number** |  | [optional] [default to undefined]
 
@@ -40,6 +41,7 @@ const instance: ActivityViewModel = {
     description,
     sourceId,
     dateOccurred,
+    actions,
     calories,
     weightLost,
 };

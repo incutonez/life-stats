@@ -1,23 +1,8 @@
 ﻿<script setup lang="ts">
 import { computed, onMounted, ref, useSlots, watch } from "vue";
-import BaseButton, { type IBaseButtonProps } from "@/components/BaseButton.vue";
+import BaseButton from "@/components/BaseButton.vue";
 import { IconCancel, IconClose } from "@/components/Icons.ts";
-
-export interface IBaseDialogProps {
-	title?: string;
-	subtitle?: string;
-	bodyClass?: string;
-	bodyPadding?: string;
-	footerClass?: string;
-	closable?: boolean;
-	cancelConfig?: IBaseButtonProps;
-}
-
-export interface IBaseDialogEmits {
-	(event: "close"): void;
-	(event: "cancel"): void;
-	(event: "open"): void;
-}
+import type { BaseDialogEmits, BaseDialogProps } from "@/types/components.ts";
 
 defineOptions({
 	inheritAttrs: false,
@@ -26,9 +11,9 @@ defineOptions({
 const { closable = true, bodyPadding = "p-form", title = "", subtitle = "", bodyClass = "", footerClass = "", cancelConfig = {
 	text: "Cancel",
 	icon: IconCancel,
-} } = defineProps<IBaseDialogProps>();
+} } = defineProps<BaseDialogProps>();
 const open = defineModel<boolean>();
-const emit = defineEmits<IBaseDialogEmits>();
+const emit = defineEmits<BaseDialogEmits>();
 const rootEl = ref<HTMLDialogElement>();
 const slots = useSlots();
 const bodyClasses = computed(() => {
@@ -83,7 +68,7 @@ defineExpose({
 		<dialog
 			v-bind="$attrs"
 			ref="rootEl"
-			class="z-1 shadow-lg absolute left-0 right-0 top-0 bottom-0 m-auto bg-transparent overflow-hidden"
+			class="shadow-lg absolute left-0 right-0 top-0 bottom-0 m-auto bg-transparent overflow-hidden z-auto"
 		>
 			<article class="flex h-full">
 				<section class="flex-1 flex flex-col">

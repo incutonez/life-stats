@@ -6,6 +6,7 @@ All URIs are relative to *http://localhost*
 |------------- | ------------- | -------------|
 |[**createActivity**](#createactivity) | **POST** /exercises/activities | |
 |[**deleteActivity**](#deleteactivity) | **DELETE** /exercises/activities/{activityId} | |
+|[**getActionTypes**](#getactiontypes) | **GET** /exercises/activities/action-types | |
 |[**getActivity**](#getactivity) | **GET** /exercises/activities/{activityId} | |
 |[**getActivityTypes**](#getactivitytypes) | **GET** /exercises/activities/activity-types | |
 |[**importStravaActivities**](#importstravaactivities) | **POST** /exercises/activities/strava/import | |
@@ -112,6 +113,49 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 |**204** |  |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getActionTypes**
+> Array<ActivityActionTypeViewModel> getActionTypes()
+
+
+### Example
+
+```typescript
+import {
+    ActivitiesApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new ActivitiesApi(configuration);
+
+const { status, data } = await apiInstance.getActionTypes();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+**Array<ActivityActionTypeViewModel>**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** |  |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

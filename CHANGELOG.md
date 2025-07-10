@@ -1,3 +1,9 @@
+## [2.18.1](https://github.com/incutonez/life-stats/compare/v2.18.0...v2.18.1) (2025-07-10)
+
+### Bug Fixes
+
+* Fixing Issue with Altering Tables ([#98](https://github.com/incutonez/life-stats/issues/98)) ([657fbde](https://github.com/incutonez/life-stats/commit/657fbdeaf562e2645f31aff9331f2fb8648cbfb9))
+
 ## [2.18.0](https://github.com/incutonez/life-stats/compare/v2.17.0...v2.18.0) (2025-07-10)
 
 ### Features

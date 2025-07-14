@@ -1,3 +1,9 @@
+## [2.19.0](https://github.com/incutonez/life-stats/compare/v2.18.1...v2.19.0) (2025-07-14)
+
+### Features
+
+* Updating Actions ([#100](https://github.com/incutonez/life-stats/issues/100)) ([83a3c77](https://github.com/incutonez/life-stats/commit/83a3c772bd1febfb0602e2e50c07ccfabae4df20))
+
 ## [2.18.1](https://github.com/incutonez/life-stats/compare/v2.18.0...v2.18.1) (2025-07-10)
 
 ### Bug Fixes

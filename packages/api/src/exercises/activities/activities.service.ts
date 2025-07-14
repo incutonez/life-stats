@@ -2,7 +2,7 @@
 import { AttributeTypesService } from "@/attributeTypes/attributeTypes.service";
 import { ActivitiesMapper } from "@/exercises/activities/activities.mapper";
 import { ActivityActionModel, IActivityActionModelCreate } from "@/exercises/models/ActivityActionModel";
-import { ActivityActionTypeModel } from "@/exercises/models/ActivityActionTypeModel";
+import { ActivityActionTypeModel, IActivityActionTypeModel } from "@/exercises/models/ActivityActionTypeModel";
 import {
 	ActivityAttributeModel,
 	IActivityAttributeCreate,
@@ -35,6 +35,11 @@ export class ActivitiesService {
 				}],
 			}, {
 				association: "activity_type",
+			}, {
+				association: "actions",
+				include: [{
+					association: "action_type",
+				}],
 			}],
 		});
 		return {
@@ -63,20 +68,21 @@ export class ActivitiesService {
 		return ActivityAttributeModel.create(model);
 	}
 
-	async createActionType(name: string) {
+	async createActionType({ name, user_id }: IActivityActionTypeModel) {
 		const [entity] = await ActivityActionTypeModel.findOrCreate({
 			where: {
 				name,
 			},
 			defaults: {
 				name,
+				user_id,
 			},
 		});
 		return entity;
 	}
 
 	async createActivityAction(model: IActivityActionModelCreate) {
-		const actionType = await this.createActionType(model.action_type.name);
+		const actionType = await this.createActionType(model.action_type);
 		model.action_type_id = actionType.id;
 		return ActivityActionModel.create(model);
 	}

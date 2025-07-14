@@ -72,6 +72,7 @@ export interface BaseDialogProps {
 	footerClass?: string;
 	closable?: boolean;
 	cancelConfig?: IBaseButtonProps;
+	zIndex?: string;
 }
 
 export interface BaseDialogEmits {

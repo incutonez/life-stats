@@ -16,6 +16,10 @@ const showCommentDialog = ref(false);
 const comment = computed(() => selectedComment.value?.comment ?? "");
 const commentsTable = useTableData<CommentViewModel>({
 	data,
+	sortInitial: [{
+		id: "dateCreated",
+		desc: true,
+	}],
 	columns: [useTableActions([{
 		icon: IconEdit,
 		handler(record) {

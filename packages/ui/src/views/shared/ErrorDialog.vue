@@ -34,6 +34,7 @@ function onClickClose() {
 		:title="errorTitle"
 		class="size-1/2"
 		body-class="flex flex-col space-y-2"
+		z-index="z-1"
 		:cancel-config="cancelConfig"
 		@close="onClickClose"
 	>

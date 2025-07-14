@@ -30,7 +30,7 @@ const tabs = reactive<IBaseTab[]>([{
 	title: "Details",
 	contentClasses: "p-form",
 }, {
-	title: "Actions",
+	title: "Steps",
 	contentClasses: "overflow-hidden",
 }, {
 	title: "Attributes",
@@ -79,7 +79,7 @@ watch(userProfile, ($userProfile) => {
 				<template #Details>
 					<TabDetails />
 				</template>
-				<template #Actions>
+				<template #Steps>
 					<TabActions />
 				</template>
 				<template #Attributes>

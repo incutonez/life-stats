@@ -37,7 +37,7 @@ function getAlignment(columnAlign?: "left" | "center" | "right") {
 
 function getHeaderClass(header: ITableHeader<TData>) {
 	const meta = header.column.columnDef.meta;
-	const cls = ["p-2 border-r border-b border-b sticky top-0", isSubRow ? "" : "z-auto", getAlignment(meta?.columnAlign), meta?.columnWidth ?? "min-w-64"];
+	const cls = ["p-2 border-r border-b sticky top-0", isSubRow ? "" : "z-auto", getAlignment(meta?.columnAlign), meta?.columnWidth ?? "min-w-64"];
 	if (header.column.getCanSort()) {
 		cls.push("cursor-pointer select-none hover:bg-sky-200");
 	}
@@ -130,7 +130,10 @@ defineExpose({
 </script>
 
 <template>
-	<article class="overflow-auto size-full border">
+	<article
+		class="overflow-auto size-full"
+		:class="isSubRow ? '' : 'border'"
+	>
 		<table
 			class="border-spacing-0 border-separate w-full"
 			:class="tableCls"

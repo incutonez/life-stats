@@ -77,6 +77,10 @@ columns.value = [
 function renderCommentRows({ row }: ISubRowRenderer<ApplicationViewModel>) {
 	const table = useTableData<CommentViewModel>({
 		data: row.original.comments,
+		sortInitial: [{
+			id: "dateCreated",
+			desc: true,
+		}],
 		columns: [{
 			accessorKey: "comment",
 			header: "Comment",

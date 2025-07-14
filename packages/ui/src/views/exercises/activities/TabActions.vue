@@ -12,6 +12,7 @@ import { IconAdd, IconDelete, IconEdit, IconSave } from "@/components/Icons.ts";
 import TableData, { type TableDataComponent } from "@/components/TableData.vue";
 import { useTableActions, useTableData } from "@/composables/table.ts";
 import { injectActivityRecord } from "@/views/exercises/composables/activities.ts";
+import { useActionsColumns } from "@/views/exercises/composables/table.ts";
 import FieldActionTypes from "@/views/exercises/shared/FieldActionTypes.vue";
 
 const showDialog = ref(false);
@@ -26,7 +27,7 @@ const data = computed({
 		viewRecord.value.actions = rows;
 	},
 });
-const dialogTitle = computed(() => selectedRecord.value?.id ? "Edit Action" : "Create Action");
+const dialogTitle = computed(() => selectedRecord.value?.id ? "Edit Step" : "Create Step");
 const { table } = useTableData<ActivityActionViewModel>({
 	data,
 	sortInitial: [{
@@ -44,25 +45,7 @@ const { table } = useTableData<ActivityActionViewModel>({
 		handler({ id }) {
 			viewRecord.value!.actions = data.value.filter((item) => item.id !== id);
 		},
-	}]), {
-		accessorKey: "value",
-		header: "Value",
-		meta: {
-			columnAlign: "center",
-			columnWidth: "w-auto",
-			cellCls: "w-0",
-		},
-	}, {
-		accessorKey: "actionType.name",
-		header: "Name",
-	}, {
-		accessorKey: "order",
-		header: "Order",
-		meta: {
-			columnWidth: "w-auto",
-			cellCls: "w-0",
-		},
-	}],
+	}]), ...useActionsColumns()],
 });
 
 function onClickAddAction() {
@@ -110,7 +93,7 @@ useSortable(() => tableRef.value?.rowBody, data, {
 	<section class="flex p-2">
 		<ButtonHelp content="Actions are the steps/routine of the activity... e.g. 25 pushups, 10 superman, etc." />
 		<BaseButton
-			text="Action"
+			text="Step"
 			:icon="IconAdd"
 			class="ml-auto"
 			theme="info"

@@ -8,7 +8,7 @@ defineOptions({
 	inheritAttrs: false,
 });
 
-const { closable = true, bodyPadding = "p-form", title = "", subtitle = "", bodyClass = "", footerClass = "", cancelConfig = {
+const { closable = true, bodyPadding = "p-form", zIndex = "z-auto", title = "", subtitle = "", bodyClass = "", footerClass = "", cancelConfig = {
 	text: "Cancel",
 	icon: IconCancel,
 } } = defineProps<BaseDialogProps>();
@@ -68,7 +68,8 @@ defineExpose({
 		<dialog
 			v-bind="$attrs"
 			ref="rootEl"
-			class="shadow-lg absolute left-0 right-0 top-0 bottom-0 m-auto bg-transparent overflow-hidden z-auto"
+			:class="zIndex"
+			class="shadow-lg absolute left-0 right-0 top-0 bottom-0 m-auto bg-transparent overflow-hidden"
 		>
 			<article class="flex h-full">
 				<section class="flex-1 flex flex-col">

@@ -1,5 +1,6 @@
 ﻿import { h } from "vue";
 import {
+	type ActivityActionViewModel,
 	type ActivityAttributeViewModel,
 	type ActivityCreateViewModel,
 	EnumActivitySource,
@@ -7,6 +8,7 @@ import {
 } from "@incutonez/life-stats-spec";
 import TableData from "@/components/TableData.vue";
 import { useDateColumn, useTableData } from "@/composables/table.ts";
+import { ColumnFitWidth } from "@/constants.ts";
 import type { ITableColumn, ITableData } from "@/types/components.ts";
 import { getEnumDisplay } from "@/utils/common.ts";
 import { numberToDisplay } from "@/utils/formatters.ts";
@@ -18,8 +20,8 @@ export function useActivitiesColumns<T extends ActivityCreateViewModel>(): ITabl
 			accessorKey: "activityType.name",
 			header: "Type",
 			meta: {
-				columnWidth: "w-max",
 				columnAlign: "center",
+				...ColumnFitWidth,
 			},
 		}, {
 			accessorKey: "title",
@@ -74,11 +76,58 @@ export function useActivitiesColumns<T extends ActivityCreateViewModel>(): ITabl
 				return h<ITableData<ActivityAttributeViewModel>>(TableData, {
 					table: attributesTable.table,
 					hideHeaders: true,
-					class: "!border-0",
+					isSubRow: true,
+				});
+			},
+		}, {
+			accessorKey: "actions",
+			header: "Steps",
+			meta: {
+				cellCls: "!p-0 align-top",
+			},
+			cell(info) {
+				const records = info.getValue<ActivityActionViewModel[]>();
+				const attributesTable = useTableData<ActivityActionViewModel>({
+					data: records,
+					sortInitial: [{
+						desc: false,
+						id: "order",
+					}],
+					columns: useActionsColumns(),
+				});
+				return h<ITableData<ActivityActionViewModel>>(TableData, {
+					table: attributesTable.table,
+					hideHeaders: true,
+					isSubRow: true,
+					tableClasses: "h-full",
 				});
 			},
 		},
 	];
+}
+
+export function useActionsColumns<T extends ActivityActionViewModel>(): ITableColumn<T>[] {
+	return [{
+		accessorKey: "order",
+		header: "Order",
+		meta: {
+			columnAlign: "center",
+			...ColumnFitWidth,
+		},
+	}, {
+		accessorKey: "actionType.name",
+		header: "Name",
+		meta: {
+			cellCls: "w-full",
+		},
+	}, {
+		accessorKey: "value",
+		header: "Value",
+		meta: {
+			columnAlign: "center",
+			...ColumnFitWidth,
+		},
+	}];
 }
 
 export function useAttributesColumns<T extends ActivityAttributeViewModel>(): ITableColumn<T>[] {

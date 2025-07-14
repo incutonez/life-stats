@@ -7,8 +7,9 @@ declare module "@tanstack/vue-table" {
 		cellCls?: string | ((cell: ITableCell<TData>) => string);
 		footerCls?: (header: ITableHeader<TData>) => string;
 		/**
-		 * If we want to let the column match its longest text, it's best to use w-auto for this value and w-0 for cellCls, and then set the
-		 * table-layout to auto
+		 * If we want to let the column match its longest text, it's best to use the ColumnFitWidth var in constants.ts, and
+		 * then set the table-layout to auto
+		 * Source: https://stackoverflow.com/a/11267268/1253609
 		 */
 		columnWidth?: string;
 		columnAlign?: "left" | "center" | "right";

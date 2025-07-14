@@ -91,16 +91,17 @@ export class ActivitiesMapper {
 		return viewModel;
 	}
 
-	entityActivityActionToViewModel({ id, user_id, updated_at, created_at, action_type, value, order }: IActivityActionModel): IActivityActionViewModel {
-		return {
+	entityActivityActionToViewModel({ id, user_id, updated_at, created_at, action_type, value, order }: IActivityActionModel, addMeta = false): IActivityActionViewModel {
+		const viewModel = {
 			id,
 			value,
 			order,
-			userId: user_id,
-			dateUpdated: updated_at?.getTime(),
-			dateCreated: created_at?.getTime(),
 			actionType: this.entityActivityActionTypeToViewModel(action_type),
 		};
+		if (addMeta) {
+			addMetaInfo(viewModel, user_id, created_at, updated_at);
+		}
+		return viewModel;
 	}
 
 	entityActivityAttributeToViewModel({ id, attribute_type, activity, unit_display, user_id, created_at, updated_at, value, unit }: IActivityAttributeModel, addMeta = false) {

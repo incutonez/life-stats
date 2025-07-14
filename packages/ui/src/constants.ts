@@ -20,6 +20,11 @@ export const TablePageSizes: IOption[] = [{
 	display: "250",
 }];
 
+export const ColumnFitWidth = {
+	columnWidth: "w-fit",
+	cellCls: "w-max whitespace-nowrap",
+};
+
 export const RouteCreate = "create";
 
 export const RouteHome = "home";

@@ -6,7 +6,8 @@ import { ApplicationsMapper } from "@/jobs/applications/applications.mapper";
 import { CommentsMapper } from "@/jobs/applications/comments.mapper";
 import { IUploadApplicationModel } from "@/jobs/applications/types";
 import { CompaniesService } from "@/jobs/companies/companies.service";
-import { EnumApplicationStatus, EnumLinkType } from "@/jobs/constants";
+import { APPLICATIONS_REPOSITORY, EnumApplicationStatus, EnumLinkType } from "@/jobs/constants";
+import { ApplicationProvider } from "@/jobs/models";
 import { ApplicationModel } from "@/jobs/models/ApplicationModel";
 import { CommentModel } from "@/jobs/models/CommentModel";
 import {
@@ -31,11 +32,11 @@ const CSVFields = [
 
 @Injectable()
 export class ApplicationsService {
-	constructor(private mapper: ApplicationsMapper, private commentsMapper: CommentsMapper, private companiesService: CompaniesService, @Inject(SESSION_STORAGE) private authStorageService: SessionStorageService) {
+	constructor(@Inject(APPLICATIONS_REPOSITORY) private readonly repository: ApplicationProvider, private mapper: ApplicationsMapper, private commentsMapper: CommentsMapper, private companiesService: CompaniesService, @Inject(SESSION_STORAGE) private authStorageService: SessionStorageService) {
 	}
 
 	async listApplications(_params: ApiPaginatedRequest): Promise<ApplicationListViewModel> {
-		const { rows, count } = await ApplicationModel.findAndCountAll({
+		const { rows, count } = await this.repository.findAndCountAll({
 			// Distinct is used to fix associations being counted in the final count that's returned
 			distinct: true,
 			include: [{
@@ -54,7 +55,7 @@ export class ApplicationsService {
 	}
 
 	async getApplicationEntity(id: string) {
-		return ApplicationModel.findByPk(id, {
+		return this.repository.findByPk(id, {
 			include: [{
 				all: true,
 				nested: true,
@@ -78,7 +79,7 @@ export class ApplicationsService {
 
 	async createApplication(viewModel: ApplicationCreateViewModel, useAppliedDate = false) {
 		viewModel.company = await this.companiesService.createCompany(viewModel.company.name);
-		const entity = await ApplicationModel.create(this.mapper.createViewModelToEntity(viewModel, useAppliedDate), {
+		const entity = await this.repository.create(this.mapper.createViewModelToEntity(viewModel, useAppliedDate), {
 			raw: true,
 		});
 		const { id } = entity;

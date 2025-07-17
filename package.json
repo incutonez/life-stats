@@ -11,6 +11,8 @@
     "api:commit": "cd packages/api && npm run lint",
     "api:docker": "docker compose -f docker/api.compose.yaml --profile production",
     "api:docker:test": "docker compose -f docker/api.compose.yaml --profile test",
+    "api:test": "cd packages/api && npm run test",
+    "api:test:coverage": "cd packages/api && npm run test -- --coverage.enabled --coverage.all",
     "certs": "npx tsx certs.ts",
     "db:migration": "cd packages/api && npm run db:migration",
     "db:migration:add": "cd packages/api && npm run db:migration:add",

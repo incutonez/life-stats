@@ -3,7 +3,7 @@
  */
  const HideViewed = true;
  const HideApplied = true;
- const HidePromoted = false;
+ const HidePromoted = true;
 const MatchRegex = [HideViewed ? "Viewed" : "", HideApplied ? "Applied" : "", HidePromoted ? "Promoted" : ""].filter(Boolean).join("|");
 const Today = new Date();
 const OneWeek = 604800000;

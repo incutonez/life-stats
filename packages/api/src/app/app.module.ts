@@ -16,6 +16,12 @@ import { UsersModule } from "@/users/users.module";
  */
 @Module({
 	imports: [
+		ClsModule.forRoot({
+			global: true,
+			middleware: {
+				mount: true,
+			},
+		}),
 		AuthModule,
 		DatabaseModule,
 		AuditsModule,
@@ -23,12 +29,6 @@ import { UsersModule } from "@/users/users.module";
 		ExercisesModule,
 		UsersModule,
 		AttributeTypesModule,
-		ClsModule.forRoot({
-			global: true,
-			middleware: {
-				mount: true,
-			},
-		}),
 	],
 	controllers: [AppController],
 	providers: [AppService],

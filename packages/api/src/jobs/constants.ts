@@ -1,4 +1,6 @@
-﻿export const EnumLocationTypes = {
+﻿export const APPLICATIONS_REPOSITORY = "APPLICATIONS_REPOSITORY";
+
+export const EnumLocationTypes = {
 	Remote: 1,
 	Hybrid: 2,
 	OnSite: 3,

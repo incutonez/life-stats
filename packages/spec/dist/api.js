@@ -1,3 +1,4 @@
+export * from './api/action-types-api';
 export * from './api/activities-api';
 export * from './api/app-api';
 export * from './api/applications-api';

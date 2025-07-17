@@ -1,8 +1,8 @@
 ﻿import { Injectable } from "@nestjs/common";
 import { WhereOptions } from "@sequelize/core";
 import { AttributeTypesMapper } from "@/attributeTypes/attributeTypes.mapper";
-import { AttributeTypeModel, IAttributeTypeCreate } from "@/db/models/AttributeTypeModel";
-import { AttributeTypeCreateViewModel } from "@/viewModels/attribute.type.viewmodel";
+import { AttributeTypeModel } from "@/db/models/AttributeTypeModel";
+import { AttributeTypeViewModel } from "@/viewModels/attribute.type.viewmodel";
 
 @Injectable()
 export class AttributeTypesService {
@@ -14,7 +14,8 @@ export class AttributeTypesService {
 		return entities.map((entity) => this.mapper.entityToViewModel(entity, addMeta));
 	}
 
-	async createAttributeTypeRaw(model: IAttributeTypeCreate) {
+	async createAttributeType(viewModel: AttributeTypeViewModel) {
+		const model = this.mapper.viewModelToEntity(viewModel);
 		const where: WhereOptions<AttributeTypeModel> = {
 			name: model.name,
 		};
@@ -26,9 +27,5 @@ export class AttributeTypesService {
 			defaults: model,
 		});
 		return entity;
-	}
-
-	async createAttributeType(viewModel: AttributeTypeCreateViewModel) {
-		return this.createAttributeTypeRaw(this.mapper.viewModelCreateToEntity(viewModel));
 	}
 }

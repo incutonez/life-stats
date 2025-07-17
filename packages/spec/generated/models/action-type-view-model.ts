@@ -16,48 +16,57 @@
 // May contain unused imports in some cases
 // @ts-ignore
 import type { ActivityActionViewModel } from './activity-action-view-model';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { RoutineActionViewModel } from './routine-action-view-model';
 
 /**
  * 
  * @export
- * @interface ActivityActionTypeViewModel
+ * @interface ActionTypeViewModel
  */
-export interface ActivityActionTypeViewModel {
+export interface ActionTypeViewModel {
     /**
      * 
      * @type {string}
-     * @memberof ActivityActionTypeViewModel
+     * @memberof ActionTypeViewModel
      */
     'userId'?: string;
     /**
      * 
      * @type {number}
-     * @memberof ActivityActionTypeViewModel
+     * @memberof ActionTypeViewModel
      */
     'dateCreated'?: number;
     /**
      * 
      * @type {number}
-     * @memberof ActivityActionTypeViewModel
+     * @memberof ActionTypeViewModel
      */
     'dateUpdated'?: number;
     /**
      * 
      * @type {string}
-     * @memberof ActivityActionTypeViewModel
+     * @memberof ActionTypeViewModel
      */
     'id': string;
     /**
      * 
      * @type {string}
-     * @memberof ActivityActionTypeViewModel
+     * @memberof ActionTypeViewModel
      */
     'name': string;
     /**
      * 
      * @type {Array<ActivityActionViewModel>}
-     * @memberof ActivityActionTypeViewModel
+     * @memberof ActionTypeViewModel
      */
     'actions'?: Array<ActivityActionViewModel>;
+    /**
+     * 
+     * @type {Array<RoutineActionViewModel>}
+     * @memberof ActionTypeViewModel
+     */
+    'routines'?: Array<RoutineActionViewModel>;
 }
 

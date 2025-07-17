@@ -101,7 +101,7 @@ input[type=number] {
     }
     
     .base-button {
-        @apply px-2 py-1 inline-flex cursor-pointer select-none items-center justify-center overflow-hidden relative text-sm transition-colors duration-200 rounded-md disabled:opacity-60 disabled:cursor-not-allowed;
+        @apply px-2 py-1 inline-flex cursor-pointer select-none items-center justify-center overflow-hidden text-sm transition-colors duration-200 rounded-md disabled:opacity-60 disabled:cursor-not-allowed;
 
         &.button-normal {
             @apply bg-gray-200 font-semibold enabled:hover:bg-slate-300 enabled:active:bg-slate-200 text-gray-800 border

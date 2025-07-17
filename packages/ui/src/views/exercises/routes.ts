@@ -25,7 +25,7 @@ export const ExercisesRoutes: RouteRecordRaw = {
 			name: RouteExercisesActivitiesStravaSync,
 			component: ViewSyncStrava,
 		}, {
-			path: ":activityId",
+			path: ":activityId/:tabId",
 			name: RouteViewActivity,
 			component: ViewActivity,
 			props: true,

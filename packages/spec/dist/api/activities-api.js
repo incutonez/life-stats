@@ -3,8 +3,8 @@ import { DUMMY_BASE_URL, assertParamExists, setSearchParams, serializeDataIfNeed
 import { BASE_PATH, BaseAPI, operationServerMap } from '../base';
 export const ActivitiesApiAxiosParamCreator = function (configuration) {
     return {
-        createActivity: async (activityCreateViewModel, options = {}) => {
-            assertParamExists('createActivity', 'activityCreateViewModel', activityCreateViewModel);
+        createActivity: async (activityViewModel, options = {}) => {
+            assertParamExists('createActivity', 'activityViewModel', activityViewModel);
             const localVarPath = `/exercises/activities`;
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -18,7 +18,7 @@ export const ActivitiesApiAxiosParamCreator = function (configuration) {
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-            localVarRequestOptions.data = serializeDataIfNeeded(activityCreateViewModel, localVarRequestOptions, configuration);
+            localVarRequestOptions.data = serializeDataIfNeeded(activityViewModel, localVarRequestOptions, configuration);
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -34,24 +34,6 @@ export const ActivitiesApiAxiosParamCreator = function (configuration) {
                 baseOptions = configuration.baseOptions;
             }
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options };
-            const localVarHeaderParameter = {};
-            const localVarQueryParameter = {};
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        getActionTypes: async (options = {}) => {
-            const localVarPath = `/exercises/activities/action-types`;
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -187,8 +169,8 @@ export const ActivitiesApiAxiosParamCreator = function (configuration) {
                 options: localVarRequestOptions,
             };
         },
-        uploadStravaActivities: async (activityCreateViewModel, options = {}) => {
-            assertParamExists('uploadStravaActivities', 'activityCreateViewModel', activityCreateViewModel);
+        uploadStravaActivities: async (activityViewModel, options = {}) => {
+            assertParamExists('uploadStravaActivities', 'activityViewModel', activityViewModel);
             const localVarPath = `/exercises/activities/strava/upload`;
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -202,7 +184,7 @@ export const ActivitiesApiAxiosParamCreator = function (configuration) {
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers };
-            localVarRequestOptions.data = serializeDataIfNeeded(activityCreateViewModel, localVarRequestOptions, configuration);
+            localVarRequestOptions.data = serializeDataIfNeeded(activityViewModel, localVarRequestOptions, configuration);
             return {
                 url: toPathString(localVarUrlObj),
                 options: localVarRequestOptions,
@@ -213,8 +195,8 @@ export const ActivitiesApiAxiosParamCreator = function (configuration) {
 export const ActivitiesApiFp = function (configuration) {
     const localVarAxiosParamCreator = ActivitiesApiAxiosParamCreator(configuration);
     return {
-        async createActivity(activityCreateViewModel, options) {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createActivity(activityCreateViewModel, options);
+        async createActivity(activityViewModel, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createActivity(activityViewModel, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ActivitiesApi.createActivity']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -223,12 +205,6 @@ export const ActivitiesApiFp = function (configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteActivity(activityId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ActivitiesApi.deleteActivity']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        async getActionTypes(options) {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getActionTypes(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ActivitiesApi.getActionTypes']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         async getActivity(activityId, options) {
@@ -267,8 +243,8 @@ export const ActivitiesApiFp = function (configuration) {
             const localVarOperationServerBasePath = operationServerMap['ActivitiesApi.updateActivity']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
-        async uploadStravaActivities(activityCreateViewModel, options) {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadStravaActivities(activityCreateViewModel, options);
+        async uploadStravaActivities(activityViewModel, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadStravaActivities(activityViewModel, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ActivitiesApi.uploadStravaActivities']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -278,14 +254,11 @@ export const ActivitiesApiFp = function (configuration) {
 export const ActivitiesApiFactory = function (configuration, basePath, axios) {
     const localVarFp = ActivitiesApiFp(configuration);
     return {
-        createActivity(activityCreateViewModel, options) {
-            return localVarFp.createActivity(activityCreateViewModel, options).then((request) => request(axios, basePath));
+        createActivity(activityViewModel, options) {
+            return localVarFp.createActivity(activityViewModel, options).then((request) => request(axios, basePath));
         },
         deleteActivity(activityId, options) {
             return localVarFp.deleteActivity(activityId, options).then((request) => request(axios, basePath));
-        },
-        getActionTypes(options) {
-            return localVarFp.getActionTypes(options).then((request) => request(axios, basePath));
         },
         getActivity(activityId, options) {
             return localVarFp.getActivity(activityId, options).then((request) => request(axios, basePath));
@@ -305,20 +278,17 @@ export const ActivitiesApiFactory = function (configuration, basePath, axios) {
         updateActivity(activityId, activityViewModel, options) {
             return localVarFp.updateActivity(activityId, activityViewModel, options).then((request) => request(axios, basePath));
         },
-        uploadStravaActivities(activityCreateViewModel, options) {
-            return localVarFp.uploadStravaActivities(activityCreateViewModel, options).then((request) => request(axios, basePath));
+        uploadStravaActivities(activityViewModel, options) {
+            return localVarFp.uploadStravaActivities(activityViewModel, options).then((request) => request(axios, basePath));
         },
     };
 };
 export class ActivitiesApi extends BaseAPI {
-    createActivity(activityCreateViewModel, options) {
-        return ActivitiesApiFp(this.configuration).createActivity(activityCreateViewModel, options).then((request) => request(this.axios, this.basePath));
+    createActivity(activityViewModel, options) {
+        return ActivitiesApiFp(this.configuration).createActivity(activityViewModel, options).then((request) => request(this.axios, this.basePath));
     }
     deleteActivity(activityId, options) {
         return ActivitiesApiFp(this.configuration).deleteActivity(activityId, options).then((request) => request(this.axios, this.basePath));
-    }
-    getActionTypes(options) {
-        return ActivitiesApiFp(this.configuration).getActionTypes(options).then((request) => request(this.axios, this.basePath));
     }
     getActivity(activityId, options) {
         return ActivitiesApiFp(this.configuration).getActivity(activityId, options).then((request) => request(this.axios, this.basePath));
@@ -338,7 +308,7 @@ export class ActivitiesApi extends BaseAPI {
     updateActivity(activityId, activityViewModel, options) {
         return ActivitiesApiFp(this.configuration).updateActivity(activityId, activityViewModel, options).then((request) => request(this.axios, this.basePath));
     }
-    uploadStravaActivities(activityCreateViewModel, options) {
-        return ActivitiesApiFp(this.configuration).uploadStravaActivities(activityCreateViewModel, options).then((request) => request(this.axios, this.basePath));
+    uploadStravaActivities(activityViewModel, options) {
+        return ActivitiesApiFp(this.configuration).uploadStravaActivities(activityViewModel, options).then((request) => request(this.axios, this.basePath));
     }
 }

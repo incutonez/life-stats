@@ -1,9 +1,9 @@
 ﻿import { Inject, Injectable } from "@nestjs/common";
 import { SessionStorageService } from "@/auth/session.storage.service";
 import { SESSION_STORAGE } from "@/constants";
-import { IAttributeType, IAttributeTypeCreate } from "@/db/models/AttributeTypeModel";
+import { IAttributeType } from "@/db/models/AttributeTypeModel";
 import { addMetaInfo } from "@/utils";
-import { IAttributeTypeCreateViewModel, IAttributeTypeViewModel } from "@/viewModels/attribute.type.viewmodel";
+import { IAttributeTypeViewModel } from "@/viewModels/attribute.type.viewmodel";
 
 @Injectable()
 export class AttributeTypesMapper {
@@ -20,14 +20,6 @@ export class AttributeTypesMapper {
 			addMetaInfo(response, user_id, created_at, updated_at);
 		}
 		return response;
-	}
-
-	viewModelCreateToEntity({ userId, name, feature }: IAttributeTypeCreateViewModel): IAttributeTypeCreate {
-		return {
-			name,
-			feature,
-			user_id: userId ?? this.storage.getUserId(),
-		};
 	}
 
 	viewModelToEntity({ userId, id, name, feature }: IAttributeTypeViewModel): IAttributeType {

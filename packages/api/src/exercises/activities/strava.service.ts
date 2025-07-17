@@ -10,8 +10,9 @@ import { EnumActivitySource } from "@/exercises/constants";
 import { ActivityModel } from "@/exercises/models/ActivityModel";
 import { IStravaActivity, IStravaAuthResponse, IStravaImport } from "@/exercises/types";
 import {
-	ActivityCreateViewModel,
+	ActivityViewModel,
 	IActivityCreateViewModel,
+	IActivityViewModel,
 } from "@/exercises/viewModels/activity.viewmodel";
 import { StravaTokenViewModel } from "@/exercises/viewModels/strava.token.viewmodel";
 import { IUploadViewModelsResponse } from "@/types";
@@ -71,7 +72,7 @@ export class StravaService {
 		return results;
 	}
 
-	async uploadActivities(viewModels: ActivityCreateViewModel[]) {
+	async uploadActivities(viewModels: ActivityViewModel[]) {
 		const results: IUploadViewModelsResponse = {
 			successful: 0,
 			errors: [],
@@ -117,7 +118,7 @@ export class StravaService {
 		const response = await this.getUserAccessToken(stravaToken);
 		if (response) {
 			let page = 1;
-			const allRecords: IActivityCreateViewModel[] = [];
+			const allRecords: IActivityViewModel[] = [];
 			let hasMoreRecord = true;
 			/**
 			 * The API just says "epoch timestamp" but this must be in seconds...

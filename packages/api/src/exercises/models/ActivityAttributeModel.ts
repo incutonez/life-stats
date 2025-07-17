@@ -2,16 +2,14 @@
 import { Attribute, BelongsTo, NotNull } from "@sequelize/core/decorators-legacy";
 import { EnumTableNames, EnumUnitTypes } from "@/constants";
 import { AttributeEnum, BaseTable, PrimaryKeyGuid } from "@/db/decorators";
-import { AttributeTypeModel, IAttributeTypeCreate } from "@/db/models/AttributeTypeModel";
+import { AttributeTypeModel } from "@/db/models/AttributeTypeModel";
 import { BaseModel } from "@/db/models/BaseModel";
 import { ActivityModel } from "@/exercises/models/ActivityModel";
-import { ModelInterface } from "@/types";
+import { ModelInterface, OmitRecursively } from "@/types";
 
 export type IActivityAttributeModel = ModelInterface<ActivityAttributeModel>;
 
-export type IActivityAttributeCreate = Omit<IActivityAttributeModel, "id" | "attribute_type"> & {
-	attribute_type: IAttributeTypeCreate;
-};
+export type IActivityAttributeCreate = OmitRecursively<IActivityAttributeModel, "id">;
 
 @BaseTable(EnumTableNames.exerciseActivityAttributes)
 export class ActivityAttributeModel extends BaseModel {

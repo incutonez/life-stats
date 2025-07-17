@@ -1,5 +1,5 @@
 const ParentCard = ".transition-all";
-const LastCompany = "ARHS";
+const LastCompany = "Jus Mundi";
 let found = false;
 
 function docReady(fn) {
@@ -13,7 +13,7 @@ function docReady(fn) {
 }
 
 docReady(() => {
-	document.querySelectorAll('.flex.items-center.text-sm.font-medium.text-muted').forEach((el) => {
+	document.querySelectorAll('div.font-medium').forEach((el) => {
 		if (el.innerText.includes(LastCompany)) {
 			found = true;
 		}

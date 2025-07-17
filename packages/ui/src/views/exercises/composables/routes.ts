@@ -5,7 +5,7 @@ import {
 	RouteExercises,
 	RouteExercisesActivities,
 	RouteExercisesActivitiesStravaSync,
-	RouteExercisesHistory, RouteViewActivity,
+	RouteExercisesHistory, RouteViewActivity, RouteViewActivityTabs,
 } from "@/views/exercises/constants.ts";
 
 export function useExerciseRoutes() {
@@ -24,10 +24,11 @@ export function useExerciseRoutes() {
 				name: RouteExercisesActivities,
 			});
 		},
-		viewActivity(activityId = RouteCreate) {
+		viewActivity(activityId = RouteCreate, tabId: string = RouteViewActivityTabs.details) {
 			return router.push({
 				name: RouteViewActivity,
 				params: {
+					tabId,
 					activityId,
 				},
 			});

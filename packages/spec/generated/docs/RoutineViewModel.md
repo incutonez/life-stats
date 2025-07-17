@@ -1,4 +1,4 @@
-# AttributeTypeCreateViewModel
+# RoutineViewModel
 
 
 ## Properties
@@ -8,20 +8,22 @@ Name | Type | Description | Notes
 **userId** | **string** |  | [optional] [default to undefined]
 **dateCreated** | **number** |  | [optional] [default to undefined]
 **dateUpdated** | **number** |  | [optional] [default to undefined]
-**feature** | [**EnumFeatures**](EnumFeatures.md) |  | [optional] [default to undefined]
+**id** | **string** |  | [default to undefined]
 **name** | **string** |  | [default to undefined]
+**actions** | [**Array&lt;RoutineActionViewModel&gt;**](RoutineActionViewModel.md) |  | [default to undefined]
 
 ## Example
 
 ```typescript
-import { AttributeTypeCreateViewModel } from './api';
+import { RoutineViewModel } from './api';
 
-const instance: AttributeTypeCreateViewModel = {
+const instance: RoutineViewModel = {
     userId,
     dateCreated,
     dateUpdated,
-    feature,
+    id,
     name,
+    actions,
 };
 ```
 

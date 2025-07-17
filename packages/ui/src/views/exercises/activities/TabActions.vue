@@ -15,7 +15,9 @@ import { injectActivityRecord } from "@/views/exercises/composables/activities.t
 import { useActionsColumns } from "@/views/exercises/composables/table.ts";
 import FieldActionTypes from "@/views/exercises/shared/FieldActionTypes.vue";
 
-const showDialog = ref(false);
+const showDialogAction = ref(false);
+const showDialogRoutine = ref(false);
+const routineName = ref("");
 const selectedRecord = ref<ActivityActionViewModel>();
 const tableRef = useTemplateRef<TableDataComponent<ActivityActionViewModel>>("tableRef");
 const { viewRecord, saveAction } = injectActivityRecord();
@@ -27,7 +29,7 @@ const data = computed({
 		viewRecord.value.actions = rows;
 	},
 });
-const dialogTitle = computed(() => selectedRecord.value?.id ? "Edit Step" : "Create Step");
+const dialogActionTitle = computed(() => selectedRecord.value?.id ? "Edit Step" : "Create Step");
 const { table } = useTableData<ActivityActionViewModel>({
 	data,
 	sortInitial: [{
@@ -38,7 +40,7 @@ const { table } = useTableData<ActivityActionViewModel>({
 		icon: IconEdit,
 		handler(record) {
 			selectedRecord.value = clone(record);
-			showDialog.value = true;
+			showDialogAction.value = true;
 		},
 	}, {
 		icon: IconDelete,
@@ -58,13 +60,22 @@ function onClickAddAction() {
 			name: "",
 		},
 	};
-	showDialog.value = true;
+	showDialogAction.value = true;
+}
+
+function onClickAddRoutine() {
+	routineName.value = "";
+	showDialogRoutine.value = true;
+}
+
+async function onClickSaveRoutine() {
+	// TODOJEF: NEED API
 }
 
 function onClickSaveAction() {
 	saveAction(selectedRecord.value);
 	reIndexData();
-	showDialog.value = false;
+	showDialogAction.value = false;
 }
 
 function reIndexData() {
@@ -72,7 +83,7 @@ function reIndexData() {
 	data.value.forEach((item, index) => item.order = index + 1);
 }
 
-watch(showDialog, ($showDialog) => {
+watch(showDialogAction, ($showDialog) => {
 	if (!$showDialog) {
 		selectedRecord.value = undefined;
 	}
@@ -90,55 +101,86 @@ useSortable(() => tableRef.value?.rowBody, data, {
 </script>
 
 <template>
-	<section class="flex p-2">
-		<ButtonHelp content="Actions are the steps/routine of the activity... e.g. 25 pushups, 10 superman, etc." />
-		<BaseButton
-			text="Step"
-			:icon="IconAdd"
-			class="ml-auto"
-			theme="info"
-			@click="onClickAddAction"
+	<article class="size-full flex flex-col">
+		<section class="flex p-2">
+			<ButtonHelp content="Actions are the steps/routine of the activity... e.g. 25 pushups, 10 superman, etc." />
+			<div class="ml-auto flex gap-2">
+				<BaseButton
+					text="Routine"
+					:icon="IconAdd"
+					theme="info"
+					@click="onClickAddRoutine"
+				/>
+				<BaseButton
+					text="Step"
+					:icon="IconAdd"
+					theme="info"
+					@click="onClickAddAction"
+				/>
+			</div>
+		</section>
+		<TableData
+			ref="tableRef"
+			class="border-x-0 border-b-0 flex-1"
+			:table="table"
+			table-layout="table-auto"
 		/>
-	</section>
-	<TableData
-		ref="tableRef"
-		class="border-x-0 border-b-0"
-		:table="table"
-		table-layout="table-auto"
-	/>
-	<BaseDialog
-		v-if="selectedRecord"
-		v-model="showDialog"
-		body-class="gap-form flex flex-col"
-		:title="dialogTitle"
-	>
-		<template #content>
-			<FieldActionTypes
-				v-model="selectedRecord.actionType"
-				label-align="top"
-				autofocus
-				required
-			/>
-			<FieldText
-				v-model="selectedRecord.value"
-				label="Value"
-				label-align="top"
-				required
-			/>
-			<FieldNumber
-				v-model="selectedRecord.order"
-				label="Order"
-				label-align="top"
-				required
-			/>
-		</template>
-		<template #footer>
-			<BaseButton
-				text="Save"
-				theme="info"
-				:icon="IconSave"
-				@click="onClickSaveAction"
-			/>
-		</template>
-	</BaseDialog>
+		<BaseDialog
+			v-if="selectedRecord"
+			v-model="showDialogAction"
+			body-class="gap-form flex flex-col"
+			:title="dialogActionTitle"
+		>
+			<template #content>
+				<FieldActionTypes
+					v-model="selectedRecord.actionType"
+					label-align="top"
+					autofocus
+					required
+				/>
+				<FieldText
+					v-model="selectedRecord.value"
+					label="Value"
+					label-align="top"
+					required
+				/>
+				<FieldNumber
+					v-model="selectedRecord.order"
+					label="Order"
+					label-align="top"
+					required
+				/>
+			</template>
+			<template #footer>
+				<BaseButton
+					text="Save"
+					theme="info"
+					:icon="IconSave"
+					@click="onClickSaveAction"
+				/>
+			</template>
+		</BaseDialog>
+		<BaseDialog
+			v-model="showDialogRoutine"
+			title="Create Routine"
+		>
+			<template #content>
+				<FieldText
+					v-model="routineName"
+					label="Name"
+					label-align="top"
+					required
+					autofocus
+				/>
+			</template>
+			<template #footer>
+				<BaseButton
+					text="Save"
+					theme="info"
+					:icon="IconSave"
+					@click="onClickSaveRoutine"
+				/>
+			</template>
+		</BaseDialog>
+	</article>
 </template>

@@ -3,22 +3,22 @@ import { Attribute, HasMany } from "@sequelize/core/decorators-legacy";
 import { EnumTableNames } from "@/constants";
 import { BaseTable, PrimaryKeyGuid } from "@/db/decorators";
 import { BaseModel } from "@/db/models/BaseModel";
-import { ActivityActionModel } from "@/exercises/models/ActivityActionModel";
+import { RoutineActionModel } from "@/exercises/models/RoutineActionModel";
 import { ModelInterface } from "@/types";
 
-export type IActivityActionTypeModel = ModelInterface<ActivityActionTypeModel>;
+export type IRoutineModel = ModelInterface<RoutineModel>;
 
-@BaseTable(EnumTableNames.exerciseActivityActionTypes)
-export class ActivityActionTypeModel extends BaseModel {
+@BaseTable(EnumTableNames.exerciseRoutines)
+export class RoutineModel extends BaseModel {
 	@PrimaryKeyGuid()
 	declare id: string;
 
 	@Attribute(DataTypes.STRING)
 	declare name: string;
 
-	@HasMany(() => ActivityActionModel, {
-		foreignKey: "action_type_id",
-		inverse: "action_type",
+	@HasMany(() => RoutineActionModel, {
+		foreignKey: "routine_id",
+		inverse: "routine",
 	})
-	actions?: NonAttribute<ActivityActionModel[]> = [];
+	actions?: NonAttribute<RoutineActionModel[]>;
 }

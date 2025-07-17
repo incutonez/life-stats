@@ -8,11 +8,11 @@ Name | Type | Description | Notes
 **userId** | **string** |  | [optional] [default to undefined]
 **dateCreated** | **number** |  | [optional] [default to undefined]
 **dateUpdated** | **number** |  | [optional] [default to undefined]
+**activity** | [**ActivityViewModel**](ActivityViewModel.md) |  | [optional] [default to undefined]
 **id** | **string** |  | [default to undefined]
-**actionType** | [**ActivityActionTypeViewModel**](ActivityActionTypeViewModel.md) |  | [default to undefined]
+**actionType** | [**ActionTypeViewModel**](ActionTypeViewModel.md) |  | [default to undefined]
 **order** | **number** |  | [default to undefined]
 **value** | **string** |  | [default to undefined]
-**activity** | [**ActivityViewModel**](ActivityViewModel.md) |  | [optional] [default to undefined]
 
 ## Example
 
@@ -23,11 +23,11 @@ const instance: ActivityActionViewModel = {
     userId,
     dateCreated,
     dateUpdated,
+    activity,
     id,
     actionType,
     order,
     value,
-    activity,
 };
 ```
 

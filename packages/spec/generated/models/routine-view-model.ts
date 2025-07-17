@@ -15,45 +15,49 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { EnumFeatures } from './enum-features';
+import type { RoutineActionViewModel } from './routine-action-view-model';
 
 /**
  * 
  * @export
- * @interface AttributeTypeCreateViewModel
+ * @interface RoutineViewModel
  */
-export interface AttributeTypeCreateViewModel {
+export interface RoutineViewModel {
     /**
      * 
      * @type {string}
-     * @memberof AttributeTypeCreateViewModel
+     * @memberof RoutineViewModel
      */
     'userId'?: string;
     /**
      * 
      * @type {number}
-     * @memberof AttributeTypeCreateViewModel
+     * @memberof RoutineViewModel
      */
     'dateCreated'?: number;
     /**
      * 
      * @type {number}
-     * @memberof AttributeTypeCreateViewModel
+     * @memberof RoutineViewModel
      */
     'dateUpdated'?: number;
     /**
      * 
-     * @type {EnumFeatures}
-     * @memberof AttributeTypeCreateViewModel
+     * @type {string}
+     * @memberof RoutineViewModel
      */
-    'feature'?: EnumFeatures;
+    'id': string;
     /**
      * 
      * @type {string}
-     * @memberof AttributeTypeCreateViewModel
+     * @memberof RoutineViewModel
      */
     'name': string;
+    /**
+     * 
+     * @type {Array<RoutineActionViewModel>}
+     * @memberof RoutineViewModel
+     */
+    'actions': Array<RoutineActionViewModel>;
 }
-
-
 

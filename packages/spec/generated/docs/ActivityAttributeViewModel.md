@@ -11,10 +11,10 @@ Name | Type | Description | Notes
 **unit** | [**EnumUnitTypes**](EnumUnitTypes.md) |  | [optional] [default to undefined]
 **unitDisplay** | [**EnumUnitTypes**](EnumUnitTypes.md) |  | [optional] [default to undefined]
 **id** | **string** |  | [default to undefined]
-**activity** | [**ActivityViewModel**](ActivityViewModel.md) |  | [optional] [default to undefined]
-**attributeType** | [**AttributeTypeViewModel**](AttributeTypeViewModel.md) |  | [default to undefined]
 **value** | **string** |  | [default to undefined]
 **valueDisplay** | **string** |  | [optional] [default to undefined]
+**activity** | [**ActivityViewModel**](ActivityViewModel.md) |  | [optional] [default to undefined]
+**attributeType** | [**AttributeTypeViewModel**](AttributeTypeViewModel.md) |  | [default to undefined]
 
 ## Example
 
@@ -28,10 +28,10 @@ const instance: ActivityAttributeViewModel = {
     unit,
     unitDisplay,
     id,
-    activity,
-    attributeType,
     value,
     valueDisplay,
+    activity,
+    attributeType,
 };
 ```
 

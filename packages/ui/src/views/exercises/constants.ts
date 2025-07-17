@@ -22,6 +22,12 @@ export const RouteExercisesActivities = `${RouteExercises}-activities`;
 
 export const RouteViewActivity = `${RouteExercisesActivities}-activity`;
 
+export const RouteViewActivityTabs = {
+	details: "details",
+	steps: "steps",
+	attributes: "attributes",
+} as const;
+
 export const RouteExercisesActivitiesStravaSync = `${RouteExercisesActivities}-strava-sync`;
 
 export const RouteExercisesHistory = `${RouteExercises}-history`;

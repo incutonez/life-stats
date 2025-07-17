@@ -1,4 +1,4 @@
-# ActivityActionTypeViewModel
+# RoutineActionViewModel
 
 
 ## Properties
@@ -8,22 +8,26 @@ Name | Type | Description | Notes
 **userId** | **string** |  | [optional] [default to undefined]
 **dateCreated** | **number** |  | [optional] [default to undefined]
 **dateUpdated** | **number** |  | [optional] [default to undefined]
+**routine** | [**RoutineViewModel**](RoutineViewModel.md) |  | [optional] [default to undefined]
 **id** | **string** |  | [default to undefined]
-**name** | **string** |  | [default to undefined]
-**actions** | [**Array&lt;ActivityActionViewModel&gt;**](ActivityActionViewModel.md) |  | [optional] [default to undefined]
+**actionType** | [**ActionTypeViewModel**](ActionTypeViewModel.md) |  | [default to undefined]
+**order** | **number** |  | [default to undefined]
+**value** | **string** |  | [default to undefined]
 
 ## Example
 
 ```typescript
-import { ActivityActionTypeViewModel } from './api';
+import { RoutineActionViewModel } from './api';
 
-const instance: ActivityActionTypeViewModel = {
+const instance: RoutineActionViewModel = {
     userId,
     dateCreated,
     dateUpdated,
+    routine,
     id,
-    name,
-    actions,
+    actionType,
+    order,
+    value,
 };
 ```
 

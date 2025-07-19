@@ -1,6 +1,6 @@
 import { DataTypes } from "@sequelize/core";
 import { Attribute, Table } from "@sequelize/core/decorators-legacy";
-import { uuid } from "uuidv4";
+import { v4 as uuid } from "uuid";
 import { CreatedAtField, EnumTableNames, getTableName, UpdatedAtField } from "@/constants";
 
 export function PrimaryKeyGuid() {

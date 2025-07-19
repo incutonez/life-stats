@@ -3,14 +3,12 @@ import { BaseViewModel } from "@/viewModels/BaseViewModel";
 
 export type ICommentViewModel = ModelInterface<CommentViewModel>;
 
-export type ICommentCreateViewModel = ModelInterface<CommentCreateViewModel>;
+export type ICommentCreateViewModel = ModelInterface<CommentViewModel>;
 
-export class CommentCreateViewModel extends BaseViewModel {
+export class CommentViewModel extends BaseViewModel {
+	id?: string;
+
 	declare comment: string;
 
-	declare applicationId: string;
-}
-
-export class CommentViewModel extends CommentCreateViewModel {
-	declare id: string;
+	applicationId?: string;
 }

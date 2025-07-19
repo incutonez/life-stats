@@ -1,5 +1,4 @@
 import { MiddlewareConsumer, Module, NestModule } from "@nestjs/common";
-import { ClsModule } from "nestjs-cls";
 import { AppController } from "@/app/app.controller";
 import { AppService } from "@/app/app.service";
 import { AttributeTypesModule } from "@/attributeTypes/attributeTypes.module";
@@ -16,12 +15,6 @@ import { UsersModule } from "@/users/users.module";
  */
 @Module({
 	imports: [
-		ClsModule.forRoot({
-			global: true,
-			middleware: {
-				mount: true,
-			},
-		}),
 		AuthModule,
 		DatabaseModule,
 		AuditsModule,

@@ -6,36 +6,25 @@ import { ApplicationsMapper } from "@/jobs/applications/applications.mapper";
 import { CommentsMapper } from "@/jobs/applications/comments.mapper";
 import { IUploadApplicationModel } from "@/jobs/applications/types";
 import { CompaniesService } from "@/jobs/companies/companies.service";
-import { APPLICATIONS_REPOSITORY, EnumApplicationStatus, EnumLinkType } from "@/jobs/constants";
-import { ApplicationProvider } from "@/jobs/models";
+import { APPLICATIONS_REPOSITORY, CSVFields, EnumApplicationStatus, EnumLinkType } from "@/jobs/constants";
+import { type ApplicationsRepository } from "@/jobs/models";
 import { ApplicationModel } from "@/jobs/models/ApplicationModel";
 import { CommentModel } from "@/jobs/models/CommentModel";
 import {
-	ApplicationCreateViewModel,
-	ApplicationListViewModel, ApplicationViewModel,
+	ApplicationListViewModel,
+	ApplicationViewModel,
 	IApplicationCreateViewModel,
 } from "@/jobs/viewModels/application.viewmodel";
 import { ICommentViewModel } from "@/jobs/viewModels/comment.viewmodel";
 import { IUploadViewModelsResponse } from "@/types";
 import { getErrorMessage } from "@/utils";
-import { ApiPaginatedRequest } from "@/viewModels/base.list.viewmodel";
-
-const CSVFields = [
-	"company",
-	"positionTitle",
-	"dateApplied",
-	"url",
-	"compensation",
-	"comments",
-	"status",
-];
 
 @Injectable()
 export class ApplicationsService {
-	constructor(@Inject(APPLICATIONS_REPOSITORY) private readonly repository: ApplicationProvider, private mapper: ApplicationsMapper, private commentsMapper: CommentsMapper, private companiesService: CompaniesService, @Inject(SESSION_STORAGE) private authStorageService: SessionStorageService) {
+	constructor(@Inject(APPLICATIONS_REPOSITORY) private readonly repository: ApplicationsRepository, private readonly mapper: ApplicationsMapper, private readonly commentsMapper: CommentsMapper, private readonly companiesService: CompaniesService, @Inject(SESSION_STORAGE) private readonly storage: SessionStorageService) {
 	}
 
-	async listApplications(_params: ApiPaginatedRequest): Promise<ApplicationListViewModel> {
+	async listApplications(): Promise<ApplicationListViewModel> {
 		const { rows, count } = await this.repository.findAndCountAll({
 			// Distinct is used to fix associations being counted in the final count that's returned
 			distinct: true,
@@ -45,7 +34,7 @@ export class ApplicationsService {
 				association: "comments",
 			}],
 			where: {
-				user_id: this.authStorageService.getUserId(),
+				user_id: this.storage.getUserId(),
 			},
 		});
 		return {
@@ -77,9 +66,9 @@ export class ApplicationsService {
 		}
 	}
 
-	async createApplication(viewModel: ApplicationCreateViewModel, useAppliedDate = false) {
-		viewModel.company = await this.companiesService.createCompany(viewModel.company.name);
-		const entity = await this.repository.create(this.mapper.createViewModelToEntity(viewModel, useAppliedDate), {
+	async createApplication(viewModel: ApplicationViewModel, useAppliedDate = false) {
+		const company = await this.companiesService.createCompany(viewModel.company.name);
+		const entity = await this.repository.create(this.mapper.applicationCreateToEntity(viewModel, useAppliedDate, company.id), {
 			raw: true,
 		});
 		const { id } = entity;
@@ -91,7 +80,7 @@ export class ApplicationsService {
 		return this.getApplication(id);
 	}
 
-	async createApplications(models: ApplicationCreateViewModel[]) {
+	async createApplications(models: ApplicationViewModel[]) {
 		const results: IUploadViewModelsResponse = {
 			successful: 0,
 			errors: [],
@@ -108,8 +97,8 @@ export class ApplicationsService {
 		return results;
 	}
 
-	async updateApplication(viewModel: ApplicationViewModel) {
-		const entity = await this.getApplicationEntity(viewModel.id);
+	async updateApplication(applicationId: string, viewModel: ApplicationViewModel) {
+		const entity = await this.getApplicationEntity(applicationId);
 		if (entity) {
 			const { comments } = entity;
 			/* Let's force updatedAt to change... this is helpful for scenarios where the associations change, but the parent
@@ -128,7 +117,7 @@ export class ApplicationsService {
 				}
 				// New comment
 				else {
-					viewModelComment.applicationId = viewModel.id;
+					viewModelComment.applicationId = applicationId;
 					await this.createApplicationComment(viewModelComment);
 				}
 			}
@@ -136,11 +125,11 @@ export class ApplicationsService {
 			await Promise.all(entity.comments.map((comment) => comment.destroy()));
 			await this.setApplicationLinks(viewModel, entity);
 			await entity.update(this.mapper.viewModelToEntity(viewModel));
-			return this.getApplication(viewModel.id);
+			return this.getApplication(applicationId);
 		}
 	}
 
-	async setApplicationLinks(viewModel: ApplicationViewModel | ApplicationCreateViewModel, entity: ApplicationModel) {
+	async setApplicationLinks(viewModel: ApplicationViewModel | ApplicationViewModel, entity: ApplicationModel) {
 		const linkedTo: string[] = [];
 		const linkedFrom: string[] = [];
 		viewModel.links?.forEach((viewModelLink) => {

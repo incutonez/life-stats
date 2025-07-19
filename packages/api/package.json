@@ -44,10 +44,10 @@
     "rxjs": "latest",
     "sqlite3": "^5.1.7",
     "tar": "^7.4.3",
-    "uuid": "^11.1.0",
-    "uuidv4": "^6.2.13"
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.9.0",
     "@incutonez/eslint-plugin": "^2.1.4",
     "@nestjs/cli": "^11.0.7",
     "@nestjs/schematics": "^11.0.5",
@@ -63,6 +63,7 @@
     "@types/papaparse": "^5.3.16",
     "@types/readline-sync": "^1.4.8",
     "@types/sequelize": "^4.28.20",
+    "@types/supertest": "^6.0.3",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
     "@vitest/coverage-v8": "^3.2.4",
@@ -70,6 +71,7 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "globals": "^16.2.0",
     "source-map-support": "^0.5.21",
+    "supertest": "^7.1.3",
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
     "typescript": "latest",

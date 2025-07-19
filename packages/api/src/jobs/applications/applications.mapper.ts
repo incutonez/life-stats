@@ -9,14 +9,13 @@ import { IUploadApplicationModel } from "@/jobs/applications/types";
 import { CompaniesMapper } from "@/jobs/companies/companies.mapper";
 import { EnumApplicationStatus, EnumLinkType, EnumLocationTypes } from "@/jobs/constants";
 import { ApplicationModel, IApplicationCreateModel, IApplicationUpdateModel } from "@/jobs/models/ApplicationModel";
+import { urlToSite } from "@/jobs/utils";
 import {
 	IApplicationCreateViewModel, IApplicationLinkViewModel,
 	IApplicationNestedViewModel,
 	IApplicationUpdateViewModel,
 	IApplicationViewModel,
 } from "@/jobs/viewModels/application.viewmodel";
-
-const DomainRegex = /https?:\/\/.*?([^./]+?\.[^.]+?(?:\.\w{2})?)(?:\/|$)/;
 
 function getStatusFromApplied(status: EnumApplicationStatus, dateApplied: number) {
 	let endOfWeekDate = endOfDay(Date.now());
@@ -45,29 +44,6 @@ export class ApplicationsMapper implements OnModuleInit {
 		});
 	}
 
-	urlToSite(url: string) {
-		let site = "";
-		if (url.toLowerCase().includes("linkedin")) {
-			site = "LinkedIn";
-		}
-		else if (url.includes("indeed")) {
-			site = "Indeed";
-		}
-		else if (url.includes("reddit")) {
-			site = "Reddit";
-		}
-		else if (url.includes("vuejobs")) {
-			site = "VueJobs";
-		}
-		else {
-			site = url.match(DomainRegex)?.[1]?.replace(/\..*/, "") ?? "";
-			if (site) {
-				site = site[0].toUpperCase() + site.substring(1);
-			}
-		}
-		return site;
-	}
-
 	/**
 	 * There are times (like when we do GET applicationId), where we want to use the actual status and not the altered one
 	 * we use in the list, which is why we have the rawStatus param
@@ -80,7 +56,7 @@ export class ApplicationsMapper implements OnModuleInit {
 			locationType: location_type,
 			status: rawStatus ? status : getStatusFromApplied(status, date_applied),
 			userId: user_id,
-			site: this.urlToSite(url),
+			site: urlToSite(url),
 			positionTitle: position_title,
 			dateCreated: created_at!.getTime(),
 			dateUpdated: updated_at!.getTime(),
@@ -109,7 +85,7 @@ export class ApplicationsMapper implements OnModuleInit {
 			locationType: location_type,
 			status: getStatusFromApplied(status, date_applied),
 			userId: user_id,
-			site: this.urlToSite(url),
+			site: urlToSite(url),
 			positionTitle: position_title,
 			dateCreated: created_at!.getTime(),
 			dateUpdated: updated_at!.getTime(),
@@ -138,13 +114,12 @@ export class ApplicationsMapper implements OnModuleInit {
 			status: parseInt(status, 10) as EnumApplicationStatus,
 			company: {
 				userId,
-				id: getUUID(),
 				name: company,
 			},
 		};
 	}
 
-	viewModelToEntity({ id, compensation, userId, company, status, url, positionTitle, dateApplied, locationType }: IApplicationUpdateViewModel): IApplicationUpdateModel {
+	viewModelToEntity({ id = "", compensation, userId, company, status, url, positionTitle, dateApplied, locationType }: IApplicationUpdateViewModel): IApplicationUpdateModel {
 		return {
 			id,
 			compensation,
@@ -154,12 +129,12 @@ export class ApplicationsMapper implements OnModuleInit {
 			user_id: userId ?? this.authStorageService.getUserId(),
 			position_title: positionTitle,
 			date_applied: dateApplied,
-			company_id: company.id,
+			company_id: company.id!,
 			updated_at: new Date(),
 		};
 	}
 
-	createViewModelToEntity({ compensation, locationType, company, status, url, positionTitle, dateApplied }: IApplicationCreateViewModel, useAppliedDate = false): IApplicationCreateModel {
+	applicationCreateToEntity({ compensation, locationType, status, url, positionTitle, dateApplied }: IApplicationCreateViewModel, useAppliedDate = false, companyId = ""): IApplicationCreateModel {
 		return {
 			compensation,
 			status,
@@ -169,7 +144,7 @@ export class ApplicationsMapper implements OnModuleInit {
 			created_at: useAppliedDate ? new Date(dateApplied) : undefined,
 			position_title: positionTitle,
 			date_applied: dateApplied,
-			company_id: company.id,
+			company_id: companyId,
 		};
 	}
 }

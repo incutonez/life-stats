@@ -14,3 +14,5 @@ export const TestUsers: IUserModel[] = [{
 		};
 	},
 }];
+
+export const [TestUser] = TestUsers;

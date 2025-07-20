@@ -1,6 +1,7 @@
 ﻿import { Controller, Delete, Get, HttpCode, HttpStatus, Param, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { CompaniesService } from "@/jobs/companies/companies.service";
+import { CompanyFullListViewModel, CompanyListViewModel } from "@/jobs/viewModels/company.viewmodel";
 
 @ApiTags("companies")
 @Controller("companies")
@@ -9,12 +10,13 @@ export class CompaniesController {
 	}
 
 	@Get("")
-	async getCompanies() {
+	async getCompanies(): Promise<CompanyListViewModel> {
 		return this.service.getCompanies();
 	}
 
 	@Post("list")
-	async getCompaniesList() {
+	@HttpCode(HttpStatus.OK)
+	async getCompaniesList(): Promise<CompanyFullListViewModel> {
 		return this.service.getCompaniesList();
 	}
 

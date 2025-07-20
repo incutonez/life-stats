@@ -18,6 +18,8 @@ import {
 	IApplicationCreateViewModel,
 	IApplicationViewModel,
 } from "@/jobs/viewModels/application.viewmodel";
+import { CompanyFullViewModel } from "@/jobs/viewModels/company.viewmodel";
+import { ModelInterface } from "@/types";
 
 function mockApplicationCreate(): IApplicationViewModel {
 	const url = faker.internet.url();
@@ -55,6 +57,7 @@ function mockApplicationExpected(viewModel: IApplicationCreateViewModel): IAppli
 	expected.company.id = expect.any(String);
 	expected.company.dateCreated = expect.any(Number);
 	expected.company.dateUpdated = expect.any(Number);
+	sortApplicationComments(expected);
 	expected.comments.forEach((record) => {
 		record.id = expect.any(String);
 		record.applicationId = expected.id;
@@ -69,6 +72,23 @@ function mockApplicationExpected(viewModel: IApplicationCreateViewModel): IAppli
 	return expected;
 }
 
+function mockCompanyListExpected(viewModels: IApplicationViewModel[]): ModelInterface<CompanyFullViewModel>[] {
+	return viewModels.map((viewModel) => {
+		const { company, ...application } = mockApplicationExpected(viewModel);
+		delete application.links;
+		application.status = EnumApplicationStatus.CurrentWeek;
+		return {
+			...company,
+			applications: [application],
+		};
+	});
+}
+
+function sortApplicationComments(viewModel: IApplicationViewModel) {
+	viewModel.comments.sort((lhs, rhs) => lhs.comment.localeCompare(rhs.comment));
+}
+
+// TODOJEF: FIX SORTING ISSUES... should I apply a default sort in the API?
 describe("Jobs e2e", async () => {
 	const applicationViewModel = mockApplicationCreate();
 	const applicationViewModel2 = mockApplicationCreate();
@@ -143,6 +163,15 @@ describe("Jobs e2e", async () => {
 		expect(response.status).toStrictEqual(HttpStatus.OK);
 		expect(response.body.total).toStrictEqual(1);
 		expect(response.body.data).toStrictEqual([expected.company]);
+	});
+
+	it("GET Companies List", async () => {
+		const expected = mockCompanyListExpected([applicationViewModel]);
+		const response = await request(app.getHttpServer()).post("/jobs/companies/list");
+		expect(response.status).toStrictEqual(HttpStatus.OK);
+		expect(response.body.total).toStrictEqual(1);
+		response.body.data.forEach(({ applications }) => applications.forEach((application) => sortApplicationComments(application)));
+		expect(response.body.data).toStrictEqual(expected);
 	});
 
 	it("GET Applications 1", async () => {

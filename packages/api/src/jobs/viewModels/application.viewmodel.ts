@@ -42,7 +42,7 @@ export class ApplicationViewModel extends BaseViewModel {
 
 	declare comments: CommentViewModel[];
 
-	declare links?: ApplicationLinkViewModel[];
+	links?: ApplicationLinkViewModel[];
 
 	site? = "";
 }

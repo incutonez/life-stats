@@ -32,6 +32,10 @@ export class ApplicationsService {
 				association: "company",
 			}, {
 				association: "comments",
+			}, {
+				association: "links",
+			}, {
+				association: "linked",
 			}],
 			where: {
 				user_id: this.storage.getUserId(),
@@ -129,7 +133,7 @@ export class ApplicationsService {
 		}
 	}
 
-	async setApplicationLinks(viewModel: ApplicationViewModel | ApplicationViewModel, entity: ApplicationModel) {
+	async setApplicationLinks(viewModel: ApplicationViewModel, entity: ApplicationModel) {
 		const linkedTo: string[] = [];
 		const linkedFrom: string[] = [];
 		viewModel.links?.forEach((viewModelLink) => {

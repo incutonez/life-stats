@@ -15,6 +15,7 @@ import { EnumApplicationStatus, EnumLinkType, EnumLocationTypes } from "@/jobs/c
 import { JobsModule } from "@/jobs/jobs.module";
 import { urlToSite } from "@/jobs/utils";
 import {
+	ApplicationNestedViewModel,
 	IApplicationCreateViewModel,
 	IApplicationViewModel,
 } from "@/jobs/viewModels/application.viewmodel";
@@ -57,7 +58,8 @@ function mockApplicationExpected(viewModel: IApplicationCreateViewModel): IAppli
 	expected.company.id = expect.any(String);
 	expected.company.dateCreated = expect.any(Number);
 	expected.company.dateUpdated = expect.any(Number);
-	sortApplicationComments(expected);
+	expected.status = expect.any(Number);
+	sortApplicationComments([expected]);
 	expected.comments.forEach((record) => {
 		record.id = expect.any(String);
 		record.applicationId = expected.id;
@@ -84,11 +86,15 @@ function mockCompanyListExpected(viewModels: IApplicationViewModel[]): ModelInte
 	});
 }
 
-function sortApplicationComments(viewModel: IApplicationViewModel) {
-	viewModel.comments.sort((lhs, rhs) => lhs.comment.localeCompare(rhs.comment));
+function sortApplicationComments(viewModels: IApplicationViewModel[] | ApplicationNestedViewModel[]) {
+	viewModels.forEach((viewModel) => viewModel.comments.sort((lhs, rhs) => lhs.comment.localeCompare(rhs.comment)));
 }
 
-// TODOJEF: FIX SORTING ISSUES... should I apply a default sort in the API?
+/**
+ * TODOJEF:
+ * - Add this to the branch runner as a step
+ * - Add an Exercises e2e
+ */
 describe("Jobs e2e", async () => {
 	const applicationViewModel = mockApplicationCreate();
 	const applicationViewModel2 = mockApplicationCreate();
@@ -103,7 +109,6 @@ describe("Jobs e2e", async () => {
 		storage: ":memory:",
 		dialect: SqliteDialect,
 		models: AllModels,
-		logging: false,
 		pool: {
 			idle: Infinity,
 			max: 1,
@@ -149,12 +154,14 @@ describe("Jobs e2e", async () => {
 		applicationId = response.body.id;
 		companyId = response.body.company.id;
 		expect(response.status).toStrictEqual(HttpStatus.CREATED);
+		sortApplicationComments([response.body]);
 		expect(response.body).toStrictEqual(expected);
 	});
 
 	it("GET Application 1", async () => {
 		const response = await request(app.getHttpServer()).get(`/jobs/applications/${applicationId}`);
 		expect(response.status).toStrictEqual(HttpStatus.OK);
+		sortApplicationComments([response.body]);
 		expect(response.body).toStrictEqual(expected);
 	});
 
@@ -170,7 +177,7 @@ describe("Jobs e2e", async () => {
 		const response = await request(app.getHttpServer()).post("/jobs/companies/list");
 		expect(response.status).toStrictEqual(HttpStatus.OK);
 		expect(response.body.total).toStrictEqual(1);
-		response.body.data.forEach(({ applications }) => applications.forEach((application) => sortApplicationComments(application)));
+		(response.body.data as CompanyFullViewModel[]).forEach(({ applications }) => sortApplicationComments(applications));
 		expect(response.body.data).toStrictEqual(expected);
 	});
 
@@ -192,7 +199,19 @@ describe("Jobs e2e", async () => {
 		applicationId2 = response.body.id;
 		companyId2 = response.body.company.id;
 		expect(response.status).toStrictEqual(HttpStatus.CREATED);
+		sortApplicationComments([response.body]);
 		expect(response.body).toStrictEqual(expected2);
+	});
+
+	it("GET Application 1 (Links Changed)", async () => {
+		const response = await request(app.getHttpServer()).get(`/jobs/applications/${applicationId}`);
+		expect(response.status).toStrictEqual(HttpStatus.OK);
+		sortApplicationComments([response.body]);
+		expect(response.body.links.length).toStrictEqual(1);
+		// Our data has changed now because the links have been added through Application 2, so let's update
+		applicationViewModel.links = response.body.links;
+		expected = mockApplicationExpected(applicationViewModel);
+		expect(response.body).toStrictEqual(expected);
 	});
 
 	it("PUT Application 1", async () => {
@@ -209,6 +228,7 @@ describe("Jobs e2e", async () => {
 		expected = mockApplicationExpected(applicationViewModel);
 		const response = await request(app.getHttpServer()).put(`/jobs/applications/${applicationId}`).send(applicationViewModel);
 		expect(response.status).toStrictEqual(HttpStatus.OK);
+		sortApplicationComments([response.body]);
 		expect(response.body).toStrictEqual(expected);
 	});
 
@@ -216,10 +236,8 @@ describe("Jobs e2e", async () => {
 		const response = await request(app.getHttpServer()).post("/jobs/applications/list");
 		expect(response.status).toStrictEqual(HttpStatus.OK);
 		expect(response.body.total).toStrictEqual(2);
-		expect(response.body.data.length).toStrictEqual(2);
-		expect(response.body.data[0]).toBeDefined();
-		expect(response.body.data[1]).toBeDefined();
-		expect(response.body.data[0]).to.not.toStrictEqual(response.body.data[1]);
+		sortApplicationComments(response.body.data);
+		expect(response.body.data).toStrictEqual([expected, expected2]);
 	});
 
 	it("DELETE Application 1", async () => {
@@ -245,8 +263,11 @@ describe("Jobs e2e", async () => {
 		const { body, status } = await request(app.getHttpServer()).post("/jobs/applications/list");
 		expect(status).toStrictEqual(HttpStatus.OK);
 		expect(body.total).toStrictEqual(1);
-		expect(body.data.length).toStrictEqual(1);
-		expect(body.data[0]).toBeDefined();
+		sortApplicationComments(body.data);
+		expect(body.data[0].links).toStrictEqual([]);
+		// The links have been removed through Application 1, so update accordingly
+		expected2.links = body.data[0].links;
+		expect(body.data).toStrictEqual([expected2]);
 	});
 
 	it("DELETE Company 1", async () => {

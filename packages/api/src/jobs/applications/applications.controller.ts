@@ -14,7 +14,11 @@ import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { UseValidationPipe } from "@/constants";
 import { ApplicationsService } from "@/jobs/applications/applications.service";
 import { ApplicationsUploadViewModel } from "@/jobs/applications/types";
-import { ApplicationViewModel, IApplicationCreateViewModel } from "@/jobs/viewModels/application.viewmodel";
+import {
+	ApplicationListViewModel,
+	ApplicationViewModel,
+	IApplicationCreateViewModel,
+} from "@/jobs/viewModels/application.viewmodel";
 import { IUploadViewModelsResponse } from "@/types";
 import { ApiPaginatedRequest } from "@/viewModels/base.list.viewmodel";
 
@@ -28,7 +32,7 @@ export class ApplicationsController {
 
 	@Post("list")
 	@HttpCode(HttpStatus.OK)
-	async listApplications(@Body() _body: ApiPaginatedRequest) {
+	async listApplications(@Body() _body: ApiPaginatedRequest): Promise<ApplicationListViewModel> {
 		return this.service.listApplications();
 	}
 

@@ -11,6 +11,7 @@ api/audits-api.ts
 api/companies-api.ts
 api/exercises-api.ts
 api/jobs-api.ts
+api/routines-api.ts
 api/users-api.ts
 base.ts
 common.ts
@@ -55,6 +56,7 @@ docs/ExercisesApi.md
 docs/JobsApi.md
 docs/RoutineActionViewModel.md
 docs/RoutineViewModel.md
+docs/RoutinesApi.md
 docs/StravaTokenViewModel.md
 docs/UserCreateViewModel.md
 docs/UserSettingsExerciseViewModel.md

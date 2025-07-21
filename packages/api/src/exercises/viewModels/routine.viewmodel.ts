@@ -2,7 +2,7 @@
 import { BaseViewModel } from "@/viewModels/BaseViewModel";
 
 export class RoutineViewModel extends BaseViewModel {
-	declare id: string;
+	id?: string = "";
 
 	declare name: string;
 

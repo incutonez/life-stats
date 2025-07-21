@@ -22,20 +22,23 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import type { ActionTypeViewModel } from '../models';
+import type { RoutineViewModel } from '../models';
 /**
- * ActionTypesApi - axios parameter creator
+ * RoutinesApi - axios parameter creator
  * @export
  */
-export const ActionTypesApiAxiosParamCreator = function (configuration?: Configuration) {
+export const RoutinesApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {RoutineViewModel} routineViewModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getActionTypes: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/exercises/action-types`;
+        createRoutine: async (routineViewModel: RoutineViewModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'routineViewModel' is not null or undefined
+            assertParamExists('createRoutine', 'routineViewModel', routineViewModel)
+            const localVarPath = `/exercises/routines`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -43,15 +46,18 @@ export const ActionTypesApiAxiosParamCreator = function (configuration?: Configu
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(routineViewModel, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -62,75 +68,79 @@ export const ActionTypesApiAxiosParamCreator = function (configuration?: Configu
 };
 
 /**
- * ActionTypesApi - functional programming interface
+ * RoutinesApi - functional programming interface
  * @export
  */
-export const ActionTypesApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = ActionTypesApiAxiosParamCreator(configuration)
+export const RoutinesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = RoutinesApiAxiosParamCreator(configuration)
     return {
         /**
          * 
+         * @param {RoutineViewModel} routineViewModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getActionTypes(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ActionTypeViewModel>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getActionTypes(options);
+        async createRoutine(routineViewModel: RoutineViewModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RoutineViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createRoutine(routineViewModel, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ActionTypesApi.getActionTypes']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['RoutinesApi.createRoutine']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
 
 /**
- * ActionTypesApi - factory interface
+ * RoutinesApi - factory interface
  * @export
  */
-export const ActionTypesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = ActionTypesApiFp(configuration)
+export const RoutinesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = RoutinesApiFp(configuration)
     return {
         /**
          * 
+         * @param {RoutineViewModel} routineViewModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getActionTypes(options?: RawAxiosRequestConfig): AxiosPromise<Array<ActionTypeViewModel>> {
-            return localVarFp.getActionTypes(options).then((request) => request(axios, basePath));
+        createRoutine(routineViewModel: RoutineViewModel, options?: RawAxiosRequestConfig): AxiosPromise<RoutineViewModel> {
+            return localVarFp.createRoutine(routineViewModel, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * ActionTypesApi - interface
+ * RoutinesApi - interface
  * @export
- * @interface ActionTypesApi
+ * @interface RoutinesApi
  */
-export interface ActionTypesApiInterface {
+export interface RoutinesApiInterface {
     /**
      * 
+     * @param {RoutineViewModel} routineViewModel 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ActionTypesApiInterface
+     * @memberof RoutinesApiInterface
      */
-    getActionTypes(options?: RawAxiosRequestConfig): AxiosPromise<Array<ActionTypeViewModel>>;
+    createRoutine(routineViewModel: RoutineViewModel, options?: RawAxiosRequestConfig): AxiosPromise<RoutineViewModel>;
 
 }
 
 /**
- * ActionTypesApi - object-oriented interface
+ * RoutinesApi - object-oriented interface
  * @export
- * @class ActionTypesApi
+ * @class RoutinesApi
  * @extends {BaseAPI}
  */
-export class ActionTypesApi extends BaseAPI implements ActionTypesApiInterface {
+export class RoutinesApi extends BaseAPI implements RoutinesApiInterface {
     /**
      * 
+     * @param {RoutineViewModel} routineViewModel 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof ActionTypesApi
+     * @memberof RoutinesApi
      */
-    public getActionTypes(options?: RawAxiosRequestConfig) {
-        return ActionTypesApiFp(this.configuration).getActionTypes(options).then((request) => request(this.axios, this.basePath));
+    public createRoutine(routineViewModel: RoutineViewModel, options?: RawAxiosRequestConfig) {
+        return RoutinesApiFp(this.configuration).createRoutine(routineViewModel, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

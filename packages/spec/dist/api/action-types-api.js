@@ -4,7 +4,7 @@ import { BASE_PATH, BaseAPI, operationServerMap } from '../base';
 export const ActionTypesApiAxiosParamCreator = function (configuration) {
     return {
         getActionTypes: async (options = {}) => {
-            const localVarPath = `/action-types`;
+            const localVarPath = `/exercises/action-types`;
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
             if (configuration) {

@@ -12,6 +12,7 @@ import { IconAdd, IconDelete, IconEdit, IconSave } from "@/components/Icons.ts";
 import TableData, { type TableDataComponent } from "@/components/TableData.vue";
 import { useTableActions, useTableData } from "@/composables/table.ts";
 import { injectActivityRecord } from "@/views/exercises/composables/activities.ts";
+import { useCreateRoutine } from "@/views/exercises/composables/routines.ts";
 import { useActionsColumns } from "@/views/exercises/composables/table.ts";
 import FieldActionTypes from "@/views/exercises/shared/FieldActionTypes.vue";
 
@@ -21,6 +22,7 @@ const routineName = ref("");
 const selectedRecord = ref<ActivityActionViewModel>();
 const tableRef = useTemplateRef<TableDataComponent<ActivityActionViewModel>>("tableRef");
 const { viewRecord, saveAction } = injectActivityRecord();
+const { createRoutine, creatingRoutine } = useCreateRoutine();
 const data = computed({
 	get() {
 		return viewRecord.value.actions ?? [];
@@ -69,7 +71,21 @@ function onClickAddRoutine() {
 }
 
 async function onClickSaveRoutine() {
-	// TODOJEF: NEED API
+	await createRoutine({
+		name: routineName.value,
+		actions: data.value.map(({ actionType, order, value }) => {
+			return {
+				order,
+				value,
+				id: "",
+				actionType: {
+					id: actionType.id,
+					name: actionType.name,
+				},
+			};
+		}),
+	});
+	showDialogRoutine.value = false;
 }
 
 function onClickSaveAction() {
@@ -109,6 +125,7 @@ useSortable(() => tableRef.value?.rowBody, data, {
 					text="Routine"
 					:icon="IconAdd"
 					theme="info"
+					:disabled="!!data.length"
 					@click="onClickAddRoutine"
 				/>
 				<BaseButton
@@ -178,6 +195,7 @@ useSortable(() => tableRef.value?.rowBody, data, {
 					text="Save"
 					theme="info"
 					:icon="IconSave"
+					:loading="creatingRoutine"
 					@click="onClickSaveRoutine"
 				/>
 			</template>

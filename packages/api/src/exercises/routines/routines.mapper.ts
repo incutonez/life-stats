@@ -24,7 +24,7 @@ export class RoutinesMapper {
 		return viewModel;
 	}
 
-	viewModelToEntity({ id, name, actions, userId = this.storage.getUserId() }: RoutineViewModel): IRoutineModel {
+	viewModelToEntity({ id = "", name, actions, userId = this.storage.getUserId() }: RoutineViewModel): IRoutineModel {
 		return {
 			id,
 			name,

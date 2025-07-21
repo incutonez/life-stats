@@ -1,21 +1,41 @@
-import { DataTypes } from "@sequelize/core";
+import { DataTypes, ValidationErrorItem } from "@sequelize/core";
 import { Attribute, Table } from "@sequelize/core/decorators-legacy";
+import { isUUID } from "class-validator";
 import { v4 as uuid } from "uuid";
 import { CreatedAtField, EnumTableNames, getTableName, UpdatedAtField } from "@/constants";
 
+export class UUID extends DataTypes.ABSTRACT<string> {
+	sanitize(value?: string) {
+		if (value === "" || value === undefined || value === null) {
+			value = uuid();
+		}
+		return value;
+	}
+
+	validate(value?: string) {
+		if (typeof value !== "string" || !isUUID(value, "4")) {
+			ValidationErrorItem.throwDataTypeValidationError(`${value} is not a valid uuid (version: 4)`);
+		}
+	}
+
+	// toSql must return the SQL that will be used in a CREATE TABLE statement.
+	toSql() {
+		return "UUID";
+	}
+}
+
 export function PrimaryKeyGuid() {
 	return Attribute({
-		type: DataTypes.UUIDV4,
-		defaultValue: () => uuid(),
+		type: UUID,
 		primaryKey: true,
 		allowNull: false,
+		defaultValue: () => uuid(),
 	});
 }
 
 export function ForeignKeyGuid() {
 	return Attribute({
-		type: DataTypes.UUIDV4,
-		defaultValue: () => uuid(),
+		type: UUID,
 		allowNull: false,
 	});
 }

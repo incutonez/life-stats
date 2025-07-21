@@ -3,7 +3,7 @@ export interface RoutineViewModel {
     'userId'?: string;
     'dateCreated'?: number;
     'dateUpdated'?: number;
-    'id': string;
+    'id'?: string;
     'name': string;
     'actions': Array<RoutineActionViewModel>;
 }

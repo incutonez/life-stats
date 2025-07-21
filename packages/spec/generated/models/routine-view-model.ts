@@ -46,7 +46,7 @@ export interface RoutineViewModel {
      * @type {string}
      * @memberof RoutineViewModel
      */
-    'id': string;
+    'id'?: string;
     /**
      * 
      * @type {string}

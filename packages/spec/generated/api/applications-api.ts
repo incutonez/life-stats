@@ -306,7 +306,7 @@ export const ApplicationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createApplication(applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+        async createApplication(applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApplicationViewModel>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createApplication(applicationViewModel, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ApplicationsApi.createApplication']?.[localVarOperationServerIndex]?.url;
@@ -402,7 +402,7 @@ export const ApplicationsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createApplication(applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): AxiosPromise<object> {
+        createApplication(applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): AxiosPromise<ApplicationViewModel> {
             return localVarFp.createApplication(applicationViewModel, options).then((request) => request(axios, basePath));
         },
         /**
@@ -477,7 +477,7 @@ export interface ApplicationsApiInterface {
      * @throws {RequiredError}
      * @memberof ApplicationsApiInterface
      */
-    createApplication(applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): AxiosPromise<object>;
+    createApplication(applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): AxiosPromise<ApplicationViewModel>;
 
     /**
      * 

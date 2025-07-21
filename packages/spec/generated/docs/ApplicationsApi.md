@@ -13,7 +13,7 @@ All URIs are relative to *http://localhost*
 |[**uploadApplications**](#uploadapplications) | **POST** /jobs/applications/upload | |
 
 # **createApplication**
-> object createApplication(applicationViewModel)
+> ApplicationViewModel createApplication(applicationViewModel)
 
 
 ### Example
@@ -44,7 +44,7 @@ const { status, data } = await apiInstance.createApplication(
 
 ### Return type
 
-**object**
+**ApplicationViewModel**
 
 ### Authorization
 

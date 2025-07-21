@@ -46,16 +46,16 @@ export interface ApplicationLinkViewModel {
     'dateUpdated'?: number;
     /**
      * 
-     * @type {EnumApplicationStatus}
-     * @memberof ApplicationLinkViewModel
-     */
-    'status'?: EnumApplicationStatus;
-    /**
-     * 
      * @type {EnumLinkType}
      * @memberof ApplicationLinkViewModel
      */
     'type': EnumLinkType;
+    /**
+     * 
+     * @type {EnumApplicationStatus}
+     * @memberof ApplicationLinkViewModel
+     */
+    'status'?: EnumApplicationStatus;
     /**
      * 
      * @type {string}
@@ -73,7 +73,7 @@ export interface ApplicationLinkViewModel {
      * @type {number}
      * @memberof ApplicationLinkViewModel
      */
-    'dateApplied': number;
+    'dateApplied'?: number;
 }
 
 

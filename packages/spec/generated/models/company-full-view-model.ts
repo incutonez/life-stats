@@ -46,7 +46,7 @@ export interface CompanyFullViewModel {
      * @type {string}
      * @memberof CompanyFullViewModel
      */
-    'id': string;
+    'id'?: string;
     /**
      * 
      * @type {string}

@@ -2,7 +2,7 @@ export interface CommentViewModel {
     'userId'?: string;
     'dateCreated'?: number;
     'dateUpdated'?: number;
-    'id': string;
+    'id'?: string;
     'comment': string;
-    'applicationId': string;
+    'applicationId'?: string;
 }

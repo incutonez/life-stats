@@ -4,9 +4,9 @@ export interface ApplicationLinkViewModel {
     'userId'?: string;
     'dateCreated'?: number;
     'dateUpdated'?: number;
-    'status'?: EnumApplicationStatus;
     'type': EnumLinkType;
+    'status'?: EnumApplicationStatus;
     'id': string;
     'positionTitle'?: string;
-    'dateApplied': number;
+    'dateApplied'?: number;
 }

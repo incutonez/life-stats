@@ -2,7 +2,7 @@
 import {
 	type ActivityActionViewModel,
 	type ActivityAttributeViewModel,
-	type ActivityCreateViewModel,
+	type ActivityViewModel,
 	EnumActivitySource,
 	EnumUnitTypes,
 } from "@incutonez/life-stats-spec";
@@ -13,7 +13,7 @@ import { getEnumDisplay } from "@/utils/common.ts";
 import { numberToDisplay } from "@/utils/formatters.ts";
 import CellActivityDetails from "@/views/exercises/CellActivityDetails.vue";
 
-export function useActivitiesColumns<T extends ActivityCreateViewModel>(): ITableColumn<T>[] {
+export function useActivitiesColumns<T extends ActivityViewModel>(): ITableColumn<T>[] {
 	return [
 		useDateColumn("dateOccurred", "Date"), {
 			accessorKey: "activityType.name",

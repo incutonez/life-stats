@@ -43,7 +43,7 @@ export interface CompanyViewModel {
      * @type {string}
      * @memberof CompanyViewModel
      */
-    'id': string;
+    'id'?: string;
     /**
      * 
      * @type {string}

@@ -90,11 +90,6 @@ function sortApplicationComments(viewModels: IApplicationViewModel[] | Applicati
 	viewModels.forEach((viewModel) => viewModel.comments.sort((lhs, rhs) => lhs.comment.localeCompare(rhs.comment)));
 }
 
-/**
- * TODOJEF:
- * - Add this to the branch runner as a step
- * - Add an Exercises e2e
- */
 describe("Jobs e2e", async () => {
 	const applicationViewModel = mockApplicationCreate();
 	const applicationViewModel2 = mockApplicationCreate();

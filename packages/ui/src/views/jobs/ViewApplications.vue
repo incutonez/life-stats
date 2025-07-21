@@ -59,7 +59,7 @@ columns.value = [
 	useTableActions([{
 		icon: IconEdit,
 		handler(record) {
-			viewApplication(record.id, viewRoute);
+			viewApplication(record.id!, viewRoute);
 		},
 	}, {
 		icon: IconDelete,

@@ -70,13 +70,7 @@ export interface ApplicationViewModel {
      * @type {string}
      * @memberof ApplicationViewModel
      */
-    'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationViewModel
-     */
-    'site': string;
+    'id'?: string;
     /**
      * 
      * @type {string}
@@ -119,6 +113,12 @@ export interface ApplicationViewModel {
      * @memberof ApplicationViewModel
      */
     'links'?: Array<ApplicationLinkViewModel>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApplicationViewModel
+     */
+    'site'?: string;
 }
 
 

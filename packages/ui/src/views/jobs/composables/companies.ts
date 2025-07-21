@@ -57,7 +57,7 @@ export function useDeleteCompany() {
 	async function deleteCompany() {
 		const $selectedCompany = unref(selectedCompany);
 		if ($selectedCompany) {
-			return deleteMutation.mutate($selectedCompany.id);
+			return deleteMutation.mutate($selectedCompany.id!);
 		}
 	}
 

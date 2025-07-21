@@ -39,3 +39,5 @@ jobs:
         run: npm ci
       - name: Error Free
         run: npm run build
+      - name: API Tests Pass
+        run: npm run test:api

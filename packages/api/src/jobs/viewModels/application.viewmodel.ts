@@ -44,7 +44,7 @@ export class ApplicationViewModel extends BaseViewModel {
 
 	links?: ApplicationLinkViewModel[];
 
-	site? = "";
+	site?: string = "";
 }
 
 export class ApplicationLinkViewModel extends BaseViewModel {

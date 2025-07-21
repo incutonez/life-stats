@@ -3,7 +3,7 @@ export interface CompanyFullViewModel {
     'userId'?: string;
     'dateCreated'?: number;
     'dateUpdated'?: number;
-    'id': string;
+    'id'?: string;
     'name': string;
     'applications': Array<ApplicationNestedViewModel>;
 }

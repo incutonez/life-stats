@@ -67,6 +67,12 @@ export interface ApplicationNestedViewModel {
      * @type {string}
      * @memberof ApplicationNestedViewModel
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApplicationNestedViewModel
+     */
     'positionTitle': string;
     /**
      * 
@@ -103,13 +109,7 @@ export interface ApplicationNestedViewModel {
      * @type {string}
      * @memberof ApplicationNestedViewModel
      */
-    'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationNestedViewModel
-     */
-    'site': string;
+    'site'?: string;
 }
 
 

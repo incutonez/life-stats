@@ -14,7 +14,11 @@ import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { UseValidationPipe } from "@/constants";
 import { ApplicationsService } from "@/jobs/applications/applications.service";
 import { ApplicationsUploadViewModel } from "@/jobs/applications/types";
-import { ApplicationViewModel, IApplicationCreateViewModel } from "@/jobs/viewModels/application.viewmodel";
+import {
+	ApplicationListViewModel,
+	ApplicationViewModel,
+	IApplicationCreateViewModel,
+} from "@/jobs/viewModels/application.viewmodel";
 import { IUploadViewModelsResponse } from "@/types";
 import { ApiPaginatedRequest } from "@/viewModels/base.list.viewmodel";
 
@@ -28,8 +32,8 @@ export class ApplicationsController {
 
 	@Post("list")
 	@HttpCode(HttpStatus.OK)
-	async listApplications(@Body() body: ApiPaginatedRequest) {
-		return this.service.listApplications(body);
+	async listApplications(@Body() _body: ApiPaginatedRequest): Promise<ApplicationListViewModel> {
+		return this.service.listApplications();
 	}
 
 	@Post("upload")
@@ -54,7 +58,7 @@ export class ApplicationsController {
 
 	@Post("")
 	@UseValidationPipe()
-	async createApplication(@Body() application: ApplicationViewModel): Promise<IApplicationCreateViewModel> {
+	async createApplication(@Body() application: ApplicationViewModel): Promise<ApplicationViewModel> {
 		const response = await this.service.createApplication(application);
 		if (response) {
 			return response;
@@ -64,8 +68,8 @@ export class ApplicationsController {
 
 	@Put(":applicationId")
 	@UseValidationPipe()
-	async updateApplication(@Body() application: ApplicationViewModel, @Param("applicationId") _applicationId: string): Promise<ApplicationViewModel> {
-		const response = await this.service.updateApplication(application);
+	async updateApplication(@Body() application: ApplicationViewModel, @Param("applicationId") applicationId: string): Promise<ApplicationViewModel> {
+		const response = await this.service.updateApplication(applicationId, application);
 		if (response) {
 			return response;
 		}

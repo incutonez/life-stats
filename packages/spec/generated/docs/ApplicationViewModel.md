@@ -10,8 +10,7 @@ Name | Type | Description | Notes
 **dateUpdated** | **number** |  | [optional] [default to undefined]
 **status** | [**EnumApplicationStatus**](EnumApplicationStatus.md) |  | [default to undefined]
 **locationType** | [**EnumLocationTypes**](EnumLocationTypes.md) |  | [default to undefined]
-**id** | **string** |  | [default to undefined]
-**site** | **string** |  | [default to undefined]
+**id** | **string** |  | [optional] [default to undefined]
 **positionTitle** | **string** |  | [default to undefined]
 **dateApplied** | **number** |  | [default to undefined]
 **url** | **string** |  | [default to undefined]
@@ -19,6 +18,7 @@ Name | Type | Description | Notes
 **company** | [**CompanyViewModel**](CompanyViewModel.md) |  | [default to undefined]
 **comments** | [**Array&lt;CommentViewModel&gt;**](CommentViewModel.md) |  | [default to undefined]
 **links** | [**Array&lt;ApplicationLinkViewModel&gt;**](ApplicationLinkViewModel.md) |  | [optional] [default to undefined]
+**site** | **string** |  | [optional] [default to '']
 
 ## Example
 
@@ -32,7 +32,6 @@ const instance: ApplicationViewModel = {
     status,
     locationType,
     id,
-    site,
     positionTitle,
     dateApplied,
     url,
@@ -40,6 +39,7 @@ const instance: ApplicationViewModel = {
     company,
     comments,
     links,
+    site,
 };
 ```
 

@@ -2,19 +2,18 @@
 import {
 	type ActivityActionViewModel,
 	type ActivityAttributeViewModel,
-	type ActivityCreateViewModel,
+	type ActivityViewModel,
 	EnumActivitySource,
 	EnumUnitTypes,
 } from "@incutonez/life-stats-spec";
-import TableData from "@/components/TableData.vue";
-import { useDateColumn, useTableData } from "@/composables/table.ts";
+import { useDateColumn } from "@/composables/table.ts";
 import { ColumnFitWidth } from "@/constants.ts";
-import type { ITableColumn, ITableData } from "@/types/components.ts";
+import type { ITableColumn } from "@/types/components.ts";
 import { getEnumDisplay } from "@/utils/common.ts";
 import { numberToDisplay } from "@/utils/formatters.ts";
 import CellActivityDetails from "@/views/exercises/CellActivityDetails.vue";
 
-export function useActivitiesColumns<T extends ActivityCreateViewModel>(): ITableColumn<T>[] {
+export function useActivitiesColumns<T extends ActivityViewModel>(): ITableColumn<T>[] {
 	return [
 		useDateColumn("dateOccurred", "Date"), {
 			accessorKey: "activityType.name",
@@ -60,47 +59,16 @@ export function useActivitiesColumns<T extends ActivityCreateViewModel>(): ITabl
 			id: "attribute",
 			accessorKey: "attributes",
 			header: "Attributes",
-			meta: {
-				cellCls: "!p-0 align-top",
-			},
 			cell(info) {
-				const attributes = info.getValue<ActivityAttributeViewModel[]>();
-				const attributesTable = useTableData<ActivityAttributeViewModel>({
-					data: attributes,
-					sortInitial: [{
-						desc: false,
-						id: "attributeTypeName",
-					}],
-					columns: useAttributesColumns(),
-				});
-				return h<ITableData<ActivityAttributeViewModel>>(TableData, {
-					table: attributesTable.table,
-					hideHeaders: true,
-					isSubRow: true,
-				});
+				const records = info.getValue<ActivityAttributeViewModel[]>();
+				return h("span", null, records.length);
 			},
 		}, {
 			accessorKey: "actions",
 			header: "Steps",
-			meta: {
-				cellCls: "!p-0 align-top",
-			},
 			cell(info) {
 				const records = info.getValue<ActivityActionViewModel[]>();
-				const attributesTable = useTableData<ActivityActionViewModel>({
-					data: records,
-					sortInitial: [{
-						desc: false,
-						id: "order",
-					}],
-					columns: useActionsColumns(),
-				});
-				return h<ITableData<ActivityActionViewModel>>(TableData, {
-					table: attributesTable.table,
-					hideHeaders: true,
-					isSubRow: true,
-					tableClasses: "h-full",
-				});
+				return h("span", null, records.length);
 			},
 		},
 	];

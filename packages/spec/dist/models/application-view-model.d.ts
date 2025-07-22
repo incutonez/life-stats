@@ -9,8 +9,7 @@ export interface ApplicationViewModel {
     'dateUpdated'?: number;
     'status': EnumApplicationStatus;
     'locationType': EnumLocationTypes;
-    'id': string;
-    'site': string;
+    'id'?: string;
     'positionTitle': string;
     'dateApplied': number;
     'url': string;
@@ -18,4 +17,5 @@ export interface ApplicationViewModel {
     'company': CompanyViewModel;
     'comments': Array<CommentViewModel>;
     'links'?: Array<ApplicationLinkViewModel>;
+    'site'?: string;
 }

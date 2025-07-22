@@ -14,7 +14,7 @@ export declare const ApplicationsApiAxiosParamCreator: (configuration?: Configur
     uploadApplications: (addHeaders: boolean, file: File, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
 };
 export declare const ApplicationsApiFp: (configuration?: Configuration) => {
-    createApplication(applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>>;
+    createApplication(applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApplicationViewModel>>;
     createApplications(applicationViewModel: Array<ApplicationViewModel>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>>;
     deleteApplication(applicationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>>;
     getApplication(applicationId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApplicationViewModel>>;
@@ -23,7 +23,7 @@ export declare const ApplicationsApiFp: (configuration?: Configuration) => {
     uploadApplications(addHeaders: boolean, file: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ApplicationViewModel>>>;
 };
 export declare const ApplicationsApiFactory: (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) => {
-    createApplication(applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): AxiosPromise<object>;
+    createApplication(applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): AxiosPromise<ApplicationViewModel>;
     createApplications(applicationViewModel: Array<ApplicationViewModel>, options?: RawAxiosRequestConfig): AxiosPromise<object>;
     deleteApplication(applicationId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
     getApplication(applicationId: string, options?: RawAxiosRequestConfig): AxiosPromise<ApplicationViewModel>;
@@ -32,7 +32,7 @@ export declare const ApplicationsApiFactory: (configuration?: Configuration, bas
     uploadApplications(addHeaders: boolean, file: File, options?: RawAxiosRequestConfig): AxiosPromise<Array<ApplicationViewModel>>;
 };
 export interface ApplicationsApiInterface {
-    createApplication(applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): AxiosPromise<object>;
+    createApplication(applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): AxiosPromise<ApplicationViewModel>;
     createApplications(applicationViewModel: Array<ApplicationViewModel>, options?: RawAxiosRequestConfig): AxiosPromise<object>;
     deleteApplication(applicationId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
     getApplication(applicationId: string, options?: RawAxiosRequestConfig): AxiosPromise<ApplicationViewModel>;
@@ -41,7 +41,7 @@ export interface ApplicationsApiInterface {
     uploadApplications(addHeaders: boolean, file: File, options?: RawAxiosRequestConfig): AxiosPromise<Array<ApplicationViewModel>>;
 }
 export declare class ApplicationsApi extends BaseAPI implements ApplicationsApiInterface {
-    createApplication(applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<object, any>>;
+    createApplication(applicationViewModel: ApplicationViewModel, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<ApplicationViewModel, any>>;
     createApplications(applicationViewModel: Array<ApplicationViewModel>, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<object, any>>;
     deleteApplication(applicationId: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<void, any>>;
     getApplication(applicationId: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<ApplicationViewModel, any>>;

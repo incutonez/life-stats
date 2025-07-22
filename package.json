@@ -16,6 +16,8 @@
     "db:migration:add": "cd packages/api && npm run db:migration:add",
     "explode": "npm cache clean --force && npx rimraf package-lock.json **/node_modules --glob && npm i",
     "spec:build": "cd packages/spec && npm run generate",
+    "test:api": "cd packages/api && npm run test",
+    "test:api:coverage": "cd packages/api && npm run test -- --coverage.enabled --coverage.all",
     "ui": "cd packages/ui && npm run dev",
     "ui:build": "cd packages/ui && npm run build",
     "ui:build:prod": "cd packages/ui && npm run build:prod",

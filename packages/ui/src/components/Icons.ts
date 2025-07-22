@@ -55,3 +55,5 @@ export { default as IconSettings } from "@material-symbols/svg-400/outlined/sett
 export { default as IconArrowRight } from "@material-symbols/svg-400/outlined/arrow_forward.svg";
 
 export { default as IconHelp } from "@material-symbols/svg-400/outlined/help.svg";
+
+export { default as IconRoutine } from "@material-symbols/svg-400/outlined/routine.svg";

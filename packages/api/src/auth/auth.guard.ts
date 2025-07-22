@@ -6,12 +6,6 @@ import { SessionStorageService } from "@/auth/session.storage.service";
 import { IS_PUBLIC_KEY, SESSION_STORAGE } from "@/constants";
 import { UsersService } from "@/users/users.service";
 
-const { AUTH0_DOMAIN, AUTH0_AUDIENCE } = env;
-const checkJWT = auth({
-	audience: AUTH0_AUDIENCE,
-	issuerBaseURL: AUTH0_DOMAIN,
-});
-
 @Injectable()
 export class AuthGuard implements CanActivate {
 	constructor(@Inject(SESSION_STORAGE) private storage: SessionStorageService, private readonly usersService: UsersService, private reflector: Reflector) {
@@ -28,6 +22,11 @@ export class AuthGuard implements CanActivate {
 		if (isPublic) {
 			return true;
 		}
+		const { AUTH0_DOMAIN, AUTH0_AUDIENCE } = env;
+		const checkJWT = auth({
+			audience: AUTH0_AUDIENCE,
+			issuerBaseURL: AUTH0_DOMAIN,
+		});
 		await checkJWT(req, http.getResponse(), (err: unknown) => {
 			if (err) {
 				throw err;

@@ -1,4 +1,20 @@
-﻿export const EnumLocationTypes = {
+﻿export const APPLICATIONS_REPOSITORY = "APPLICATIONS_REPOSITORY";
+
+export const COMPANIES_REPOSITORY = "COMPANIES_REPOSITORY";
+
+export const DomainRegex = /https?:\/\/.*?([^./]+?\.[^.]+?(?:\.\w{2})?)(?:\/|$)/;
+
+export const CSVFields = [
+	"company",
+	"positionTitle",
+	"dateApplied",
+	"url",
+	"compensation",
+	"comments",
+	"status",
+];
+
+export const EnumLocationTypes = {
 	Remote: 1,
 	Hybrid: 2,
 	OnSite: 3,

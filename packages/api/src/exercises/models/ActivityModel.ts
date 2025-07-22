@@ -7,19 +7,15 @@ import { calculateCalories, EnumActivitySource } from "@/exercises/constants";
 import { ActivityActionModel } from "@/exercises/models/ActivityActionModel";
 import {
 	ActivityAttributeModel,
-	IActivityAttributeCreate,
 } from "@/exercises/models/ActivityAttributeModel";
-import { ActivityTypeModel, IActivityTypeCreate } from "@/exercises/models/ActivityTypeModel";
+import { ActivityTypeModel } from "@/exercises/models/ActivityTypeModel";
 import { ModelInterface } from "@/types";
 
 export type IActivityModel = ModelInterface<ActivityModel>;
 
 export type IActivityUpdateModel = Omit<IActivityModel, "attributes" | "activity_type" | "calories" | "weight_lost" | "actions">;
 
-export type IActivityCreate = Omit<IActivityModel, "id" | "activity_type" | "attributes" | "calories" | "weight_lost"> & {
-	activity_type: IActivityTypeCreate;
-	attributes: IActivityAttributeCreate[];
-};
+export type IActivityCreate = Omit<IActivityModel, "id" | "activity_type" | "attributes" | "calories" | "weight_lost" | "actions">;
 
 @BaseTable(EnumTableNames.exerciseActivities)
 export class ActivityModel extends BaseModel {

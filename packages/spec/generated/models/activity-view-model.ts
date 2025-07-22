@@ -64,18 +64,6 @@ export interface ActivityViewModel {
     'id': string;
     /**
      * 
-     * @type {ActivityTypeViewModel}
-     * @memberof ActivityViewModel
-     */
-    'activityType': ActivityTypeViewModel;
-    /**
-     * 
-     * @type {Array<ActivityAttributeViewModel>}
-     * @memberof ActivityViewModel
-     */
-    'attributes': Array<ActivityAttributeViewModel>;
-    /**
-     * 
      * @type {string}
      * @memberof ActivityViewModel
      */
@@ -112,10 +100,16 @@ export interface ActivityViewModel {
     'dateOccurred': number;
     /**
      * 
+     * @type {ActivityTypeViewModel}
+     * @memberof ActivityViewModel
+     */
+    'activityType': ActivityTypeViewModel;
+    /**
+     * 
      * @type {Array<ActivityActionViewModel>}
      * @memberof ActivityViewModel
      */
-    'actions': Array<ActivityActionViewModel>;
+    'actions'?: Array<ActivityActionViewModel>;
     /**
      * 
      * @type {number}
@@ -128,6 +122,12 @@ export interface ActivityViewModel {
      * @memberof ActivityViewModel
      */
     'weightLost'?: number;
+    /**
+     * 
+     * @type {Array<ActivityAttributeViewModel>}
+     * @memberof ActivityViewModel
+     */
+    'attributes'?: Array<ActivityAttributeViewModel>;
 }
 
 

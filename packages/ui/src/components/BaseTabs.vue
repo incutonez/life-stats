@@ -9,7 +9,7 @@ const activeTab = defineModel<string | number>();
 
 // Set default tab for the 1st time
 watch(() => props.tabs, ([firstTab]) => {
-	activeTab.value = firstTab?.value ?? firstTab?.title;
+	activeTab.value ??= firstTab?.value ?? firstTab?.title;
 }, {
 	immediate: true,
 	// Only want this to happen the 1st time
@@ -50,7 +50,7 @@ watch(() => props.tabs, ([firstTab]) => {
 			:class="tab.contentClasses"
 			:value="tab.value ?? tab.title"
 		>
-			<slot :name="tab.title" />
+			<slot :name="tab.value ?? tab.title" />
 		</TabsContent>
 	</TabsRoot>
 </template>

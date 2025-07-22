@@ -11,10 +11,12 @@ import TabAttributes from "@/views/exercises/activities/TabAttributes.vue";
 import TabDetails from "@/views/exercises/activities/TabDetails.vue";
 import { provideActivityRecord, useDeleteActivity } from "@/views/exercises/composables/activities.ts";
 import { useExerciseRoutes } from "@/views/exercises/composables/routes.ts";
+import { RouteViewActivityTabs } from "@/views/exercises/constants.ts";
 import DeleteDialog from "@/views/shared/DeleteDialog.vue";
 
 interface IViewActivityProps {
 	activityId: string;
+	tabId: keyof typeof RouteViewActivityTabs;
 }
 
 const props = defineProps<IViewActivityProps>();
@@ -23,18 +25,22 @@ const showDeleteDialog = ref(false);
 const recordId = computed(() => props.activityId);
 const { deletingRecord, deleteRecord } = useDeleteActivity();
 const { save, savingRecord, viewRecord, isEdit } = provideActivityRecord(recordId);
-const { viewActivities } = useExerciseRoutes();
+const { viewActivities, viewActivity } = useExerciseRoutes();
 const { userProfile } = injectUserProfile();
 const dialogTitle = computed(() => isEdit.value ? "Edit Activity" : "Create Activity");
 const tabs = reactive<IBaseTab[]>([{
 	title: "Details",
+	value: RouteViewActivityTabs.details,
 	contentClasses: "p-form",
 }, {
 	title: "Steps",
+	value: RouteViewActivityTabs.steps,
 	contentClasses: "overflow-hidden",
 }, {
 	title: "Attributes",
+	value: RouteViewActivityTabs.attributes,
 }]);
+const activeTab = ref(tabs[0].value);
 
 async function onClickSave() {
 	await save();
@@ -60,6 +66,13 @@ watch(userProfile, ($userProfile) => {
 		$viewRecord.weight = $userProfile?.settings.exercises.weight;
 	}
 });
+
+// If the tabId prop is changed, then update the activeTab
+watch(() => props.tabId, (tabId) => activeTab.value = tabId, {
+	immediate: true,
+});
+// If the activeTab is changed, then we need to update the route
+watch(activeTab, ($activeTab) => viewActivity(props.activityId, $activeTab));
 </script>
 
 <template>
@@ -73,16 +86,17 @@ watch(userProfile, ($userProfile) => {
 	>
 		<template #content>
 			<BaseTabs
+				v-model="activeTab"
 				:tabs="tabs"
 				orientation="vertical"
 			>
-				<template #Details>
+				<template #[RouteViewActivityTabs.details]>
 					<TabDetails />
 				</template>
-				<template #Steps>
+				<template #[RouteViewActivityTabs.steps]>
 					<TabActions />
 				</template>
-				<template #Attributes>
+				<template #[RouteViewActivityTabs.attributes]>
 					<TabAttributes />
 				</template>
 			</BaseTabs>

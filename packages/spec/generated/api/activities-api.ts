@@ -22,10 +22,6 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import type { ActivityActionTypeViewModel } from '../models';
-// @ts-ignore
-import type { ActivityCreateViewModel } from '../models';
-// @ts-ignore
 import type { ActivityListViewModel } from '../models';
 // @ts-ignore
 import type { ActivityTypeViewModel } from '../models';
@@ -41,13 +37,13 @@ export const ActivitiesApiAxiosParamCreator = function (configuration?: Configur
     return {
         /**
          * 
-         * @param {ActivityCreateViewModel} activityCreateViewModel 
+         * @param {ActivityViewModel} activityViewModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createActivity: async (activityCreateViewModel: ActivityCreateViewModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'activityCreateViewModel' is not null or undefined
-            assertParamExists('createActivity', 'activityCreateViewModel', activityCreateViewModel)
+        createActivity: async (activityViewModel: ActivityViewModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'activityViewModel' is not null or undefined
+            assertParamExists('createActivity', 'activityViewModel', activityViewModel)
             const localVarPath = `/exercises/activities`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -67,7 +63,7 @@ export const ActivitiesApiAxiosParamCreator = function (configuration?: Configur
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(activityCreateViewModel, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(activityViewModel, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -93,35 +89,6 @@ export const ActivitiesApiAxiosParamCreator = function (configuration?: Configur
             }
 
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getActionTypes: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/exercises/activities/action-types`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -343,13 +310,13 @@ export const ActivitiesApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
-         * @param {Array<ActivityCreateViewModel>} activityCreateViewModel 
+         * @param {Array<ActivityViewModel>} activityViewModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadStravaActivities: async (activityCreateViewModel: Array<ActivityCreateViewModel>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'activityCreateViewModel' is not null or undefined
-            assertParamExists('uploadStravaActivities', 'activityCreateViewModel', activityCreateViewModel)
+        uploadStravaActivities: async (activityViewModel: Array<ActivityViewModel>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'activityViewModel' is not null or undefined
+            assertParamExists('uploadStravaActivities', 'activityViewModel', activityViewModel)
             const localVarPath = `/exercises/activities/strava/upload`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -369,7 +336,7 @@ export const ActivitiesApiAxiosParamCreator = function (configuration?: Configur
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(activityCreateViewModel, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(activityViewModel, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -388,12 +355,12 @@ export const ActivitiesApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {ActivityCreateViewModel} activityCreateViewModel 
+         * @param {ActivityViewModel} activityViewModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createActivity(activityCreateViewModel: ActivityCreateViewModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActivityViewModel>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createActivity(activityCreateViewModel, options);
+        async createActivity(activityViewModel: ActivityViewModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActivityViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createActivity(activityViewModel, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ActivitiesApi.createActivity']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -408,17 +375,6 @@ export const ActivitiesApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteActivity(activityId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ActivitiesApi.deleteActivity']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getActionTypes(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ActivityActionTypeViewModel>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getActionTypes(options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ActivitiesApi.getActionTypes']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -450,7 +406,7 @@ export const ActivitiesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async importStravaActivities(file: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ActivityCreateViewModel>>> {
+        async importStravaActivities(file: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ActivityViewModel>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.importStravaActivities(file, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ActivitiesApi.importStravaActivities']?.[localVarOperationServerIndex]?.url;
@@ -494,12 +450,12 @@ export const ActivitiesApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {Array<ActivityCreateViewModel>} activityCreateViewModel 
+         * @param {Array<ActivityViewModel>} activityViewModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadStravaActivities(activityCreateViewModel: Array<ActivityCreateViewModel>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadStravaActivities(activityCreateViewModel, options);
+        async uploadStravaActivities(activityViewModel: Array<ActivityViewModel>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<object>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.uploadStravaActivities(activityViewModel, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ActivitiesApi.uploadStravaActivities']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -516,12 +472,12 @@ export const ActivitiesApiFactory = function (configuration?: Configuration, bas
     return {
         /**
          * 
-         * @param {ActivityCreateViewModel} activityCreateViewModel 
+         * @param {ActivityViewModel} activityViewModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createActivity(activityCreateViewModel: ActivityCreateViewModel, options?: RawAxiosRequestConfig): AxiosPromise<ActivityViewModel> {
-            return localVarFp.createActivity(activityCreateViewModel, options).then((request) => request(axios, basePath));
+        createActivity(activityViewModel: ActivityViewModel, options?: RawAxiosRequestConfig): AxiosPromise<ActivityViewModel> {
+            return localVarFp.createActivity(activityViewModel, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -531,14 +487,6 @@ export const ActivitiesApiFactory = function (configuration?: Configuration, bas
          */
         deleteActivity(activityId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.deleteActivity(activityId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getActionTypes(options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityActionTypeViewModel>> {
-            return localVarFp.getActionTypes(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -563,7 +511,7 @@ export const ActivitiesApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        importStravaActivities(file: File, options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityCreateViewModel>> {
+        importStravaActivities(file: File, options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityViewModel>> {
             return localVarFp.importStravaActivities(file, options).then((request) => request(axios, basePath));
         },
         /**
@@ -595,12 +543,12 @@ export const ActivitiesApiFactory = function (configuration?: Configuration, bas
         },
         /**
          * 
-         * @param {Array<ActivityCreateViewModel>} activityCreateViewModel 
+         * @param {Array<ActivityViewModel>} activityViewModel 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadStravaActivities(activityCreateViewModel: Array<ActivityCreateViewModel>, options?: RawAxiosRequestConfig): AxiosPromise<object> {
-            return localVarFp.uploadStravaActivities(activityCreateViewModel, options).then((request) => request(axios, basePath));
+        uploadStravaActivities(activityViewModel: Array<ActivityViewModel>, options?: RawAxiosRequestConfig): AxiosPromise<object> {
+            return localVarFp.uploadStravaActivities(activityViewModel, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -613,12 +561,12 @@ export const ActivitiesApiFactory = function (configuration?: Configuration, bas
 export interface ActivitiesApiInterface {
     /**
      * 
-     * @param {ActivityCreateViewModel} activityCreateViewModel 
+     * @param {ActivityViewModel} activityViewModel 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ActivitiesApiInterface
      */
-    createActivity(activityCreateViewModel: ActivityCreateViewModel, options?: RawAxiosRequestConfig): AxiosPromise<ActivityViewModel>;
+    createActivity(activityViewModel: ActivityViewModel, options?: RawAxiosRequestConfig): AxiosPromise<ActivityViewModel>;
 
     /**
      * 
@@ -628,14 +576,6 @@ export interface ActivitiesApiInterface {
      * @memberof ActivitiesApiInterface
      */
     deleteActivity(activityId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
-
-    /**
-     * 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ActivitiesApiInterface
-     */
-    getActionTypes(options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityActionTypeViewModel>>;
 
     /**
      * 
@@ -661,7 +601,7 @@ export interface ActivitiesApiInterface {
      * @throws {RequiredError}
      * @memberof ActivitiesApiInterface
      */
-    importStravaActivities(file: File, options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityCreateViewModel>>;
+    importStravaActivities(file: File, options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityViewModel>>;
 
     /**
      * 
@@ -692,12 +632,12 @@ export interface ActivitiesApiInterface {
 
     /**
      * 
-     * @param {Array<ActivityCreateViewModel>} activityCreateViewModel 
+     * @param {Array<ActivityViewModel>} activityViewModel 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ActivitiesApiInterface
      */
-    uploadStravaActivities(activityCreateViewModel: Array<ActivityCreateViewModel>, options?: RawAxiosRequestConfig): AxiosPromise<object>;
+    uploadStravaActivities(activityViewModel: Array<ActivityViewModel>, options?: RawAxiosRequestConfig): AxiosPromise<object>;
 
 }
 
@@ -710,13 +650,13 @@ export interface ActivitiesApiInterface {
 export class ActivitiesApi extends BaseAPI implements ActivitiesApiInterface {
     /**
      * 
-     * @param {ActivityCreateViewModel} activityCreateViewModel 
+     * @param {ActivityViewModel} activityViewModel 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ActivitiesApi
      */
-    public createActivity(activityCreateViewModel: ActivityCreateViewModel, options?: RawAxiosRequestConfig) {
-        return ActivitiesApiFp(this.configuration).createActivity(activityCreateViewModel, options).then((request) => request(this.axios, this.basePath));
+    public createActivity(activityViewModel: ActivityViewModel, options?: RawAxiosRequestConfig) {
+        return ActivitiesApiFp(this.configuration).createActivity(activityViewModel, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -728,16 +668,6 @@ export class ActivitiesApi extends BaseAPI implements ActivitiesApiInterface {
      */
     public deleteActivity(activityId: string, options?: RawAxiosRequestConfig) {
         return ActivitiesApiFp(this.configuration).deleteActivity(activityId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ActivitiesApi
-     */
-    public getActionTypes(options?: RawAxiosRequestConfig) {
-        return ActivitiesApiFp(this.configuration).getActionTypes(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -807,13 +737,13 @@ export class ActivitiesApi extends BaseAPI implements ActivitiesApiInterface {
 
     /**
      * 
-     * @param {Array<ActivityCreateViewModel>} activityCreateViewModel 
+     * @param {Array<ActivityViewModel>} activityViewModel 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ActivitiesApi
      */
-    public uploadStravaActivities(activityCreateViewModel: Array<ActivityCreateViewModel>, options?: RawAxiosRequestConfig) {
-        return ActivitiesApiFp(this.configuration).uploadStravaActivities(activityCreateViewModel, options).then((request) => request(this.axios, this.basePath));
+    public uploadStravaActivities(activityViewModel: Array<ActivityViewModel>, options?: RawAxiosRequestConfig) {
+        return ActivitiesApiFp(this.configuration).uploadStravaActivities(activityViewModel, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

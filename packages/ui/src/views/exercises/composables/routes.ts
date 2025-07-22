@@ -5,7 +5,7 @@ import {
 	RouteExercises,
 	RouteExercisesActivities,
 	RouteExercisesActivitiesStravaSync,
-	RouteExercisesHistory, RouteViewActivity,
+	RouteExercisesHistory, RouteExercisesRoutine, RouteExercisesRoutines, RouteViewActivity, RouteViewActivityTabs,
 } from "@/views/exercises/constants.ts";
 
 export function useExerciseRoutes() {
@@ -24,10 +24,11 @@ export function useExerciseRoutes() {
 				name: RouteExercisesActivities,
 			});
 		},
-		viewActivity(activityId = RouteCreate) {
+		viewActivity(activityId = RouteCreate, tabId: string = RouteViewActivityTabs.details) {
 			return router.push({
 				name: RouteViewActivity,
 				params: {
+					tabId,
 					activityId,
 				},
 			});
@@ -35,6 +36,19 @@ export function useExerciseRoutes() {
 		viewStravaSync() {
 			return router.push({
 				name: RouteExercisesActivitiesStravaSync,
+			});
+		},
+		viewRoutines() {
+			return router.push({
+				name: RouteExercisesRoutines,
+			});
+		},
+		viewRoutine(routineId = RouteCreate) {
+			return router.push({
+				name: RouteExercisesRoutine,
+				params: {
+					routineId,
+				},
 			});
 		},
 		viewHistory() {

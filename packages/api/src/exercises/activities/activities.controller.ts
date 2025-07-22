@@ -16,12 +16,8 @@ import { ActivitiesService } from "@/exercises/activities/activities.service";
 import { StravaService } from "@/exercises/activities/strava.service";
 import { EnumActivitySource } from "@/exercises/constants";
 import { ExerciseActivityUpload } from "@/exercises/types";
-import { ActivityActionTypeViewModel } from "@/exercises/viewModels/activity.action.type.viewmodel";
 import { ActivityTypeViewModel } from "@/exercises/viewModels/activity.type.viewmodel";
-import {
-	ActivityCreateViewModel,
-	ActivityViewModel, IActivityCreateViewModel,
-} from "@/exercises/viewModels/activity.viewmodel";
+import { ActivityViewModel, IActivityCreateViewModel } from "@/exercises/viewModels/activity.viewmodel";
 import { StravaTokenViewModel } from "@/exercises/viewModels/strava.token.viewmodel";
 import { IUploadViewModelsResponse } from "@/types";
 
@@ -42,7 +38,7 @@ export class ActivitiesController {
 	@UseInterceptors(FileInterceptor("file"))
 	@HttpCode(HttpStatus.OK)
 	@ApiOkResponse({
-		type: [ActivityCreateViewModel],
+		type: [ActivityViewModel],
 	})
 	async importStravaActivities(@Body() _body: ExerciseActivityUpload, @UploadedFile("file") file: Express.Multer.File): Promise<IActivityCreateViewModel[]> {
 		return this.stravaService.importActivities(file, EnumActivitySource.Strava);
@@ -50,10 +46,10 @@ export class ActivitiesController {
 
 	@Post("strava/upload")
 	@ApiBody({
-		type: [ActivityCreateViewModel],
+		type: [ActivityViewModel],
 	})
 	@UseValidationPipe()
-	async uploadStravaActivities(@Body() models: ActivityCreateViewModel[]): Promise<IUploadViewModelsResponse> {
+	async uploadStravaActivities(@Body() models: ActivityViewModel[]): Promise<IUploadViewModelsResponse> {
 		return this.stravaService.uploadActivities(models);
 	}
 
@@ -68,14 +64,9 @@ export class ActivitiesController {
 		return this.service.getActivityTypes();
 	}
 
-	@Get("action-types")
-	async getActionTypes(): Promise<ActivityActionTypeViewModel[]> {
-		return this.service.getActionTypes();
-	}
-
 	@Post("")
 	@UseValidationPipe()
-	async createActivity(@Body() viewModel: ActivityCreateViewModel): Promise<ActivityViewModel> {
+	async createActivity(@Body() viewModel: ActivityViewModel): Promise<ActivityViewModel> {
 		const response = await this.service.createActivityWithResponse(viewModel);
 		if (response) {
 			return response;

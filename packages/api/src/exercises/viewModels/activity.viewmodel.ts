@@ -1,23 +1,23 @@
 ﻿import { EnumActivitySource } from "@/exercises/constants";
 import { ActivityActionViewModel } from "@/exercises/viewModels/activity.action.viewmodel";
 import {
-	ActivityAttributeCreateViewModel,
 	ActivityAttributeViewModel,
 } from "@/exercises/viewModels/activity.attribute.viewmodel";
 import {
-	ActivityTypeCreateViewModel,
 	ActivityTypeViewModel,
 } from "@/exercises/viewModels/activity.type.viewmodel";
-import { ModelInterface } from "@/types";
+import { ModelInterface, OmitRecursively } from "@/types";
 import { GetResponseModel } from "@/viewModels/base.list.viewmodel";
 import { BaseViewModel } from "@/viewModels/BaseViewModel";
 import { ApiEnum } from "@/viewModels/decorators";
 
 export type IActivityViewModel = ModelInterface<ActivityViewModel>;
 
-export type IActivityCreateViewModel = ModelInterface<ActivityCreateViewModel>;
+export type IActivityCreateViewModel = OmitRecursively<IActivityViewModel, "id">;
 
-export class ActivityCreateViewModel extends BaseViewModel {
+export class ActivityViewModel extends BaseViewModel {
+	declare id: string;
+
 	declare title: string;
 
 	declare weight?: number;
@@ -35,23 +35,15 @@ export class ActivityCreateViewModel extends BaseViewModel {
 
 	declare dateOccurred: number;
 
-	declare activityType: ActivityTypeCreateViewModel;
+	declare activityType: ActivityTypeViewModel;
 
-	attributes: ActivityAttributeCreateViewModel[] = [];
-
-	actions: ActivityActionViewModel[] = [];
+	actions?: ActivityActionViewModel[] = [];
 
 	declare calories?: number;
 
 	declare weightLost?: number;
-}
 
-export class ActivityViewModel extends ActivityCreateViewModel {
-	declare id: string;
-
-	declare activityType: ActivityTypeViewModel;
-
-	declare attributes: ActivityAttributeViewModel[];
+	attributes?: ActivityAttributeViewModel[] = [];
 }
 
 export class ActivityListViewModel extends GetResponseModel<ActivityViewModel>(ActivityViewModel) {}

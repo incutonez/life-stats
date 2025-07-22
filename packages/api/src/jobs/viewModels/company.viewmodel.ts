@@ -2,12 +2,10 @@
 import { GetResponseModel } from "@/viewModels/base.list.viewmodel";
 import { BaseViewModel } from "@/viewModels/BaseViewModel";
 
-export class CompanyCreateViewModel extends BaseViewModel {
-	declare name: string;
-}
+export class CompanyViewModel extends BaseViewModel {
+	id?: string = "";
 
-export class CompanyViewModel extends CompanyCreateViewModel {
-	declare id: string;
+	declare name: string;
 }
 
 export class CompanyFullViewModel extends CompanyViewModel {

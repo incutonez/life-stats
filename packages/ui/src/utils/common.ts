@@ -1,4 +1,5 @@
-﻿import {
+﻿import { computed, type MaybeRef, unref } from "vue";
+import {
 	type ApplicationViewModel,
 	EnumApplicationStatus,
 	EnumFeatures,
@@ -161,4 +162,11 @@ export function downloadFile(blob: Blob, name = "download", extension = MimeType
 
 export function updateAppTitle(feature: EnumFeatures) {
 	document.title = `Life Stats - ${capitalize(getEnumDisplay(EnumFeatures, feature))}`;
+}
+
+export function getDialogTitle(isEdit: MaybeRef<boolean>, entityName: string) {
+	return computed(() => {
+		const $isEdit = unref(isEdit);
+		return $isEdit ? `Edit ${entityName}` : `Create ${entityName}`;
+	});
 }

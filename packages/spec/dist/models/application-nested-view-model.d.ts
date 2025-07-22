@@ -8,12 +8,12 @@ export interface ApplicationNestedViewModel {
     'dateUpdated'?: number;
     'status': EnumApplicationStatus;
     'locationType': EnumLocationTypes;
+    'id'?: string;
     'positionTitle': string;
     'dateApplied': number;
     'url': string;
     'compensation': string;
     'comments': Array<CommentViewModel>;
     'links'?: Array<ApplicationLinkViewModel>;
-    'id': string;
-    'site': string;
+    'site'?: string;
 }

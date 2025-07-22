@@ -14,6 +14,7 @@
 
 
 
+export * from './api/action-types-api';
 export * from './api/activities-api';
 export * from './api/app-api';
 export * from './api/applications-api';
@@ -22,5 +23,6 @@ export * from './api/audits-api';
 export * from './api/companies-api';
 export * from './api/exercises-api';
 export * from './api/jobs-api';
+export * from './api/routines-api';
 export * from './api/users-api';
 

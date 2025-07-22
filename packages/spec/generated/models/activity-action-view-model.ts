@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { ActivityActionTypeViewModel } from './activity-action-type-view-model';
+import type { ActionTypeViewModel } from './action-type-view-model';
 // May contain unused imports in some cases
 // @ts-ignore
 import type { ActivityViewModel } from './activity-view-model';
@@ -46,16 +46,22 @@ export interface ActivityActionViewModel {
     'dateUpdated'?: number;
     /**
      * 
+     * @type {ActivityViewModel}
+     * @memberof ActivityActionViewModel
+     */
+    'activity'?: ActivityViewModel;
+    /**
+     * 
      * @type {string}
      * @memberof ActivityActionViewModel
      */
     'id': string;
     /**
      * 
-     * @type {ActivityActionTypeViewModel}
+     * @type {ActionTypeViewModel}
      * @memberof ActivityActionViewModel
      */
-    'actionType': ActivityActionTypeViewModel;
+    'actionType': ActionTypeViewModel;
     /**
      * 
      * @type {number}
@@ -68,11 +74,5 @@ export interface ActivityActionViewModel {
      * @memberof ActivityActionViewModel
      */
     'value': string;
-    /**
-     * 
-     * @type {ActivityViewModel}
-     * @memberof ActivityActionViewModel
-     */
-    'activity'?: ActivityViewModel;
 }
 

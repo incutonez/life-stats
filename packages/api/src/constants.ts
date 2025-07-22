@@ -38,6 +38,8 @@ export const EnumTableNames = {
 	exerciseActivityActions: 11,
 	exerciseActivityActionTypes: 12,
 	jobApplicationsLinked: 13,
+	exerciseRoutines: 14,
+	exerciseRoutinesActions: 15,
 } as const;
 export type EnumTableNames = typeof EnumTableNames[keyof typeof EnumTableNames];
 

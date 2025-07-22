@@ -1,20 +1,18 @@
 ﻿import { computed, inject, type InjectionKey, provide, type Ref, ref, toRaw, unref, watch } from "vue";
 import {
-	type ActivityActionViewModel,
+	ActionTypesApi,
 	type ActivityAttributeViewModel,
-	type ActivityCreateViewModel,
 	type ActivityViewModel,
 	EnumActivitySource, type StravaTokenViewModel,
 } from "@incutonez/life-stats-spec";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import clone from "just-clone";
-import { ExercisesAPI } from "@/api.ts";
+import { apiConfig, ExercisesAPI } from "@/api.ts";
 import {
 	getInvalidateQueryPredicate,
 	useInvalidateQueries,
 } from "@/composables/app.ts";
 import { RouteCreate } from "@/constants.ts";
-import { getUniqueId } from "@/utils/common.ts";
 import {
 	ActivitiesAPI, QueryGetActionTypes, QueryGetActivityTypes,
 	QueryKeyActivities, QueryKeyActivity,
@@ -31,6 +29,8 @@ type TActivityViewRecord = ReturnType<typeof provideActivityRecord>;
 const ActivityViewRecordKey: InjectionKey<TActivityViewRecord> = Symbol("activityViewRecordKey");
 
 const urlParams = new URLSearchParams(location.hash);
+
+const ActionTypesAPI = new ActionTypesApi(apiConfig);
 
 export const stravaToken = ref<StravaTokenViewModel>();
 
@@ -133,14 +133,14 @@ export function useImportActivities() {
 }
 
 export function useUploadActivities() {
-	const addedRecords = ref<ActivityCreateViewModel[]>([]);
+	const addedRecords = ref<ActivityViewModel[]>([]);
 	const addingRecords = ref(false);
 	const added = ref(false);
 	const updateMutation = useMutation({
-		async mutationFn(records: ActivityCreateViewModel[]) {
+		async mutationFn(records: ActivityViewModel[]) {
 			addingRecords.value = true;
 			await ActivitiesAPI.uploadStravaActivities(records, {
-				// Set a 2 minute timeout, just in case it's a very large upload
+				// Set a 2-minute timeout, just in case it's a very large upload
 				timeout: 120000,
 			});
 			addingRecords.value = false;
@@ -257,26 +257,6 @@ export function provideActivityRecord(recordId: Ref<string>) {
 		savingRecord.value = false;
 	}
 
-	function saveAction(actionRecord?: ActivityActionViewModel) {
-		if (!actionRecord) {
-			return;
-		}
-		const actionRecords = viewRecord.value.actions;
-		const id = actionRecord.id;
-		if (id) {
-			const foundIndex = actionRecords.findIndex((action) => action.id === id) ?? -1;
-			if (foundIndex >= 0) {
-				actionRecords[foundIndex] = actionRecord;
-			}
-		}
-		else {
-			actionRecord.id = getUniqueId();
-			actionRecords.push(actionRecord);
-		}
-		// Must change the reference, so the grid updates
-		viewRecord.value!.actions = [...actionRecords];
-	}
-
 	function saveSelectedAttribute(attributeRecord = selectedAttributeRecord.value) {
 		const $attributeRecords = viewRecord.value?.attributes;
 		if (!$attributeRecords || !attributeRecord) {
@@ -303,7 +283,6 @@ export function provideActivityRecord(recordId: Ref<string>) {
 		savingRecord,
 		selectedAttributeRecord,
 		saveSelectedAttribute,
-		saveAction,
 	};
 
 	watch(query.data, ($data) => {
@@ -339,7 +318,7 @@ export function useGetActionTypes() {
 	return useQuery({
 		queryKey: [QueryGetActionTypes],
 		async queryFn() {
-			const { data } = await ActivitiesAPI.getActionTypes();
+			const { data } = await ActionTypesAPI.getActionTypes();
 			return data;
 		},
 	});

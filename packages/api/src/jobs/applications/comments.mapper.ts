@@ -22,7 +22,7 @@ export class CommentsMapper {
 	createViewModelToEntity({ applicationId, comment }: ICommentCreateViewModel): ICommentCreateModel {
 		return {
 			comment: comment.trim(),
-			application_id: applicationId,
+			application_id: applicationId!,
 			user_id: this.authStorageService.getUserId(),
 		};
 	}

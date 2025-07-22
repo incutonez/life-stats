@@ -2,7 +2,7 @@
 import { EnumApplicationStatus, EnumLinkType, EnumLocationTypes } from "@/jobs/constants";
 import { CommentViewModel } from "@/jobs/viewModels/comment.viewmodel";
 import { CompanyViewModel } from "@/jobs/viewModels/company.viewmodel";
-import { ModelInterface } from "@/types";
+import { ModelInterface, OmitRecursively } from "@/types";
 import { GetResponseModel } from "@/viewModels/base.list.viewmodel";
 import { BaseViewModel } from "@/viewModels/BaseViewModel";
 import { ApiEnum } from "@/viewModels/decorators";
@@ -11,13 +11,15 @@ export type IApplicationViewModel = ModelInterface<ApplicationViewModel>;
 
 export type IApplicationUpdateViewModel = Omit<IApplicationViewModel, "site">;
 
-export type IApplicationCreateViewModel = ModelInterface<ApplicationCreateViewModel>;
+export type IApplicationCreateViewModel = OmitRecursively<IApplicationViewModel, "id" | "site" | "applicationId">;
 
 export type IApplicationNestedViewModel = Omit<IApplicationViewModel, "company">;
 
 export type IApplicationLinkViewModel = ModelInterface<ApplicationLinkViewModel>;
 
-export class ApplicationCreateViewModel extends BaseViewModel {
+export class ApplicationViewModel extends BaseViewModel {
+	id?: string;
+
 	declare positionTitle: string;
 
 	declare dateApplied: number;
@@ -40,31 +42,27 @@ export class ApplicationCreateViewModel extends BaseViewModel {
 
 	declare comments: CommentViewModel[];
 
-	declare links?: ApplicationLinkViewModel[];
-}
+	links?: ApplicationLinkViewModel[];
 
-export class ApplicationViewModel extends ApplicationCreateViewModel {
-	declare id: string;
-
-	declare site: string;
+	site?: string = "";
 }
 
 export class ApplicationLinkViewModel extends BaseViewModel {
-	declare id: string;
-
-	declare positionTitle?: string;
-
-	@ApiEnum({
-		EnumApplicationStatus,
-	})
-	declare status?: EnumApplicationStatus;
+	id: string = "";
 
 	@ApiEnum({
 		EnumLinkType,
 	})
 	declare type: EnumLinkType;
 
-	declare dateApplied: number;
+	positionTitle?: string;
+
+	@ApiEnum({
+		EnumApplicationStatus,
+	})
+	status?: EnumApplicationStatus;
+
+	dateApplied?: number;
 }
 
 export class ApplicationNestedViewModel extends OmitType(ApplicationViewModel, ["company"]) {}

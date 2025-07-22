@@ -12,5 +12,7 @@ export declare const EnumTableNames: {
     readonly exerciseActivityActions: 11;
     readonly exerciseActivityActionTypes: 12;
     readonly jobApplicationsLinked: 13;
+    readonly exerciseRoutines: 14;
+    readonly exerciseRoutinesActions: 15;
 };
 export type EnumTableNames = typeof EnumTableNames[keyof typeof EnumTableNames];

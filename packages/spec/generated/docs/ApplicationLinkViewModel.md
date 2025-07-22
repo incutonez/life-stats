@@ -8,11 +8,11 @@ Name | Type | Description | Notes
 **userId** | **string** |  | [optional] [default to undefined]
 **dateCreated** | **number** |  | [optional] [default to undefined]
 **dateUpdated** | **number** |  | [optional] [default to undefined]
-**status** | [**EnumApplicationStatus**](EnumApplicationStatus.md) |  | [optional] [default to undefined]
 **type** | [**EnumLinkType**](EnumLinkType.md) |  | [default to undefined]
-**id** | **string** |  | [default to undefined]
+**status** | [**EnumApplicationStatus**](EnumApplicationStatus.md) |  | [optional] [default to undefined]
+**id** | **string** |  | [default to '']
 **positionTitle** | **string** |  | [optional] [default to undefined]
-**dateApplied** | **number** |  | [default to undefined]
+**dateApplied** | **number** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -23,8 +23,8 @@ const instance: ApplicationLinkViewModel = {
     userId,
     dateCreated,
     dateUpdated,
-    status,
     type,
+    status,
     id,
     positionTitle,
     dateApplied,

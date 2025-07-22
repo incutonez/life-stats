@@ -4,6 +4,9 @@ import { EnumTableNames } from "@/constants";
 import { BaseTable, PrimaryKeyGuid } from "@/db/decorators";
 import { BaseModel } from "@/db/models/BaseModel";
 import { ApplicationModel } from "@/jobs/models/ApplicationModel";
+import { ModelInterface } from "@/types";
+
+export type ICompanyModel = ModelInterface<CompanyModel>;
 
 @BaseTable(EnumTableNames.jobCompanies)
 export class CompanyModel extends BaseModel {

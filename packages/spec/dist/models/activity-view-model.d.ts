@@ -8,15 +8,15 @@ export interface ActivityViewModel {
     'dateUpdated'?: number;
     'source'?: EnumActivitySource;
     'id': string;
-    'activityType': ActivityTypeViewModel;
-    'attributes': Array<ActivityAttributeViewModel>;
     'title': string;
     'weight'?: number;
     'duration'?: number;
     'description'?: string;
     'sourceId'?: string;
     'dateOccurred': number;
-    'actions': Array<ActivityActionViewModel>;
+    'activityType': ActivityTypeViewModel;
+    'actions'?: Array<ActivityActionViewModel>;
     'calories'?: number;
     'weightLost'?: number;
+    'attributes'?: Array<ActivityAttributeViewModel>;
 }

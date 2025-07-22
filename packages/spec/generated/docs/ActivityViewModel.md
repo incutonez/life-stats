@@ -10,17 +10,17 @@ Name | Type | Description | Notes
 **dateUpdated** | **number** |  | [optional] [default to undefined]
 **source** | [**EnumActivitySource**](EnumActivitySource.md) |  | [optional] [default to undefined]
 **id** | **string** |  | [default to undefined]
-**activityType** | [**ActivityTypeViewModel**](ActivityTypeViewModel.md) |  | [default to undefined]
-**attributes** | [**Array&lt;ActivityAttributeViewModel&gt;**](ActivityAttributeViewModel.md) |  | [default to undefined]
 **title** | **string** |  | [default to undefined]
 **weight** | **number** |  | [optional] [default to undefined]
 **duration** | **number** |  | [optional] [default to undefined]
 **description** | **string** |  | [optional] [default to undefined]
 **sourceId** | **string** |  | [optional] [default to undefined]
 **dateOccurred** | **number** |  | [default to undefined]
-**actions** | [**Array&lt;ActivityActionViewModel&gt;**](ActivityActionViewModel.md) |  | [default to undefined]
+**activityType** | [**ActivityTypeViewModel**](ActivityTypeViewModel.md) |  | [default to undefined]
+**actions** | [**Array&lt;ActivityActionViewModel&gt;**](ActivityActionViewModel.md) |  | [optional] [default to undefined]
 **calories** | **number** |  | [optional] [default to undefined]
 **weightLost** | **number** |  | [optional] [default to undefined]
+**attributes** | [**Array&lt;ActivityAttributeViewModel&gt;**](ActivityAttributeViewModel.md) |  | [optional] [default to undefined]
 
 ## Example
 
@@ -33,17 +33,17 @@ const instance: ActivityViewModel = {
     dateUpdated,
     source,
     id,
-    activityType,
-    attributes,
     title,
     weight,
     duration,
     description,
     sourceId,
     dateOccurred,
+    activityType,
     actions,
     calories,
     weightLost,
+    attributes,
 };
 ```
 

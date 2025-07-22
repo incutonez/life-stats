@@ -4,8 +4,11 @@ import { EnumUnitTypes, PoundToCalories, SecondsInHour, SESSION_STORAGE } from "
 import { ActivitiesMapper } from "@/exercises/activities/activities.mapper";
 import { calculateCalories, EnumActivitySource } from "@/exercises/constants";
 import { IStravaActivity, IStravaImport } from "@/exercises/types";
-import { IActivityAttributeCreateViewModel } from "@/exercises/viewModels/activity.attribute.viewmodel";
-import { IActivityCreateViewModel	 } from "@/exercises/viewModels/activity.viewmodel";
+import {
+	IActivityAttributeCreateViewModel,
+	IActivityAttributeViewModel,
+} from "@/exercises/viewModels/activity.attribute.viewmodel";
+import { IActivityCreateViewModel, IActivityViewModel } from "@/exercises/viewModels/activity.viewmodel";
 import { dateToUTC } from "@/utils";
 
 @Injectable()
@@ -13,13 +16,13 @@ export class StravaMapper {
 	constructor(@Inject(SESSION_STORAGE) private readonly storage: SessionStorageService, private readonly activitiesMapper: ActivitiesMapper) {
 	}
 
-	apiToViewModel(entity: IStravaActivity): IActivityCreateViewModel {
+	apiToViewModel(entity: IStravaActivity): IActivityViewModel {
 		const userId = this.storage.getUserId();
 		const activityType = entity.type;
 		const duration = entity.moving_time / SecondsInHour;
 		const weight = this.storage.getUserSettings().exercises.weight ?? 200;
 		const calories = calculateCalories(activityType, duration, weight);
-		const attributes: (IActivityAttributeCreateViewModel | undefined)[] = [
+		const attributes: (IActivityAttributeViewModel | undefined)[] = [
 			this.activitiesMapper.stubAttribute(entity.elapsed_time.toString(), "Duration Total", {
 				unit: EnumUnitTypes.Seconds,
 				unitConversion: EnumUnitTypes.Hours,
@@ -52,6 +55,7 @@ export class StravaMapper {
 			weight,
 			duration,
 			calories,
+			id: "",
 			weightLost: calories ? calories / PoundToCalories : undefined,
 			dateOccurred: new Date(entity.start_date).getTime(),
 			source: EnumActivitySource.Strava,
@@ -59,6 +63,7 @@ export class StravaMapper {
 			title: entity.name,
 			actions: [],
 			activityType: {
+				id: "",
 				userId,
 				name: activityType,
 			},

@@ -15,10 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { ActivityActionViewModel } from './activity-action-view-model';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { RoutineActionViewModel } from './routine-action-view-model';
+import type { ActionNestedViewModel } from './action-nested-view-model';
 
 /**
  * 
@@ -58,15 +55,15 @@ export interface ActionTypeViewModel {
     'name': string;
     /**
      * 
-     * @type {Array<ActivityActionViewModel>}
+     * @type {Array<ActionNestedViewModel>}
      * @memberof ActionTypeViewModel
      */
-    'actions'?: Array<ActivityActionViewModel>;
+    'actions'?: Array<ActionNestedViewModel>;
     /**
      * 
-     * @type {Array<RoutineActionViewModel>}
+     * @type {Array<ActionNestedViewModel>}
      * @memberof ActionTypeViewModel
      */
-    'routines'?: Array<RoutineActionViewModel>;
+    'routines'?: Array<ActionNestedViewModel>;
 }
 

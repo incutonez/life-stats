@@ -3,11 +3,13 @@ import {
 	RouteExercises,
 	RouteExercisesActivities,
 	RouteExercisesActivitiesStravaSync,
-	RouteExercisesHistory, RouteViewActivity,
+	RouteExercisesHistory, RouteExercisesRoutine, RouteExercisesRoutines, RouteViewActivity,
 } from "@/views/exercises/constants.ts";
 import ViewActivities from "@/views/exercises/ViewActivities.vue";
 import ViewActivity from "@/views/exercises/ViewActivity.vue";
 import ViewExercisesHistory from "@/views/exercises/ViewExercisesHistory.vue";
+import ViewRoutine from "@/views/exercises/ViewRoutine.vue";
+import ViewRoutines from "@/views/exercises/ViewRoutines.vue";
 import ViewSyncStrava from "@/views/exercises/ViewSyncStrava.vue";
 
 export const ExercisesRoutes: RouteRecordRaw = {
@@ -28,6 +30,16 @@ export const ExercisesRoutes: RouteRecordRaw = {
 			path: ":activityId/:tabId",
 			name: RouteViewActivity,
 			component: ViewActivity,
+			props: true,
+		}],
+	}, {
+		path: "routines",
+		name: RouteExercisesRoutines,
+		component: ViewRoutines,
+		children: [{
+			path: ":routineId",
+			name: RouteExercisesRoutine,
+			component: ViewRoutine,
 			props: true,
 		}],
 	}, {

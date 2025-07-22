@@ -1,9 +1,10 @@
-﻿import { Injectable } from "@nestjs/common";
+﻿import { Inject, Injectable } from "@nestjs/common";
 import { AttributeTypesService } from "@/attributeTypes/attributeTypes.service";
 import { ActionsService } from "@/exercises/actions/actions.service";
 import { ActivitiesMapper } from "@/exercises/activities/activities.mapper";
+import { ACTIVITIES_REPOSITORY } from "@/exercises/constants";
+import { ActivitiesRepository } from "@/exercises/models";
 import { ActivityAttributeModel } from "@/exercises/models/ActivityAttributeModel";
-import { ActivityModel } from "@/exercises/models/ActivityModel";
 import { ActivityTypeModel } from "@/exercises/models/ActivityTypeModel";
 import { ActivityAttributeViewModel } from "@/exercises/viewModels/activity.attribute.viewmodel";
 import { ActivityTypeCreateViewModel } from "@/exercises/viewModels/activity.type.viewmodel";
@@ -11,11 +12,11 @@ import { ActivityListViewModel, ActivityViewModel } from "@/exercises/viewModels
 
 @Injectable()
 export class ActivitiesService {
-	constructor(private mapper: ActivitiesMapper, private readonly attributeTypesService: AttributeTypesService, private readonly actionsService: ActionsService) {
+	constructor(@Inject(ACTIVITIES_REPOSITORY) private readonly repository: ActivitiesRepository, private readonly mapper: ActivitiesMapper, private readonly attributeTypesService: AttributeTypesService, private readonly actionsService: ActionsService) {
 	}
 
 	async listActivities(): Promise<ActivityListViewModel> {
-		const { rows, count } = await ActivityModel.findAndCountAll({
+		const { rows, count } = await this.repository.findAndCountAll({
 			include: [{
 				association: "attributes",
 				include: [{
@@ -79,7 +80,7 @@ export class ActivitiesService {
 	}
 
 	async getActivityRaw(id: string) {
-		return ActivityModel.findByPk(id, {
+		return this.repository.findByPk(id, {
 			include: [{
 				all: true,
 				nested: true,
@@ -132,7 +133,7 @@ export class ActivitiesService {
 
 	async createActivity(viewModel: ActivityViewModel) {
 		viewModel.activityType = await this.createActivityType(viewModel.activityType);
-		const { id } = await ActivityModel.create(this.mapper.viewModelToEntity(viewModel));
+		const { id } = await this.repository.create(this.mapper.viewModelToEntity(viewModel));
 		if (viewModel.attributes) {
 			await this.updateActivityAttributes(viewModel.attributes, id);
 		}

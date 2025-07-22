@@ -164,6 +164,7 @@ export interface IFieldComboBoxProps<TData extends object> {
 	comboWidth?: string;
 	virtualScroll?: boolean;
 	autoFocus?: boolean;
+	placeholder?: string;
 }
 
 export type IExtendedComboBox<T extends object> = Partial<IFieldComboBoxProps<T>>;

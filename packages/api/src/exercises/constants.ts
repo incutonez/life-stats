@@ -1,6 +1,12 @@
 ﻿// Per https://faroutguides.com/how-many-calories-do-you-burn-while-thru-hiking/
 const PoundsToKilograms = 0.4536;
 
+export const ACTIVITIES_REPOSITORY = "ACTIVITIES_REPOSITORY";
+
+export const ACTIVITY_ACTIONS_REPOSITORY = "ACTIVITY_ACTIONS_REPOSITORY";
+
+export const ROUTINES_REPOSITORY = "ROUTINES_REPOSITORY";
+
 export const EnumActivitySource = {
 	None: -1,
 	Strava: 1,

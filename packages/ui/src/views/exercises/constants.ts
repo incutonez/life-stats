@@ -16,6 +16,10 @@ export const QueryKeyActivities = `${QueryKeyExercises}activities`;
 
 export const QueryKeyActivity = `${QueryKeyActivities}activity`;
 
+export const QueryRoutines = `${QueryKeyExercises}-routines-`;
+
+export const QueryGetRoutines = `${QueryRoutines}getRoutines`;
+
 export const RouteExercises = "exercises";
 
 export const RouteExercisesActivities = `${RouteExercises}-activities`;
@@ -31,6 +35,10 @@ export const RouteViewActivityTabs = {
 export const RouteExercisesActivitiesStravaSync = `${RouteExercisesActivities}-strava-sync`;
 
 export const RouteExercisesHistory = `${RouteExercises}-history`;
+
+export const RouteExercisesRoutines = `${RouteExercises}-routines`;
+
+export const RouteExercisesRoutine = `${RouteExercises}-routine`;
 
 // We don't want to display None in the UI... they'll just simply remove the value in the combo
 export const ActivitySourceOptions = enumToOptions(EnumActivitySource).filter((item) => item.id !== EnumActivitySource.None);

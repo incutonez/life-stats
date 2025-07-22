@@ -16,6 +16,7 @@ api/users-api.ts
 base.ts
 common.ts
 configuration.ts
+docs/ActionNestedViewModel.md
 docs/ActionTypeViewModel.md
 docs/ActionTypesApi.md
 docs/ActivitiesApi.md
@@ -55,6 +56,7 @@ docs/EnumUnitTypes.md
 docs/ExercisesApi.md
 docs/JobsApi.md
 docs/RoutineActionViewModel.md
+docs/RoutineListViewModel.md
 docs/RoutineViewModel.md
 docs/RoutinesApi.md
 docs/StravaTokenViewModel.md
@@ -65,6 +67,7 @@ docs/UserViewModel.md
 docs/UsersApi.md
 git_push.sh
 index.ts
+models/action-nested-view-model.ts
 models/action-type-view-model.ts
 models/activity-action-view-model.ts
 models/activity-attribute-view-model.ts
@@ -96,6 +99,7 @@ models/enum-table-names.ts
 models/enum-unit-types.ts
 models/index.ts
 models/routine-action-view-model.ts
+models/routine-list-view-model.ts
 models/routine-view-model.ts
 models/strava-token-view-model.ts
 models/user-create-view-model.ts

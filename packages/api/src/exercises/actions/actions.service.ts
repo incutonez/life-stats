@@ -1,17 +1,18 @@
-﻿import { Injectable } from "@nestjs/common";
+﻿import { Inject, Injectable } from "@nestjs/common";
 import { ActionsMapper } from "@/exercises/actions/actions.mapper";
 import { ActionTypesService } from "@/exercises/actionTypes/actionTypes.service";
-import { ActivityActionModel } from "@/exercises/models/ActivityActionModel";
+import { ACTIVITY_ACTIONS_REPOSITORY } from "@/exercises/constants";
+import { ActivityActionsRepository } from "@/exercises/models";
 import { RoutineActionModel } from "@/exercises/models/RoutineActionModel";
 import { ActivityActionViewModel } from "@/exercises/viewModels/activity.action.viewmodel";
 import { RoutineActionViewModel } from "@/exercises/viewModels/routine.action.viewmodel";
 
 @Injectable()
 export class ActionsService {
-	constructor(private mapper: ActionsMapper, private readonly actionTypesService: ActionTypesService) {}
+	constructor(@Inject(ACTIVITY_ACTIONS_REPOSITORY) private readonly repository: ActivityActionsRepository, private readonly mapper: ActionsMapper, private readonly actionTypesService: ActionTypesService) {}
 
 	async updateActivityActions(viewModels: ActivityActionViewModel[], activityId: string) {
-		const actions = await ActivityActionModel.findAll({
+		const actions = await this.repository.findAll({
 			where: {
 				activity_id: activityId,
 			},
@@ -25,7 +26,7 @@ export class ActionsService {
 					const actionType = await this.actionTypesService.createActionType(viewModel.actionType);
 					const model = this.mapper.activityActionToEntity(viewModel, activityId);
 					model.action_type_id = actionType.id;
-					return found.update(model);
+					await found.update(model);
 				}
 			}
 			// New record
@@ -33,8 +34,7 @@ export class ActionsService {
 				const actionType = await this.actionTypesService.createActionType(viewModel.actionType);
 				const model = this.mapper.activityActionToEntity(viewModel, activityId);
 				model.action_type_id = actionType.id;
-				// TODOJEF: Do we have to delete the ID here?
-				return ActivityActionModel.create(model);
+				await this.repository.create(model);
 			}
 		}
 		return Promise.all(actions.map((action) => action.destroy()));
@@ -55,7 +55,7 @@ export class ActionsService {
 					const actionType = await this.actionTypesService.createActionType(viewModel.actionType);
 					const model = this.mapper.routineActionToEntity(viewModel, routineId);
 					model.action_type_id = actionType.id;
-					return found.update(model);
+					await found.update(model);
 				}
 			}
 			// New record
@@ -63,8 +63,7 @@ export class ActionsService {
 				const actionType = await this.actionTypesService.createActionType(viewModel.actionType);
 				const model = this.mapper.routineActionToEntity(viewModel, routineId);
 				model.action_type_id = actionType.id;
-				// TODOJEF: Do we have to delete the ID here?
-				return RoutineActionModel.create(model);
+				await RoutineActionModel.create(model);
 			}
 		}
 		return Promise.all(actions.map((action) => action.destroy()));

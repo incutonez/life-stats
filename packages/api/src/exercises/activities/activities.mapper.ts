@@ -2,7 +2,7 @@
 import { AttributeTypesMapper } from "@/attributeTypes/attributeTypes.mapper";
 import { SessionStorageService } from "@/auth/session.storage.service";
 import { EnumFeatures, SESSION_STORAGE } from "@/constants";
-import { ActionTypesMapper } from "@/exercises/actionTypes/actionTypes.mapper";
+import { ActionsMapper } from "@/exercises/actions/actions.mapper";
 import { EnumActivitySource } from "@/exercises/constants";
 import { ActivityAttributeModel, IActivityAttributeModel } from "@/exercises/models/ActivityAttributeModel";
 import { ActivityModel, IActivityUpdateModel } from "@/exercises/models/ActivityModel";
@@ -15,7 +15,7 @@ import { addMetaInfo, convertToUnit, localizeValue } from "@/utils";
 
 @Injectable()
 export class ActivitiesMapper {
-	constructor(@Inject(SESSION_STORAGE) private readonly storage: SessionStorageService, private readonly attributeTypesMapper: AttributeTypesMapper, private readonly actionTypesMapper: ActionTypesMapper) {
+	constructor(@Inject(SESSION_STORAGE) private readonly storage: SessionStorageService, private readonly attributeTypesMapper: AttributeTypesMapper, private readonly actionsMapper: ActionsMapper) {
 	}
 
 	stubAttribute(value: string | undefined, field: string, { unit, unitConversion }: IStubAttributeOptions = {}): IActivityAttributeViewModel | undefined {
@@ -60,7 +60,7 @@ export class ActivitiesMapper {
 			sourceId: source_id,
 			activityType: this.entityActivityTypeToViewModel(activity_type),
 			attributes: attributes.map((attribute) => this.activityAttributeToViewModel(attribute)),
-			actions: actions.map((action) => this.actionTypesMapper.activityActionToViewModel(action)),
+			actions: actions.map((action) => this.actionsMapper.actionToViewModel(action)),
 			dateOccurred: date_occurred,
 		};
 		if (addMeta) {

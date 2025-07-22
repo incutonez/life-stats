@@ -10,11 +10,11 @@ export class ActionTypesService {
 
 	async getActionTypes(addMeta = false) {
 		const entities = await ActionTypeModel.findAll();
-		return entities.map((entity) => this.mapper.entityToViewModel(entity, addMeta));
+		return entities.map((entity) => this.mapper.actionTypeToViewModel(entity, addMeta));
 	}
 
 	async createActionType(actionType: ActionTypeViewModel) {
-		const { name, user_id } = this.mapper.viewModelToEntity(actionType);
+		const { name, user_id } = this.mapper.actionTypeToEntity(actionType);
 		const [entity] = await ActionTypeModel.findOrCreate({
 			where: {
 				name,

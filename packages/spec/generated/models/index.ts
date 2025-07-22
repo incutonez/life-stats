@@ -1,3 +1,4 @@
+export * from './action-nested-view-model';
 export * from './action-type-view-model';
 export * from './activity-action-view-model';
 export * from './activity-attribute-view-model';
@@ -28,6 +29,7 @@ export * from './enum-location-types';
 export * from './enum-table-names';
 export * from './enum-unit-types';
 export * from './routine-action-view-model';
+export * from './routine-list-view-model';
 export * from './routine-view-model';
 export * from './strava-token-view-model';
 export * from './user-create-view-model';

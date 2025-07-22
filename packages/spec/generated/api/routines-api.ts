@@ -22,6 +22,8 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
+import type { RoutineListViewModel } from '../models';
+// @ts-ignore
 import type { RoutineViewModel } from '../models';
 /**
  * RoutinesApi - axios parameter creator
@@ -64,6 +66,140 @@ export const RoutinesApiAxiosParamCreator = function (configuration?: Configurat
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {string} routineId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteRoutine: async (routineId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'routineId' is not null or undefined
+            assertParamExists('deleteRoutine', 'routineId', routineId)
+            const localVarPath = `/exercises/routines/{routineId}`
+                .replace(`{${"routineId"}}`, encodeURIComponent(String(routineId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} routineId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getRoutine: async (routineId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'routineId' is not null or undefined
+            assertParamExists('getRoutine', 'routineId', routineId)
+            const localVarPath = `/exercises/routines/{routineId}`
+                .replace(`{${"routineId"}}`, encodeURIComponent(String(routineId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getRoutines: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/exercises/routines`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} routineId 
+         * @param {RoutineViewModel} routineViewModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateRoutine: async (routineId: string, routineViewModel: RoutineViewModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'routineId' is not null or undefined
+            assertParamExists('updateRoutine', 'routineId', routineId)
+            // verify required parameter 'routineViewModel' is not null or undefined
+            assertParamExists('updateRoutine', 'routineViewModel', routineViewModel)
+            const localVarPath = `/exercises/routines/{routineId}`
+                .replace(`{${"routineId"}}`, encodeURIComponent(String(routineId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(routineViewModel, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -86,6 +222,54 @@ export const RoutinesApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['RoutinesApi.createRoutine']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @param {string} routineId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteRoutine(routineId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteRoutine(routineId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RoutinesApi.deleteRoutine']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} routineId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getRoutine(routineId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RoutineViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getRoutine(routineId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RoutinesApi.getRoutine']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getRoutines(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RoutineListViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getRoutines(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RoutinesApi.getRoutines']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} routineId 
+         * @param {RoutineViewModel} routineViewModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateRoutine(routineId: string, routineViewModel: RoutineViewModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RoutineViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateRoutine(routineId, routineViewModel, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RoutinesApi.updateRoutine']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -105,6 +289,42 @@ export const RoutinesApiFactory = function (configuration?: Configuration, baseP
         createRoutine(routineViewModel: RoutineViewModel, options?: RawAxiosRequestConfig): AxiosPromise<RoutineViewModel> {
             return localVarFp.createRoutine(routineViewModel, options).then((request) => request(axios, basePath));
         },
+        /**
+         * 
+         * @param {string} routineId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteRoutine(routineId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.deleteRoutine(routineId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} routineId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getRoutine(routineId: string, options?: RawAxiosRequestConfig): AxiosPromise<RoutineViewModel> {
+            return localVarFp.getRoutine(routineId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getRoutines(options?: RawAxiosRequestConfig): AxiosPromise<RoutineListViewModel> {
+            return localVarFp.getRoutines(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} routineId 
+         * @param {RoutineViewModel} routineViewModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateRoutine(routineId: string, routineViewModel: RoutineViewModel, options?: RawAxiosRequestConfig): AxiosPromise<RoutineViewModel> {
+            return localVarFp.updateRoutine(routineId, routineViewModel, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -122,6 +342,42 @@ export interface RoutinesApiInterface {
      * @memberof RoutinesApiInterface
      */
     createRoutine(routineViewModel: RoutineViewModel, options?: RawAxiosRequestConfig): AxiosPromise<RoutineViewModel>;
+
+    /**
+     * 
+     * @param {string} routineId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RoutinesApiInterface
+     */
+    deleteRoutine(routineId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+
+    /**
+     * 
+     * @param {string} routineId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RoutinesApiInterface
+     */
+    getRoutine(routineId: string, options?: RawAxiosRequestConfig): AxiosPromise<RoutineViewModel>;
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RoutinesApiInterface
+     */
+    getRoutines(options?: RawAxiosRequestConfig): AxiosPromise<RoutineListViewModel>;
+
+    /**
+     * 
+     * @param {string} routineId 
+     * @param {RoutineViewModel} routineViewModel 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RoutinesApiInterface
+     */
+    updateRoutine(routineId: string, routineViewModel: RoutineViewModel, options?: RawAxiosRequestConfig): AxiosPromise<RoutineViewModel>;
 
 }
 
@@ -141,6 +397,50 @@ export class RoutinesApi extends BaseAPI implements RoutinesApiInterface {
      */
     public createRoutine(routineViewModel: RoutineViewModel, options?: RawAxiosRequestConfig) {
         return RoutinesApiFp(this.configuration).createRoutine(routineViewModel, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} routineId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RoutinesApi
+     */
+    public deleteRoutine(routineId: string, options?: RawAxiosRequestConfig) {
+        return RoutinesApiFp(this.configuration).deleteRoutine(routineId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} routineId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RoutinesApi
+     */
+    public getRoutine(routineId: string, options?: RawAxiosRequestConfig) {
+        return RoutinesApiFp(this.configuration).getRoutine(routineId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RoutinesApi
+     */
+    public getRoutines(options?: RawAxiosRequestConfig) {
+        return RoutinesApiFp(this.configuration).getRoutines(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} routineId 
+     * @param {RoutineViewModel} routineViewModel 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RoutinesApi
+     */
+    public updateRoutine(routineId: string, routineViewModel: RoutineViewModel, options?: RawAxiosRequestConfig) {
+        return RoutinesApiFp(this.configuration).updateRoutine(routineId, routineViewModel, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

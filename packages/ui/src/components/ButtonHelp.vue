@@ -4,6 +4,7 @@ import { IconHelp } from "@/components/Icons.ts";
 
 interface ButtonHelpProps {
 	content?: string;
+	triggerClasses?: string;
 }
 
 defineProps<ButtonHelpProps>();
@@ -12,7 +13,10 @@ defineProps<ButtonHelpProps>();
 <template>
 	<TooltipProvider :delay-duration="0">
 		<TooltipRoot>
-			<TooltipTrigger class="cursor-help inline-flex size-8 outline-none items-center justify-center bg-white">
+			<TooltipTrigger
+				class="cursor-help inline-flex size-8 outline-none items-center justify-center bg-white"
+				:class="triggerClasses"
+			>
 				<IconHelp class="size-8 hover:fill-sky-700" />
 			</TooltipTrigger>
 			<TooltipPortal>

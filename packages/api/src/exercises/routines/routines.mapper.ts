@@ -12,11 +12,11 @@ export class RoutinesMapper {
 	constructor(@Inject(SESSION_STORAGE) private readonly storage: SessionStorageService, private readonly actionsMapper: ActionsMapper, private readonly actionTypesMapper: ActionTypesMapper) {
 	}
 
-	entityToViewModel({ id, name, actions = [], user_id, updated_at, created_at }: RoutineModel, addMeta = false): RoutineViewModel {
+	routineToViewModel({ id, name, actions = [], user_id, updated_at, created_at }: RoutineModel, addMeta = false): RoutineViewModel {
 		const viewModel = {
 			id,
 			name,
-			actions: actions.map((action) => this.actionsMapper.routineActionToViewModel(action)),
+			actions: actions.map((action) => this.actionsMapper.actionToViewModel(action)),
 		};
 		if (addMeta) {
 			addMetaInfo(viewModel, user_id, created_at, updated_at);
@@ -24,12 +24,11 @@ export class RoutinesMapper {
 		return viewModel;
 	}
 
-	viewModelToEntity({ id = "", name, actions, userId = this.storage.getUserId() }: RoutineViewModel): IRoutineModel {
+	routineToEntity({ id = "", name, userId = this.storage.getUserId() }: RoutineViewModel): IRoutineModel {
 		return {
 			id,
 			name,
 			user_id: userId,
-			actions: actions.map((action) => this.actionsMapper.routineActionToEntity(action)),
 		};
 	}
 }

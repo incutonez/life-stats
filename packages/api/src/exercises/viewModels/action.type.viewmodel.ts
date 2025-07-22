@@ -1,5 +1,4 @@
-﻿import { ActivityActionViewModel } from "@/exercises/viewModels/activity.action.viewmodel";
-import { RoutineActionViewModel } from "@/exercises/viewModels/routine.action.viewmodel";
+﻿import { ActionNestedViewModel } from "@/exercises/viewModels/action.viewmodel";
 import { ModelInterface } from "@/types";
 import { BaseViewModel } from "@/viewModels/BaseViewModel";
 
@@ -10,7 +9,7 @@ export class ActionTypeViewModel extends BaseViewModel {
 
 	declare name: string;
 
-	actions?: ActivityActionViewModel[];
+	actions?: ActionNestedViewModel[];
 
-	routines?: RoutineActionViewModel[];
+	routines?: ActionNestedViewModel[];
 }

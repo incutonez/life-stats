@@ -18,7 +18,7 @@ import type { IFieldComboBoxProps, TComboBoxValue } from "@/types/components.ts"
 import { getLabelAlign, isObject } from "@/utils/common.ts";
 
 const model = defineModel<TComboBoxValue>();
-const { options, displayField, valueField, labelAlign = "left", comboWidth = "w-full", valueOnly = false, required = false, customValue = false, readOnly = false, autoFocus = false } = defineProps<IFieldComboBoxProps<T>>();
+const { options, displayField, valueField, labelAlign = "left", comboWidth = "w-full", valueOnly = false, required = false, customValue = false, readOnly = false, autoFocus = false, placeholder = "Placeholder..." } = defineProps<IFieldComboBoxProps<T>>();
 const search = ref("");
 const open = ref(false);
 const wrapperClasses = computed(() => {
@@ -74,9 +74,7 @@ function onBlurInput() {
 		return;
 	}
 	// Enforce a selection
-	if (!customValue) {
-		search.value = getOptionDisplayValue(model.value);
-	}
+	search.value = getOptionDisplayValue(model.value);
 }
 
 function onChangeInput() {
@@ -143,7 +141,7 @@ watch(() => options, ($options) => filteredOptions.value = $options);
 			<ComboboxInput
 				v-model="search"
 				class="field-text-input w-full min-w-0"
-				placeholder="Placeholder..."
+				:placeholder="placeholder"
 				:display-value="getInputDisplay"
 				:required="required"
 				:aria-readonly="readOnly"

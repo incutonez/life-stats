@@ -1,7 +1,6 @@
 ﻿import { computed, inject, type InjectionKey, provide, type Ref, ref, toRaw, unref, watch } from "vue";
 import {
 	ActionTypesApi,
-	type ActivityActionViewModel,
 	type ActivityAttributeViewModel,
 	type ActivityViewModel,
 	EnumActivitySource, type StravaTokenViewModel,
@@ -14,7 +13,6 @@ import {
 	useInvalidateQueries,
 } from "@/composables/app.ts";
 import { RouteCreate } from "@/constants.ts";
-import { getUniqueId } from "@/utils/common.ts";
 import {
 	ActivitiesAPI, QueryGetActionTypes, QueryGetActivityTypes,
 	QueryKeyActivities, QueryKeyActivity,
@@ -259,26 +257,6 @@ export function provideActivityRecord(recordId: Ref<string>) {
 		savingRecord.value = false;
 	}
 
-	function saveAction(actionRecord?: ActivityActionViewModel) {
-		if (!actionRecord) {
-			return;
-		}
-		const actionRecords = viewRecord.value.actions ?? [];
-		const id = actionRecord.id;
-		if (id) {
-			const foundIndex = actionRecords.findIndex((action) => action.id === id) ?? -1;
-			if (foundIndex >= 0) {
-				actionRecords[foundIndex] = actionRecord;
-			}
-		}
-		else {
-			actionRecord.id = getUniqueId();
-			actionRecords.push(actionRecord);
-		}
-		// Must change the reference, so the grid updates
-		viewRecord.value!.actions = [...actionRecords];
-	}
-
 	function saveSelectedAttribute(attributeRecord = selectedAttributeRecord.value) {
 		const $attributeRecords = viewRecord.value?.attributes;
 		if (!$attributeRecords || !attributeRecord) {
@@ -305,7 +283,6 @@ export function provideActivityRecord(recordId: Ref<string>) {
 		savingRecord,
 		selectedAttributeRecord,
 		saveSelectedAttribute,
-		saveAction,
 	};
 
 	watch(query.data, ($data) => {

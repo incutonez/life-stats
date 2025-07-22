@@ -1,3 +1,9 @@
+## [2.20.0](https://github.com/incutonez/life-stats/compare/v2.19.0...v2.20.0) (2025-07-22)
+
+### Features
+
+* Adding Routines ([#101](https://github.com/incutonez/life-stats/issues/101)) ([fc7d420](https://github.com/incutonez/life-stats/commit/fc7d420f1381049cebfc01318b01e0dadb4518e2))
+
 ## [2.19.0](https://github.com/incutonez/life-stats/compare/v2.18.1...v2.19.0) (2025-07-14)
 
 ### Features

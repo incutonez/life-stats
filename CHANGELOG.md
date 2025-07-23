@@ -1,3 +1,9 @@
+## [2.20.3](https://github.com/incutonez/life-stats/compare/v2.20.2...v2.20.3) (2025-07-23)
+
+### Bug Fixes
+
+* Fixing API Build ([#104](https://github.com/incutonez/life-stats/issues/104)) ([200c1f3](https://github.com/incutonez/life-stats/commit/200c1f3ce1052c881bde23bf3340f665d447ae27))
+
 ## [2.20.2](https://github.com/incutonez/life-stats/compare/v2.20.1...v2.20.2) (2025-07-23)
 
 ### Bug Fixes

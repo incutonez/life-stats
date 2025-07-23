@@ -8,6 +8,8 @@ import { ModelInterface } from "@/types";
 
 export type IRoutineActionModel = ModelInterface<RoutineActionModel>;
 
+export type IRoutineActionCreate = Omit<IRoutineActionModel, "id">;
+
 @BaseTable(EnumTableNames.exerciseRoutinesActions)
 export class RoutineActionModel extends ActionModel {
 	@Attribute(DataTypes.STRING)

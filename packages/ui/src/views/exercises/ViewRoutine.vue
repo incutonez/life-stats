@@ -1,5 +1,5 @@
 ﻿<script setup lang="ts">
-import { computed, ref, unref, watch } from "vue";
+import { computed, unref, watch } from "vue";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
 import FieldLabel from "@/components/FieldLabel.vue";
@@ -19,7 +19,9 @@ interface ViewRoutineProps {
 }
 
 const props = defineProps<ViewRoutineProps>();
-const show = ref(true);
+const show = defineModel<boolean>({
+	default: true,
+});
 const { viewRoutines } = useExerciseRoutes();
 const recordId = computed(() => props.routineId);
 const { routineRecord } = useGetRoutine(recordId);
@@ -42,8 +44,7 @@ async function onClickSave() {
 	}
 }
 
-watch(() => props.actions, ($actions) => {
-	const $routineRecord = unref(routineRecord);
+watch([() => props.actions, routineRecord], ([$actions, $routineRecord]) => {
 	if ($routineRecord && $actions) {
 		$routineRecord.actions = $actions;
 	}

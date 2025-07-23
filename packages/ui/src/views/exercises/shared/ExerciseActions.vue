@@ -1,7 +1,7 @@
 ﻿<script setup lang="ts">
-import { computed, nextTick, ref, unref, useTemplateRef, watch } from "vue";
+import { computed, ref, unref, useTemplateRef, watch } from "vue";
 import type { ActivityActionViewModel } from "@incutonez/life-stats-spec";
-import { moveArrayElement, useSortable } from "@vueuse/integrations/useSortable";
+import { useSortable } from "@vueuse/integrations/useSortable";
 import clone from "just-clone";
 import BaseButton from "@/components/BaseButton.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
@@ -48,11 +48,6 @@ const { table } = useTableData<AllowedActionType>({
 	}]), ...useActionsColumns()],
 });
 
-function reIndexData() {
-	// After we've moved to a new index, let's re-index the orders
-	records.value.forEach((item, index) => item.order = index + 1);
-}
-
 function onClickAddAction() {
 	selectedRecord.value = {
 		id: "",
@@ -83,7 +78,6 @@ function onClickSaveAction() {
 		}
 		records.value = [...$records];
 	}
-	reIndexData();
 	showDialogAction.value = false;
 }
 
@@ -95,11 +89,13 @@ watch(showDialogAction, ($showDialog) => {
 
 useSortable(() => tableRef.value?.rowBody, records, {
 	// The TS support for SortableJS is pretty lackluster, so we have to any this event
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	async onUpdate(event: any) {
-		moveArrayElement(records, event.oldIndex, event.newIndex, event);
-		await nextTick();
-		reIndexData();
+	async onUpdate({ oldIndex, newIndex }: { oldIndex: number, newIndex: number }) {
+		const $records = unref(records);
+		const temp = $records[newIndex].order;
+		$records[newIndex].order = $records[oldIndex].order;
+		$records[oldIndex].order = temp;
+		// Must do this, so the datatable updates properly, as it doesn't do a deep watch on the objects
+		records.value = [...records.value];
 	},
 });
 </script>

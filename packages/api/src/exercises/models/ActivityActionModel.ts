@@ -8,6 +8,8 @@ import { ModelInterface } from "@/types";
 
 export type IActivityAction = ModelInterface<ActivityActionModel>;
 
+export type IActivityActionCreate = Omit<IActivityAction, "id">;
+
 @BaseTable(EnumTableNames.exerciseActivityActions)
 export class ActivityActionModel extends ActionModel {
 	@Attribute(DataTypes.STRING)

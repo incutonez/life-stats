@@ -5,7 +5,7 @@ import { BaseModel } from "@/db/models/BaseModel";
 import { ActionTypeModel } from "@/exercises/models/ActionTypeModel";
 import { ModelInterface } from "@/types";
 
-export type IActionModel = ModelInterface<ActionModel>;
+export type IActionCreateModel = Omit<ModelInterface<ActionModel>, "id">;
 
 export class ActionModel extends BaseModel {
 	@PrimaryKeyGuid()

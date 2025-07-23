@@ -1,5 +1,10 @@
 ﻿import { Provider } from "@nestjs/common";
-import { ACTIVITIES_REPOSITORY, ACTIVITY_ACTIONS_REPOSITORY, ROUTINES_REPOSITORY } from "@/exercises/constants";
+import {
+	ACTIVITIES_REPOSITORY,
+	ACTIVITY_ACTIONS_REPOSITORY, ACTIVITY_ATTRIBUTES_REPOSITORY, ACTIVITY_TYPES_REPOSITORY,
+	ROUTINE_ACTIONS_REPOSITORY,
+	ROUTINES_REPOSITORY,
+} from "@/exercises/constants";
 import { ActionTypeModel } from "@/exercises/models/ActionTypeModel";
 import { ActivityActionModel } from "@/exercises/models/ActivityActionModel";
 import { ActivityAttributeModel } from "@/exercises/models/ActivityAttributeModel";
@@ -25,8 +30,29 @@ export const ActivityActionsRepository: Provider = {
 	useValue: ActivityActionModel,
 };
 
+export const ActivityTypesRepository: Provider = {
+	provide: ACTIVITY_TYPES_REPOSITORY,
+	useValue: ActivityTypeModel,
+};
+
+export const ActivityAttributesRepository: Provider = {
+	provide: ACTIVITY_ATTRIBUTES_REPOSITORY,
+	useValue: ActivityAttributeModel,
+};
+
+export const RoutineActionsRepository: Provider = {
+	provide: ROUTINE_ACTIONS_REPOSITORY,
+	useValue: RoutineActionModel,
+};
+
 export type ActivitiesRepository = typeof ActivityModel;
 
 export type RoutinesRepository = typeof RoutineModel;
 
 export type ActivityActionsRepository = typeof ActivityActionModel;
+
+export type RoutineActionsRepository = typeof RoutineActionModel;
+
+export type ActivityTypesRepository = typeof ActivityTypeModel;
+
+export type ActivityAttributesRepository = typeof ActivityAttributeModel;

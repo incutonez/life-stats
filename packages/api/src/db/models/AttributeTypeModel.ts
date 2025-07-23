@@ -7,8 +7,6 @@ import { ModelInterface } from "@/types";
 
 export type IAttributeType = ModelInterface<AttributeTypeModel>;
 
-export type IAttributeTypeCreate = Omit<IAttributeType, "id">;
-
 @BaseTable(EnumTableNames.attributeTypes)
 export class AttributeTypeModel extends BaseModel {
 	@PrimaryKeyGuid()

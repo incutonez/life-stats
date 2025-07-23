@@ -1,5 +1,5 @@
 const ParentCard = ".transition-all";
-const LastCompany = "N-iX";
+const LastCompany = "BrandLab Technologies";
 let found = false;
 
 function docReady(fn) {

@@ -5,11 +5,9 @@ import { AttributeEnum, BaseTable, PrimaryKeyGuid } from "@/db/decorators";
 import { AttributeTypeModel } from "@/db/models/AttributeTypeModel";
 import { BaseModel } from "@/db/models/BaseModel";
 import { ActivityModel } from "@/exercises/models/ActivityModel";
-import { ModelInterface, OmitRecursively } from "@/types";
+import { ModelInterface } from "@/types";
 
 export type IActivityAttributeModel = ModelInterface<ActivityAttributeModel>;
-
-export type IActivityAttributeCreate = OmitRecursively<IActivityAttributeModel, "id">;
 
 @BaseTable(EnumTableNames.exerciseActivityAttributes)
 export class ActivityAttributeModel extends BaseModel {

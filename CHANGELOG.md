@@ -1,3 +1,9 @@
+## [2.20.2](https://github.com/incutonez/life-stats/compare/v2.20.1...v2.20.2) (2025-07-23)
+
+### Bug Fixes
+
+* Fixing Actions Clone ([#103](https://github.com/incutonez/life-stats/issues/103)) ([8d4acbb](https://github.com/incutonez/life-stats/commit/8d4acbb07bac4ae82a47c04b706eaf461261b9ea))
+
 ## [2.20.1](https://github.com/incutonez/life-stats/compare/v2.20.0...v2.20.1) (2025-07-23)
 
 ### Bug Fixes

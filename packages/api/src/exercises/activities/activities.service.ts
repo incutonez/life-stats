@@ -2,17 +2,22 @@
 import { AttributeTypesService } from "@/attributeTypes/attributeTypes.service";
 import { ActionsService } from "@/exercises/actions/actions.service";
 import { ActivitiesMapper } from "@/exercises/activities/activities.mapper";
-import { ACTIVITIES_REPOSITORY } from "@/exercises/constants";
-import { ActivitiesRepository } from "@/exercises/models";
-import { ActivityAttributeModel } from "@/exercises/models/ActivityAttributeModel";
-import { ActivityTypeModel } from "@/exercises/models/ActivityTypeModel";
+import { ACTIVITIES_REPOSITORY, ACTIVITY_ATTRIBUTES_REPOSITORY, ACTIVITY_TYPES_REPOSITORY } from "@/exercises/constants";
+import { ActivitiesRepository, ActivityAttributesRepository, ActivityTypesRepository } from "@/exercises/models";
 import { ActivityAttributeViewModel } from "@/exercises/viewModels/activity.attribute.viewmodel";
 import { ActivityTypeCreateViewModel } from "@/exercises/viewModels/activity.type.viewmodel";
 import { ActivityListViewModel, ActivityViewModel } from "@/exercises/viewModels/activity.viewmodel";
 
 @Injectable()
 export class ActivitiesService {
-	constructor(@Inject(ACTIVITIES_REPOSITORY) private readonly repository: ActivitiesRepository, private readonly mapper: ActivitiesMapper, private readonly attributeTypesService: AttributeTypesService, private readonly actionsService: ActionsService) {
+	constructor(
+		@Inject(ACTIVITIES_REPOSITORY) private readonly repository: ActivitiesRepository,
+		@Inject(ACTIVITY_TYPES_REPOSITORY) private readonly activityTypesRepository: ActivityTypesRepository,
+		@Inject(ACTIVITY_ATTRIBUTES_REPOSITORY) private readonly activityAttributesRepository: ActivityAttributesRepository,
+		private readonly mapper: ActivitiesMapper,
+		private readonly attributeTypesService: AttributeTypesService,
+		private readonly actionsService: ActionsService,
+	) {
 	}
 
 	async listActivities(): Promise<ActivityListViewModel> {
@@ -39,7 +44,7 @@ export class ActivitiesService {
 
 	async createActivityType(viewModel: ActivityTypeCreateViewModel) {
 		const { name, user_id } = this.mapper.viewModelCreateActivityTypeToEntity(viewModel);
-		const [entity] = await ActivityTypeModel.findOrCreate({
+		const [entity] = await this.activityTypesRepository.findOrCreate({
 			where: {
 				name,
 			},
@@ -52,7 +57,7 @@ export class ActivitiesService {
 	}
 
 	async updateActivityAttributes(viewModels: ActivityAttributeViewModel[], activityId: string) {
-		const entities = await ActivityAttributeModel.findAll({
+		const entities = await this.activityAttributesRepository.findAll({
 			where: {
 				activity_id: activityId,
 			},
@@ -74,34 +79,35 @@ export class ActivitiesService {
 				const model = this.mapper.activityAttributeToEntity(viewModel);
 				model.attribute_type_id = attributeType.id;
 				model.activity_id = activityId;
-				await ActivityAttributeModel.create(model);
+				await this.activityAttributesRepository.create(model);
 			}
 		}
 	}
 
-	async getActivityRaw(id: string) {
+	async getActivityEntity(id: string) {
 		return this.repository.findByPk(id, {
 			include: [{
 				all: true,
 				nested: true,
 			}],
+			order: [["actions", "order", "asc"]],
 		});
 	}
 
 	async getActivity(id: string) {
-		const entity = await this.getActivityRaw(id);
+		const entity = await this.getActivityEntity(id);
 		if (entity) {
 			return this.mapper.entityToViewModel(entity);
 		}
 	}
 
 	async getActivityTypes(addMeta = false) {
-		const entities = await ActivityTypeModel.findAll();
+		const entities = await this.activityTypesRepository.findAll();
 		return entities.map((entity) => this.mapper.entityActivityTypeToViewModel(entity, addMeta));
 	}
 
 	async updateActivity(viewModel: ActivityViewModel) {
-		const record = await this.getActivityRaw(viewModel.id);
+		const record = await this.getActivityEntity(viewModel.id);
 		if (record) {
 			const { attributes = [] } = record;
 			const { attributes: viewModelAttributes = [], activityType: viewModelActivityType, actions: viewModelActions = [] } = viewModel;
@@ -120,7 +126,7 @@ export class ActivitiesService {
 	}
 
 	async deleteActivity(id: string) {
-		const activity = await this.getActivityRaw(id);
+		const activity = await this.getActivityEntity(id);
 		if (activity) {
 			return activity.destroy();
 		}

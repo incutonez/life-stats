@@ -37,6 +37,7 @@ export class RoutinesService {
 				all: true,
 				nested: true,
 			}],
+			order: [["actions", "order", "asc"]],
 		});
 	}
 

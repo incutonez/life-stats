@@ -2,9 +2,9 @@
 import { SessionStorageService } from "@/auth/session.storage.service";
 import { SESSION_STORAGE } from "@/constants";
 import { ActionTypesMapper } from "@/exercises/actionTypes/actionTypes.mapper";
-import { ActionModel } from "@/exercises/models/ActionModel";
-import { IActivityAction } from "@/exercises/models/ActivityActionModel";
-import { IRoutineActionModel } from "@/exercises/models/RoutineActionModel";
+import { ActionModel, IActionCreateModel } from "@/exercises/models/ActionModel";
+import { IActivityAction, IActivityActionCreate } from "@/exercises/models/ActivityActionModel";
+import { IRoutineActionCreate, IRoutineActionModel } from "@/exercises/models/RoutineActionModel";
 import { ActionViewModel, IActionNestedViewModel, IActionViewModel } from "@/exercises/viewModels/action.viewmodel";
 import { addMetaInfo } from "@/utils";
 
@@ -59,6 +59,30 @@ export class ActionsMapper {
 			user_id: userId ?? this.storage.getUserId(),
 			routine_id: routineId,
 			action_type: this.actionTypesMapper.actionTypeToEntity(actionType),
+		};
+	}
+
+	actionCreateToEntity({ userId, actionType, value, order }: ActionViewModel): IActionCreateModel {
+		return {
+			value,
+			order,
+			action_type_id: actionType.id,
+			user_id: userId ?? this.storage.getUserId(),
+			action_type: this.actionTypesMapper.actionTypeToEntity(actionType),
+		};
+	}
+
+	routineActionCreateToEntity(viewModel: ActionViewModel, routineId = ""): IRoutineActionCreate {
+		return {
+			...this.actionCreateToEntity(viewModel),
+			routine_id: routineId,
+		};
+	}
+
+	activityActionCreateToEntity(viewModel: ActionViewModel, activityId = ""): IActivityActionCreate {
+		return {
+			...this.actionCreateToEntity(viewModel),
+			activity_id: activityId,
 		};
 	}
 }

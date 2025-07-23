@@ -1,6 +1,7 @@
 ﻿<script setup lang="ts">
 import { computed, ref, watch } from "vue";
 import type { RoutineViewModel } from "@incutonez/life-stats-spec";
+import clone from "just-clone";
 import BaseButton from "@/components/BaseButton.vue";
 import ButtonHelp from "@/components/ButtonHelp.vue";
 import { IconAdd } from "@/components/Icons.ts";
@@ -28,7 +29,7 @@ function onClickAddRoutine() {
 
 watch(selectedRoutine, ($selectedRoutine) => {
 	if ($selectedRoutine?.id) {
-		data.value = $selectedRoutine.actions;
+		data.value = clone($selectedRoutine.actions);
 	}
 });
 </script>

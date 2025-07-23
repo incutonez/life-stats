@@ -1,10 +1,9 @@
 ﻿import { Inject, Injectable } from "@nestjs/common";
-import { AttributeTypesService } from "@/attributeTypes/attributeTypes.service";
 import { ActionsService } from "@/exercises/actions/actions.service";
 import { ActivitiesMapper } from "@/exercises/activities/activities.mapper";
-import { ACTIVITIES_REPOSITORY, ACTIVITY_ATTRIBUTES_REPOSITORY, ACTIVITY_TYPES_REPOSITORY } from "@/exercises/constants";
-import { ActivitiesRepository, ActivityAttributesRepository, ActivityTypesRepository } from "@/exercises/models";
-import { ActivityAttributeViewModel } from "@/exercises/viewModels/activity.attribute.viewmodel";
+import { AttributesService } from "@/exercises/attributes/attributes.service";
+import { ACTIVITIES_REPOSITORY, ACTIVITY_TYPES_REPOSITORY } from "@/exercises/constants";
+import { ActivitiesRepository, ActivityTypesRepository } from "@/exercises/models";
 import { ActivityTypeCreateViewModel } from "@/exercises/viewModels/activity.type.viewmodel";
 import { ActivityListViewModel, ActivityViewModel } from "@/exercises/viewModels/activity.viewmodel";
 
@@ -13,9 +12,8 @@ export class ActivitiesService {
 	constructor(
 		@Inject(ACTIVITIES_REPOSITORY) private readonly repository: ActivitiesRepository,
 		@Inject(ACTIVITY_TYPES_REPOSITORY) private readonly activityTypesRepository: ActivityTypesRepository,
-		@Inject(ACTIVITY_ATTRIBUTES_REPOSITORY) private readonly activityAttributesRepository: ActivityAttributesRepository,
 		private readonly mapper: ActivitiesMapper,
-		private readonly attributeTypesService: AttributeTypesService,
+		private readonly attributesService: AttributesService,
 		private readonly actionsService: ActionsService,
 	) {
 	}
@@ -56,34 +54,6 @@ export class ActivitiesService {
 		return this.mapper.entityActivityTypeToViewModel(entity);
 	}
 
-	async updateActivityAttributes(viewModels: ActivityAttributeViewModel[], activityId: string) {
-		const entities = await this.activityAttributesRepository.findAll({
-			where: {
-				activity_id: activityId,
-			},
-		});
-		for (const viewModel of viewModels) {
-			const { id } = viewModel;
-			const found = entities.find((attribute) => attribute.id === id);
-			if (found) {
-				// Remove from the existing comments, so we have the remaining comments at the end, which are deletes
-				entities.splice(entities.indexOf(found), 1);
-				// Only apply an update if we deem the attribute has changed
-				if (!(found.value === viewModel.value && found.unit === viewModel.unit && found.unit_display === viewModel.unitDisplay)) {
-					await found.update(this.mapper.activityAttributeToEntity(viewModel));
-				}
-			}
-			// New record
-			else {
-				const attributeType = await this.attributeTypesService.createAttributeType(viewModel.attributeType);
-				const model = this.mapper.activityAttributeToEntity(viewModel);
-				model.attribute_type_id = attributeType.id;
-				model.activity_id = activityId;
-				await this.activityAttributesRepository.create(model);
-			}
-		}
-	}
-
 	async getActivityEntity(id: string) {
 		return this.repository.findByPk(id, {
 			include: [{
@@ -109,17 +79,14 @@ export class ActivitiesService {
 	async updateActivity(viewModel: ActivityViewModel) {
 		const record = await this.getActivityEntity(viewModel.id);
 		if (record) {
-			const { attributes = [] } = record;
 			const { attributes: viewModelAttributes = [], activityType: viewModelActivityType, actions: viewModelActions = [] } = viewModel;
 			// If the activityType has a different ID, then we need to create (or find) the activityType and reassign it in the viewModel
 			if (viewModelActivityType && viewModelActivityType.id !== record.activity_type_id) {
 				viewModel.activityType = await this.createActivityType(viewModelActivityType);
 			}
-			await this.updateActivityAttributes(viewModelAttributes, record.id);
+			await this.attributesService.updateActivityAttributes(viewModelAttributes, record.id);
 			// Any remaining records in the DB model were removed in the UI
 			await this.actionsService.updateActivityActions(viewModelActions, record.id);
-			// Any remaining records in the DB model were removed in the UI
-			await Promise.all(attributes.map((attribute) => attribute.destroy()));
 			await record.update(this.mapper.viewModelToEntity(viewModel));
 			return this.getActivity(viewModel.id);
 		}
@@ -141,7 +108,7 @@ export class ActivitiesService {
 		viewModel.activityType = await this.createActivityType(viewModel.activityType);
 		const { id } = await this.repository.create(this.mapper.viewModelToEntity(viewModel));
 		if (viewModel.attributes) {
-			await this.updateActivityAttributes(viewModel.attributes, id);
+			await this.attributesService.updateActivityAttributes(viewModel.attributes, id);
 		}
 		if (viewModel.actions) {
 			await this.actionsService.updateActivityActions(viewModel.actions, id);

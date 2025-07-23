@@ -25,6 +25,7 @@ export interface IValueToLocalUnit {
 	measurementSystem: "imperial" | "metric";
 	reverse?: boolean;
 	unit?: EnumUnitTypes;
+	round?: boolean;
 }
 
 export interface IValueConvert {
@@ -92,7 +93,12 @@ export function imperialToMetric(unit?: EnumUnitTypes) {
 	}
 }
 
-export function localizeValue({ value, unit, measurementSystem, reverse }: IValueToLocalUnit): IValueToLocalUnitResponse {
+/**
+ * This function gets called to output the value in their localized language... Imperial or Metric.  If the reverse
+ * param is specified, then we're saving data to the DB, and we want all Imperial to be converted to its respective
+ * Metric value... essentially forcing to use Metric
+ */
+export function localizeValue({ value, unit, measurementSystem, reverse, round }: IValueToLocalUnit): IValueToLocalUnitResponse {
 	if (reverse && measurementSystem === "imperial") {
 		unit = imperialToMetric(unit);
 	}
@@ -143,10 +149,18 @@ export function localizeValue({ value, unit, measurementSystem, reverse }: IValu
 	if (mappedUnit && mappedTranslatedUnit) {
 		parsedValue = convert(parsedValue, mappedUnit).to(mappedTranslatedUnit);
 	}
+	if (round) {
+		parsedValue = roundTo(parsedValue);
+	}
 	return {
 		unit,
 		value: parsedValue.toString(),
 	};
+}
+
+// Default is 4 decimal places
+export function roundTo(value: number, decimals = 10000) {
+	return Math.round((value + Number.EPSILON) * decimals) / decimals;
 }
 
 /**

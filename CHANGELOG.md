@@ -1,3 +1,9 @@
+## [2.21.0](https://github.com/incutonez/life-stats/compare/v2.20.3...v2.21.0) (2025-07-23)
+
+### Features
+
+* Attributes Refactor ([#105](https://github.com/incutonez/life-stats/issues/105)) ([30a4f6e](https://github.com/incutonez/life-stats/commit/30a4f6eb3d2211cf79fb7dabbb3b007d6e5115f2))
+
 ## [2.20.3](https://github.com/incutonez/life-stats/compare/v2.20.2...v2.20.3) (2025-07-23)
 
 ### Bug Fixes

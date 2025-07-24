@@ -18,8 +18,6 @@ export type IApplicationNestedViewModel = Omit<IApplicationViewModel, "company">
 export type IApplicationLinkViewModel = ModelInterface<ApplicationLinkViewModel>;
 
 export class ApplicationViewModel extends BaseViewModel {
-	id?: string;
-
 	declare positionTitle: string;
 
 	declare dateApplied: number;
@@ -48,7 +46,8 @@ export class ApplicationViewModel extends BaseViewModel {
 }
 
 export class ApplicationLinkViewModel extends BaseViewModel {
-	id: string = "";
+	// This ID is required, so we override BaseViewModel's impl
+	declare id: string;
 
 	@ApiEnum({
 		EnumLinkType,

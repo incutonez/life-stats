@@ -96,9 +96,7 @@ function onBlurInput() {
 		return;
 	}
 	// Enforce a selection
-	if (!customValue) {
-		search.value = getOptionDisplayValue(model.value);
-	}
+	search.value = getOptionDisplayValue(model.value);
 }
 
 function onChangeInput() {

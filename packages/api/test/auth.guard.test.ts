@@ -11,7 +11,7 @@ export class AuthGuardTest implements CanActivate {
 	async canActivate(context: ExecutionContext) {
 		const http = context.switchToHttp();
 		const req = http.getRequest();
-		this.storage.setMeasurementSystem(req.headers["accept-language"] ?? DefaultContext.measurementSystem);
+		this.storage.setMeasurementSystem(req.headers["accept-language"] ?? "en-US");
 		this.storage.setUser(req.headers["authorization"] ?? DefaultContext.user);
 		this.storage.setUserSettings(DefaultContext.userSettings);
 		return true;

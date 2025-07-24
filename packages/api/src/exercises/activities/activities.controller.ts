@@ -85,8 +85,8 @@ export class ActivitiesController {
 
 	@Put(":activityId")
 	@UseValidationPipe()
-	async updateActivity(@Param("activityId") _activityId: string, @Body() viewModel: ActivityViewModel): Promise<ActivityViewModel> {
-		const response = await this.service.updateActivity(viewModel);
+	async updateActivity(@Param("activityId") activityId: string, @Body() viewModel: ActivityViewModel): Promise<ActivityViewModel> {
+		const response = await this.service.updateActivity(activityId, viewModel);
 		if (response) {
 			return response;
 		}

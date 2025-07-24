@@ -25,6 +25,12 @@ export interface UserCreateViewModel {
      * @type {string}
      * @memberof UserCreateViewModel
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserCreateViewModel
+     */
     'userId'?: string;
     /**
      * 

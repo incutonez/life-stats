@@ -5,10 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **string** |  | [optional] [default to undefined]
 **userId** | **string** |  | [optional] [default to undefined]
 **dateCreated** | **number** |  | [optional] [default to undefined]
 **dateUpdated** | **number** |  | [optional] [default to undefined]
-**id** | **string** |  | [optional] [default to '']
 **name** | **string** |  | [default to undefined]
 **actions** | [**Array&lt;RoutineActionViewModel&gt;**](RoutineActionViewModel.md) |  | [default to undefined]
 
@@ -18,10 +18,10 @@ Name | Type | Description | Notes
 import { RoutineViewModel } from './api';
 
 const instance: RoutineViewModel = {
+    id,
     userId,
     dateCreated,
     dateUpdated,
-    id,
     name,
     actions,
 };

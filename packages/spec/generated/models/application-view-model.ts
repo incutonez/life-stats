@@ -40,6 +40,12 @@ export interface ApplicationViewModel {
      * @type {string}
      * @memberof ApplicationViewModel
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApplicationViewModel
+     */
     'userId'?: string;
     /**
      * 
@@ -65,12 +71,6 @@ export interface ApplicationViewModel {
      * @memberof ApplicationViewModel
      */
     'locationType': EnumLocationTypes;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationViewModel
-     */
-    'id'?: string;
     /**
      * 
      * @type {string}

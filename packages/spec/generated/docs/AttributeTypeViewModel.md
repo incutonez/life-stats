@@ -5,11 +5,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **string** |  | [optional] [default to undefined]
 **userId** | **string** |  | [optional] [default to undefined]
 **dateCreated** | **number** |  | [optional] [default to undefined]
 **dateUpdated** | **number** |  | [optional] [default to undefined]
 **feature** | [**EnumFeatures**](EnumFeatures.md) |  | [optional] [default to undefined]
-**id** | **string** |  | [default to undefined]
 **name** | **string** |  | [default to undefined]
 
 ## Example
@@ -18,11 +18,11 @@ Name | Type | Description | Notes
 import { AttributeTypeViewModel } from './api';
 
 const instance: AttributeTypeViewModel = {
+    id,
     userId,
     dateCreated,
     dateUpdated,
     feature,
-    id,
     name,
 };
 ```

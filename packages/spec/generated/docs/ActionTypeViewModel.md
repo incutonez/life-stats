@@ -5,12 +5,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **string** |  | [optional] [default to undefined]
 **userId** | **string** |  | [optional] [default to undefined]
 **dateCreated** | **number** |  | [optional] [default to undefined]
 **dateUpdated** | **number** |  | [optional] [default to undefined]
-**id** | **string** |  | [default to undefined]
 **name** | **string** |  | [default to undefined]
-**actions** | [**Array&lt;ActionNestedViewModel&gt;**](ActionNestedViewModel.md) |  | [optional] [default to undefined]
+**activities** | [**Array&lt;ActionNestedViewModel&gt;**](ActionNestedViewModel.md) |  | [optional] [default to undefined]
 **routines** | [**Array&lt;ActionNestedViewModel&gt;**](ActionNestedViewModel.md) |  | [optional] [default to undefined]
 
 ## Example
@@ -19,12 +19,12 @@ Name | Type | Description | Notes
 import { ActionTypeViewModel } from './api';
 
 const instance: ActionTypeViewModel = {
+    id,
     userId,
     dateCreated,
     dateUpdated,
-    id,
     name,
-    actions,
+    activities,
     routines,
 };
 ```

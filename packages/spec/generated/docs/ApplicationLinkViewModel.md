@@ -5,12 +5,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **string** |  | [optional] [default to undefined]
 **userId** | **string** |  | [optional] [default to undefined]
 **dateCreated** | **number** |  | [optional] [default to undefined]
 **dateUpdated** | **number** |  | [optional] [default to undefined]
 **type** | [**EnumLinkType**](EnumLinkType.md) |  | [default to undefined]
 **status** | [**EnumApplicationStatus**](EnumApplicationStatus.md) |  | [optional] [default to undefined]
-**id** | **string** |  | [default to '']
 **positionTitle** | **string** |  | [optional] [default to undefined]
 **dateApplied** | **number** |  | [optional] [default to undefined]
 
@@ -20,12 +20,12 @@ Name | Type | Description | Notes
 import { ApplicationLinkViewModel } from './api';
 
 const instance: ApplicationLinkViewModel = {
+    id,
     userId,
     dateCreated,
     dateUpdated,
     type,
     status,
-    id,
     positionTitle,
     dateApplied,
 };

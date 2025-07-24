@@ -28,6 +28,12 @@ export interface ActionTypeViewModel {
      * @type {string}
      * @memberof ActionTypeViewModel
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ActionTypeViewModel
+     */
     'userId'?: string;
     /**
      * 
@@ -46,19 +52,13 @@ export interface ActionTypeViewModel {
      * @type {string}
      * @memberof ActionTypeViewModel
      */
-    'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ActionTypeViewModel
-     */
     'name': string;
     /**
      * 
      * @type {Array<ActionNestedViewModel>}
      * @memberof ActionTypeViewModel
      */
-    'actions'?: Array<ActionNestedViewModel>;
+    'activities'?: Array<ActionNestedViewModel>;
     /**
      * 
      * @type {Array<ActionNestedViewModel>}

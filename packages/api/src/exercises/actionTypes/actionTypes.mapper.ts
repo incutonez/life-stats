@@ -20,12 +20,12 @@ export class ActionTypesMapper implements OnModuleInit {
 		});
 	}
 
-	actionTypeToViewModel({ id, name, user_id, created_at, updated_at, activities, routines }: ActionTypeModel, addMeta = false): IActionTypeViewModel {
-		const viewModel = {
+	actionTypeToViewModel({ id, name, user_id, created_at, updated_at, activities = [], routines = [] }: ActionTypeModel, addMeta = false) {
+		const viewModel: IActionTypeViewModel = {
 			id,
 			name,
-			actions: activities?.map((action) => this.actionsMapper.actionNestedToViewModel(action)),
-			routines: routines?.map((routine) => this.actionsMapper.actionNestedToViewModel(routine)),
+			activities: activities.length ? activities.map((action) => this.actionsMapper.actionNestedToViewModel(action)) : undefined,
+			routines: routines.length ? routines.map((routine) => this.actionsMapper.actionNestedToViewModel(routine)) : undefined,
 		};
 		if (addMeta) {
 			addMetaInfo(viewModel, user_id, created_at, updated_at);
@@ -33,7 +33,7 @@ export class ActionTypesMapper implements OnModuleInit {
 		return viewModel;
 	}
 
-	actionTypeToEntity({ id, userId = this.storage.getUserId(), name }: ActionTypeViewModel): IActionTypeModel {
+	actionTypeToEntity({ id = "", userId = this.storage.getUserId(), name }: ActionTypeViewModel): IActionTypeModel {
 		return {
 			id,
 			name,

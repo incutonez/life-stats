@@ -28,6 +28,12 @@ export interface CompanyFullViewModel {
      * @type {string}
      * @memberof CompanyFullViewModel
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CompanyFullViewModel
+     */
     'userId'?: string;
     /**
      * 
@@ -41,12 +47,6 @@ export interface CompanyFullViewModel {
      * @memberof CompanyFullViewModel
      */
     'dateUpdated'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof CompanyFullViewModel
-     */
-    'id'?: string;
     /**
      * 
      * @type {string}

@@ -25,6 +25,12 @@ export interface ActionNestedViewModel {
      * @type {string}
      * @memberof ActionNestedViewModel
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ActionNestedViewModel
+     */
     'userId'?: string;
     /**
      * 
@@ -38,12 +44,6 @@ export interface ActionNestedViewModel {
      * @memberof ActionNestedViewModel
      */
     'dateUpdated'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ActionNestedViewModel
-     */
-    'id': string;
     /**
      * 
      * @type {number}

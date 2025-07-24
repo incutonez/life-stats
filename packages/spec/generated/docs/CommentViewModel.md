@@ -5,10 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **string** |  | [optional] [default to undefined]
 **userId** | **string** |  | [optional] [default to undefined]
 **dateCreated** | **number** |  | [optional] [default to undefined]
 **dateUpdated** | **number** |  | [optional] [default to undefined]
-**id** | **string** |  | [optional] [default to undefined]
 **comment** | **string** |  | [default to undefined]
 **applicationId** | **string** |  | [optional] [default to undefined]
 
@@ -18,10 +18,10 @@ Name | Type | Description | Notes
 import { CommentViewModel } from './api';
 
 const instance: CommentViewModel = {
+    id,
     userId,
     dateCreated,
     dateUpdated,
-    id,
     comment,
     applicationId,
 };

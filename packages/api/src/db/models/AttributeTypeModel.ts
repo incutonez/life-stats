@@ -16,5 +16,5 @@ export class AttributeTypeModel extends BaseModel {
 	declare name: string;
 
 	@AttributeEnum(EnumFeatures)
-	declare feature?: EnumFeatures;
+	declare feature: EnumFeatures;
 }

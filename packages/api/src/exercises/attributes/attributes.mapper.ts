@@ -42,7 +42,7 @@ export class AttributesMapper {
 		return response;
 	}
 
-	activityAttributeToEntity({ id, value, unit, unitDisplay, activity, userId, attributeType }: ActivityAttributeViewModel, activityId = activity?.id): IActivityAttributeModel {
+	activityAttributeToEntity({ id = "", value, unit, unitDisplay, activity, userId, attributeType }: ActivityAttributeViewModel, activityId = activity?.id): IActivityAttributeModel {
 		const result = localizeValue({
 			value,
 			unit,
@@ -55,10 +55,10 @@ export class AttributesMapper {
 			unit: result.unit,
 			value: result.value,
 			activity_id: activityId!,
-			attribute_type_id: attributeType.id,
+			attribute_type_id: attributeType.id!,
 			unit_display: unitDisplay,
 			user_id: userId ?? this.storage.getUserId(),
-			attribute_type: this.attributeTypesMapper.viewModelToEntity(attributeType),
+			attribute_type: this.attributeTypesMapper.attributeTypeToEntity(attributeType),
 		};
 	}
 }

@@ -18,21 +18,16 @@ export class ActionsService {
 		});
 		for (const viewModel of viewModels) {
 			const found = actions.find((action) => action.id === viewModel.id);
+			const actionType = await this.actionTypesService.createActionType(viewModel.actionType);
+			const model = this.mapper.activityActionCreateToEntity(viewModel, activityId);
+			model.action_type_id = actionType.id;
 			if (found) {
 				// Remove from the existing comments, so we have the remaining comments at the end, which are deletes
 				actions.splice(actions.indexOf(found), 1);
-				if (found && !(found.value === viewModel.value && found.order === viewModel.order && found.action_type_id === viewModel.actionType.id)) {
-					const actionType = await this.actionTypesService.createActionType(viewModel.actionType);
-					const model = this.mapper.activityActionToEntity(viewModel, activityId);
-					model.action_type_id = actionType.id;
-					await found.update(model);
-				}
+				await found.update(model);
 			}
 			// New record
 			else {
-				const actionType = await this.actionTypesService.createActionType(viewModel.actionType);
-				const model = this.mapper.activityActionCreateToEntity(viewModel, activityId);
-				model.action_type_id = actionType.id;
 				await this.activityActionsRepository.create(model);
 			}
 		}
@@ -47,21 +42,16 @@ export class ActionsService {
 		});
 		for (const viewModel of viewModels) {
 			const found = actions.find((action) => action.id === viewModel.id);
+			const actionType = await this.actionTypesService.createActionType(viewModel.actionType);
+			const model = this.mapper.routineActionCreateToEntity(viewModel, routineId);
+			model.action_type_id = actionType.id;
 			if (found) {
 				// Remove from the existing comments, so we have the remaining comments at the end, which are deletes
 				actions.splice(actions.indexOf(found), 1);
-				if (found && !(found.value === viewModel.value && found.order === viewModel.order && found.action_type_id === viewModel.actionType.id)) {
-					const actionType = await this.actionTypesService.createActionType(viewModel.actionType);
-					const model = this.mapper.routineActionToEntity(viewModel, routineId);
-					model.action_type_id = actionType.id;
-					await found.update(model);
-				}
+				await found.update(model);
 			}
 			// New record
 			else {
-				const actionType = await this.actionTypesService.createActionType(viewModel.actionType);
-				const model = this.mapper.routineActionCreateToEntity(viewModel, routineId);
-				model.action_type_id = actionType.id;
 				await this.routineActionsRepository.create(model);
 			}
 		}

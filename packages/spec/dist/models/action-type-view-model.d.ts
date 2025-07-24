@@ -1,10 +1,10 @@
 import type { ActionNestedViewModel } from './action-nested-view-model';
 export interface ActionTypeViewModel {
+    'id'?: string;
     'userId'?: string;
     'dateCreated'?: number;
     'dateUpdated'?: number;
-    'id': string;
     'name': string;
-    'actions'?: Array<ActionNestedViewModel>;
+    'activities'?: Array<ActionNestedViewModel>;
     'routines'?: Array<ActionNestedViewModel>;
 }

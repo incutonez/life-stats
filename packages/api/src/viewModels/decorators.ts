@@ -1,4 +1,5 @@
 ﻿import { ApiProperty } from "@nestjs/swagger";
+import { Transform } from "class-transformer";
 
 export function ApiEnum(value: Record<string, Record<string, unknown>>) {
 	const [enumName] = Object.keys(value);
@@ -13,4 +14,8 @@ export function ApiEnum(value: Record<string, Record<string, unknown>>) {
 		 */
 		"x-enumNames": Object.keys(enumValue),
 	});
+}
+
+export function TransformNull() {
+	return Transform(({ value }) => value || undefined);
 }

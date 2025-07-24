@@ -28,6 +28,12 @@ export interface UserViewModel {
      * @type {string}
      * @memberof UserViewModel
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserViewModel
+     */
     'userId'?: string;
     /**
      * 
@@ -65,12 +71,6 @@ export interface UserViewModel {
      * @memberof UserViewModel
      */
     'nickname'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UserViewModel
-     */
-    'id': string;
     /**
      * 
      * @type {number}

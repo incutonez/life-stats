@@ -114,7 +114,7 @@ describe("Jobs e2e", async () => {
 
 	beforeEach(async () => {
 		configDotenv({
-			path: [".env.prod", ".env.local", ".env"],
+			path: [".env.prod", ".env"],
 		});
 		const module: TestingModule = await Test.createTestingModule({
 			imports: [
@@ -125,6 +125,8 @@ describe("Jobs e2e", async () => {
 		app = module.createNestApplication();
 		await app.init();
 	});
+
+	afterAll(() => sequelize.close());
 
 	it("app should be defined", () => {
 		expect(app).toBeDefined();

@@ -28,6 +28,12 @@ export interface AttributeTypeViewModel {
      * @type {string}
      * @memberof AttributeTypeViewModel
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AttributeTypeViewModel
+     */
     'userId'?: string;
     /**
      * 
@@ -47,12 +53,6 @@ export interface AttributeTypeViewModel {
      * @memberof AttributeTypeViewModel
      */
     'feature'?: EnumFeatures;
-    /**
-     * 
-     * @type {string}
-     * @memberof AttributeTypeViewModel
-     */
-    'id': string;
     /**
      * 
      * @type {string}

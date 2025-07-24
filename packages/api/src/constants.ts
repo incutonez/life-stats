@@ -8,6 +8,7 @@ export const SEQUELIZE = "SEQUELIZE";
 export const CreatedAtField = "created_at";
 export const UpdatedAtField = "updated_at";
 export const IS_PUBLIC_KEY = "isPublic";
+export const ATTRIBUTE_TYPES_REPOSITORY = "ATTRIBUTE_TYPES_REPOSITORY";
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
 
 export const EnumAuditActionTypes = {

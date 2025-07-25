@@ -127,7 +127,7 @@ watch(companies, () => setPastedCompany(), {
 			<ViewApplicationLinks
 				v-model="showApplicationLinksDialog"
 				:filter-id="viewRecord.id"
-				:initial-ids="viewRecord.links?.map(({id}) => id)"
+				:initial-ids="viewRecord.links?.map(({ id }) => id!)"
 			/>
 		</template>
 		<template #footer>

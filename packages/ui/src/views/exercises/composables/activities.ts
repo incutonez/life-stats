@@ -81,7 +81,7 @@ export function useDeleteActivity() {
 	const queryClient = useQueryClient();
 	const deleteMutation = useMutation({
 		async mutationFn(record: ActivityViewModel) {
-			return ActivitiesAPI.deleteActivity(record.id);
+			return ActivitiesAPI.deleteActivity(record.id!);
 		},
 		async onSuccess() {
 			await queryClient.invalidateQueries(getInvalidateQueryPredicate(QueryKeyExercises));

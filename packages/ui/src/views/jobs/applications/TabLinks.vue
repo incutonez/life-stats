@@ -23,7 +23,7 @@ const linksTable = useTableData<ApplicationLinkViewModel>({
 		useTableActions([{
 			icon: IconEdit,
 			handler(record) {
-				selectedLinkRecordId.value = record.id;
+				selectedLinkRecordId.value = record.id!;
 			},
 		}, {
 			icon: IconDelete,

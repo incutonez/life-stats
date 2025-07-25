@@ -133,7 +133,7 @@ export function useUserProfile() {
 			const $userProfile = unref(userProfile);
 			if ($userProfile) {
 				updatingSettings.value = true;
-				const { data } = await UsersAPI.updateUserSettings($userProfile.id, $userProfile.settings);
+				const { data } = await UsersAPI.updateUserSettings($userProfile.id!, $userProfile.settings);
 				$userProfile.settings = data;
 				updatingSettings.value = false;
 			}

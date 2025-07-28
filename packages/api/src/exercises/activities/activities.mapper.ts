@@ -1,16 +1,14 @@
 ﻿import { Inject, Injectable } from "@nestjs/common";
 import { plainToInstance } from "class-transformer";
 import { SessionStorageService } from "@/auth/session.storage.service";
-import { EnumFeatures, SESSION_STORAGE } from "@/constants";
+import { SESSION_STORAGE } from "@/constants";
 import { ActionsMapper } from "@/exercises/actions/actions.mapper";
 import { AttributesMapper } from "@/exercises/attributes/attributes.mapper";
 import { ActivityModel, IActivityUpdateModel } from "@/exercises/models/ActivityModel";
 import { ActivityTypeModel, IActivityTypeCreate } from "@/exercises/models/ActivityTypeModel";
-import { IStubAttributeOptions } from "@/exercises/types";
-import { IActivityAttributeViewModel } from "@/exercises/viewModels/activity.attribute.viewmodel";
 import { IActivityTypeCreateViewModel, IActivityTypeViewModel } from "@/exercises/viewModels/activity.type.viewmodel";
 import { ActivityViewModel, IActivityViewModel } from "@/exercises/viewModels/activity.viewmodel";
-import { addMetaInfo, convertToUnit, localizeValue } from "@/utils";
+import { addMetaInfo } from "@/utils";
 
 @Injectable()
 export class ActivitiesMapper {
@@ -19,35 +17,6 @@ export class ActivitiesMapper {
 		private readonly actionsMapper: ActionsMapper,
 		private readonly attributesMapper: AttributesMapper,
 	) {	}
-
-	stubAttribute(value: string | undefined, field: string, { unit, unitConversion }: IStubAttributeOptions = {}): IActivityAttributeViewModel | undefined {
-		if (value) {
-			const userId = this.storage.getUserId();
-			const convertedValue = convertToUnit({
-				value,
-				unit,
-				unitTo: unitConversion,
-			});
-			const localizedValue = localizeValue({
-				value: convertedValue.value,
-				unit: convertedValue.unit,
-				measurementSystem: this.storage.getMeasurementSystem(),
-			});
-			return {
-				id: "",
-				value: localizedValue.value,
-				unit: localizedValue.unit,
-				userId: userId,
-				attributeType: {
-					id: "",
-					userId: userId,
-					name: field,
-					feature: EnumFeatures.exercises,
-				},
-			};
-		}
-		return undefined;
-	}
 
 	entityToViewModel({ id, user_id, actions, calories, weight_lost, duration, weight, source_id, title, activity_type, created_at, updated_at, attributes, source, description, date_occurred }: ActivityModel, addMeta = true) {
 		const response = plainToInstance(ActivityViewModel, {

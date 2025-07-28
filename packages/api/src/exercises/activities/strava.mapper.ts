@@ -1,19 +1,47 @@
 ﻿import { Inject, Injectable } from "@nestjs/common";
 import { SessionStorageService } from "@/auth/session.storage.service";
-import { EnumUnitTypes, PoundToCalories, SecondsInHour, SESSION_STORAGE } from "@/constants";
-import { ActivitiesMapper } from "@/exercises/activities/activities.mapper";
+import { EnumFeatures, EnumUnitTypes, PoundToCalories, SecondsInHour, SESSION_STORAGE } from "@/constants";
 import { calculateCalories, EnumActivitySource } from "@/exercises/constants";
-import { IStravaActivity, IStravaImport } from "@/exercises/types";
+import { IStravaActivity, IStravaImport, IStubAttributeOptions } from "@/exercises/types";
 import {
 	IActivityAttributeCreateViewModel,
 	IActivityAttributeViewModel,
 } from "@/exercises/viewModels/activity.attribute.viewmodel";
 import { IActivityCreateViewModel, IActivityViewModel } from "@/exercises/viewModels/activity.viewmodel";
-import { dateToUTC } from "@/utils";
+import { convertToUnit, dateToUTC, localizeValue } from "@/utils";
 
 @Injectable()
 export class StravaMapper {
-	constructor(@Inject(SESSION_STORAGE) private readonly storage: SessionStorageService, private readonly activitiesMapper: ActivitiesMapper) {
+	constructor(@Inject(SESSION_STORAGE) private readonly storage: SessionStorageService) {
+	}
+
+	stubAttribute(value: string | undefined, field: string, { unit, unitConversion }: IStubAttributeOptions = {}): IActivityAttributeViewModel | undefined {
+		if (value) {
+			const userId = this.storage.getUserId();
+			const convertedValue = convertToUnit({
+				value,
+				unit,
+				unitTo: unitConversion,
+			});
+			const localizedValue = localizeValue({
+				value: convertedValue.value,
+				unit: convertedValue.unit,
+				measurementSystem: this.storage.getMeasurementSystem(),
+			});
+			return {
+				id: "",
+				value: localizedValue.value,
+				unit: localizedValue.unit,
+				userId: userId,
+				attributeType: {
+					id: "",
+					userId: userId,
+					name: field,
+					feature: EnumFeatures.exercises,
+				},
+			};
+		}
+		return undefined;
 	}
 
 	apiToViewModel(entity: IStravaActivity): IActivityViewModel {
@@ -23,31 +51,31 @@ export class StravaMapper {
 		const weight = this.storage.getUserSettings().exercises.weight ?? 200;
 		const calories = calculateCalories(activityType, duration, weight);
 		const attributes: (IActivityAttributeViewModel | undefined)[] = [
-			this.activitiesMapper.stubAttribute(entity.elapsed_time.toString(), "Duration Total", {
+			this.stubAttribute(entity.elapsed_time.toString(), "Duration Total", {
 				unit: EnumUnitTypes.Seconds,
 				unitConversion: EnumUnitTypes.Hours,
 			}),
-			this.activitiesMapper.stubAttribute(entity.distance.toString(), "Distance", {
+			this.stubAttribute(entity.distance.toString(), "Distance", {
 				unit: EnumUnitTypes.Meters,
 				unitConversion: EnumUnitTypes.Kilometers,
 			}),
-			this.activitiesMapper.stubAttribute(entity.max_speed.toString(), "Speed Max", {
+			this.stubAttribute(entity.max_speed.toString(), "Speed Max", {
 				unit: EnumUnitTypes.MetersPerSecond,
 				unitConversion: EnumUnitTypes.KilometersPerHour,
 			}),
-			this.activitiesMapper.stubAttribute(entity.average_speed.toString(), "Speed Average", {
+			this.stubAttribute(entity.average_speed.toString(), "Speed Average", {
 				unit: EnumUnitTypes.MetersPerSecond,
 				unitConversion: EnumUnitTypes.KilometersPerHour,
 			}),
-			this.activitiesMapper.stubAttribute(entity.elev_low?.toString(), "Elevation Low", {
+			this.stubAttribute(entity.elev_low?.toString(), "Elevation Low", {
 				unit: EnumUnitTypes.Meters,
 			}),
-			this.activitiesMapper.stubAttribute(entity.elev_high?.toString(), "Elevation High", {
+			this.stubAttribute(entity.elev_high?.toString(), "Elevation High", {
 				unit: EnumUnitTypes.Meters,
 			}),
-			this.activitiesMapper.stubAttribute(entity.location_city as never, "Location City"),
-			this.activitiesMapper.stubAttribute(entity.location_state as never, "Location State"),
-			this.activitiesMapper.stubAttribute(entity.location_country, "Location Country"),
+			this.stubAttribute(entity.location_city as never, "Location City"),
+			this.stubAttribute(entity.location_state as never, "Location State"),
+			this.stubAttribute(entity.location_country, "Location Country"),
 		];
 
 		return {
@@ -79,25 +107,25 @@ export class StravaMapper {
 		const calories = calculateCalories(activityType, duration, weight);
 		const attributes: (IActivityAttributeCreateViewModel | undefined)[] = [
 			// Time should be stored in seconds
-			this.activitiesMapper.stubAttribute(entity["Elapsed Time"], "Duration Total", {
+			this.stubAttribute(entity["Elapsed Time"], "Duration Total", {
 				unit: EnumUnitTypes.Seconds,
 				unitConversion: EnumUnitTypes.Hours,
 			}),
-			this.activitiesMapper.stubAttribute(entity["Distance"], "Distance", {
+			this.stubAttribute(entity["Distance"], "Distance", {
 				unit: EnumUnitTypes.Kilometers,
 			}),
-			this.activitiesMapper.stubAttribute(entity["Max Speed"], "Speed Max", {
+			this.stubAttribute(entity["Max Speed"], "Speed Max", {
 				unit: EnumUnitTypes.MetersPerSecond,
 				unitConversion: EnumUnitTypes.KilometersPerHour,
 			}),
-			this.activitiesMapper.stubAttribute(entity["Average Speed"], "Speed Average", {
+			this.stubAttribute(entity["Average Speed"], "Speed Average", {
 				unit: EnumUnitTypes.MetersPerSecond,
 				unitConversion: EnumUnitTypes.KilometersPerHour,
 			}),
-			this.activitiesMapper.stubAttribute(entity["Elevation Low"], "Elevation Low", {
+			this.stubAttribute(entity["Elevation Low"], "Elevation Low", {
 				unit: EnumUnitTypes.Meters,
 			}),
-			this.activitiesMapper.stubAttribute(entity["Elevation High"], "Elevation High", {
+			this.stubAttribute(entity["Elevation High"], "Elevation High", {
 				unit: EnumUnitTypes.Meters,
 			}),
 		];

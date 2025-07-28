@@ -1,7 +1,18 @@
 ﻿import { ApiProperty } from "@nestjs/swagger";
+import { Transform } from "class-transformer";
 import { EnumUnitTypes } from "@/constants";
 
 export class ExerciseActivityUpload {
+	/**
+	 * Having this transform here is absolutely crucial.  If we didn't have this, then the addHeaders value would be a
+	 * string, which would kill all of our logic.
+	 */
+	@Transform(({ value = null }) => value ? JSON.parse(value) : false)
+	@ApiProperty({
+		required: false,
+	})
+	addHeaders?: boolean;
+
 	@ApiProperty({
 		type: "string",
 		format: "binary",

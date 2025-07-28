@@ -17,7 +17,6 @@ export class StravaMapper {
 
 	stubAttribute(value: string | undefined, field: string, { unit, unitConversion }: IStubAttributeOptions = {}): IActivityAttributeViewModel | undefined {
 		if (value) {
-			const userId = this.storage.getUserId();
 			const convertedValue = convertToUnit({
 				value,
 				unit,
@@ -32,10 +31,8 @@ export class StravaMapper {
 				id: "",
 				value: localizedValue.value,
 				unit: localizedValue.unit,
-				userId: userId,
 				attributeType: {
 					id: "",
-					userId: userId,
 					name: field,
 					feature: EnumFeatures.exercises,
 				},
@@ -143,7 +140,6 @@ export class StravaMapper {
 			title: entity["Activity Name"],
 			description: entity["Activity Description"],
 			activityType: {
-				userId,
 				name: activityType,
 			},
 			attributes: attributes.filter((value) => value !== undefined),

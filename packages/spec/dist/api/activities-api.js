@@ -82,7 +82,7 @@ export const ActivitiesApiAxiosParamCreator = function (configuration) {
                 options: localVarRequestOptions,
             };
         },
-        importStravaActivities: async (file, options = {}) => {
+        importStravaActivities: async (file, addHeaders, options = {}) => {
             assertParamExists('importStravaActivities', 'file', file);
             const localVarPath = `/exercises/activities/strava/import`;
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -94,6 +94,9 @@ export const ActivitiesApiAxiosParamCreator = function (configuration) {
             const localVarHeaderParameter = {};
             const localVarQueryParameter = {};
             const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+            if (addHeaders !== undefined) {
+                localVarFormParams.append('addHeaders', String(addHeaders));
+            }
             if (file !== undefined) {
                 localVarFormParams.append('file', file);
             }
@@ -219,8 +222,8 @@ export const ActivitiesApiFp = function (configuration) {
             const localVarOperationServerBasePath = operationServerMap['ActivitiesApi.getActivityTypes']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
-        async importStravaActivities(file, options) {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.importStravaActivities(file, options);
+        async importStravaActivities(file, addHeaders, options) {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.importStravaActivities(file, addHeaders, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ActivitiesApi.importStravaActivities']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -266,8 +269,8 @@ export const ActivitiesApiFactory = function (configuration, basePath, axios) {
         getActivityTypes(options) {
             return localVarFp.getActivityTypes(options).then((request) => request(axios, basePath));
         },
-        importStravaActivities(file, options) {
-            return localVarFp.importStravaActivities(file, options).then((request) => request(axios, basePath));
+        importStravaActivities(file, addHeaders, options) {
+            return localVarFp.importStravaActivities(file, addHeaders, options).then((request) => request(axios, basePath));
         },
         listActivities(options) {
             return localVarFp.listActivities(options).then((request) => request(axios, basePath));
@@ -296,8 +299,8 @@ export class ActivitiesApi extends BaseAPI {
     getActivityTypes(options) {
         return ActivitiesApiFp(this.configuration).getActivityTypes(options).then((request) => request(this.axios, this.basePath));
     }
-    importStravaActivities(file, options) {
-        return ActivitiesApiFp(this.configuration).importStravaActivities(file, options).then((request) => request(this.axios, this.basePath));
+    importStravaActivities(file, addHeaders, options) {
+        return ActivitiesApiFp(this.configuration).importStravaActivities(file, addHeaders, options).then((request) => request(this.axios, this.basePath));
     }
     listActivities(options) {
         return ActivitiesApiFp(this.configuration).listActivities(options).then((request) => request(this.axios, this.basePath));

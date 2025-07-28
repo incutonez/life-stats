@@ -168,10 +168,11 @@ export const ActivitiesApiAxiosParamCreator = function (configuration?: Configur
         /**
          * 
          * @param {File} file 
+         * @param {boolean} [addHeaders] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        importStravaActivities: async (file: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        importStravaActivities: async (file: File, addHeaders?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'file' is not null or undefined
             assertParamExists('importStravaActivities', 'file', file)
             const localVarPath = `/exercises/activities/strava/import`;
@@ -188,6 +189,10 @@ export const ActivitiesApiAxiosParamCreator = function (configuration?: Configur
             const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
 
 
+            if (addHeaders !== undefined) { 
+                localVarFormParams.append('addHeaders', String(addHeaders) as any);
+            }
+    
             if (file !== undefined) { 
                 localVarFormParams.append('file', file as any);
             }
@@ -403,11 +408,12 @@ export const ActivitiesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {File} file 
+         * @param {boolean} [addHeaders] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async importStravaActivities(file: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ActivityViewModel>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.importStravaActivities(file, options);
+        async importStravaActivities(file: File, addHeaders?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ActivityViewModel>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.importStravaActivities(file, addHeaders, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ActivitiesApi.importStravaActivities']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -508,11 +514,12 @@ export const ActivitiesApiFactory = function (configuration?: Configuration, bas
         /**
          * 
          * @param {File} file 
+         * @param {boolean} [addHeaders] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        importStravaActivities(file: File, options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityViewModel>> {
-            return localVarFp.importStravaActivities(file, options).then((request) => request(axios, basePath));
+        importStravaActivities(file: File, addHeaders?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityViewModel>> {
+            return localVarFp.importStravaActivities(file, addHeaders, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -597,11 +604,12 @@ export interface ActivitiesApiInterface {
     /**
      * 
      * @param {File} file 
+     * @param {boolean} [addHeaders] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ActivitiesApiInterface
      */
-    importStravaActivities(file: File, options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityViewModel>>;
+    importStravaActivities(file: File, addHeaders?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityViewModel>>;
 
     /**
      * 
@@ -694,12 +702,13 @@ export class ActivitiesApi extends BaseAPI implements ActivitiesApiInterface {
     /**
      * 
      * @param {File} file 
+     * @param {boolean} [addHeaders] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ActivitiesApi
      */
-    public importStravaActivities(file: File, options?: RawAxiosRequestConfig) {
-        return ActivitiesApiFp(this.configuration).importStravaActivities(file, options).then((request) => request(this.axios, this.basePath));
+    public importStravaActivities(file: File, addHeaders?: boolean, options?: RawAxiosRequestConfig) {
+        return ActivitiesApiFp(this.configuration).importStravaActivities(file, addHeaders, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

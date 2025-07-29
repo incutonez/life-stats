@@ -6,8 +6,6 @@ import { ApiEnum } from "@/viewModels/decorators";
 export type IAttributeTypeViewModel = ModelInterface<AttributeTypeViewModel>;
 
 export class AttributeTypeViewModel extends BaseViewModel {
-	declare id: string;
-
 	declare name: string;
 
 	@ApiEnum({

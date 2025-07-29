@@ -28,6 +28,12 @@ export interface ActivityTypeViewModel {
      * @type {string}
      * @memberof ActivityTypeViewModel
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ActivityTypeViewModel
+     */
     'userId'?: string;
     /**
      * 
@@ -41,12 +47,6 @@ export interface ActivityTypeViewModel {
      * @memberof ActivityTypeViewModel
      */
     'dateUpdated'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof ActivityTypeViewModel
-     */
-    'id': string;
     /**
      * 
      * @type {Array<ActivityViewModel>}

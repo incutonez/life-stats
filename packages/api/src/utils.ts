@@ -12,7 +12,7 @@ export function dateToUTC(date: string | Date | number) {
 	return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
 }
 
-export function addMetaInfo<T extends Record<string, unknown>>(value: T, user_id: string, created_at?: Date, updated_at?: Date) {
+export function addMetaInfo<T extends object>(value: T, user_id: string, created_at?: Date, updated_at?: Date) {
 	return Object.assign(value, {
 		userId: user_id,
 		dateCreated: created_at?.getTime(),
@@ -102,11 +102,12 @@ export function localizeValue({ value, unit, measurementSystem, reverse, round }
 	if (reverse && measurementSystem === "imperial") {
 		unit = imperialToMetric(unit);
 	}
+	let parsedValue = roundTo(parseFloat(value));
 	let mappedUnit = unit !== undefined && mapUnit(unit);
 	let mappedTranslatedUnit: Unit | undefined;
 	if (!mappedUnit) {
 		return {
-			value,
+			value: parsedValue.toString(),
 			unit,
 		};
 	}
@@ -138,7 +139,6 @@ export function localizeValue({ value, unit, measurementSystem, reverse, round }
 				break;
 		}
 	}
-	let parsedValue = parseFloat(value);
 	// We store things in metric, so if they're coming from imperial, let's make sure we reverse it
 	if (reverse && measurementSystem === "imperial") {
 		const temp = mappedUnit;
@@ -158,8 +158,8 @@ export function localizeValue({ value, unit, measurementSystem, reverse, round }
 	};
 }
 
-// Default is 4 decimal places
-export function roundTo(value: number, decimals = 10000) {
+// Default is 5 decimal places
+export function roundTo(value: number, decimals = 100000) {
 	return Math.round((value + Number.EPSILON) * decimals) / decimals;
 }
 
@@ -198,4 +198,11 @@ export function getErrorMessage(error: unknown) {
 		return error;
 	}
 	return "";
+}
+
+export function genericSort(lhs: any, rhs: any) {
+	if (lhs === rhs) {
+		return 0;
+	}
+	return lhs < rhs ? -1 : 1;
 }

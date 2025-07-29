@@ -1,7 +1,7 @@
 export interface CompanyViewModel {
+    'id'?: string;
     'userId'?: string;
     'dateCreated'?: number;
     'dateUpdated'?: number;
-    'id'?: string;
     'name': string;
 }

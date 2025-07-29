@@ -28,6 +28,12 @@ export interface RoutineViewModel {
      * @type {string}
      * @memberof RoutineViewModel
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RoutineViewModel
+     */
     'userId'?: string;
     /**
      * 
@@ -41,12 +47,6 @@ export interface RoutineViewModel {
      * @memberof RoutineViewModel
      */
     'dateUpdated'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof RoutineViewModel
-     */
-    'id'?: string;
     /**
      * 
      * @type {string}

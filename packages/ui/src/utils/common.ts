@@ -128,7 +128,7 @@ export function pasteToApplicationViewModel(value: string) {
 		locationType: EnumLocationTypes.Remote,
 		userId: "",
 		company: {
-			id: getUniqueId(),
+			id: "",
 			name: company,
 			userId: "",
 		},

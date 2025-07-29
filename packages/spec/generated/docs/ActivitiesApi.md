@@ -224,9 +224,11 @@ const configuration = new Configuration();
 const apiInstance = new ActivitiesApi(configuration);
 
 let file: File; // (default to undefined)
+let addHeaders: boolean; // (optional) (default to undefined)
 
 const { status, data } = await apiInstance.importStravaActivities(
-    file
+    file,
+    addHeaders
 );
 ```
 
@@ -235,6 +237,7 @@ const { status, data } = await apiInstance.importStravaActivities(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **file** | [**File**] |  | defaults to undefined|
+| **addHeaders** | [**boolean**] |  | (optional) defaults to undefined|
 
 
 ### Return type

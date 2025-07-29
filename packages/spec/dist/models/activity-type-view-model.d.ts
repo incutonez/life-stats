@@ -1,9 +1,9 @@
 import type { ActivityViewModel } from './activity-view-model';
 export interface ActivityTypeViewModel {
+    'id'?: string;
     'userId'?: string;
     'dateCreated'?: number;
     'dateUpdated'?: number;
-    'id': string;
     'activities'?: Array<ActivityViewModel>;
     'name': string;
 }

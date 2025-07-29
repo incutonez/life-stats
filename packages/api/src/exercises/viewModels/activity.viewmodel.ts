@@ -9,41 +9,47 @@ import {
 import { ModelInterface, OmitRecursively } from "@/types";
 import { GetResponseModel } from "@/viewModels/base.list.viewmodel";
 import { BaseViewModel } from "@/viewModels/BaseViewModel";
-import { ApiEnum } from "@/viewModels/decorators";
+import { ApiEnum, TransformNull } from "@/viewModels/decorators";
 
 export type IActivityViewModel = ModelInterface<ActivityViewModel>;
 
 export type IActivityCreateViewModel = OmitRecursively<IActivityViewModel, "id">;
 
 export class ActivityViewModel extends BaseViewModel {
-	declare id: string;
-
 	declare title: string;
-
-	declare weight?: number;
-
-	declare duration?: number;
-
-	declare description?: string;
-
-	@ApiEnum({
-		EnumActivitySource,
-	})
-	declare source?: EnumActivitySource;
-
-	declare sourceId?: string;
 
 	declare dateOccurred: number;
 
 	declare activityType: ActivityTypeViewModel;
 
-	actions?: ActivityActionViewModel[] = [];
+	@TransformNull()
+	weight?: number;
 
-	declare calories?: number;
+	@TransformNull()
+	duration?: number;
 
-	declare weightLost?: number;
+	@TransformNull()
+	description?: string;
 
-	attributes?: ActivityAttributeViewModel[] = [];
+	@TransformNull()
+	@ApiEnum({
+		EnumActivitySource,
+	})
+	source?: EnumActivitySource;
+
+	@TransformNull()
+	sourceId?: string;
+
+	@TransformNull()
+	actions?: ActivityActionViewModel[];
+
+	@TransformNull()
+	calories?: number;
+
+	@TransformNull()
+	weightLost?: number;
+
+	attributes?: ActivityAttributeViewModel[];
 }
 
 export class ActivityListViewModel extends GetResponseModel<ActivityViewModel>(ActivityViewModel) {}

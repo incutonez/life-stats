@@ -21,11 +21,11 @@ export class ActionTypeModel extends BaseModel {
 		foreignKey: "action_type_id",
 		inverse: "action_type",
 	})
-	activities?: NonAttribute<ActivityActionModel[]> = [];
+	activities?: NonAttribute<ActivityActionModel[]>;
 
 	@HasMany(() => RoutineActionModel, {
 		foreignKey: "action_type_id",
 		inverse: "action_type",
 	})
-	routines?: NonAttribute<RoutineActionModel[]> = [];
+	routines?: NonAttribute<RoutineActionModel[]>;
 }

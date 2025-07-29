@@ -3,8 +3,6 @@ import { GetResponseModel } from "@/viewModels/base.list.viewmodel";
 import { BaseViewModel } from "@/viewModels/BaseViewModel";
 
 export class CompanyViewModel extends BaseViewModel {
-	id?: string = "";
-
 	declare name: string;
 }
 

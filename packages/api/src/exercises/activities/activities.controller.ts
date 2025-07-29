@@ -5,8 +5,7 @@
 	HttpCode, HttpStatus,
 	NotFoundException,
 	Param,
-	Post, Put,
-	UploadedFile,
+	Post, Put, UploadedFile,
 	UseInterceptors,
 } from "@nestjs/common";
 import { FileInterceptor } from "@nestjs/platform-express";
@@ -34,14 +33,15 @@ export class ActivitiesController {
 	}
 
 	@Post("strava/import")
+	@HttpCode(HttpStatus.OK)
 	@ApiConsumes("multipart/form-data")
 	@UseInterceptors(FileInterceptor("file"))
-	@HttpCode(HttpStatus.OK)
 	@ApiOkResponse({
 		type: [ActivityViewModel],
 	})
-	async importStravaActivities(@Body() _body: ExerciseActivityUpload, @UploadedFile("file") file: Express.Multer.File): Promise<IActivityCreateViewModel[]> {
-		return this.stravaService.importActivities(file, EnumActivitySource.Strava);
+	@UseValidationPipe()
+	async importStravaActivities(@UploadedFile("file") file: Express.Multer.File, @Body() body: ExerciseActivityUpload): Promise<IActivityCreateViewModel[]> {
+		return this.stravaService.importActivities(file, EnumActivitySource.Strava, body.addHeaders);
 	}
 
 	@Post("strava/upload")
@@ -85,8 +85,8 @@ export class ActivitiesController {
 
 	@Put(":activityId")
 	@UseValidationPipe()
-	async updateActivity(@Param("activityId") _activityId: string, @Body() viewModel: ActivityViewModel): Promise<ActivityViewModel> {
-		const response = await this.service.updateActivity(viewModel);
+	async updateActivity(@Param("activityId") activityId: string, @Body() viewModel: ActivityViewModel): Promise<ActivityViewModel> {
+		const response = await this.service.updateActivity(activityId, viewModel);
 		if (response) {
 			return response;
 		}

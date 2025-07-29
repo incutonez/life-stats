@@ -10,23 +10,21 @@ export type IActivityAttributeViewModel = ModelInterface<ActivityAttributeViewMo
 export type IActivityAttributeCreateViewModel = OmitRecursively<ActivityAttributeViewModel, "id">;
 
 export class ActivityAttributeViewModel extends BaseViewModel {
-	declare id: string;
-
 	declare value: string;
 
-	@ApiEnum({
-		EnumUnitTypes,
-	})
-	declare unit?: EnumUnitTypes;
-
-	@ApiEnum({
-		EnumUnitTypes,
-	})
-	declare unitDisplay?: EnumUnitTypes;
-
-	declare valueDisplay?: string;
-
-	declare activity?: ActivityViewModel;
-
 	declare attributeType: AttributeTypeViewModel;
+
+	@ApiEnum({
+		EnumUnitTypes,
+	})
+	unit?: EnumUnitTypes;
+
+	@ApiEnum({
+		EnumUnitTypes,
+	})
+	unitDisplay?: EnumUnitTypes;
+
+	valueDisplay?: string;
+
+	activity?: ActivityViewModel;
 }

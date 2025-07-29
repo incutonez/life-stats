@@ -5,11 +5,9 @@ import { BaseViewModel } from "@/viewModels/BaseViewModel";
 export type IActionTypeViewModel = ModelInterface<ActionTypeViewModel>;
 
 export class ActionTypeViewModel extends BaseViewModel {
-	declare id: string;
-
 	declare name: string;
 
-	actions?: ActionNestedViewModel[];
+	activities?: ActionNestedViewModel[];
 
 	routines?: ActionNestedViewModel[];
 }

@@ -1,5 +1,13 @@
-﻿import { Model } from "@sequelize/core";
-import { CreatedAtField, EnumAuditActionTypes, EnumFeatures, EnumTableNames, UpdatedAtField } from "@/constants";
+﻿import { Provider } from "@nestjs/common";
+import { Model } from "@sequelize/core";
+import {
+	ATTRIBUTE_TYPES_REPOSITORY,
+	CreatedAtField,
+	EnumAuditActionTypes,
+	EnumFeatures,
+	EnumTableNames,
+	UpdatedAtField,
+} from "@/constants";
 import { AttributeTypeModel } from "@/db/models/AttributeTypeModel";
 import { AuditModel } from "@/db/models/AuditModel";
 import { BaseModel } from "@/db/models/BaseModel";
@@ -26,6 +34,13 @@ export const AuditedFeatures: IAuditFeatures[] = [{
 	feature: EnumFeatures.system,
 }];
 export const AllModels = [...JobModels, ...ExerciseModels, ...SystemModels, AuditModel];
+
+export const AttributeTypesRepository: Provider = {
+	provide: ATTRIBUTE_TYPES_REPOSITORY,
+	useValue: AttributeTypeModel,
+};
+
+export type AttributeTypesRepository = typeof AttributeTypeModel;
 
 function sanitizeDataType(value: any) {
 	if (Array.isArray(value)) {

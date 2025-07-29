@@ -31,6 +31,12 @@ export interface ApplicationLinkViewModel {
      * @type {string}
      * @memberof ApplicationLinkViewModel
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApplicationLinkViewModel
+     */
     'userId'?: string;
     /**
      * 
@@ -56,12 +62,6 @@ export interface ApplicationLinkViewModel {
      * @memberof ApplicationLinkViewModel
      */
     'status'?: EnumApplicationStatus;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationLinkViewModel
-     */
-    'id': string;
     /**
      * 
      * @type {string}

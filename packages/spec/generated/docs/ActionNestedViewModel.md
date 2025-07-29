@@ -5,10 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **string** |  | [optional] [default to undefined]
 **userId** | **string** |  | [optional] [default to undefined]
 **dateCreated** | **number** |  | [optional] [default to undefined]
 **dateUpdated** | **number** |  | [optional] [default to undefined]
-**id** | **string** |  | [default to undefined]
 **order** | **number** |  | [default to undefined]
 **value** | **string** |  | [default to undefined]
 
@@ -18,10 +18,10 @@ Name | Type | Description | Notes
 import { ActionNestedViewModel } from './api';
 
 const instance: ActionNestedViewModel = {
+    id,
     userId,
     dateCreated,
     dateUpdated,
-    id,
     order,
     value,
 };

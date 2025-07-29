@@ -1,4 +1,5 @@
 export interface UserCreateViewModel {
+    'id'?: string;
     'userId'?: string;
     'dateCreated'?: number;
     'dateUpdated'?: number;

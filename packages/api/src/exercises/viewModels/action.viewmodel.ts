@@ -8,8 +8,6 @@ export type IActionViewModel = ModelInterface<ActionViewModel>;
 export type IActionNestedViewModel = ModelInterface<ActionNestedViewModel>;
 
 export class ActionViewModel extends BaseViewModel {
-	declare id: string;
-
 	declare actionType: ActionTypeViewModel;
 
 	declare order: number;

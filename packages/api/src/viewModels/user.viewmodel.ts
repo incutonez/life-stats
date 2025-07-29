@@ -25,8 +25,6 @@ export class UserSettingsExerciseViewModel {
 }
 
 export class UserViewModel extends UserCreateViewModel {
-	declare id: string;
-
 	declare lastAccessed: number;
 
 	declare settings: UserSettingsViewModel;

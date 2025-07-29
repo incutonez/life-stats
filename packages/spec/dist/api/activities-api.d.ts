@@ -10,7 +10,7 @@ export declare const ActivitiesApiAxiosParamCreator: (configuration?: Configurat
     deleteActivity: (activityId: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
     getActivity: (activityId: string, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
     getActivityTypes: (options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
-    importStravaActivities: (file: File, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
+    importStravaActivities: (file: File, addHeaders?: boolean, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
     listActivities: (options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
     syncStravaActivities: (stravaTokenViewModel: StravaTokenViewModel, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
     updateActivity: (activityId: string, activityViewModel: ActivityViewModel, options?: RawAxiosRequestConfig) => Promise<RequestArgs>;
@@ -21,7 +21,7 @@ export declare const ActivitiesApiFp: (configuration?: Configuration) => {
     deleteActivity(activityId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>>;
     getActivity(activityId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActivityViewModel>>;
     getActivityTypes(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ActivityTypeViewModel>>>;
-    importStravaActivities(file: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ActivityViewModel>>>;
+    importStravaActivities(file: File, addHeaders?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ActivityViewModel>>>;
     listActivities(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActivityListViewModel>>;
     syncStravaActivities(stravaTokenViewModel: StravaTokenViewModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StravaTokenViewModel>>;
     updateActivity(activityId: string, activityViewModel: ActivityViewModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActivityViewModel>>;
@@ -32,7 +32,7 @@ export declare const ActivitiesApiFactory: (configuration?: Configuration, baseP
     deleteActivity(activityId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
     getActivity(activityId: string, options?: RawAxiosRequestConfig): AxiosPromise<ActivityViewModel>;
     getActivityTypes(options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityTypeViewModel>>;
-    importStravaActivities(file: File, options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityViewModel>>;
+    importStravaActivities(file: File, addHeaders?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityViewModel>>;
     listActivities(options?: RawAxiosRequestConfig): AxiosPromise<ActivityListViewModel>;
     syncStravaActivities(stravaTokenViewModel: StravaTokenViewModel, options?: RawAxiosRequestConfig): AxiosPromise<StravaTokenViewModel>;
     updateActivity(activityId: string, activityViewModel: ActivityViewModel, options?: RawAxiosRequestConfig): AxiosPromise<ActivityViewModel>;
@@ -43,7 +43,7 @@ export interface ActivitiesApiInterface {
     deleteActivity(activityId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
     getActivity(activityId: string, options?: RawAxiosRequestConfig): AxiosPromise<ActivityViewModel>;
     getActivityTypes(options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityTypeViewModel>>;
-    importStravaActivities(file: File, options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityViewModel>>;
+    importStravaActivities(file: File, addHeaders?: boolean, options?: RawAxiosRequestConfig): AxiosPromise<Array<ActivityViewModel>>;
     listActivities(options?: RawAxiosRequestConfig): AxiosPromise<ActivityListViewModel>;
     syncStravaActivities(stravaTokenViewModel: StravaTokenViewModel, options?: RawAxiosRequestConfig): AxiosPromise<StravaTokenViewModel>;
     updateActivity(activityId: string, activityViewModel: ActivityViewModel, options?: RawAxiosRequestConfig): AxiosPromise<ActivityViewModel>;
@@ -54,7 +54,7 @@ export declare class ActivitiesApi extends BaseAPI implements ActivitiesApiInter
     deleteActivity(activityId: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<void, any>>;
     getActivity(activityId: string, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<ActivityViewModel, any>>;
     getActivityTypes(options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<ActivityTypeViewModel[], any>>;
-    importStravaActivities(file: File, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<ActivityViewModel[], any>>;
+    importStravaActivities(file: File, addHeaders?: boolean, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<ActivityViewModel[], any>>;
     listActivities(options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<ActivityListViewModel, any>>;
     syncStravaActivities(stravaTokenViewModel: StravaTokenViewModel, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<StravaTokenViewModel, any>>;
     updateActivity(activityId: string, activityViewModel: ActivityViewModel, options?: RawAxiosRequestConfig): Promise<import("axios").AxiosResponse<ActivityViewModel, any>>;

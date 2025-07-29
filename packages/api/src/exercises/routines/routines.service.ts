@@ -23,19 +23,22 @@ export class RoutinesService {
 					association: "action_type",
 				}],
 			}],
+			order: [["actions", "order", "asc"]],
 		});
 
 		return {
 			total: count,
-			data: rows.map((row) => this.mapper.routineToViewModel(row, true)),
+			data: rows.map((row) => this.mapper.routineToViewModel(row)),
 		};
 	}
 
 	async getRoutineEntity(id: string) {
 		return this.repository.findByPk(id, {
 			include: [{
-				all: true,
-				nested: true,
+				association: "actions",
+				include: [{
+					association: "action_type",
+				}],
 			}],
 			order: [["actions", "order", "asc"]],
 		});

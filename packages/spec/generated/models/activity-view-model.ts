@@ -37,6 +37,12 @@ export interface ActivityViewModel {
      * @type {string}
      * @memberof ActivityViewModel
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ActivityViewModel
+     */
     'userId'?: string;
     /**
      * 
@@ -61,13 +67,19 @@ export interface ActivityViewModel {
      * @type {string}
      * @memberof ActivityViewModel
      */
-    'id': string;
+    'title': string;
     /**
      * 
-     * @type {string}
+     * @type {number}
      * @memberof ActivityViewModel
      */
-    'title': string;
+    'dateOccurred': number;
+    /**
+     * 
+     * @type {ActivityTypeViewModel}
+     * @memberof ActivityViewModel
+     */
+    'activityType': ActivityTypeViewModel;
     /**
      * 
      * @type {number}
@@ -92,18 +104,6 @@ export interface ActivityViewModel {
      * @memberof ActivityViewModel
      */
     'sourceId'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof ActivityViewModel
-     */
-    'dateOccurred': number;
-    /**
-     * 
-     * @type {ActivityTypeViewModel}
-     * @memberof ActivityViewModel
-     */
-    'activityType': ActivityTypeViewModel;
     /**
      * 
      * @type {Array<ActivityActionViewModel>}

@@ -5,18 +5,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **string** |  | [optional] [default to undefined]
 **userId** | **string** |  | [optional] [default to undefined]
 **dateCreated** | **number** |  | [optional] [default to undefined]
 **dateUpdated** | **number** |  | [optional] [default to undefined]
 **source** | [**EnumActivitySource**](EnumActivitySource.md) |  | [optional] [default to undefined]
-**id** | **string** |  | [default to undefined]
 **title** | **string** |  | [default to undefined]
+**dateOccurred** | **number** |  | [default to undefined]
+**activityType** | [**ActivityTypeViewModel**](ActivityTypeViewModel.md) |  | [default to undefined]
 **weight** | **number** |  | [optional] [default to undefined]
 **duration** | **number** |  | [optional] [default to undefined]
 **description** | **string** |  | [optional] [default to undefined]
 **sourceId** | **string** |  | [optional] [default to undefined]
-**dateOccurred** | **number** |  | [default to undefined]
-**activityType** | [**ActivityTypeViewModel**](ActivityTypeViewModel.md) |  | [default to undefined]
 **actions** | [**Array&lt;ActivityActionViewModel&gt;**](ActivityActionViewModel.md) |  | [optional] [default to undefined]
 **calories** | **number** |  | [optional] [default to undefined]
 **weightLost** | **number** |  | [optional] [default to undefined]
@@ -28,18 +28,18 @@ Name | Type | Description | Notes
 import { ActivityViewModel } from './api';
 
 const instance: ActivityViewModel = {
+    id,
     userId,
     dateCreated,
     dateUpdated,
     source,
-    id,
     title,
+    dateOccurred,
+    activityType,
     weight,
     duration,
     description,
     sourceId,
-    dateOccurred,
-    activityType,
     actions,
     calories,
     weightLost,

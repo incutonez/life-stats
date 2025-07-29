@@ -13,9 +13,7 @@ import { ModelInterface } from "@/types";
 
 export type IActivityModel = ModelInterface<ActivityModel>;
 
-export type IActivityUpdateModel = Omit<IActivityModel, "attributes" | "activity_type" | "calories" | "weight_lost" | "actions">;
-
-export type IActivityCreate = Omit<IActivityModel, "id" | "activity_type" | "attributes" | "calories" | "weight_lost" | "actions">;
+export type IActivityUpdateModel = Omit<IActivityModel, "id" | "attributes" | "activity_type" | "calories" | "weight_lost" | "actions">;
 
 @BaseTable(EnumTableNames.exerciseActivities)
 export class ActivityModel extends BaseModel {
@@ -25,21 +23,6 @@ export class ActivityModel extends BaseModel {
 	@Attribute(DataTypes.STRING)
 	declare title: string;
 
-	@Attribute(DataTypes.DOUBLE)
-	declare weight?: number;
-
-	@Attribute(DataTypes.DOUBLE)
-	declare duration?: number;
-
-	@Attribute(DataTypes.STRING)
-	declare description?: string;
-
-	@AttributeEnum(EnumActivitySource)
-	declare source?: EnumActivitySource;
-
-	@Attribute(DataTypes.STRING)
-	declare source_id?: string;
-
 	@Attribute(DataTypes.STRING)
 	@NotNull
 	declare activity_type_id: string;
@@ -47,22 +30,37 @@ export class ActivityModel extends BaseModel {
 	@Attribute(DataTypes.INTEGER)
 	declare date_occurred: number;
 
-	@HasMany(() => ActivityAttributeModel, {
-		foreignKey: "activity_id",
-		inverse: "activity",
-	})
-	declare attributes?: NonAttribute<ActivityAttributeModel[]>;
-
 	@BelongsTo(() => ActivityTypeModel, {
 		foreignKey: "activity_type_id",
 	})
 	declare activity_type: NonAttribute<ActivityTypeModel>;
 
+	@Attribute(DataTypes.DOUBLE)
+	weight?: number;
+
+	@Attribute(DataTypes.DOUBLE)
+	duration?: number;
+
+	@Attribute(DataTypes.STRING)
+	description?: string;
+
+	@AttributeEnum(EnumActivitySource)
+	source?: EnumActivitySource;
+
+	@Attribute(DataTypes.STRING)
+	source_id?: string;
+
+	@HasMany(() => ActivityAttributeModel, {
+		foreignKey: "activity_id",
+		inverse: "activity",
+	})
+	attributes?: NonAttribute<ActivityAttributeModel[]>;
+
 	@HasMany(() => ActivityActionModel, {
 		foreignKey: "activity_id",
 		inverse: "activity",
 	})
-	actions: NonAttribute<ActivityActionModel[]> = [];
+	actions?: NonAttribute<ActivityActionModel[]>;
 
 	@Attribute(DataTypes.VIRTUAL(DataTypes.DOUBLE, ["duration", "activity_type_id", "weight"]))
 	get calories(): NonAttribute<number | undefined> {

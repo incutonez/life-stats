@@ -11,7 +11,5 @@ export class ActivityTypeCreateViewModel extends BaseViewModel {
 }
 
 export class ActivityTypeViewModel extends ActivityTypeCreateViewModel {
-	declare id: string;
-
 	activities?: ActivityViewModel[];
 }

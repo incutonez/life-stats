@@ -20,6 +20,7 @@ export class ActivitiesService {
 
 	async listActivities(): Promise<ActivityListViewModel> {
 		const { rows, count } = await this.repository.findAndCountAll({
+			distinct: true,
 			include: [{
 				association: "attributes",
 				include: [{
@@ -76,19 +77,16 @@ export class ActivitiesService {
 		return entities.map((entity) => this.mapper.entityActivityTypeToViewModel(entity, addMeta));
 	}
 
-	async updateActivity(viewModel: ActivityViewModel) {
-		const record = await this.getActivityEntity(viewModel.id);
+	async updateActivity(activityId: string, viewModel: ActivityViewModel) {
+		const record = await this.getActivityEntity(activityId);
 		if (record) {
 			const { attributes: viewModelAttributes = [], activityType: viewModelActivityType, actions: viewModelActions = [] } = viewModel;
-			// If the activityType has a different ID, then we need to create (or find) the activityType and reassign it in the viewModel
-			if (viewModelActivityType && viewModelActivityType.id !== record.activity_type_id) {
-				viewModel.activityType = await this.createActivityType(viewModelActivityType);
-			}
+			viewModel.activityType = await this.createActivityType(viewModelActivityType);
 			await this.attributesService.updateActivityAttributes(viewModelAttributes, record.id);
 			// Any remaining records in the DB model were removed in the UI
 			await this.actionsService.updateActivityActions(viewModelActions, record.id);
 			await record.update(this.mapper.viewModelToEntity(viewModel));
-			return this.getActivity(viewModel.id);
+			return this.getActivity(activityId);
 		}
 	}
 

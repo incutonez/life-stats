@@ -1,16 +1,14 @@
 ﻿import { faker } from "@faker-js/faker";
 import { HttpStatus, INestApplication } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
-import { Sequelize } from "@sequelize/core";
-import { SqliteDialect } from "@sequelize/sqlite3";
-import { AuthGuardTest } from "@test/auth.guard.test";
-import { TestUser } from "@test/users";
 import { configDotenv } from "dotenv";
 import request from "supertest";
 import { afterAll, beforeEach, describe, expect, it } from "vitest";
+import { AuthGuardTest } from "@/__mocks__/auth.guard.test";
+import { sequelize } from "@/__mocks__/sequelize";
+import { TestUser } from "@/__mocks__/users";
 import { AuthGuard } from "@/auth/auth.guard";
 import { AuthModule } from "@/auth/auth.module";
-import { AllModels } from "@/db/models";
 import { EnumApplicationStatus, EnumLinkType, EnumLocationTypes } from "@/jobs/constants";
 import { JobsModule } from "@/jobs/jobs.module";
 import { urlToSite } from "@/jobs/utils";
@@ -100,21 +98,12 @@ describe("Jobs e2e", async () => {
 	let companyId: string;
 	let companyId2: string;
 	let app: INestApplication;
-	const sequelize = new Sequelize({
-		storage: ":memory:",
-		dialect: SqliteDialect,
-		models: AllModels,
-		pool: {
-			idle: Infinity,
-			max: 1,
-		},
-	});
 
 	await sequelize.sync();
 
 	beforeEach(async () => {
 		configDotenv({
-			path: [".env.prod", ".env.local", ".env"],
+			path: [".env.prod", ".env"],
 		});
 		const module: TestingModule = await Test.createTestingModule({
 			imports: [
@@ -125,6 +114,8 @@ describe("Jobs e2e", async () => {
 		app = module.createNestApplication();
 		await app.init();
 	});
+
+	afterAll(() => sequelize.close());
 
 	it("app should be defined", () => {
 		expect(app).toBeDefined();

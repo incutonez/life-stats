@@ -1,7 +1,8 @@
 ﻿import { Transform } from "class-transformer";
 import { IsInt, IsOptional, IsString } from "class-validator";
+import { UploadViewModelsResponse } from "@/types";
 
-export class StravaTokenViewModel {
+export class StravaTokenViewModel extends UploadViewModelsResponse {
 	@IsString()
 	declare accessToken: string;
 

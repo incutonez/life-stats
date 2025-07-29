@@ -31,6 +31,12 @@ export interface ActivityActionViewModel {
      * @type {string}
      * @memberof ActivityActionViewModel
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ActivityActionViewModel
+     */
     'userId'?: string;
     /**
      * 
@@ -50,12 +56,6 @@ export interface ActivityActionViewModel {
      * @memberof ActivityActionViewModel
      */
     'activity'?: ActivityViewModel;
-    /**
-     * 
-     * @type {string}
-     * @memberof ActivityActionViewModel
-     */
-    'id': string;
     /**
      * 
      * @type {ActionTypeViewModel}

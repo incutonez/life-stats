@@ -31,6 +31,12 @@ export interface RoutineActionViewModel {
      * @type {string}
      * @memberof RoutineActionViewModel
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RoutineActionViewModel
+     */
     'userId'?: string;
     /**
      * 
@@ -50,12 +56,6 @@ export interface RoutineActionViewModel {
      * @memberof RoutineActionViewModel
      */
     'routine'?: RoutineViewModel;
-    /**
-     * 
-     * @type {string}
-     * @memberof RoutineActionViewModel
-     */
-    'id': string;
     /**
      * 
      * @type {ActionTypeViewModel}

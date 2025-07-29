@@ -23,7 +23,7 @@ const linksTable = useTableData<ApplicationLinkViewModel>({
 		useTableActions([{
 			icon: IconEdit,
 			handler(record) {
-				selectedLinkRecordId.value = record.id;
+				selectedLinkRecordId.value = record.id!;
 			},
 		}, {
 			icon: IconDelete,
@@ -84,6 +84,9 @@ const selectedIds = computed({
 			const found = applicationRecords.value.find((record) => record.id === id)!;
 			return {
 				id: found.id,
+				positionTitle: found.positionTitle,
+				status: found.status,
+				dateApplied: found.dateApplied,
 				// Newly selected records are linked to this model
 				type: EnumLinkType.To,
 			};

@@ -37,6 +37,12 @@ export interface ApplicationNestedViewModel {
      * @type {string}
      * @memberof ApplicationNestedViewModel
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ApplicationNestedViewModel
+     */
     'userId'?: string;
     /**
      * 
@@ -62,12 +68,6 @@ export interface ApplicationNestedViewModel {
      * @memberof ApplicationNestedViewModel
      */
     'locationType': EnumLocationTypes;
-    /**
-     * 
-     * @type {string}
-     * @memberof ApplicationNestedViewModel
-     */
-    'id'?: string;
     /**
      * 
      * @type {string}

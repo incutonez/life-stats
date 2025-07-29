@@ -25,6 +25,12 @@ export interface CommentViewModel {
      * @type {string}
      * @memberof CommentViewModel
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CommentViewModel
+     */
     'userId'?: string;
     /**
      * 
@@ -38,12 +44,6 @@ export interface CommentViewModel {
      * @memberof CommentViewModel
      */
     'dateUpdated'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof CommentViewModel
-     */
-    'id'?: string;
     /**
      * 
      * @type {string}

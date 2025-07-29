@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **string** |  | [optional] [default to undefined]
 **userId** | **string** |  | [optional] [default to undefined]
 **dateCreated** | **number** |  | [optional] [default to undefined]
 **dateUpdated** | **number** |  | [optional] [default to undefined]
@@ -12,7 +13,6 @@ Name | Type | Description | Notes
 **lastName** | **string** |  | [optional] [default to undefined]
 **email** | **string** |  | [default to undefined]
 **nickname** | **string** |  | [optional] [default to undefined]
-**id** | **string** |  | [default to undefined]
 **lastAccessed** | **number** |  | [default to undefined]
 **settings** | [**UserSettingsViewModel**](UserSettingsViewModel.md) |  | [default to undefined]
 
@@ -22,6 +22,7 @@ Name | Type | Description | Notes
 import { UserViewModel } from './api';
 
 const instance: UserViewModel = {
+    id,
     userId,
     dateCreated,
     dateUpdated,
@@ -29,7 +30,6 @@ const instance: UserViewModel = {
     lastName,
     email,
     nickname,
-    id,
     lastAccessed,
     settings,
 };

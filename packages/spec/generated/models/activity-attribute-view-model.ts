@@ -34,6 +34,12 @@ export interface ActivityAttributeViewModel {
      * @type {string}
      * @memberof ActivityAttributeViewModel
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ActivityAttributeViewModel
+     */
     'userId'?: string;
     /**
      * 
@@ -64,13 +70,13 @@ export interface ActivityAttributeViewModel {
      * @type {string}
      * @memberof ActivityAttributeViewModel
      */
-    'id': string;
+    'value': string;
     /**
      * 
-     * @type {string}
+     * @type {AttributeTypeViewModel}
      * @memberof ActivityAttributeViewModel
      */
-    'value': string;
+    'attributeType': AttributeTypeViewModel;
     /**
      * 
      * @type {string}
@@ -83,12 +89,6 @@ export interface ActivityAttributeViewModel {
      * @memberof ActivityAttributeViewModel
      */
     'activity'?: ActivityViewModel;
-    /**
-     * 
-     * @type {AttributeTypeViewModel}
-     * @memberof ActivityAttributeViewModel
-     */
-    'attributeType': AttributeTypeViewModel;
 }
 
 

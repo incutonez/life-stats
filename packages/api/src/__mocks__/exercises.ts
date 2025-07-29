@@ -1,7 +1,8 @@
 ﻿import { faker } from "@faker-js/faker";
 import { expect } from "vitest";
+import { accessToken, expiresAt, mockedAxios, refreshToken } from "@/__mocks__/axios";
 import { TestUser } from "@/__mocks__/users";
-import { EnumFeatures, EnumUnitTypes } from "@/constants";
+import { EnumFeatures } from "@/constants";
 import { EnumActivitySource } from "@/exercises/constants";
 import { IStravaActivity, IStravaImport } from "@/exercises/types";
 import { IActionTypeViewModel } from "@/exercises/viewModels/action.type.viewmodel";
@@ -9,12 +10,480 @@ import { ActivityActionViewModel } from "@/exercises/viewModels/activity.action.
 import { IActivityAttributeViewModel } from "@/exercises/viewModels/activity.attribute.viewmodel";
 import { IActivityTypeViewModel } from "@/exercises/viewModels/activity.type.viewmodel";
 import { IActivityViewModel } from "@/exercises/viewModels/activity.viewmodel";
+import { RoutineViewModel } from "@/exercises/viewModels/routine.viewmodel";
 import { ModelInterface } from "@/types";
 import { dateToUTC, genericSort, roundTo } from "@/utils";
 import { IAttributeTypeViewModel } from "@/viewModels/attribute.type.viewmodel";
 
-type IActivityActionViewModel = ModelInterface<ActivityActionViewModel>;
+export type IActivityActionViewModel = ModelInterface<ActivityActionViewModel>;
 
+export type IRoutineViewModel = ModelInterface<RoutineViewModel>;
+
+export function getActivity1(): IActivityViewModel {
+	return {
+		"actions": [{
+			"order": 0,
+			"value": "mostly",
+			"actionType": {
+				"name": "buck",
+			},
+		}, {
+			"order": 1,
+			"value": "fatally",
+			"actionType": {
+				"name": "sizzle",
+			},
+		}, {
+			"order": 2,
+			"value": "upward",
+			"actionType": {
+				"name": "navigate",
+			},
+		}, {
+			"order": 3,
+			"value": "fondly",
+			"actionType": {
+				"name": "mooch",
+			},
+		}],
+		"attributes": [{
+			"unit": 3,
+			"value": "11.546676402040148",
+			"attributeType": {
+				"name": "pants",
+			},
+		}, {
+			"unit": 3,
+			"value": "16.649168443330527",
+			"attributeType": {
+				"name": "charm",
+			},
+		}, {
+			"unit": 3,
+			"value": "10.972127803673798",
+			"attributeType": {
+				"name": "replacement",
+			},
+		}, {
+			"unit": 3,
+			"value": "1.1637137166398528",
+			"attributeType": {
+				"name": "wasabi",
+			},
+		}],
+		"title": "gosh midst",
+		"dateOccurred": 1734907890893,
+		"weight": 279.41390255099657,
+		"duration": 5.245613417629027,
+		"description": "Theca ancilla debeo theologus demens coadunatio solus arma. Turbo voluptatibus caelestis succurro virtus contego torqueo. Aveho non vesica vulgaris amplus ducimus aro.Crinis et desparatus caste abbas sortitus. Ventito ultio torqueo tutis uredo concido laborum aeneus stips. Dolorem spiritus cultura audax decimus.Ipsum convoco tonsor cupiditas deprecator. Creber conventus cupiditate. Decimus cunctatio appono.",
+		"activityType": {
+			"name": "orchestrate",
+		},
+	};
+}
+
+export function getActivity2(): IActivityViewModel {
+	return {
+		"actions": [{
+			"order": 0,
+			"value": "mockingly",
+			"actionType": {
+				"name": "exempt",
+			},
+		}, {
+			"order": 1,
+			"value": "unaccountably",
+			"actionType": {
+				"name": "miscalculate",
+			},
+		}, {
+			"order": 2,
+			"value": "mortally",
+			"actionType": {
+				"name": "rout",
+			},
+		}, {
+			"order": 3,
+			"value": "unnecessarily",
+			"actionType": {
+				"name": "investigate",
+			},
+		}],
+		"attributes": [{
+			"unit": 3,
+			"value": "7.350598877791132",
+			"attributeType": {
+				"name": "monocle",
+			},
+		}, {
+			"unit": 3,
+			"value": "4.483942017650287",
+			"attributeType": {
+				"name": "sustenance",
+			},
+		}, {
+			"unit": 3,
+			"value": "19.73298222180526",
+			"attributeType": {
+				"name": "crest",
+			},
+		}, {
+			"unit": 3,
+			"value": "1.6453643100474324",
+			"attributeType": {
+				"name": "petticoat",
+			},
+		}],
+		"title": "dishearten frivolous",
+		"dateOccurred": 1748998712885,
+		"weight": 298.9319832033898,
+		"duration": 15.226907854135169,
+		"description": "Earum auctor arma. Succurro aliqua tutis caput tergum ubi cunabula deleo. Curia comburo cimentarius causa cribro arbitro architecto.Corona ullam corroboro cunae alter depono via at crur. Concido decerno sequi. Utrum varius eligendi comitatus cibus xiphias creator.Eius cilicium cohibeo creo. Tristis timidus suggero audio. Creo decumbo cupiditas succurro comis.",
+		"activityType": {
+			"name": "rear",
+		},
+	};
+}
+
+export function getActivity1Update(viewModel: IActivityViewModel) {
+	viewModel = structuredClone(viewModel);
+	const { actions = [], attributes = [] } = viewModel;
+	// Change title
+	viewModel.title = faker.word.words();
+	// Delete 2nd action
+	actions.splice(1, 1);
+	// Update 1st action's value
+	actions[0].value += faker.string.uuid();
+	// Create new action
+	actions.push({
+		"order": 1,
+		"value": "fiercely",
+		"actionType": {
+			"name": "unlearn",
+		},
+	});
+
+	// Delete 3rd attribute
+	attributes.splice(2, 1);
+	// Update 1st attribute
+	attributes[0].value = "45.123456789";
+	// Create brand new attributeType while updating
+	attributes[0].attributeType.name += faker.string.uuid();
+	// Create new attribute
+	attributes.push({
+		"unit": 3,
+		"value": "14.083588556295815",
+		"attributeType": {
+			"name": "skyscraper",
+		},
+	});
+
+	return viewModel;
+}
+
+export function getActivity2Update(): IActivityViewModel {
+	return {
+		"actions": [{
+			"order": 0,
+			"value": "freely",
+			"actionType": {
+				"name": "mummify",
+			},
+		}, {
+			"order": 1,
+			"value": "carefully",
+			"actionType": {
+				"name": "see",
+			},
+		}, {
+			"order": 2,
+			"value": "wetly",
+			"actionType": {
+				"name": "low",
+			},
+		}, {
+			"order": 3,
+			"value": "speedily",
+			"actionType": {
+				"name": "controvert",
+			},
+		}],
+		"attributes": [{
+			"unit": 3,
+			"value": "18.38521739584988",
+			"attributeType": {
+				"name": "puritan",
+			},
+		}, {
+			"unit": 3,
+			"value": "5.750170118986799",
+			"attributeType": {
+				"name": "saw",
+			},
+		}, {
+			"unit": 3,
+			"value": "9.44359021988665",
+			"attributeType": {
+				"name": "pants",
+			},
+		}, {
+			"unit": 3,
+			"value": "10.352085950608288",
+			"attributeType": {
+				"name": "decryption",
+			},
+		}],
+		"title": "less",
+		"dateOccurred": 1758767543646,
+		"weight": 280.29028297654725,
+		"duration": 19.18079674658904,
+		"description": "Adiuvo nemo commemoro. Sint rerum conscendo spero omnis rerum tenus bellum aegrotatio. Laudantium caecus autus hic optio.\nSubito accusator cetera aliqua corroboro non adipisci ciminatio ciminatio. Tristis quis civis quidem alo considerobasium damno. Modi ager adulescens culpo.\nCrur comes atavus velit sollicito tabula. Desolo patrocinor benevolentia desino cupiditas defluo verbum acervus denego. Stultus utilis ratione.",
+		"activityType": {
+			"name": "categorise",
+		},
+	};
+}
+
+export function getRoutine1(): IRoutineViewModel {
+	return {
+		"name": "juggernaut",
+		"actions": [{
+			"order": 1,
+			"value": "seldom",
+			"actionType": {
+				"name": "redound",
+			},
+			"id": "f4631337-7679-45dd-bf8b-c27737e26d07",
+		}, {
+			"order": 2,
+			"value": "kissingly",
+			"actionType": {
+				"name": "westernise",
+			},
+			"id": "7e2cd53b-b82b-4dd4-b723-920f14d1c3af",
+		}, {
+			"order": 3,
+			"value": "unbearably",
+			"actionType": {
+				"name": "rewrite",
+			},
+			"id": "c0768960-0cfa-49bd-a0da-157106e27388",
+		}, {
+			"order": 4,
+			"value": "anxiously",
+			"actionType": {
+				"name": "tabulate",
+			},
+			"id": "c5a66192-7abe-46b0-b0bd-47ef27293e28",
+		}, {
+			"order": 5,
+			"value": "merrily",
+			"actionType": {
+				"name": "neglect",
+			},
+			"id": "d1c99d64-609b-4660-9c30-829a2bf2f2ff",
+		}, {
+			"order": 6,
+			"value": "briefly",
+			"actionType": {
+				"name": "reboot",
+			},
+			"id": "9888c49d-dc4e-4f48-a93b-a4fb0bc24350",
+		}, {
+			"order": 7,
+			"value": "unbearably",
+			"actionType": {
+				"name": "emphasize",
+			},
+			"id": "055b945c-9181-4885-aafc-67bf31c50c6f",
+		}, {
+			"order": 8,
+			"value": "readily",
+			"actionType": {
+				"name": "chip",
+			},
+			"id": "e8935591-5efd-4a6b-ae95-d15743722320",
+		}, {
+			"order": 9,
+			"value": "even",
+			"actionType": {
+				"name": "father",
+			},
+			"id": "1ec98450-7c34-420c-aced-f4dd1ed38f6a",
+		}, {
+			"order": 10,
+			"value": "queasily",
+			"actionType": {
+				"name": "communicate",
+			},
+			"id": "dc7ee367-e7bc-4cb3-9211-ddd192980101",
+		}],
+	};
+}
+
+export function getRoutine2(): IRoutineViewModel {
+	return {
+		"name": "aftermath",
+		"actions": [{
+			"order": 1,
+			"value": "yieldingly",
+			"actionType": {
+				"name": "transcend",
+			},
+			"id": "d973cb5b-2b1c-4b89-8466-d8aa7973922c",
+		}, {
+			"order": 7,
+			"value": "wearily",
+			"actionType": {
+				"name": "gallivant",
+			},
+			"id": "b3063543-d790-4189-b8ee-e35fb3d837a8",
+		}, {
+			"order": 18,
+			"value": "fortunately",
+			"actionType": {
+				"name": "fathom",
+			},
+			"id": "9554f3f0-2841-41ae-9434-87f8b96ac1c0",
+		}, {
+			"order": 14,
+			"value": "less",
+			"actionType": {
+				"name": "dislocate",
+			},
+			"id": "fe00f167-18f0-487a-b65b-89cf8b9ea8e7",
+		}, {
+			"order": 17,
+			"value": "strictly",
+			"actionType": {
+				"name": "scuttle",
+			},
+			"id": "69104a08-501f-489f-905e-5117f778181b",
+		}, {
+			"order": 4,
+			"value": "kookily",
+			"actionType": {
+				"name": "tighten",
+			},
+			"id": "d69e7557-9729-4e0d-8cd5-1413922a028c",
+		}, {
+			"order": 17,
+			"value": "greatly",
+			"actionType": {
+				"name": "waft",
+			},
+			"id": "037dc63f-6b79-4f08-b4b1-b4c721c4cb5a",
+		}, {
+			"order": 10,
+			"value": "unabashedly",
+			"actionType": {
+				"name": "rationalize",
+			},
+			"id": "807a2ac4-df56-43cd-984f-1e915c4fbf58",
+		}, {
+			"order": 10,
+			"value": "questionably",
+			"actionType": {
+				"name": "drowse",
+			},
+			"id": "515c5f84-5382-4f2c-ab3a-41d64018c5c2",
+		}, {
+			"order": 18,
+			"value": "commonly",
+			"actionType": {
+				"name": "fly",
+			},
+			"id": "70f7768a-abfa-4d17-a927-07ce0d83096c",
+		}],
+	};
+}
+
+export function getRoutine1Update(viewModel: IRoutineViewModel) {
+	viewModel = structuredClone(viewModel);
+	// Remove 1st and last
+	viewModel.actions.splice(0, 1);
+	viewModel.actions.splice(8, 1);
+	// Update 2nd (now 1st)
+	viewModel.actions[0].value = "blah";
+	// Create a new one
+	viewModel.actions.push({
+		"order": 2,
+		"value": "greedily",
+		"actionType": {
+			"name": "satirize",
+		},
+	});
+	return viewModel;
+}
+
+export function getRoutine2Update(): IRoutineViewModel {
+	return {
+		"name": "heroine",
+		"actions": [{
+			"order": 17,
+			"value": "quirkily",
+			"actionType": {
+				"name": "guest",
+			},
+		}, {
+			"order": 19,
+			"value": "awkwardly",
+			"actionType": {
+				"name": "vulgarise",
+			},
+		}, {
+			"order": 13,
+			"value": "thankfully",
+			"actionType": {
+				"name": "jiggle",
+			},
+		}, {
+			"order": 3,
+			"value": "cruelly",
+			"actionType": {
+				"name": "pity",
+			},
+		}, {
+			"order": 11,
+			"value": "broadly",
+			"actionType": {
+				"name": "concrete",
+			},
+		}, {
+			"order": 16,
+			"value": "speedily",
+			"actionType": {
+				"name": "microblog",
+			},
+		}, {
+			"order": 15,
+			"value": "defiantly",
+			"actionType": {
+				"name": "satirise",
+			},
+		}, {
+			"order": 4,
+			"value": "instantly",
+			"actionType": {
+				"name": "idle",
+			},
+		}, {
+			"order": 3,
+			"value": "rapidly",
+			"actionType": {
+				"name": "fictionalize",
+			},
+		}, {
+			"order": 9,
+			"value": "angrily",
+			"actionType": {
+				"name": "quantify",
+			},
+		}],
+	};
+}
+
+// Needed in axios.ts
 export const stravaActivities = [
 	mockActivityStrava(),
 	mockActivityStrava(),
@@ -23,71 +492,26 @@ export const stravaActivities = [
 	mockActivityStrava(),
 ];
 
-export function mockActivity(): IActivityViewModel {
-	const actions: IActivityActionViewModel[] = [];
-	const attributes: IActivityAttributeViewModel[] = [];
-
-	for (let i = 0; i < 4; i++) {
-		actions.push(mockAction(i));
-	}
-
-	for (let i = 0; i < 4; i++) {
-		attributes.push(mockAttribute());
-	}
-
-	return {
-		actions,
-		attributes,
-		title: faker.word.words(),
-		dateOccurred: faker.date.anytime().getTime(),
-		weight: faker.number.float({
-			min: 60,
-			max: 300,
-		}),
-		duration: faker.number.float({
-			min: 0.5,
-			max: 24,
-		}),
-		description: faker.lorem.paragraphs(),
-		activityType: mockActivityType(),
-	};
-}
-
-export function mockActivityType(): IActivityTypeViewModel {
-	return {
-		name: faker.word.verb(),
-	};
-}
-
-export function mockAction(order = faker.number.int()): IActivityActionViewModel {
-	return {
-		order,
-		value: faker.word.adverb(),
-		actionType: mockActionType(),
-	};
-}
-
-export function mockActionType(): IActionTypeViewModel {
-	return {
-		name: faker.word.verb(),
-	};
-}
-
-export function mockAttribute(): IActivityAttributeViewModel {
-	return {
-		unit: EnumUnitTypes.Miles,
-		value: faker.number.float({
-			min: 1,
-			max: 20,
-		}).toString(),
-		attributeType: mockAttributeType(),
-	};
-}
-
-export function mockAttributeType(): IAttributeTypeViewModel {
-	return {
-		name: faker.word.noun(),
-	};
+export function useMockedStravaAPI() {
+	mockedAxios.request.mockImplementation(({ url }) => {
+		if (url === "https://www.strava.com/oauth/token") {
+			return Promise.resolve({
+				data: {
+					access_token: accessToken,
+					refresh_token: refreshToken,
+					expires_at: expiresAt,
+				},
+			});
+		}
+		else if (url === "https://www.strava.com/api/v3/athlete/activities") {
+			return Promise.resolve({
+				data: stravaActivities,
+			});
+		}
+		return Promise.resolve({
+			data: [],
+		});
+	});
 }
 
 export function mockActivityStrava(): IStravaActivity {
@@ -449,14 +873,17 @@ export function mockActivityStravaExpected(model: IStravaActivity) {
 	return viewModel;
 }
 
-export function mockBaseExpected<T>(viewModel: T, includeDates = false): T {
+export function mockBaseExpected<T>(viewModel: T, includeDates = false, includeUser = false): T {
 	const expected = structuredClone<any>(viewModel);
 	/* We use ||= here because when we finally set the ID, we actually want to make sure it's the same... this really only
 	 * matters on the initial creation */
 	expected.id ||= expect.any(String);
 	if (includeDates) {
 		expected.dateCreated ||= expect.any(Number);
-		expected.dateUpdated ||= expect.any(Number);
+		expected.dateUpdated = expect.any(Number);
+	}
+	if (includeUser) {
+		expected.userId = TestUser.user_id;
 	}
 	return expected;
 }
@@ -467,7 +894,6 @@ export function mockActivityExpected(viewModel: IActivityViewModel): IActivityVi
 	expected.calories = expect.any(Number);
 	expected.weightLost = expect.any(Number);
 	expected.activityType = mockActivityTypeExpected(expected.activityType);
-	// Actions are sorted by the order property by default
 	expected.actions = expected.actions?.map((action) => mockActionExpected(action));
 	expected.attributes = expected.attributes?.map((attribute) => mockAttributeExpected(attribute));
 	sortViewModelProperties(expected);
@@ -502,17 +928,41 @@ export function mockAttributeExpected(viewModel: IActivityAttributeViewModel) {
 	return expected;
 }
 
+export function mockRoutineExpected(viewModel: ModelInterface<RoutineViewModel>, isCreate = false) {
+	const expected = mockBaseExpected(viewModel, true, true);
+	expected.actions = expected.actions?.map((action) => {
+		const actionExpected = mockActionExpected(action);
+		if (isCreate && action.id) {
+			// We want to make sure the ID changes from the already saved action
+			actionExpected.id = expect.not.stringContaining(action.id);
+		}
+		return actionExpected;
+	});
+	expected.actions.sort((lhs, rhs) => genericSort(lhs.order, rhs.order));
+	return expected;
+}
+
 export function sortViewModelProperties(viewModel: IActivityViewModel) {
 	viewModel.actions ??= [];
 	viewModel.attributes ??= [];
+	// Actions are sorted by the order property by default
 	viewModel.actions.sort((lhs, rhs) => genericSort(lhs.order, rhs.order));
 	viewModel.attributes.sort((lhs, rhs) => genericSort(lhs.attributeType.name, rhs.attributeType.name));
 }
 
-export function getLatest(viewModels: IActivityViewModel[]) {
-	return viewModels[viewModels.length - 1];
-}
-
-export function getLatestExpected(viewModels: IActivityViewModel[]) {
-	return mockActivityExpected(getLatest(viewModels));
+export function getActionTypes(viewModels: (IActivityViewModel | undefined)[]) {
+	const actionTypes: IActionTypeViewModel[] = [];
+	viewModels.forEach((viewModel) => {
+		viewModel?.actions?.forEach(({ actionType }) => {
+			const found = actionTypes.find((record) => record.id === actionType.id);
+			if (!found) {
+				actionTypes.push({
+					id: actionType.id,
+					name: actionType.name,
+				});
+			}
+		});
+	});
+	actionTypes.sort((lhs, rhs) => genericSort(lhs.name, rhs.name));
+	return actionTypes;
 }

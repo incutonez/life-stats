@@ -1,3 +1,9 @@
+## [2.22.0](https://github.com/incutonez/life-stats/compare/v2.21.0...v2.22.0) (2025-07-29)
+
+### Features
+
+* Adding Exercises e2e ([#106](https://github.com/incutonez/life-stats/issues/106)) ([74aac76](https://github.com/incutonez/life-stats/commit/74aac7665299d25fb212a77c9ed811ee98e27398))
+
 ## [2.21.0](https://github.com/incutonez/life-stats/compare/v2.20.3...v2.21.0) (2025-07-23)
 
 ### Features

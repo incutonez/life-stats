@@ -1,3 +1,9 @@
+## [2.23.0](https://github.com/incutonez/life-stats/compare/v2.22.0...v2.23.0) (2025-07-30)
+
+### Features
+
+* Adding Mocker Harness ([#108](https://github.com/incutonez/life-stats/issues/108)) ([ce45e46](https://github.com/incutonez/life-stats/commit/ce45e46f3cf6c07895d5157b2f49a8e8ba431ba9))
+
 ## [2.22.0](https://github.com/incutonez/life-stats/compare/v2.21.0...v2.22.0) (2025-07-29)
 
 ### Features

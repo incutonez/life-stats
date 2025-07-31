@@ -18,7 +18,7 @@ export class ExerciseActivityUpload {
 		format: "binary",
 		required: true,
 	})
-	declare file: Express.Multer.File;
+	file: Express.Multer.File;
 }
 
 export interface IStubAttributeOptions {

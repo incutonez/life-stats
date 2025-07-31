@@ -11,6 +11,7 @@ export * from './application-link-view-model';
 export * from './application-list-view-model';
 export * from './application-nested-view-model';
 export * from './application-view-model';
+export * from './attribute-type-list-view-model';
 export * from './attribute-type-view-model';
 export * from './audit-diff-view-model';
 export * from './audit-list-view-model';

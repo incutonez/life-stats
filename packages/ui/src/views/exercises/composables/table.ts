@@ -6,7 +6,7 @@ import {
 	EnumActivitySource,
 	EnumUnitTypes,
 } from "@incutonez/life-stats-spec";
-import { useDateColumn } from "@/composables/table.ts";
+import { useDateColumn, useDateCreatedColumn, useDateUpdatedColumn } from "@/composables/table.ts";
 import { ColumnFitWidth } from "@/constants.ts";
 import type { ITableColumn } from "@/types/components.ts";
 import { getEnumDisplay } from "@/utils/common.ts";
@@ -59,18 +59,28 @@ export function useActivitiesColumns<T extends ActivityViewModel>(): ITableColum
 			id: "attribute",
 			accessorKey: "attributes",
 			header: "Attributes",
+			meta: {
+				columnAlign: "center",
+				...ColumnFitWidth,
+			},
 			cell(info) {
-				const records = info.getValue<ActivityAttributeViewModel[]>();
+				const records = info.getValue<ActivityAttributeViewModel[]>() ?? [];
 				return h("span", null, records.length);
 			},
 		}, {
 			accessorKey: "actions",
 			header: "Steps",
+			meta: {
+				columnAlign: "center",
+				...ColumnFitWidth,
+			},
 			cell(info) {
-				const records = info.getValue<ActivityActionViewModel[]>();
+				const records = info.getValue<ActivityActionViewModel[]>() ?? [];
 				return h("span", null, records.length);
 			},
 		},
+		useDateCreatedColumn(),
+		useDateUpdatedColumn(),
 	];
 }
 

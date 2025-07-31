@@ -13,14 +13,14 @@ export type IActivityTypeCreate = Omit<IActivityTypeModel, "id">;
 @BaseTable(EnumTableNames.exerciseActivityTypes)
 export class ActivityTypeModel extends BaseModel {
 	@PrimaryKeyGuid()
-	declare id: string;
+	id: string;
 
 	@Attribute(DataTypes.STRING)
-	declare name: string;
+	name: string;
 
 	@HasMany(() => ActivityModel, {
 		foreignKey: "activity_type_id",
 		inverse: "activity",
 	})
-	declare activities?: NonAttribute<ActivityModel[]>;
+	activities?: NonAttribute<ActivityModel[]>;
 }

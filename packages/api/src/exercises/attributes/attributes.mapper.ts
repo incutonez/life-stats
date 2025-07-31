@@ -1,32 +1,48 @@
-﻿import { Inject, Injectable } from "@nestjs/common";
+﻿import { Inject, Injectable, OnModuleInit } from "@nestjs/common";
+import { ModuleRef } from "@nestjs/core";
+import { plainToInstance } from "class-transformer";
 import { AttributeTypesMapper } from "@/attributeTypes/attributeTypes.mapper";
 import { SessionStorageService } from "@/auth/session.storage.service";
 import { SESSION_STORAGE } from "@/constants";
+import { ActivitiesMapper } from "@/exercises/activities/activities.mapper";
 import { ActivityAttributeModel, IActivityAttributeModel } from "@/exercises/models/ActivityAttributeModel";
-import {
-	ActivityAttributeViewModel,
-	IActivityAttributeViewModel,
-} from "@/exercises/viewModels/activity.attribute.viewmodel";
+import { ActivityAttributeViewModel } from "@/exercises/viewModels/activity.attribute.viewmodel";
 import { addMetaInfo, convertToUnit, localizeValue } from "@/utils";
 
 @Injectable()
-export class AttributesMapper {
-	constructor(@Inject(SESSION_STORAGE) private readonly storage: SessionStorageService, private readonly attributeTypesMapper: AttributeTypesMapper) {
+export class AttributesMapper implements OnModuleInit {
+	private attributeTypesMapper: AttributeTypesMapper;
+
+	private activitiesMapper: ActivitiesMapper;
+
+	constructor(
+		@Inject(SESSION_STORAGE) private readonly storage: SessionStorageService,
+		private readonly moduleRef: ModuleRef,
+	) {	}
+
+	onModuleInit() {
+		this.attributeTypesMapper = this.moduleRef.get(AttributeTypesMapper, {
+			strict: false,
+		});
+		this.activitiesMapper = this.moduleRef.get(ActivitiesMapper, {
+			strict: false,
+		});
 	}
 
-	activityAttributeNestedToViewModel({ id, attribute_type, unit_display, user_id, created_at, updated_at, value, unit }: ActivityAttributeModel, addMeta = false) {
+	activityAttributeToViewModel({ id, activity, attribute_type, unit_display, user_id, created_at, updated_at, value, unit }: ActivityAttributeModel, addMeta = false): ActivityAttributeViewModel {
 		const localizedValue = localizeValue({
 			value,
 			unit,
 			round: true,
 			measurementSystem: this.storage.getMeasurementSystem(),
 		});
-		const response: IActivityAttributeViewModel = {
+		const response = plainToInstance(ActivityAttributeViewModel, {
 			id,
 			value: localizedValue.value,
 			unit: localizedValue.unit,
-			attributeType: this.attributeTypesMapper.entityToViewModel(attribute_type),
-		};
+			activity: activity && this.activitiesMapper.entityToViewModel(activity, false),
+			attributeType: attribute_type && this.attributeTypesMapper.entityToViewModel(attribute_type),
+		});
 		if (unit_display) {
 			const convertedValue = convertToUnit({
 				value,
@@ -55,10 +71,10 @@ export class AttributesMapper {
 			unit: result.unit,
 			value: result.value,
 			activity_id: activityId!,
-			attribute_type_id: attributeType.id!,
+			attribute_type_id: attributeType!.id!,
 			unit_display: unitDisplay,
 			user_id: userId ?? this.storage.getUserId(),
-			attribute_type: this.attributeTypesMapper.attributeTypeToEntity(attributeType),
+			attribute_type: this.attributeTypesMapper.attributeTypeToEntity(attributeType!),
 		};
 	}
 }

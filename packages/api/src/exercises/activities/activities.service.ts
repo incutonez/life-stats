@@ -15,8 +15,7 @@ export class ActivitiesService {
 		private readonly mapper: ActivitiesMapper,
 		private readonly attributesService: AttributesService,
 		private readonly actionsService: ActionsService,
-	) {
-	}
+	) {	}
 
 	async listActivities(): Promise<ActivityListViewModel> {
 		const { rows, count } = await this.repository.findAndCountAll({
@@ -81,7 +80,7 @@ export class ActivitiesService {
 		const record = await this.getActivityEntity(activityId);
 		if (record) {
 			const { attributes: viewModelAttributes = [], activityType: viewModelActivityType, actions: viewModelActions = [] } = viewModel;
-			viewModel.activityType = await this.createActivityType(viewModelActivityType);
+			viewModel.activityType = await this.createActivityType(viewModelActivityType!);
 			await this.attributesService.updateActivityAttributes(viewModelAttributes, record.id);
 			// Any remaining records in the DB model were removed in the UI
 			await this.actionsService.updateActivityActions(viewModelActions, record.id);
@@ -103,7 +102,7 @@ export class ActivitiesService {
 	}
 
 	async createActivity(viewModel: ActivityViewModel) {
-		viewModel.activityType = await this.createActivityType(viewModel.activityType);
+		viewModel.activityType = await this.createActivityType(viewModel.activityType!);
 		const { id } = await this.repository.create(this.mapper.viewModelToEntity(viewModel));
 		if (viewModel.attributes) {
 			await this.attributesService.updateActivityAttributes(viewModel.attributes, id);

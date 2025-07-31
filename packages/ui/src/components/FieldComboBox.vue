@@ -91,7 +91,7 @@ function onChangeInput() {
 		}
 	}
 	// Otherwise, if we have no search value, let's remove the selection
-	else {
+	else if (!required) {
 		model.value = getComboBoxItemValue({
 			[valueField]: "",
 			[displayField]: "",

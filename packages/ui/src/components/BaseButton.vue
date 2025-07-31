@@ -8,9 +8,10 @@ export interface IBaseButtonProps extends /* @vue-ignore */ ButtonHTMLAttributes
 	icon?: object | string;
 	loading?: boolean;
 	disabled?: boolean;
+	tooltip?: string;
 }
 
-const { text = undefined, theme = "normal", icon = undefined, disabled = false, loading = false } = defineProps<IBaseButtonProps>();
+const { tooltip = undefined, text = undefined, theme = "normal", icon = undefined, disabled = false, loading = false } = defineProps<IBaseButtonProps>();
 const buttonClass = computed(() => {
 	return {
 		[`button-${theme}`]: true,
@@ -25,6 +26,7 @@ const isDisabled = computed(() => disabled || loading);
 		:disabled="isDisabled"
 		class="base-button"
 		:class="buttonClass"
+		:title="tooltip"
 	>
 		<IconLoading
 			v-if="loading"

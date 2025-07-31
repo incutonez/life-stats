@@ -22,6 +22,8 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
+import type { AttributeTypeListViewModel } from '../models';
+// @ts-ignore
 import type { AttributeTypeViewModel } from '../models';
 /**
  * AttributeTypesApi - axios parameter creator
@@ -31,11 +33,48 @@ export const AttributeTypesApiAxiosParamCreator = function (configuration?: Conf
     return {
         /**
          * 
+         * @param {string} attributeTypeId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAttributeTypes: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/attribute-types`;
+        deleteAttributeType: async (attributeTypeId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'attributeTypeId' is not null or undefined
+            assertParamExists('deleteAttributeType', 'attributeTypeId', attributeTypeId)
+            const localVarPath = `/attribute-types/{attributeTypeId}`
+                .replace(`{${"attributeTypeId"}}`, encodeURIComponent(String(attributeTypeId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} attributeTypeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAttributeType: async (attributeTypeId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'attributeTypeId' is not null or undefined
+            assertParamExists('getAttributeType', 'attributeTypeId', attributeTypeId)
+            const localVarPath = `/attribute-types/{attributeTypeId}`
+                .replace(`{${"attributeTypeId"}}`, encodeURIComponent(String(attributeTypeId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -58,6 +97,116 @@ export const AttributeTypesApiAxiosParamCreator = function (configuration?: Conf
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {number} feature 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAttributeTypes: async (feature: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'feature' is not null or undefined
+            assertParamExists('getAttributeTypes', 'feature', feature)
+            const localVarPath = `/attribute-types`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (feature !== undefined) {
+                localVarQueryParameter['feature'] = feature;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {object} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listAttributeTypes: async (body: object, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('listAttributeTypes', 'body', body)
+            const localVarPath = `/attribute-types/list`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} attributeTypeId 
+         * @param {AttributeTypeViewModel} attributeTypeViewModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateAttributeType: async (attributeTypeId: string, attributeTypeViewModel: AttributeTypeViewModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'attributeTypeId' is not null or undefined
+            assertParamExists('updateAttributeType', 'attributeTypeId', attributeTypeId)
+            // verify required parameter 'attributeTypeViewModel' is not null or undefined
+            assertParamExists('updateAttributeType', 'attributeTypeViewModel', attributeTypeViewModel)
+            const localVarPath = `/attribute-types/{attributeTypeId}`
+                .replace(`{${"attributeTypeId"}}`, encodeURIComponent(String(attributeTypeId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(attributeTypeViewModel, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -70,13 +219,63 @@ export const AttributeTypesApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {string} attributeTypeId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAttributeTypes(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AttributeTypeViewModel>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getAttributeTypes(options);
+        async deleteAttributeType(attributeTypeId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteAttributeType(attributeTypeId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AttributeTypesApi.deleteAttributeType']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} attributeTypeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAttributeType(attributeTypeId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AttributeTypeViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAttributeType(attributeTypeId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AttributeTypesApi.getAttributeType']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {number} feature 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getAttributeTypes(feature: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AttributeTypeViewModel>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getAttributeTypes(feature, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AttributeTypesApi.getAttributeTypes']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {object} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listAttributeTypes(body: object, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AttributeTypeListViewModel>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listAttributeTypes(body, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AttributeTypesApi.listAttributeTypes']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} attributeTypeId 
+         * @param {AttributeTypeViewModel} attributeTypeViewModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateAttributeType(attributeTypeId: string, attributeTypeViewModel: AttributeTypeViewModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AttributeTypeViewModel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateAttributeType(attributeTypeId, attributeTypeViewModel, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AttributeTypesApi.updateAttributeType']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -91,11 +290,49 @@ export const AttributeTypesApiFactory = function (configuration?: Configuration,
     return {
         /**
          * 
+         * @param {string} attributeTypeId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAttributeTypes(options?: RawAxiosRequestConfig): AxiosPromise<Array<AttributeTypeViewModel>> {
-            return localVarFp.getAttributeTypes(options).then((request) => request(axios, basePath));
+        deleteAttributeType(attributeTypeId: string, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.deleteAttributeType(attributeTypeId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} attributeTypeId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAttributeType(attributeTypeId: string, options?: RawAxiosRequestConfig): AxiosPromise<AttributeTypeViewModel> {
+            return localVarFp.getAttributeType(attributeTypeId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} feature 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getAttributeTypes(feature: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<AttributeTypeViewModel>> {
+            return localVarFp.getAttributeTypes(feature, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {object} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listAttributeTypes(body: object, options?: RawAxiosRequestConfig): AxiosPromise<Array<AttributeTypeListViewModel>> {
+            return localVarFp.listAttributeTypes(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} attributeTypeId 
+         * @param {AttributeTypeViewModel} attributeTypeViewModel 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateAttributeType(attributeTypeId: string, attributeTypeViewModel: AttributeTypeViewModel, options?: RawAxiosRequestConfig): AxiosPromise<AttributeTypeViewModel> {
+            return localVarFp.updateAttributeType(attributeTypeId, attributeTypeViewModel, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -108,11 +345,49 @@ export const AttributeTypesApiFactory = function (configuration?: Configuration,
 export interface AttributeTypesApiInterface {
     /**
      * 
+     * @param {string} attributeTypeId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AttributeTypesApiInterface
      */
-    getAttributeTypes(options?: RawAxiosRequestConfig): AxiosPromise<Array<AttributeTypeViewModel>>;
+    deleteAttributeType(attributeTypeId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
+
+    /**
+     * 
+     * @param {string} attributeTypeId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AttributeTypesApiInterface
+     */
+    getAttributeType(attributeTypeId: string, options?: RawAxiosRequestConfig): AxiosPromise<AttributeTypeViewModel>;
+
+    /**
+     * 
+     * @param {number} feature 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AttributeTypesApiInterface
+     */
+    getAttributeTypes(feature: number, options?: RawAxiosRequestConfig): AxiosPromise<Array<AttributeTypeViewModel>>;
+
+    /**
+     * 
+     * @param {object} body 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AttributeTypesApiInterface
+     */
+    listAttributeTypes(body: object, options?: RawAxiosRequestConfig): AxiosPromise<Array<AttributeTypeListViewModel>>;
+
+    /**
+     * 
+     * @param {string} attributeTypeId 
+     * @param {AttributeTypeViewModel} attributeTypeViewModel 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AttributeTypesApiInterface
+     */
+    updateAttributeType(attributeTypeId: string, attributeTypeViewModel: AttributeTypeViewModel, options?: RawAxiosRequestConfig): AxiosPromise<AttributeTypeViewModel>;
 
 }
 
@@ -125,12 +400,58 @@ export interface AttributeTypesApiInterface {
 export class AttributeTypesApi extends BaseAPI implements AttributeTypesApiInterface {
     /**
      * 
+     * @param {string} attributeTypeId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AttributeTypesApi
      */
-    public getAttributeTypes(options?: RawAxiosRequestConfig) {
-        return AttributeTypesApiFp(this.configuration).getAttributeTypes(options).then((request) => request(this.axios, this.basePath));
+    public deleteAttributeType(attributeTypeId: string, options?: RawAxiosRequestConfig) {
+        return AttributeTypesApiFp(this.configuration).deleteAttributeType(attributeTypeId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} attributeTypeId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AttributeTypesApi
+     */
+    public getAttributeType(attributeTypeId: string, options?: RawAxiosRequestConfig) {
+        return AttributeTypesApiFp(this.configuration).getAttributeType(attributeTypeId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {number} feature 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AttributeTypesApi
+     */
+    public getAttributeTypes(feature: number, options?: RawAxiosRequestConfig) {
+        return AttributeTypesApiFp(this.configuration).getAttributeTypes(feature, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {object} body 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AttributeTypesApi
+     */
+    public listAttributeTypes(body: object, options?: RawAxiosRequestConfig) {
+        return AttributeTypesApiFp(this.configuration).listAttributeTypes(body, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} attributeTypeId 
+     * @param {AttributeTypeViewModel} attributeTypeViewModel 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AttributeTypesApi
+     */
+    public updateAttributeType(attributeTypeId: string, attributeTypeViewModel: AttributeTypeViewModel, options?: RawAxiosRequestConfig) {
+        return AttributeTypesApiFp(this.configuration).updateAttributeType(attributeTypeId, attributeTypeViewModel, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

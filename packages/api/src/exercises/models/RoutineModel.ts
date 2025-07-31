@@ -11,10 +11,10 @@ export type IRoutineModel = ModelInterface<RoutineModel>;
 @BaseTable(EnumTableNames.exerciseRoutines)
 export class RoutineModel extends BaseModel {
 	@PrimaryKeyGuid()
-	declare id: string;
+	id: string;
 
 	@Attribute(DataTypes.STRING)
-	declare name: string;
+	name: string;
 
 	@HasMany(() => RoutineActionModel, {
 		foreignKey: "routine_id",

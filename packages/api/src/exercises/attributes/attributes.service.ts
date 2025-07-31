@@ -21,7 +21,7 @@ export class AttributesService {
 		});
 		for (const viewModel of viewModels) {
 			const { id, ...model } = this.mapper.activityAttributeToEntity(viewModel, activityId);
-			const attributeType = await this.attributeTypesService.createAttributeType(viewModel.attributeType);
+			const attributeType = await this.attributeTypesService.createAttributeType(viewModel.attributeType!);
 			model.attribute_type_id = attributeType.id;
 			const found = entities.find((attribute) => attribute.id === id);
 			if (found) {

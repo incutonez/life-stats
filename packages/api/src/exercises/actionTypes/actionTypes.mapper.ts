@@ -9,7 +9,7 @@ import { addMetaInfo } from "@/utils";
 
 @Injectable()
 export class ActionTypesMapper implements OnModuleInit {
-	declare private actionsMapper: ActionsMapper;
+	private actionsMapper: ActionsMapper;
 
 	constructor(private readonly moduleRef: ModuleRef, @Inject(SESSION_STORAGE) private readonly storage: SessionStorageService) {
 	}

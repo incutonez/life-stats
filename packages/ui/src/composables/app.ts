@@ -11,8 +11,8 @@
 } from "vue";
 import type { AppMetaViewModel, UserViewModel } from "@incutonez/life-stats-spec";
 import { type Query, useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
-import { apiConfig, AppAPI, AttributeTypesAPI, UsersAPI } from "@/api.ts";
-import { QueryGetAttributeTypes, QueryKeyAppMeta, QueryKeyUser } from "@/constants.ts";
+import { apiConfig, AppAPI, UsersAPI } from "@/api.ts";
+import { QueryKeyAppMeta, QueryKeyUser } from "@/constants.ts";
 
 export type TUseGlobalError = ReturnType<typeof useGlobalError>;
 
@@ -74,7 +74,8 @@ export function useGlobalError() {
 	 * Source: https://vuejs.org/api/composition-api-lifecycle.html#onerrorcaptured
 	 */
 	onErrorCaptured((err) => {
-		errorMsgStack.value = err.toString();
+		console.error(err);
+		errorMsgStack.value = `${err.message}\n\n${err.stack}`;
 		return false;
 	});
 
@@ -187,15 +188,5 @@ export function useInvalidateQueries(shouldInvalidate: MaybeRef<boolean>, queryK
 		if (unref(shouldInvalidate)) {
 			await queryClient.invalidateQueries(getInvalidateQueryPredicate(queryKey));
 		}
-	});
-}
-
-export function useGetAttributeTypes() {
-	return useQuery({
-		queryKey: [QueryGetAttributeTypes],
-		async queryFn() {
-			const { data } = await AttributeTypesAPI.getAttributeTypes();
-			return data.sort((lhs, rhs) => lhs.name.localeCompare(rhs.name));
-		},
 	});
 }

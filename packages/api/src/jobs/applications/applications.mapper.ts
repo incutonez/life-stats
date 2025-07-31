@@ -33,7 +33,7 @@ function getStatusFromApplied(status: EnumApplicationStatus, dateApplied: number
 
 @Injectable()
 export class ApplicationsMapper implements OnModuleInit {
-	declare private companiesMapper: CompaniesMapper;
+	private companiesMapper: CompaniesMapper;
 
 	constructor(private readonly moduleRef: ModuleRef, private commentsMapper: CommentsMapper, @Inject(SESSION_STORAGE) private authStorageService: SessionStorageService) {
 	}

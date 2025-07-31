@@ -73,12 +73,6 @@ export interface ActivityAttributeViewModel {
     'value': string;
     /**
      * 
-     * @type {AttributeTypeViewModel}
-     * @memberof ActivityAttributeViewModel
-     */
-    'attributeType': AttributeTypeViewModel;
-    /**
-     * 
      * @type {string}
      * @memberof ActivityAttributeViewModel
      */
@@ -89,6 +83,12 @@ export interface ActivityAttributeViewModel {
      * @memberof ActivityAttributeViewModel
      */
     'activity'?: ActivityViewModel;
+    /**
+     * 
+     * @type {AttributeTypeViewModel}
+     * @memberof ActivityAttributeViewModel
+     */
+    'attributeType'?: AttributeTypeViewModel;
 }
 
 

@@ -4,7 +4,7 @@ import { UploadViewModelsResponse } from "@/types";
 
 export class StravaTokenViewModel extends UploadViewModelsResponse {
 	@IsString()
-	declare accessToken: string;
+	accessToken: string;
 
 	@Transform(({ value = "" }) => value)
 	@IsString()

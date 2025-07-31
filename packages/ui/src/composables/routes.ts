@@ -1,4 +1,5 @@
-﻿import { type Router } from "vue-router";
+﻿import { type Router, useRouter } from "vue-router";
+import { RouteAttributeType, RouteAttributeTypes, RouteSystem } from "@/constants.ts";
 
 export function useBaseRoutes(router: Router) {
 	return {
@@ -10,6 +11,33 @@ export function useBaseRoutes(router: Router) {
 				}
 			}
 			return false;
+		},
+	};
+}
+
+export function useAppRoutes() {
+	const router = useRouter();
+	const { isRouteSelected } = useBaseRoutes(router);
+
+	return {
+		isRouteSelected,
+		viewSystemSettings() {
+			return router.push({
+				name: RouteSystem,
+			});
+		},
+		viewAttributeTypes() {
+			return router.push({
+				name: RouteAttributeTypes,
+			});
+		},
+		viewAttributeType(attributeTypeId: string) {
+			return router.push({
+				name: RouteAttributeType,
+				params: {
+					attributeTypeId,
+				},
+			});
 		},
 	};
 }

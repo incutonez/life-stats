@@ -7,7 +7,7 @@ export type IActivityTypeViewModel = ModelInterface<ActivityTypeViewModel>;
 export type IActivityTypeCreateViewModel = ModelInterface<ActivityTypeCreateViewModel>;
 
 export class ActivityTypeCreateViewModel extends BaseViewModel {
-	declare name: string;
+	name: string;
 }
 
 export class ActivityTypeViewModel extends ActivityTypeCreateViewModel {

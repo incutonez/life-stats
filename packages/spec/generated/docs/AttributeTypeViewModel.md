@@ -11,6 +11,7 @@ Name | Type | Description | Notes
 **dateUpdated** | **number** |  | [optional] [default to undefined]
 **feature** | [**EnumFeatures**](EnumFeatures.md) |  | [optional] [default to undefined]
 **name** | **string** |  | [default to undefined]
+**activityAttributes** | [**Array&lt;ActivityAttributeViewModel&gt;**](ActivityAttributeViewModel.md) |  | [optional] [default to undefined]
 
 ## Example
 
@@ -24,6 +25,7 @@ const instance: AttributeTypeViewModel = {
     dateUpdated,
     feature,
     name,
+    activityAttributes,
 };
 ```
 

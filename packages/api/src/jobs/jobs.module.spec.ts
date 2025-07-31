@@ -5,7 +5,7 @@ import { configDotenv } from "dotenv";
 import request from "supertest";
 import { afterAll, beforeEach, describe, expect, it } from "vitest";
 import { AuthGuardTest } from "@/__mocks__/auth.guard.test";
-import { sequelize } from "@/__mocks__/sequelize";
+import { useSequelizeTest } from "@/__mocks__/sequelize";
 import { TestUser } from "@/__mocks__/users";
 import { AuthGuard } from "@/auth/auth.guard";
 import { AuthModule } from "@/auth/auth.module";
@@ -98,8 +98,7 @@ describe("Jobs e2e", async () => {
 	let companyId: string;
 	let companyId2: string;
 	let app: INestApplication;
-
-	await sequelize.sync();
+	const sequelize = await useSequelizeTest();
 
 	beforeEach(async () => {
 		configDotenv({

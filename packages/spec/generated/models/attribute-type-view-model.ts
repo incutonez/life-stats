@@ -15,6 +15,9 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import type { ActivityAttributeViewModel } from './activity-attribute-view-model';
+// May contain unused imports in some cases
+// @ts-ignore
 import type { EnumFeatures } from './enum-features';
 
 /**
@@ -59,6 +62,12 @@ export interface AttributeTypeViewModel {
      * @memberof AttributeTypeViewModel
      */
     'name': string;
+    /**
+     * 
+     * @type {Array<ActivityAttributeViewModel>}
+     * @memberof AttributeTypeViewModel
+     */
+    'activityAttributes'?: Array<ActivityAttributeViewModel>;
 }
 
 

@@ -114,6 +114,7 @@ export interface IFieldLabelProps {
 export interface ITableAction<T> extends IBaseButtonProps {
 	handler: (record: T) => void;
 	canClick?: (record: T) => boolean;
+	isDisabled?: (record: T) => boolean;
 }
 
 export interface IFieldTextProps extends /* @vue-ignore */ InputHTMLAttributes {

@@ -149,7 +149,7 @@ input[type=number] {
         }
         
         &.button-table {
-            @apply hover:bg-sky-200 h-6;
+            @apply hover:bg-sky-200 h-6 disabled:opacity-30;
             
             & > svg {
                 @apply size-5;

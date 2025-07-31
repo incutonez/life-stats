@@ -1,9 +1,11 @@
 ﻿<script setup lang="ts">
 import BaseButton from "@/components/BaseButton.vue";
-import { IconCompanies, IconExercises } from "@/components/Icons.ts";
+import { IconCompanies, IconExercises, IconSettings } from "@/components/Icons.ts";
+import { useAppRoutes } from "@/composables/routes.ts";
 import { useExerciseRoutes } from "@/views/exercises/composables/routes";
 import { useJobRoutes } from "@/views/jobs/composables/routes.ts";
 
+const { viewSystemSettings } = useAppRoutes();
 const { viewApplications } = useJobRoutes();
 const { viewExercises } = useExerciseRoutes();
 
@@ -13,6 +15,10 @@ function onClickViewApplications() {
 
 function onClickViewExercises() {
 	viewExercises();
+}
+
+function onClickViewSystemSettings() {
+	viewSystemSettings();
 }
 </script>
 
@@ -34,5 +40,10 @@ function onClickViewExercises() {
 				/>
 			</template>
 		</BaseButton>
+		<BaseButton
+			:icon="IconSettings"
+			title="System Settings"
+			@click="onClickViewSystemSettings"
+		/>
 	</nav>
 </template>

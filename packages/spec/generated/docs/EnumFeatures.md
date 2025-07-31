@@ -3,6 +3,8 @@
 
 ## Enum
 
+* `all` (value: `0`)
+
 * `jobs` (value: `1`)
 
 * `exercises` (value: `2`)

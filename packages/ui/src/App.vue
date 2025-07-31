@@ -5,12 +5,14 @@ import { EnumFeatures } from "@incutonez/life-stats-spec";
 import { isAuthenticated } from "@/authentication.ts";
 import LoadingMask from "@/components/LoadingMask.vue";
 import { useAppMeta, useGlobalError, useUserProfile } from "@/composables/app.ts";
+import { RouteSystem } from "@/constants.ts";
 import { updateAppTitle } from "@/utils/common.ts";
 import { RouteExercises } from "@/views/exercises/constants.ts";
 import NavigationExercises from "@/views/exercises/NavigationExercises.vue";
 import { RouteJobs } from "@/views/jobs/constants.ts";
 import NavigationJobs from "@/views/jobs/NavigationJobs.vue";
 import NavigationProducts from "@/views/NavigationProducts.vue";
+import NavigationSystem from "@/views/NavigationSystem.vue";
 import NavigationUser from "@/views/NavigationUser.vue";
 import ErrorDialog from "@/views/shared/ErrorDialog.vue";
 
@@ -24,6 +26,9 @@ const navigationComponent = computed(() => {
 		case RouteExercises:
 			updateAppTitle(EnumFeatures.exercises);
 			return NavigationExercises;
+		case RouteSystem:
+			updateAppTitle(EnumFeatures.system);
+			return NavigationSystem;
 	}
 	return undefined;
 });

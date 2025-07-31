@@ -1,17 +1,14 @@
-﻿import { Provider } from "@nestjs/common";
-import { Model } from "@sequelize/core";
+﻿import { Model } from "@sequelize/core";
 import {
-	ATTRIBUTE_TYPES_REPOSITORY,
 	CreatedAtField,
 	EnumAuditActionTypes,
 	EnumFeatures,
 	EnumTableNames,
 	UpdatedAtField,
 } from "@/constants";
-import { AttributeTypeModel } from "@/db/models/AttributeTypeModel";
 import { AuditModel } from "@/db/models/AuditModel";
 import { BaseModel } from "@/db/models/BaseModel";
-import { UserModel } from "@/db/models/UserModel";
+import { SystemModels } from "@/db/models/system";
 import { ExerciseModels } from "@/exercises/models";
 import { JobModels } from "@/jobs/models";
 import { isObject } from "@/utils";
@@ -22,7 +19,6 @@ export interface IAuditFeatures {
 	primaryKey?: string;
 }
 
-export const SystemModels = [UserModel, AttributeTypeModel];
 export const AuditedFeatures: IAuditFeatures[] = [{
 	models: JobModels,
 	feature: EnumFeatures.jobs,
@@ -34,13 +30,6 @@ export const AuditedFeatures: IAuditFeatures[] = [{
 	feature: EnumFeatures.system,
 }];
 export const AllModels = [...JobModels, ...ExerciseModels, ...SystemModels, AuditModel];
-
-export const AttributeTypesRepository: Provider = {
-	provide: ATTRIBUTE_TYPES_REPOSITORY,
-	useValue: AttributeTypeModel,
-};
-
-export type AttributeTypesRepository = typeof AttributeTypeModel;
 
 function sanitizeDataType(value: any) {
 	if (Array.isArray(value)) {

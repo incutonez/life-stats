@@ -16,11 +16,11 @@ export type IActivityViewModel = ModelInterface<ActivityViewModel>;
 export type IActivityCreateViewModel = OmitRecursively<IActivityViewModel, "id">;
 
 export class ActivityViewModel extends BaseViewModel {
-	declare title: string;
+	title: string;
 
-	declare dateOccurred: number;
+	dateOccurred: number;
 
-	declare activityType: ActivityTypeViewModel;
+	activityType?: ActivityTypeViewModel;
 
 	@TransformNull()
 	weight?: number;

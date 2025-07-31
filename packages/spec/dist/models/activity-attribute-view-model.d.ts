@@ -9,7 +9,7 @@ export interface ActivityAttributeViewModel {
     'unit'?: EnumUnitTypes;
     'unitDisplay'?: EnumUnitTypes;
     'value': string;
-    'attributeType': AttributeTypeViewModel;
     'valueDisplay'?: string;
     'activity'?: ActivityViewModel;
+    'attributeType'?: AttributeTypeViewModel;
 }

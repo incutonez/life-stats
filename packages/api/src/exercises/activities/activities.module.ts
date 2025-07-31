@@ -1,4 +1,4 @@
-﻿import { Module } from "@nestjs/common";
+﻿import { forwardRef, Module } from "@nestjs/common";
 import { ActionsModule } from "@/exercises/actions/actions.module";
 import { ActivitiesController } from "@/exercises/activities/activities.controller";
 import { ActivitiesMapper } from "@/exercises/activities/activities.mapper";
@@ -10,7 +10,7 @@ import { ActivitiesRepository, ActivityAttributesRepository, ActivityTypesReposi
 import { UsersModule } from "@/users/users.module";
 
 @Module({
-	imports: [UsersModule, ActionsModule, AttributesModule],
+	imports: [UsersModule, ActionsModule, forwardRef(() => AttributesModule)],
 	controllers: [ActivitiesController],
 	providers: [ActivitiesService, StravaService, ActivitiesMapper, StravaMapper, ActivitiesRepository, ActivityTypesRepository, ActivityAttributesRepository],
 })

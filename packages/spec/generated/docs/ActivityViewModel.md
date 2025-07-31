@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **source** | [**EnumActivitySource**](EnumActivitySource.md) |  | [optional] [default to undefined]
 **title** | **string** |  | [default to undefined]
 **dateOccurred** | **number** |  | [default to undefined]
-**activityType** | [**ActivityTypeViewModel**](ActivityTypeViewModel.md) |  | [default to undefined]
+**activityType** | [**ActivityTypeViewModel**](ActivityTypeViewModel.md) |  | [optional] [default to undefined]
 **weight** | **number** |  | [optional] [default to undefined]
 **duration** | **number** |  | [optional] [default to undefined]
 **description** | **string** |  | [optional] [default to undefined]

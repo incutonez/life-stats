@@ -12,32 +12,32 @@ export type IActivityAttributeModel = ModelInterface<ActivityAttributeModel>;
 @BaseTable(EnumTableNames.exerciseActivityAttributes)
 export class ActivityAttributeModel extends BaseModel {
 	@PrimaryKeyGuid()
-	declare id: string;
+	id: string;
 
 	@Attribute(DataTypes.STRING)
 	@NotNull
-	declare activity_id: string;
+	activity_id: string;
 
 	@Attribute(DataTypes.STRING)
 	@NotNull
-	declare attribute_type_id: string;
+	attribute_type_id: string;
 
 	@Attribute(DataTypes.STRING)
-	declare value: string;
+	value: string;
 
 	@AttributeEnum(EnumUnitTypes)
-	declare unit?: EnumUnitTypes;
+	unit?: EnumUnitTypes;
 
 	@AttributeEnum(EnumUnitTypes)
-	declare unit_display?: EnumUnitTypes;
+	unit_display?: EnumUnitTypes;
 
 	@BelongsTo(() => ActivityModel, {
 		foreignKey: "activity_id",
 	})
-	declare activity?: NonAttribute<ActivityModel>;
+	activity?: NonAttribute<ActivityModel>;
 
 	@BelongsTo(() => AttributeTypeModel, {
 		foreignKey: "attribute_type_id",
 	})
-	declare attribute_type: NonAttribute<AttributeTypeModel>;
+	attribute_type?: NonAttribute<AttributeTypeModel>;
 }

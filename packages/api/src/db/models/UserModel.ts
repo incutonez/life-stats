@@ -20,22 +20,22 @@ export interface IUserSettingsModel {
 @BaseTable(EnumTableNames.users)
 export class UserModel extends BaseModel {
 	@PrimaryKeyGuid()
-	declare id: string;
+	id: string;
 
 	@Attribute(DataTypes.STRING)
-	declare first_name: string;
+	first_name: string;
 
 	@Attribute(DataTypes.STRING)
-	declare last_name?: string;
+	last_name?: string;
 
 	@Attribute(DataTypes.STRING)
-	declare email: string;
+	email: string;
 
 	@Attribute(DataTypes.STRING)
-	declare nickname?: string;
+	nickname?: string;
 
 	@Attribute(DataTypes.DATE)
-	declare last_accessed: Date;
+	last_accessed: Date;
 
 	@Attribute(DataTypes.JSON)
 	get settings(): IUserSettingsModel {

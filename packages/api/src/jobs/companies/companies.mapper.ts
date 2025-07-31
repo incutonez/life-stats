@@ -6,7 +6,7 @@ import { CompanyFullViewModel, CompanyViewModel } from "@/jobs/viewModels/compan
 
 @Injectable()
 export class CompaniesMapper implements OnModuleInit {
-	declare private applicationsMapper: ApplicationsMapper;
+	private applicationsMapper: ApplicationsMapper;
 
 	constructor(private readonly moduleRef: ModuleRef) {
 	}

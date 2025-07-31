@@ -12,29 +12,29 @@ export type IAuditModel = ModelInterface<AuditModel>;
 })
 export class AuditModel extends Model {
 	@PrimaryKeyGuid()
-	declare id: string;
+	id: string;
 
 	@Attribute(DataTypes.STRING)
-	declare user_id: string;
+	user_id: string;
 
 	@AttributeEnum(EnumTableNames)
-	declare entity: EnumTableNames;
+	entity: EnumTableNames;
 
 	@Attribute(DataTypes.STRING)
-	declare entity_id: string;
+	entity_id: string;
 
 	@AttributeEnum(EnumFeatures)
-	declare feature: EnumFeatures;
+	feature: EnumFeatures;
 
 	@Attribute(DataTypes.ENUM(Object.values(EnumAuditActionTypes)))
-	declare action: EnumAuditActionTypes;
+	action: EnumAuditActionTypes;
 
 	@Attribute(DataTypes.STRING)
-	declare value_current?: string;
+	value_current?: string;
 
 	@Attribute(DataTypes.STRING)
-	declare value_previous?: string;
+	value_previous?: string;
 
 	@Attribute(DataTypes.DATE)
-	declare created_at: Date;
+	created_at: Date;
 }

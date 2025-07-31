@@ -7,25 +7,25 @@ export type IUserViewModel = ModelInterface<UserViewModel>;
 export class UserCreateViewModel extends BaseViewModel {
 	declare userId: string;
 
-	declare firstName: string;
+	firstName: string;
 
-	declare lastName?: string;
+	lastName?: string;
 
-	declare email: string;
+	email: string;
 
-	declare nickname?: string;
+	nickname?: string;
 }
 
 export class UserSettingsViewModel {
-	declare exercises: UserSettingsExerciseViewModel;
+	exercises: UserSettingsExerciseViewModel;
 }
 
 export class UserSettingsExerciseViewModel {
-	declare weight?: number;
+	weight?: number;
 }
 
 export class UserViewModel extends UserCreateViewModel {
-	declare lastAccessed: number;
+	lastAccessed: number;
 
-	declare settings: UserSettingsViewModel;
+	settings: UserSettingsViewModel;
 }

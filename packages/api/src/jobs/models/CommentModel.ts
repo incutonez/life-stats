@@ -12,11 +12,11 @@ export type ICommentCreateModel = Omit<ICommentModel, "id">;
 @BaseTable(EnumTableNames.jobComments)
 export class CommentModel extends BaseModel {
 	@PrimaryKeyGuid()
-	declare id: string;
+	id: string;
 
 	@ForeignKeyGuid()
-	declare application_id: string;
+	application_id: string;
 
 	@Attribute(DataTypes.STRING)
-	declare comment: string;
+	comment: string;
 }

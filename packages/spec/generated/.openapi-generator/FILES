@@ -33,6 +33,7 @@ docs/ApplicationListViewModel.md
 docs/ApplicationNestedViewModel.md
 docs/ApplicationViewModel.md
 docs/ApplicationsApi.md
+docs/AttributeTypeListViewModel.md
 docs/AttributeTypeViewModel.md
 docs/AttributeTypesApi.md
 docs/AuditDiffViewModel.md
@@ -80,6 +81,7 @@ models/application-link-view-model.ts
 models/application-list-view-model.ts
 models/application-nested-view-model.ts
 models/application-view-model.ts
+models/attribute-type-list-view-model.ts
 models/attribute-type-view-model.ts
 models/audit-diff-view-model.ts
 models/audit-list-view-model.ts

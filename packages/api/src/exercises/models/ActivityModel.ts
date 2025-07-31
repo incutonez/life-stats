@@ -18,22 +18,22 @@ export type IActivityUpdateModel = Omit<IActivityModel, "id" | "attributes" | "a
 @BaseTable(EnumTableNames.exerciseActivities)
 export class ActivityModel extends BaseModel {
 	@PrimaryKeyGuid()
-	declare id: string;
+	id: string;
 
 	@Attribute(DataTypes.STRING)
-	declare title: string;
+	title: string;
 
 	@Attribute(DataTypes.STRING)
 	@NotNull
-	declare activity_type_id: string;
+	activity_type_id: string;
 
 	@Attribute(DataTypes.INTEGER)
-	declare date_occurred: number;
+	date_occurred: number;
 
 	@BelongsTo(() => ActivityTypeModel, {
 		foreignKey: "activity_type_id",
 	})
-	declare activity_type: NonAttribute<ActivityTypeModel>;
+	activity_type?: NonAttribute<ActivityTypeModel>;
 
 	@Attribute(DataTypes.DOUBLE)
 	weight?: number;
@@ -65,8 +65,9 @@ export class ActivityModel extends BaseModel {
 	@Attribute(DataTypes.VIRTUAL(DataTypes.DOUBLE, ["duration", "activity_type_id", "weight"]))
 	get calories(): NonAttribute<number | undefined> {
 		const duration = this.get("duration");
-		if (duration) {
-			return calculateCalories(this.get("activity_type").name, duration, this.get("weight"));
+		const activityType = this.get("activity_type");
+		if (duration && activityType) {
+			return calculateCalories(activityType.name, duration, this.get("weight"));
 		}
 	}
 

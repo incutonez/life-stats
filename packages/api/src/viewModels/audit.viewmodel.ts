@@ -11,40 +11,40 @@ export class AuditDiffViewModel {
 	@ApiEnum({
 		EnumAuditActionTypes,
 	})
-	declare action: EnumAuditActionTypes;
+	action: EnumAuditActionTypes;
 
-	declare field: string;
+	field: string;
 
-	declare valueCurrent?: string | number;
+	valueCurrent?: string | number;
 
-	declare valuePrevious?: string | number;
+	valuePrevious?: string | number;
 }
 
 export class AuditViewModel {
-	declare id: string;
+	id: string;
 
-	declare userId: string;
+	userId: string;
 
 	@ApiEnum({
 		EnumTableNames,
 	})
-	declare entity: EnumTableNames;
+	entity: EnumTableNames;
 
-	declare entityId: string;
+	entityId: string;
 
 	@ApiEnum({
 		EnumAuditActionTypes,
 	})
-	declare action: EnumAuditActionTypes;
+	action: EnumAuditActionTypes;
 
 	@ApiEnum({
 		EnumFeatures,
 	})
-	declare feature: EnumFeatures;
+	feature: EnumFeatures;
 
-	declare diff: AuditDiffViewModel[];
+	diff: AuditDiffViewModel[];
 
-	declare dateCreated: number;
+	dateCreated: number;
 }
 
 export class AuditListViewModel extends GetResponseModel<AuditViewModel>(AuditViewModel) {}

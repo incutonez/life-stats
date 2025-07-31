@@ -1,4 +1,5 @@
-﻿import { Inject, Injectable } from "@nestjs/common";
+﻿import { Inject, Injectable, OnModuleInit } from "@nestjs/common";
+import { ModuleRef } from "@nestjs/core";
 import { plainToInstance } from "class-transformer";
 import { SessionStorageService } from "@/auth/session.storage.service";
 import { SESSION_STORAGE } from "@/constants";
@@ -11,14 +12,22 @@ import { ActivityViewModel, IActivityViewModel } from "@/exercises/viewModels/ac
 import { addMetaInfo } from "@/utils";
 
 @Injectable()
-export class ActivitiesMapper {
+export class ActivitiesMapper implements OnModuleInit {
+	private attributesMapper: AttributesMapper;
+
 	constructor(
 		@Inject(SESSION_STORAGE) private readonly storage: SessionStorageService,
 		private readonly actionsMapper: ActionsMapper,
-		private readonly attributesMapper: AttributesMapper,
+		private readonly moduleRef: ModuleRef,
 	) {	}
 
-	entityToViewModel({ id, user_id, actions, calories, weight_lost, duration, weight, source_id, title, activity_type, created_at, updated_at, attributes, source, description, date_occurred }: ActivityModel, addMeta = true) {
+	onModuleInit() {
+		this.attributesMapper = this.moduleRef.get(AttributesMapper, {
+			strict: false,
+		});
+	}
+
+	entityToViewModel({ id, user_id, actions = [], calories, weight_lost, duration, weight, source_id, title, activity_type, created_at, updated_at, attributes = [], source, description, date_occurred }: ActivityModel, addMeta = true) {
 		const response = plainToInstance(ActivityViewModel, {
 			id,
 			source,
@@ -29,9 +38,9 @@ export class ActivitiesMapper {
 			calories,
 			weightLost: weight_lost,
 			sourceId: source_id,
-			activityType: this.entityActivityTypeToViewModel(activity_type),
-			attributes: attributes?.map((attribute) => this.attributesMapper.activityAttributeNestedToViewModel(attribute)),
-			actions: actions?.map((action) => this.actionsMapper.actionToViewModel(action)),
+			activityType: activity_type && this.entityActivityTypeToViewModel(activity_type),
+			attributes: attributes.length ? attributes.map((attribute) => this.attributesMapper.activityAttributeToViewModel(attribute)) : undefined,
+			actions: actions.length ? actions.map((action) => this.actionsMapper.actionToViewModel(action)) : undefined,
 			dateOccurred: date_occurred,
 		});
 		if (addMeta) {
@@ -68,7 +77,7 @@ export class ActivitiesMapper {
 			weight,
 			duration,
 			source_id: sourceId,
-			activity_type_id: activityType.id!,
+			activity_type_id: activityType!.id!,
 			user_id: userId ?? defaultUserId,
 			date_occurred: dateOccurred,
 		};

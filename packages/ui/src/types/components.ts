@@ -26,7 +26,9 @@ export interface ITableCellContext<TData = unknown, TValue = unknown> extends Om
 	table: ITable<TData>;
 }
 
-export type ITableHeader<TData = unknown, TValue = unknown> = ITanStackHeader<TData, TValue>;
+export interface ITableHeader<TData = unknown, TValue = unknown> extends ITanStackHeader<TData, TValue> {
+	render?: boolean;
+}
 
 /* We have to first omit all "cell" properties from each union type... because under the hood, ITanStackColumn unions
  * A LOT of types AND interfaces, so it gets quite hairy.  Exclude didn't work here because it lost the type of cell

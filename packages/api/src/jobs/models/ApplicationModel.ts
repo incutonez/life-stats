@@ -18,38 +18,38 @@ export type IApplicationCreateModel = Omit<IApplicationUpdateModel, "id">;
 @BaseTable(EnumTableNames.jobApplications)
 export class ApplicationModel extends BaseModel {
 	@PrimaryKeyGuid()
-	declare id: string;
+	id: string;
 
 	@Attribute(DataTypes.STRING)
-	declare position_title: string;
+	position_title: string;
 
 	@Attribute(DataTypes.INTEGER)
-	declare date_applied: number;
+	date_applied: number;
 
 	@Attribute(DataTypes.STRING)
-	declare url: string;
+	url: string;
 
 	@Attribute(DataTypes.STRING)
-	declare compensation: string;
+	compensation: string;
 
 	@AttributeEnum(EnumApplicationStatus)
-	declare status: EnumApplicationStatus;
+	status: EnumApplicationStatus;
 
 	@AttributeEnum(EnumLocationTypes)
-	declare location_type: EnumLocationTypes;
+	location_type: EnumLocationTypes;
 
 	@ForeignKeyGuid()
-	declare company_id: string;
+	company_id: string;
 
 	@BelongsTo(() => CompanyModel, {
 		foreignKey: "company_id",
 	})
-	declare company: NonAttribute<CompanyModel>;
+	company: NonAttribute<CompanyModel>;
 
 	@HasMany(() => CommentModel, {
 		foreignKey: "application_id",
 	})
-	declare comments: NonAttribute<CommentModel[]>;
+	comments: NonAttribute<CommentModel[]>;
 
 	@BelongsToMany(() => ApplicationModel, {
 		through: {
@@ -61,11 +61,11 @@ export class ApplicationModel extends BaseModel {
 		foreignKey: "linked_id",
 		otherKey: "link_id",
 	})
-	declare linked?: NonAttribute<ApplicationModel[]>;
+	linked?: NonAttribute<ApplicationModel[]>;
 
-	declare links?: NonAttribute<ApplicationModel[]>;
+	links?: NonAttribute<ApplicationModel[]>;
 
-	declare setLinks: BelongsToManySetAssociationsMixin<ApplicationModel, ApplicationModel["id"]>;
+	setLinks: BelongsToManySetAssociationsMixin<ApplicationModel, ApplicationModel["id"]>;
 
-	declare setLinked: BelongsToManySetAssociationsMixin<ApplicationModel, ApplicationModel["id"]>;
+	setLinked: BelongsToManySetAssociationsMixin<ApplicationModel, ApplicationModel["id"]>;
 }

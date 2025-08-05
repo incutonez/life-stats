@@ -21,7 +21,7 @@ export class AttributesService {
 		});
 		for (const viewModel of viewModels) {
 			const { id, ...model } = this.mapper.activityAttributeToEntity(viewModel, activityId);
-			const attributeType = await this.attributeTypesService.createAttributeType(viewModel.attributeType);
+			const attributeType = await this.attributeTypesService.createAttributeType(viewModel.attributeType!);
 			model.attribute_type_id = attributeType.id;
 			const found = entities.find((attribute) => attribute.id === id);
 			if (found) {
@@ -36,5 +36,10 @@ export class AttributesService {
 			}
 		}
 		await Promise.all(entities.map((entity) => entity.destroy()));
+	}
+
+	async deleteAttribute(attributeId: string) {
+		const found = await this.repository.findByPk(attributeId);
+		return found?.destroy();
 	}
 }

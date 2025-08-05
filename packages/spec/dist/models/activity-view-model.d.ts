@@ -10,7 +10,7 @@ export interface ActivityViewModel {
     'source'?: EnumActivitySource;
     'title': string;
     'dateOccurred': number;
-    'activityType': ActivityTypeViewModel;
+    'activityType'?: ActivityTypeViewModel;
     'weight'?: number;
     'duration'?: number;
     'description'?: string;

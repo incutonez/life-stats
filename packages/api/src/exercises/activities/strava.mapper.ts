@@ -132,7 +132,6 @@ export class StravaMapper {
 			weight,
 			duration,
 			calories,
-			actions: [],
 			weightLost: calories ? calories / PoundToCalories : undefined,
 			source: EnumActivitySource.Strava,
 			sourceId: entity["Activity ID"],

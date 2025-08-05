@@ -79,7 +79,7 @@ export interface ActivityViewModel {
      * @type {ActivityTypeViewModel}
      * @memberof ActivityViewModel
      */
-    'activityType': ActivityTypeViewModel;
+    'activityType'?: ActivityTypeViewModel;
     /**
      * 
      * @type {number}

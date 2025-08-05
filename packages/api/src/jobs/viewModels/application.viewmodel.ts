@@ -18,27 +18,27 @@ export type IApplicationNestedViewModel = Omit<IApplicationViewModel, "company">
 export type IApplicationLinkViewModel = ModelInterface<ApplicationLinkViewModel>;
 
 export class ApplicationViewModel extends BaseViewModel {
-	declare positionTitle: string;
+	positionTitle: string;
 
-	declare dateApplied: number;
+	dateApplied: number;
 
-	declare url: string;
+	url: string;
 
-	declare compensation: string;
+	compensation: string;
 
 	@ApiEnum({
 		EnumApplicationStatus,
 	})
-	declare status: EnumApplicationStatus;
+	status: EnumApplicationStatus;
 
 	@ApiEnum({
 		EnumLocationTypes,
 	})
-	declare locationType: EnumLocationTypes;
+	locationType: EnumLocationTypes;
 
-	declare company: CompanyViewModel;
+	company: CompanyViewModel;
 
-	declare comments: CommentViewModel[];
+	comments: CommentViewModel[];
 
 	links?: ApplicationLinkViewModel[];
 
@@ -52,7 +52,7 @@ export class ApplicationLinkViewModel extends BaseViewModel {
 	@ApiEnum({
 		EnumLinkType,
 	})
-	declare type: EnumLinkType;
+	type: EnumLinkType;
 
 	positionTitle?: string;
 

@@ -18,26 +18,28 @@ import {
 	getActivity1,
 	getActivity1Update,
 	getActivity2,
-	getActivity2Update,
-	getRoutine1,
+	getActivity2Update, getActivityAttributeTypes, getAttributeType1, getRoutine1,
 	getRoutine1Update,
 	getRoutine2, getRoutine2Update,
 	importToCSV,
 	IRoutineViewModel,
 	mockActivityExpected,
 	mockActivityStravaExpected,
-	mockActivityTypeExpected,
+	mockActivityTypeExpected, mockAttributeTypeExpected,
+	mockAttributeTypesExpected,
+	mockAttributeTypesListExpected,
 	mockRoutineExpected,
-	mockStravaImport,
 	mockStravaImportExpected,
 	sortViewModelProperties,
-	stravaActivities, useMockedStravaAPI,
+	stravaActivities, stravaImports, useMockedStravaAPI,
 } from "@/__mocks__/exercises";
-import { sequelize } from "@/__mocks__/sequelize";
+import { useSequelizeTest } from "@/__mocks__/sequelize";
 import { AuthGuard } from "@/auth/auth.guard";
 import { AuthModule } from "@/auth/auth.module";
+import { EnumFeatures } from "@/constants";
 import { ExercisesModule } from "@/exercises/exercises.module";
 import { IActivityViewModel } from "@/exercises/viewModels/activity.viewmodel";
+import { IAttributeTypeViewModel } from "@/viewModels/attribute.type.viewmodel";
 
 describe("Exercises e2e", async () => {
 	let app: INestApplication;
@@ -49,8 +51,8 @@ describe("Exercises e2e", async () => {
 	let routine2: IRoutineViewModel;
 	let routine1Update: IRoutineViewModel;
 	let routine2Update: IRoutineViewModel;
-
-	await sequelize.sync();
+	let attributeType1: IAttributeTypeViewModel;
+	const sequelize = await useSequelizeTest();
 
 	beforeEach(async () => {
 		configDotenv({
@@ -126,7 +128,7 @@ describe("Exercises e2e", async () => {
 			const viewModel = getActivity1Update(activity1);
 			const expected = mockActivityExpected(viewModel);
 			// This attribute will be assigned a new ID, but we still want to send the old ID in the viewModel to see that it has been changed
-			expected.attributes[0].attributeType.id = expect.not.stringContaining(viewModel.attributes[0].attributeType.id);
+			expected.attributes![0].attributeType!.id = expect.not.stringContaining(viewModel.attributes![0].attributeType!.id!);
 			const response = await request(app.getHttpServer()).put(`/exercises/activities/${activity1.id}`).send(viewModel);
 			sortViewModelProperties(response.body);
 			expect(response.status).toStrictEqual(HttpStatus.OK);
@@ -158,9 +160,9 @@ describe("Exercises e2e", async () => {
 			expect(response.status).toStrictEqual(HttpStatus.OK);
 			// We expect 3 here because we originally created 2, and then created a brand new one in the 2nd PUT
 			expect(response.body).toStrictEqual([
-				mockActivityTypeExpected(activity1Update.activityType),
-				mockActivityTypeExpected(activity2.activityType),
-				mockActivityTypeExpected(activity2Update.activityType),
+				mockActivityTypeExpected(activity1Update.activityType!),
+				mockActivityTypeExpected(activity2.activityType!),
+				mockActivityTypeExpected(activity2Update.activityType!),
 			]);
 		});
 
@@ -357,14 +359,6 @@ describe("Exercises e2e", async () => {
 	});
 
 	describe("Strava", async () => {
-		const stravaImports = [
-			mockStravaImport(),
-			mockStravaImport(),
-			mockStravaImport(),
-			mockStravaImport(),
-			mockStravaImport(),
-		];
-
 		it("SYNC Strava", async () => {
 			useMockedStravaAPI();
 			const response = await request(app.getHttpServer()).post("/exercises/activities/strava/sync").send({
@@ -421,6 +415,109 @@ describe("Exercises e2e", async () => {
 			expect(response.status).toStrictEqual(HttpStatus.OK);
 			expect(response.body.total).toStrictEqual(10);
 			expect(response.body.data).toStrictEqual(expected);
+		});
+	});
+
+	describe("Attribute Types", async () => {
+		let attributeTypeActivity = getActivity1();
+
+		it("GET Attribute Types", async () => {
+			const expected = mockAttributeTypesExpected([
+				activity1,
+				activity1Update,
+				activity2,
+				activity2Update,
+			]);
+			const response = await request(app.getHttpServer()).get("/attribute-types").query({
+				feature: EnumFeatures.exercises,
+			});
+			expect(response.status).toStrictEqual(HttpStatus.OK);
+			expect(response.body).toStrictEqual(expected);
+		});
+
+		it("LIST Attribute Types With Only Strava Attributes Associated", async () => {
+			const expected = mockAttributeTypesListExpected([
+				...getActivityAttributeTypes(activity1),
+				...getActivityAttributeTypes(activity1Update),
+				...getActivityAttributeTypes(activity2),
+				...getActivityAttributeTypes(activity2Update),
+			]);
+			const response = await request(app.getHttpServer()).post("/attribute-types/list").send({
+				feature: EnumFeatures.all,
+			});
+			expect(response.status).toStrictEqual(HttpStatus.OK);
+			expect(response.body).toStrictEqual(expected);
+		});
+
+		it("GET Attribute Type", async () => {
+			// First, let's create an activity, so we can tie it to an attribute type and test to make sure it returns
+			const activityResponse = await request(app.getHttpServer()).post("/exercises/activities").send(attributeTypeActivity);
+			attributeTypeActivity = activityResponse.body;
+
+			const viewModel = getAttributeType1();
+			viewModel.id = attributeTypeActivity.attributes![0].attributeType!.id;
+			const expected = mockAttributeTypeExpected(viewModel);
+			const response = await request(app.getHttpServer()).get(`/attribute-types/${viewModel.id}`);
+			expect(response.status).toStrictEqual(HttpStatus.OK);
+			expect(response.body).toStrictEqual(expected);
+			attributeType1 = response.body;
+		});
+
+		it("UPDATE Attribute Type", async () => {
+			const viewModel = attributeType1;
+			viewModel.name += faker.string.uuid();
+			const expected = mockAttributeTypeExpected(viewModel);
+			const response = await request(app.getHttpServer()).put(`/attribute-types/${viewModel.id}`).send(viewModel);
+			expect(response.status).toStrictEqual(HttpStatus.OK);
+			expect(response.body).toStrictEqual(expected);
+
+			// Let's make sure we update our activity's attribute type's name
+			const found = attributeTypeActivity.attributes?.find(({ attributeType }) => attributeType?.id === viewModel.id)?.attributeType;
+			found!.name = viewModel.name;
+		});
+
+		it("LIST Attribute Types With Strava And 1 Updated Activity Attribute Associated", async () => {
+			const expected = mockAttributeTypesListExpected([
+				// This is the only activity that will have an associated attribute, so let's include it
+				...getActivityAttributeTypes(attributeTypeActivity, true),
+				...getActivityAttributeTypes(activity1),
+				...getActivityAttributeTypes(activity1Update),
+				...getActivityAttributeTypes(activity2),
+				...getActivityAttributeTypes(activity2Update),
+			]);
+			const response = await request(app.getHttpServer()).post("/attribute-types/list").send({
+				feature: EnumFeatures.all,
+			});
+			expect(response.status).toStrictEqual(HttpStatus.OK);
+			expect(response.body).toStrictEqual(expected);
+		});
+
+		it("DELETE Attribute Type", async () => {
+			const response = await request(app.getHttpServer()).delete(`/attribute-types/${attributeType1.id}`);
+			expect(response.status).toStrictEqual(HttpStatus.NO_CONTENT);
+			expect(response.body).toStrictEqual({});
+		});
+
+		it("GET 404 Attribute Type", async () => {
+			const response = await request(app.getHttpServer()).get(`/attribute-types/${attributeType1.id}`);
+			expect(response.status).toStrictEqual(HttpStatus.NOT_FOUND);
+			expect(response.body.statusCode).toStrictEqual(HttpStatus.NOT_FOUND);
+		});
+
+		it("DELETE Attribute", async () => {
+			const response = await request(app.getHttpServer()).delete(`/attributes/${attributeTypeActivity.attributes![1].id}`);
+			expect(response.status).toStrictEqual(HttpStatus.NO_CONTENT);
+			expect(response.body).toStrictEqual({});
+		});
+
+		// When we delete an attribute type, it wipes all the attribute associations
+		it("GET Activity Without Deleted Attribute", async () => {
+			// The first 2 attributes were deleted... one through deleting attribute type, and the other by deleting the attribute
+			attributeTypeActivity.attributes!.splice(0, 2);
+			const expected = mockActivityExpected(attributeTypeActivity);
+			const response = await request(app.getHttpServer()).get(`/exercises/activities/${attributeTypeActivity.id}`);
+			expect(response.status).toStrictEqual(HttpStatus.OK);
+			expect(response.body).toStrictEqual(expected);
 		});
 	});
 });

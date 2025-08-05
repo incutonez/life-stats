@@ -1,8 +1,8 @@
 ﻿<script setup lang="ts">
 import FieldComboBox from "@/components/FieldComboBox.vue";
-import { useGetAttributeTypes } from "@/composables/app.ts";
+import { useGetExerciseAttributeTypes } from "@/composables/attributeTypes.ts";
 
-const { data } = useGetAttributeTypes();
+const { data } = useGetExerciseAttributeTypes();
 </script>
 
 <template>

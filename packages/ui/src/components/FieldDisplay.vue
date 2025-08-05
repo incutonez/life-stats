@@ -22,6 +22,8 @@ const componentClasses = computed(() => {
 <template>
 	<article :class="componentClasses">
 		<FieldLabel :text="label" />
-		<span class="text-sm font-semibold">{{ value }}</span>
+		<section class="flex items-center text-sm font-semibold h-8">
+			{{ value }}
+		</section>
 	</article>
 </template>

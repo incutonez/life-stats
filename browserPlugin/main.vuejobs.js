@@ -1,5 +1,5 @@
 const ParentCard = ".transition-all";
-const LastCompany = "Olo";
+const Companies = ["Inscribe", "tillo", "Olo"];
 let found = false;
 
 function docReady(fn) {
@@ -14,7 +14,7 @@ function docReady(fn) {
 
 docReady(() => {
 	document.querySelectorAll('div.font-medium').forEach((el) => {
-		if (el.innerText.includes(LastCompany)) {
+		if (Companies.includes(el.innerText)) {
 			found = true;
 		}
 		if (found) {

@@ -124,6 +124,36 @@ function onClickCell(cell: ITableCell<TData>) {
 	}
 }
 
+function processSubHeaders(headers: ITableHeader<TData>[], parentPlaceholder = false, rowSpan = 1) {
+	headers.forEach((header) => {
+		const response = processSubHeaders(header.subHeaders, header.isPlaceholder, rowSpan);
+		if (parentPlaceholder) {
+			rowSpan = response.rowSpan + 1;
+			// We don't render children that are descendants of a placeholder... because the placeholder is rendered instead
+			header.colSpan = 0;
+			header.rowSpan = 0;
+		}
+		else {
+			header.colSpan = response.colSpan;
+			header.rowSpan = response.rowSpan;
+		}
+	});
+	return {
+		rowSpan,
+		colSpan: headers.reduce((total, header) => total + header.colSpan, 0) || 1,
+	};
+}
+
+const groups = computed(() => {
+	const group = table.getHeaderGroups()[0];
+	group.headers.forEach((header) => {
+		const { rowSpan, colSpan } = processSubHeaders(header.subHeaders, header.isPlaceholder);
+		header.rowSpan = rowSpan;
+		header.colSpan = colSpan;
+	});
+	return table.getHeaderGroups();
+});
+
 defineExpose({
 	rowBody,
 });
@@ -143,33 +173,39 @@ defineExpose({
 				class="sticky top-0"
 			>
 				<tr
-					v-for="headerGroup in table.getHeaderGroups()"
+					v-for="headerGroup in groups"
 					:key="headerGroup.id"
 				>
-					<th
+					<template
 						v-for="header in headerGroup.headers"
 						:key="header.id"
-						:class="getHeaderClass(header)"
-						:title="getHeaderTitle(header)"
-						@click="header.column.getToggleSortingHandler()?.($event)"
 					>
-						<div class="inline-flex">
-							<span :class="getHeaderTextCls(header)">
-								<FlexRender
-									:render="header.column.columnDef.header"
-									:props="header.getContext()"
-								/>
-							</span>
-							<span
-								v-if="header.column.getCanSort()"
-								v-show="header.column.getIsSorted()"
-								class="ml-auto"
-								:class="getSortIconCls(header)"
-							>
-								<IconSort class="size-6" />
-							</span>
-						</div>
-					</th>
+						<th
+							v-if="header.colSpan"
+							:colspan="header.colSpan"
+							:rowspan="header.rowSpan"
+							:class="getHeaderClass(header)"
+							:title="getHeaderTitle(header)"
+							@click="header.column.getToggleSortingHandler()?.($event)"
+						>
+							<div class="inline-flex">
+								<span :class="getHeaderTextCls(header)">
+									<FlexRender
+										:render="header.column.columnDef.header"
+										:props="header.getContext()"
+									/>
+								</span>
+								<span
+									v-if="header.column.getCanSort()"
+									v-show="header.column.getIsSorted()"
+									class="ml-auto"
+									:class="getSortIconCls(header)"
+								>
+									<IconSort class="size-6" />
+								</span>
+							</div>
+						</th>
+					</template>
 				</tr>
 			</thead>
 			<tbody ref="rowBody">

@@ -33,9 +33,9 @@ export type ModelInterface<T> = {
 
 export type IUploadViewModelsResponse = ModelInterface<UploadViewModelsResponse>;
 export class UploadViewModelsResponse {
-	declare successful: number;
+	successful: number;
 
-	declare errors: string[];
+	errors: string[];
 }
 
 /**

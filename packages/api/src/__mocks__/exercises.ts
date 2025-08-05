@@ -13,14 +13,41 @@ import { IActivityViewModel } from "@/exercises/viewModels/activity.viewmodel";
 import { RoutineViewModel } from "@/exercises/viewModels/routine.viewmodel";
 import { ModelInterface } from "@/types";
 import { dateToUTC, genericSort, roundTo } from "@/utils";
-import { IAttributeTypeViewModel } from "@/viewModels/attribute.type.viewmodel";
+import { AttributeTypeListViewModel, IAttributeTypeViewModel } from "@/viewModels/attribute.type.viewmodel";
 
 export type IActivityActionViewModel = ModelInterface<ActivityActionViewModel>;
 
 export type IRoutineViewModel = ModelInterface<RoutineViewModel>;
 
+export type IAttributeTypeListViewModel = ModelInterface<AttributeTypeListViewModel>;
+
+// Needed in axios.ts
+export const stravaActivities = [
+	mockActivityStrava(),
+	mockActivityStrava(),
+	mockActivityStrava(),
+	mockActivityStrava(),
+	mockActivityStrava(),
+];
+
+export const stravaImports = [
+	mockStravaImport(),
+	mockStravaImport(),
+	mockStravaImport(),
+	mockStravaImport(),
+	mockStravaImport(),
+];
+
 export function getActivity1(): IActivityViewModel {
 	return {
+		"title": "gosh midst",
+		"dateOccurred": 1734907890893,
+		"weight": 279.41390255099657,
+		"duration": 5.245613417629027,
+		"description": "Theca ancilla debeo theologus demens coadunatio solus arma. Turbo voluptatibus caelestis succurro virtus contego torqueo. Aveho non vesica vulgaris amplus ducimus aro.Crinis et desparatus caste abbas sortitus. Ventito ultio torqueo tutis uredo concido laborum aeneus stips. Dolorem spiritus cultura audax decimus.Ipsum convoco tonsor cupiditas deprecator. Creber conventus cupiditate. Decimus cunctatio appono.",
+		"activityType": {
+			"name": "orchestrate",
+		},
 		"actions": [{
 			"order": 0,
 			"value": "mostly",
@@ -71,14 +98,6 @@ export function getActivity1(): IActivityViewModel {
 				"name": "wasabi",
 			},
 		}],
-		"title": "gosh midst",
-		"dateOccurred": 1734907890893,
-		"weight": 279.41390255099657,
-		"duration": 5.245613417629027,
-		"description": "Theca ancilla debeo theologus demens coadunatio solus arma. Turbo voluptatibus caelestis succurro virtus contego torqueo. Aveho non vesica vulgaris amplus ducimus aro.Crinis et desparatus caste abbas sortitus. Ventito ultio torqueo tutis uredo concido laborum aeneus stips. Dolorem spiritus cultura audax decimus.Ipsum convoco tonsor cupiditas deprecator. Creber conventus cupiditate. Decimus cunctatio appono.",
-		"activityType": {
-			"name": "orchestrate",
-		},
 	};
 }
 
@@ -168,7 +187,7 @@ export function getActivity1Update(viewModel: IActivityViewModel) {
 	// Update 1st attribute
 	attributes[0].value = "45.123456789";
 	// Create brand new attributeType while updating
-	attributes[0].attributeType.name += faker.string.uuid();
+	attributes[0].attributeType!.name += faker.string.uuid();
 	// Create new attribute
 	attributes.push({
 		"unit": 3,
@@ -483,15 +502,6 @@ export function getRoutine2Update(): IRoutineViewModel {
 	};
 }
 
-// Needed in axios.ts
-export const stravaActivities = [
-	mockActivityStrava(),
-	mockActivityStrava(),
-	mockActivityStrava(),
-	mockActivityStrava(),
-	mockActivityStrava(),
-];
-
 export function useMockedStravaAPI() {
 	mockedAxios.request.mockImplementation(({ url }) => {
 		if (url === "https://www.strava.com/oauth/token") {
@@ -739,7 +749,6 @@ export function mockStravaImportExpected(model: IStravaImport, saved = false) {
 		activityType: {
 			name: model["Activity Type"],
 		},
-		actions: [],
 		attributes: [{
 			id: "",
 			value: expect.any(String),
@@ -800,12 +809,12 @@ export function mockStravaImportExpected(model: IStravaImport, saved = false) {
 		viewModel.id = expect.any(String);
 		viewModel.dateCreated = expect.any(Number);
 		viewModel.dateUpdated = expect.any(Number);
-		viewModel.activityType.id = expect.any(String);
+		viewModel.activityType!.id = expect.any(String);
 		viewModel.attributes?.forEach((attribute) => {
 			attribute.id = expect.any(String);
 			attribute.value = expect.any(String);
 			attribute.unit = expect.any(Number);
-			attribute.attributeType.id = expect.any(String);
+			attribute.attributeType!.id = expect.any(String);
 		});
 	}
 	sortViewModelProperties(viewModel);
@@ -830,7 +839,6 @@ export function mockActivityStravaExpected(model: IStravaActivity) {
 			id: expect.any(String),
 			name: model.type,
 		},
-		actions: [],
 		attributes: [{
 			id: expect.any(String),
 			value: expect.any(String),
@@ -888,14 +896,19 @@ export function mockBaseExpected<T>(viewModel: T, includeDates = false, includeU
 	return expected;
 }
 
-export function mockActivityExpected(viewModel: IActivityViewModel): IActivityViewModel {
-	const expected = mockBaseExpected(viewModel, true);
-	expected.userId = TestUser.user_id;
+export function mockActivityExpected(viewModel: IActivityViewModel, includeDates = true, includeUser = true): IActivityViewModel {
+	const expected = mockBaseExpected(viewModel, includeDates, includeUser);
 	expected.calories = expect.any(Number);
 	expected.weightLost = expect.any(Number);
-	expected.activityType = mockActivityTypeExpected(expected.activityType);
-	expected.actions = expected.actions?.map((action) => mockActionExpected(action));
-	expected.attributes = expected.attributes?.map((attribute) => mockAttributeExpected(attribute));
+	if (expected.actions) {
+		expected.actions = expected.actions.map((action) => mockActionExpected(action));
+	}
+	if (expected.attributes) {
+		expected.attributes = expected.attributes.map((attribute) => mockAttributeExpected(attribute));
+	}
+	if (expected.activityType) {
+		expected.activityType = mockActivityTypeExpected(expected.activityType);
+	}
 	sortViewModelProperties(expected);
 	return expected;
 }
@@ -917,14 +930,56 @@ export function mockActionTypeExpected(viewModel: IActionTypeViewModel) {
 export function mockAttributeTypeExpected(viewModel: IAttributeTypeViewModel) {
 	const expected = mockBaseExpected(viewModel);
 	expected.feature = EnumFeatures.exercises;
+	if (expected.activityAttributes) {
+		expected.activityAttributes = expected.activityAttributes.map((attribute) => {
+			attribute = mockAttributeExpected(attribute);
+			if (attribute.activity) {
+				const activity = mockActivityExpected(attribute.activity, false, false);
+				// When in an attributeType, we don't have calories or weightLost because attributeType is not returned
+				delete activity.calories;
+				delete activity.weightLost;
+				attribute.activity = activity;
+			}
+			return attribute;
+		});
+	}
 	return expected;
+}
+
+export function mockAttributeTypeListExpected(viewModel: Partial<IAttributeTypeListViewModel>) {
+	const expected = mockBaseExpected<Partial<IAttributeTypeListViewModel>>({
+		id: viewModel.id,
+		name: viewModel.name!,
+		feature: viewModel.feature ?? EnumFeatures.exercises,
+	}, true, true);
+	expected.attributes = viewModel.attributes ?? expect.any(Number);
+	return expected as IAttributeTypeListViewModel;
+}
+
+export function getAttributeType1(): IAttributeTypeViewModel {
+	return {
+		"name": "pants",
+		activityAttributes: [{
+			"unit": 3,
+			"value": "11.546676402040148",
+			activity: {
+				"title": "gosh midst",
+				"dateOccurred": 1734907890893,
+				"weight": 279.41390255099657,
+				"duration": 5.245613417629027,
+				"description": "Theca ancilla debeo theologus demens coadunatio solus arma. Turbo voluptatibus caelestis succurro virtus contego torqueo. Aveho non vesica vulgaris amplus ducimus aro.Crinis et desparatus caste abbas sortitus. Ventito ultio torqueo tutis uredo concido laborum aeneus stips. Dolorem spiritus cultura audax decimus.Ipsum convoco tonsor cupiditas deprecator. Creber conventus cupiditate. Decimus cunctatio appono.",
+			},
+		}],
+	};
 }
 
 export function mockAttributeExpected(viewModel: IActivityAttributeViewModel) {
 	const expected = mockBaseExpected(viewModel);
 	// The API returns our value rounded to 4 decimal places
 	expected.value = roundTo(parseFloat(expected.value)).toString();
-	expected.attributeType = mockAttributeTypeExpected(expected.attributeType);
+	if (expected.attributeType) {
+		expected.attributeType = mockAttributeTypeExpected(expected.attributeType);
+	}
 	return expected;
 }
 
@@ -943,14 +998,16 @@ export function mockRoutineExpected(viewModel: ModelInterface<RoutineViewModel>,
 }
 
 export function sortViewModelProperties(viewModel: IActivityViewModel) {
-	viewModel.actions ??= [];
-	viewModel.attributes ??= [];
-	// Actions are sorted by the order property by default
-	viewModel.actions.sort((lhs, rhs) => genericSort(lhs.order, rhs.order));
-	viewModel.attributes.sort((lhs, rhs) => genericSort(lhs.attributeType.name, rhs.attributeType.name));
+	if (viewModel.actions) {
+		// Actions are sorted by the order property by default
+		viewModel.actions.sort((lhs, rhs) => genericSort(lhs.order, rhs.order));
+	}
+	if (viewModel.attributes) {
+		viewModel.attributes.sort((lhs, rhs) => genericSort(lhs.attributeType!.name, rhs.attributeType!.name));
+	}
 }
 
-export function getActionTypes(viewModels: (IActivityViewModel | undefined)[]) {
+export function getActionTypes(viewModels: (IActivityViewModel | IRoutineViewModel | undefined)[]) {
 	const actionTypes: IActionTypeViewModel[] = [];
 	viewModels.forEach((viewModel) => {
 		viewModel?.actions?.forEach(({ actionType }) => {
@@ -965,4 +1022,109 @@ export function getActionTypes(viewModels: (IActivityViewModel | undefined)[]) {
 	});
 	actionTypes.sort((lhs, rhs) => genericSort(lhs.name, rhs.name));
 	return actionTypes;
+}
+
+export function mockAttributeTypesExpected(viewModels: (IActivityViewModel | undefined)[]) {
+	// These initial attribute types come from the Strava imports
+	const records: IAttributeTypeViewModel[] = [];
+	viewModels.forEach((viewModel) => {
+		if (viewModel) {
+			viewModel.attributes?.forEach(({ attributeType }) => {
+				const found = records.find((record) => record.name === attributeType!.name);
+				if (!found) {
+					records.push(mockAttributeTypeExpected(attributeType!));
+				}
+			});
+		}
+	});
+	// If we have records, then that means the activities have been previously defined, so let's add the strava imports
+	if (records.length) {
+		records.push({
+			id: expect.any(String),
+			name: "Duration Total",
+			feature: EnumFeatures.exercises,
+		}, {
+			id: expect.any(String),
+			name: "Distance",
+			feature: EnumFeatures.exercises,
+		}, {
+			id: expect.any(String),
+			name: "Speed Max",
+			feature: EnumFeatures.exercises,
+		}, {
+			id: expect.any(String),
+			name: "Speed Average",
+			feature: EnumFeatures.exercises,
+		}, {
+			id: expect.any(String),
+			name: "Elevation Low",
+			feature: EnumFeatures.exercises,
+		}, {
+			id: expect.any(String),
+			name: "Elevation High",
+			feature: EnumFeatures.exercises,
+		});
+	}
+	records.sort((lhs, rhs) => genericSort(lhs.name, rhs.name));
+	return records;
+}
+
+export function getActivityAttributeTypes(viewModel?: IActivityViewModel, includeAttribute = false) {
+	const records: IAttributeTypeViewModel[] = [];
+	viewModel?.attributes?.forEach(({ attributeType, ...attribute }) => {
+		if (attributeType) {
+			records.push({
+				...attributeType,
+				activityAttributes: includeAttribute ? [attribute] : [],
+			});
+		}
+	});
+	return records;
+}
+
+export function mockAttributeTypesListExpected(viewModels: (IAttributeTypeViewModel | undefined)[]): IAttributeTypeListViewModel[] {
+	// These initial attribute types come from the Strava imports
+	const records: IAttributeTypeListViewModel[] = [];
+	viewModels.forEach((viewModel) => {
+		if (viewModel) {
+			const found = records.find((record) => record.id === viewModel.id);
+			if (!found) {
+				records.push(mockAttributeTypeListExpected({
+					...viewModel,
+					attributes: viewModel.activityAttributes?.length,
+				}));
+			}
+		}
+	});
+	// If we have records, then that means the activities have been previously defined, so let's add the strava imports
+	if (records.length) {
+		records.push(
+			mockAttributeTypeListExpected({
+				name: "Duration Total",
+				attributes: 10,
+			}),
+			mockAttributeTypeListExpected({
+				name: "Distance",
+				attributes: 10,
+			}),
+			mockAttributeTypeListExpected({
+				name: "Speed Max",
+				attributes: 10,
+			}),
+			mockAttributeTypeListExpected({
+				name: "Speed Average",
+				attributes: 10,
+			}),
+			mockAttributeTypeListExpected({
+				name: "Elevation Low",
+				attributes: 5,
+			}),
+			mockAttributeTypeListExpected({
+				name: "Elevation High",
+				attributes: 5,
+			}),
+		);
+	}
+	records.sort((lhs, rhs) => genericSort(lhs.name, rhs.name));
+	return records;
 }

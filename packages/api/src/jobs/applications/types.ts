@@ -26,5 +26,5 @@ export class ApplicationsUploadViewModel {
 		format: "binary",
 		required: true,
 	})
-	declare file: Express.Multer.File;
+	file: Express.Multer.File;
 }

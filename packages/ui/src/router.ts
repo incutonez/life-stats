@@ -1,9 +1,18 @@
 ﻿import { createRouter, createWebHashHistory, type RouteRecordRaw } from "vue-router";
 import { isAuthenticated } from "@/authentication.ts";
-import { restoreRoute, RouteHome, RouteLogin } from "@/constants.ts";
+import {
+	restoreRoute,
+	RouteAttributeType,
+	RouteAttributeTypes,
+	RouteHome,
+	RouteLogin,
+	RouteSystem,
+} from "@/constants.ts";
 import { ExercisesRoutes } from "@/views/exercises/routes.ts";
 import { RouteJobApplications } from "@/views/jobs/constants.ts";
 import { JobRoutes } from "@/views/jobs/routes.ts";
+import ViewAttributeType from "@/views/ViewAttributeType.vue";
+import ViewAttributeTypes from "@/views/ViewAttributeTypes.vue";
 import ViewLogIn from "@/views/ViewLogIn.vue";
 
 export const routes: RouteRecordRaw[] = [{
@@ -13,11 +22,30 @@ export const routes: RouteRecordRaw[] = [{
 		name: RouteJobApplications,
 	},
 }, {
+	path: "/system",
+	name: RouteSystem,
+	redirect: {
+		name: RouteAttributeTypes,
+	},
+	children: [{
+		path: "attributeTypes",
+		name: RouteAttributeTypes,
+		component: ViewAttributeTypes,
+		children: [{
+			path: ":attributeTypeId",
+			name: RouteAttributeType,
+			component: ViewAttributeType,
+			props: true,
+		}],
+	}],
+}, {
 	path: "/login",
 	name: RouteLogin,
 	component: ViewLogIn,
-	// eslint-disable-next-line @incutonez/array-bracket-newline
-}, JobRoutes, ExercisesRoutes];
+
+},
+JobRoutes,
+ExercisesRoutes];
 
 export const router = createRouter({
 	routes,

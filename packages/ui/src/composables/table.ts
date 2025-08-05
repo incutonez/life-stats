@@ -102,11 +102,12 @@ export function useTableActions<T>(buttons: ITableAction<T>[]): ITableColumn<T> 
 		cell(info) {
 			const children: VNode[] = [];
 			for (const button of buttons) {
-				const { canClick } = button;
+				const { canClick, isDisabled } = button;
 				if (!canClick || canClick(info.row.original)) {
 					children.push(h(BaseButton, {
 						theme: "table",
 						...button,
+						disabled: isDisabled && isDisabled(info.row.original),
 						onClick() {
 							button.handler(info.row.original);
 						},

@@ -29,6 +29,12 @@ export const RouteCreate = "create";
 
 export const RouteHome = "home";
 
+export const RouteSystem = "system";
+
+export const RouteAttributeTypes = "attributeTypes";
+
+export const RouteAttributeType = `${RouteAttributeTypes}-attributeType`;
+
 export const RouteLogin = "login";
 
 /**

@@ -12,10 +12,10 @@ export type IActionTypeModel = ModelInterface<ActionTypeModel>;
 @BaseTable(EnumTableNames.exerciseActivityActionTypes)
 export class ActionTypeModel extends BaseModel {
 	@PrimaryKeyGuid()
-	declare id: string;
+	id: string;
 
 	@Attribute(DataTypes.STRING)
-	declare name: string;
+	name: string;
 
 	@HasMany(() => ActivityActionModel, {
 		foreignKey: "action_type_id",

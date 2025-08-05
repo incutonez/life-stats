@@ -11,14 +11,14 @@ export type ICompanyModel = ModelInterface<CompanyModel>;
 @BaseTable(EnumTableNames.jobCompanies)
 export class CompanyModel extends BaseModel {
 	@PrimaryKeyGuid()
-	declare id: string;
+	id: string;
 
 	@Attribute(DataTypes.STRING)
-	declare name: string;
+	name: string;
 
 	@HasMany(() => ApplicationModel, {
 		foreignKey: "company_id",
 		inverse: "company",
 	})
-	declare applications?: NonAttribute<ApplicationModel[]>;
+	applications?: NonAttribute<ApplicationModel[]>;
 }

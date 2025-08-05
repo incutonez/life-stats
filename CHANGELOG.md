@@ -1,3 +1,9 @@
+## [2.24.1](https://github.com/incutonez/life-stats/compare/v2.24.0...v2.24.1) (2025-08-05)
+
+### Bug Fixes
+
+* Fixing setLinks issues ([#110](https://github.com/incutonez/life-stats/issues/110)) ([d28cd2a](https://github.com/incutonez/life-stats/commit/d28cd2a3f0b89adab58152f9f86b1e4c27f623c1))
+
 ## [2.24.0](https://github.com/incutonez/life-stats/compare/v2.23.0...v2.24.0) (2025-08-05)
 
 ### Features

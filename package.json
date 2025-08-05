@@ -1,6 +1,6 @@
 {
   "name": "@incutonez/life-stats",
-  "version": "2.24.0",
+  "version": "2.24.1",
   "description": "Life Stats Monorepo",
   "main": "index.js",
   "type": "module",

@@ -65,7 +65,7 @@ export class ApplicationModel extends BaseModel {
 
 	links?: NonAttribute<ApplicationModel[]>;
 
-	setLinks: BelongsToManySetAssociationsMixin<ApplicationModel, ApplicationModel["id"]>;
+	declare setLinks: BelongsToManySetAssociationsMixin<ApplicationModel, ApplicationModel["id"]>;
 
-	setLinked: BelongsToManySetAssociationsMixin<ApplicationModel, ApplicationModel["id"]>;
+	declare setLinked: BelongsToManySetAssociationsMixin<ApplicationModel, ApplicationModel["id"]>;
 }

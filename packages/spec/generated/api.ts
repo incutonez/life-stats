@@ -19,6 +19,7 @@ export * from './api/activities-api';
 export * from './api/app-api';
 export * from './api/applications-api';
 export * from './api/attribute-types-api';
+export * from './api/attributes-api';
 export * from './api/audits-api';
 export * from './api/companies-api';
 export * from './api/exercises-api';

@@ -56,6 +56,7 @@ export class AttributeTypesController {
 	}
 
 	@Delete(":attributeTypeId")
+	@HttpCode(HttpStatus.NO_CONTENT)
 	async deleteAttributeType(@Param("attributeTypeId") attributeTypeId: string): Promise<void> {
 		await this.service.deleteAttributeType(attributeTypeId);
 	}

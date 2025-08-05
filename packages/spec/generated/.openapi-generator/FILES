@@ -7,6 +7,7 @@ api/activities-api.ts
 api/app-api.ts
 api/applications-api.ts
 api/attribute-types-api.ts
+api/attributes-api.ts
 api/audits-api.ts
 api/companies-api.ts
 api/exercises-api.ts
@@ -36,6 +37,7 @@ docs/ApplicationsApi.md
 docs/AttributeTypeListViewModel.md
 docs/AttributeTypeViewModel.md
 docs/AttributeTypesApi.md
+docs/AttributesApi.md
 docs/AuditDiffViewModel.md
 docs/AuditListViewModel.md
 docs/AuditViewModel.md

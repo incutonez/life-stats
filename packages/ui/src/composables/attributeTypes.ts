@@ -4,8 +4,9 @@ import {
 	AttributeTypesApi, type AttributeTypeViewModel,
 	EnumFeatures,
 } from "@incutonez/life-stats-spec";
-import { useMutation, useQuery } from "@tanstack/vue-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import { apiConfig } from "@/api.ts";
+import { getInvalidateQueryPredicate } from "@/composables/app.ts";
 import { QueryGetAttributeTypes } from "@/constants.ts";
 
 const api = new AttributeTypesApi(apiConfig);
@@ -44,18 +45,24 @@ export function useGetExerciseAttributeTypes() {
 }
 
 export function useDeleteAttributeType() {
+	const queryClient = useQueryClient();
 	const deletingAttributeType = ref(false);
 	const deleteMutation = useMutation({
 		async mutationFn(attributeTypeId: string) {
 			const { data } = await api.deleteAttributeType(attributeTypeId);
 			return data;
 		},
+		async onSuccess() {
+			await queryClient.invalidateQueries(getInvalidateQueryPredicate(QueryGetAttributeTypes));
+		},
 	});
 
-	async function deleteAttributeType(attributeTypeId: string) {
-		deletingAttributeType.value = true;
-		await deleteMutation.mutateAsync(attributeTypeId);
-		deletingAttributeType.value = false;
+	async function deleteAttributeType(attributeTypeId?: string) {
+		if (attributeTypeId) {
+			deletingAttributeType.value = true;
+			await deleteMutation.mutateAsync(attributeTypeId);
+			deletingAttributeType.value = false;
+		}
 	}
 
 	return {
@@ -77,6 +84,10 @@ export function useGetAttributeType(attributeTypeId: MaybeRef<string>) {
 		},
 	});
 
+	async function reloadAttributeType() {
+		return query.refetch();
+	}
+
 	watch(query.data, ($data) => {
 		attributeTypeRecord.value = toRaw($data);
 	}, {
@@ -85,5 +96,6 @@ export function useGetAttributeType(attributeTypeId: MaybeRef<string>) {
 
 	return {
 		attributeTypeRecord,
+		reloadAttributeType,
 	};
 }

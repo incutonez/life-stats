@@ -18,8 +18,7 @@ import {
 	getActivity1,
 	getActivity1Update,
 	getActivity2,
-	getActivity2Update, getAttributeType1, getAttributeTypes,
-	getRoutine1,
+	getActivity2Update, getActivityAttributeTypes, getAttributeType1, getRoutine1,
 	getRoutine1Update,
 	getRoutine2, getRoutine2Update,
 	importToCSV,
@@ -27,6 +26,8 @@ import {
 	mockActivityExpected,
 	mockActivityStravaExpected,
 	mockActivityTypeExpected, mockAttributeTypeExpected,
+	mockAttributeTypesExpected,
+	mockAttributeTypesListExpected,
 	mockRoutineExpected,
 	mockStravaImportExpected,
 	sortViewModelProperties,
@@ -418,8 +419,10 @@ describe("Exercises e2e", async () => {
 	});
 
 	describe("Attribute Types", async () => {
+		let attributeTypeActivity = getActivity1();
+
 		it("GET Attribute Types", async () => {
-			const expected = getAttributeTypes([
+			const expected = mockAttributeTypesExpected([
 				activity1,
 				activity1Update,
 				activity2,
@@ -432,12 +435,27 @@ describe("Exercises e2e", async () => {
 			expect(response.body).toStrictEqual(expected);
 		});
 
+		it("LIST Attribute Types With Only Strava Attributes Associated", async () => {
+			const expected = mockAttributeTypesListExpected([
+				...getActivityAttributeTypes(activity1),
+				...getActivityAttributeTypes(activity1Update),
+				...getActivityAttributeTypes(activity2),
+				...getActivityAttributeTypes(activity2Update),
+			]);
+			const response = await request(app.getHttpServer()).post("/attribute-types/list").send({
+				feature: EnumFeatures.all,
+			});
+			expect(response.status).toStrictEqual(HttpStatus.OK);
+			expect(response.body).toStrictEqual(expected);
+		});
+
 		it("GET Attribute Type", async () => {
 			// First, let's create an activity, so we can tie it to an attribute type and test to make sure it returns
-			const activityViewModel = getActivity1();
-			const activityResponse = await request(app.getHttpServer()).post("/exercises/activities").send(activityViewModel);
+			const activityResponse = await request(app.getHttpServer()).post("/exercises/activities").send(attributeTypeActivity);
+			attributeTypeActivity = activityResponse.body;
+
 			const viewModel = getAttributeType1();
-			viewModel.id = activityResponse.body.attributes[0].attributeType.id;
+			viewModel.id = attributeTypeActivity.attributes![0].attributeType!.id;
 			const expected = mockAttributeTypeExpected(viewModel);
 			const response = await request(app.getHttpServer()).get(`/attribute-types/${viewModel.id}`);
 			expect(response.status).toStrictEqual(HttpStatus.OK);
@@ -452,11 +470,31 @@ describe("Exercises e2e", async () => {
 			const response = await request(app.getHttpServer()).put(`/attribute-types/${viewModel.id}`).send(viewModel);
 			expect(response.status).toStrictEqual(HttpStatus.OK);
 			expect(response.body).toStrictEqual(expected);
+
+			// Let's make sure we update our activity's attribute type's name
+			const found = attributeTypeActivity.attributes?.find(({ attributeType }) => attributeType?.id === viewModel.id)?.attributeType;
+			found!.name = viewModel.name;
+		});
+
+		it("LIST Attribute Types With Strava And 1 Updated Activity Attribute Associated", async () => {
+			const expected = mockAttributeTypesListExpected([
+				// This is the only activity that will have an associated attribute, so let's include it
+				...getActivityAttributeTypes(attributeTypeActivity, true),
+				...getActivityAttributeTypes(activity1),
+				...getActivityAttributeTypes(activity1Update),
+				...getActivityAttributeTypes(activity2),
+				...getActivityAttributeTypes(activity2Update),
+			]);
+			const response = await request(app.getHttpServer()).post("/attribute-types/list").send({
+				feature: EnumFeatures.all,
+			});
+			expect(response.status).toStrictEqual(HttpStatus.OK);
+			expect(response.body).toStrictEqual(expected);
 		});
 
 		it("DELETE Attribute Type", async () => {
 			const response = await request(app.getHttpServer()).delete(`/attribute-types/${attributeType1.id}`);
-			expect(response.status).toStrictEqual(HttpStatus.OK);
+			expect(response.status).toStrictEqual(HttpStatus.NO_CONTENT);
 			expect(response.body).toStrictEqual({});
 		});
 
@@ -464,6 +502,22 @@ describe("Exercises e2e", async () => {
 			const response = await request(app.getHttpServer()).get(`/attribute-types/${attributeType1.id}`);
 			expect(response.status).toStrictEqual(HttpStatus.NOT_FOUND);
 			expect(response.body.statusCode).toStrictEqual(HttpStatus.NOT_FOUND);
+		});
+
+		it("DELETE Attribute", async () => {
+			const response = await request(app.getHttpServer()).delete(`/attributes/${attributeTypeActivity.attributes![1].id}`);
+			expect(response.status).toStrictEqual(HttpStatus.NO_CONTENT);
+			expect(response.body).toStrictEqual({});
+		});
+
+		// When we delete an attribute type, it wipes all the attribute associations
+		it("GET Activity Without Deleted Attribute", async () => {
+			// The first 2 attributes were deleted... one through deleting attribute type, and the other by deleting the attribute
+			attributeTypeActivity.attributes!.splice(0, 2);
+			const expected = mockActivityExpected(attributeTypeActivity);
+			const response = await request(app.getHttpServer()).get(`/exercises/activities/${attributeTypeActivity.id}`);
+			expect(response.status).toStrictEqual(HttpStatus.OK);
+			expect(response.body).toStrictEqual(expected);
 		});
 	});
 });

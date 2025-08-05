@@ -13,11 +13,13 @@ import { IActivityViewModel } from "@/exercises/viewModels/activity.viewmodel";
 import { RoutineViewModel } from "@/exercises/viewModels/routine.viewmodel";
 import { ModelInterface } from "@/types";
 import { dateToUTC, genericSort, roundTo } from "@/utils";
-import { IAttributeTypeViewModel } from "@/viewModels/attribute.type.viewmodel";
+import { AttributeTypeListViewModel, IAttributeTypeViewModel } from "@/viewModels/attribute.type.viewmodel";
 
 export type IActivityActionViewModel = ModelInterface<ActivityActionViewModel>;
 
 export type IRoutineViewModel = ModelInterface<RoutineViewModel>;
+
+export type IAttributeTypeListViewModel = ModelInterface<AttributeTypeListViewModel>;
 
 // Needed in axios.ts
 export const stravaActivities = [
@@ -944,6 +946,16 @@ export function mockAttributeTypeExpected(viewModel: IAttributeTypeViewModel) {
 	return expected;
 }
 
+export function mockAttributeTypeListExpected(viewModel: Partial<IAttributeTypeListViewModel>) {
+	const expected = mockBaseExpected<Partial<IAttributeTypeListViewModel>>({
+		id: viewModel.id,
+		name: viewModel.name!,
+		feature: viewModel.feature ?? EnumFeatures.exercises,
+	}, true, true);
+	expected.attributes = viewModel.attributes ?? expect.any(Number);
+	return expected as IAttributeTypeListViewModel;
+}
+
 export function getAttributeType1(): IAttributeTypeViewModel {
 	return {
 		"name": "pants",
@@ -1012,7 +1024,7 @@ export function getActionTypes(viewModels: (IActivityViewModel | IRoutineViewMod
 	return actionTypes;
 }
 
-export function getAttributeTypes(viewModels: (IActivityViewModel | undefined)[]) {
+export function mockAttributeTypesExpected(viewModels: (IActivityViewModel | undefined)[]) {
 	// These initial attribute types come from the Strava imports
 	const records: IAttributeTypeViewModel[] = [];
 	viewModels.forEach((viewModel) => {
@@ -1052,6 +1064,66 @@ export function getAttributeTypes(viewModels: (IActivityViewModel | undefined)[]
 			name: "Elevation High",
 			feature: EnumFeatures.exercises,
 		});
+	}
+	records.sort((lhs, rhs) => genericSort(lhs.name, rhs.name));
+	return records;
+}
+
+export function getActivityAttributeTypes(viewModel?: IActivityViewModel, includeAttribute = false) {
+	const records: IAttributeTypeViewModel[] = [];
+	viewModel?.attributes?.forEach(({ attributeType, ...attribute }) => {
+		if (attributeType) {
+			records.push({
+				...attributeType,
+				activityAttributes: includeAttribute ? [attribute] : [],
+			});
+		}
+	});
+	return records;
+}
+
+export function mockAttributeTypesListExpected(viewModels: (IAttributeTypeViewModel | undefined)[]): IAttributeTypeListViewModel[] {
+	// These initial attribute types come from the Strava imports
+	const records: IAttributeTypeListViewModel[] = [];
+	viewModels.forEach((viewModel) => {
+		if (viewModel) {
+			const found = records.find((record) => record.id === viewModel.id);
+			if (!found) {
+				records.push(mockAttributeTypeListExpected({
+					...viewModel,
+					attributes: viewModel.activityAttributes?.length,
+				}));
+			}
+		}
+	});
+	// If we have records, then that means the activities have been previously defined, so let's add the strava imports
+	if (records.length) {
+		records.push(
+			mockAttributeTypeListExpected({
+				name: "Duration Total",
+				attributes: 10,
+			}),
+			mockAttributeTypeListExpected({
+				name: "Distance",
+				attributes: 10,
+			}),
+			mockAttributeTypeListExpected({
+				name: "Speed Max",
+				attributes: 10,
+			}),
+			mockAttributeTypeListExpected({
+				name: "Speed Average",
+				attributes: 10,
+			}),
+			mockAttributeTypeListExpected({
+				name: "Elevation Low",
+				attributes: 5,
+			}),
+			mockAttributeTypeListExpected({
+				name: "Elevation High",
+				attributes: 5,
+			}),
+		);
 	}
 	records.sort((lhs, rhs) => genericSort(lhs.name, rhs.name));
 	return records;

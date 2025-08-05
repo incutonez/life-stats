@@ -1,5 +1,5 @@
 const ParentCard = ".transition-all";
-const Companies = ["tillo", "Olo"];
+const Companies = ["Inscribe", "tillo", "Olo"];
 let found = false;
 
 function docReady(fn) {

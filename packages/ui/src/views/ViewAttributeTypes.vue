@@ -3,16 +3,20 @@ import { ref } from "vue";
 import { type AttributeTypeListViewModel, EnumFeatures } from "@incutonez/life-stats-spec";
 import { IconDelete, IconEdit } from "@/components/Icons.ts";
 import TableData from "@/components/TableData.vue";
-import { useListAttributeTypes } from "@/composables/attributeTypes.ts";
+import { useDeleteAttributeType, useListAttributeTypes } from "@/composables/attributeTypes.ts";
 import { useAppRoutes } from "@/composables/routes.ts";
 import { useDateCreatedColumn, useDateUpdatedColumn, useTableActions, useTableData } from "@/composables/table.ts";
 import { ColumnFitWidth } from "@/constants.ts";
 import { getEnumDisplay } from "@/utils/common.ts";
+import DeleteDialog from "@/views/shared/DeleteDialog.vue";
 import FieldFeatures from "@/views/shared/FieldFeatures.vue";
 
 const selectedFeature = ref(EnumFeatures.all);
+const showDeleteError = ref(false);
+const selectedRecord = ref<AttributeTypeListViewModel>();
 const { viewAttributeType } = useAppRoutes();
 const { attributeTypeRecords } = useListAttributeTypes(selectedFeature);
+const { deletingAttributeType, deleteAttributeType } = useDeleteAttributeType();
 const { table } = useTableData<AttributeTypeListViewModel>({
 	data: attributeTypeRecords,
 	columns: [
@@ -24,9 +28,8 @@ const { table } = useTableData<AttributeTypeListViewModel>({
 		}, {
 			icon: IconDelete,
 			handler(record) {
-				if (record.attributes) {
-				// TODOJEF: Show warning that this can't be deleted because it has associated attributes
-				}
+				selectedRecord.value = record;
+				showDeleteError.value = true;
 			},
 		}]), {
 			accessorKey: "name",
@@ -55,6 +58,11 @@ const { table } = useTableData<AttributeTypeListViewModel>({
 		useDateUpdatedColumn(),
 	],
 });
+
+async function onClickDelete() {
+	await deleteAttributeType(selectedRecord.value?.id);
+	showDeleteError.value = false;
+}
 </script>
 
 <template>
@@ -72,5 +80,18 @@ const { table } = useTableData<AttributeTypeListViewModel>({
 			table-layout="table-auto"
 		/>
 		<RouterView />
+		<DeleteDialog
+			v-model="showDeleteError"
+			body-class="!items-start"
+			:loading="deletingAttributeType"
+			@delete="onClickDelete"
+		>
+			<template #message>
+				<div class="flex flex-col gap-4">
+					<p>Deleting this Attribute Type will delete all associated Attributes.</p>
+					<p>Are you sure you want to delete this Attribute Type?</p>
+				</div>
+			</template>
+		</DeleteDialog>
 	</article>
 </template>

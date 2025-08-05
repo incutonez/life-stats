@@ -126,13 +126,16 @@ function onClickCell(cell: ITableCell<TData>) {
 
 function processSubHeaders(headers: ITableHeader<TData>[], parentPlaceholder = false, rowSpan = 1) {
 	headers.forEach((header) => {
-		// We don't render children that are descendants of a placeholder... because the placeholder is rendered instead
-		header.render = !parentPlaceholder;
 		const response = processSubHeaders(header.subHeaders, header.isPlaceholder, rowSpan);
-		header.colSpan = response.colSpan;
-		header.rowSpan = response.rowSpan;
 		if (parentPlaceholder) {
 			rowSpan = response.rowSpan + 1;
+			// We don't render children that are descendants of a placeholder... because the placeholder is rendered instead
+			header.colSpan = 0;
+			header.rowSpan = 0;
+		}
+		else {
+			header.colSpan = response.colSpan;
+			header.rowSpan = response.rowSpan;
 		}
 	});
 	return {
@@ -147,7 +150,6 @@ const groups = computed(() => {
 		const { rowSpan, colSpan } = processSubHeaders(header.subHeaders, header.isPlaceholder);
 		header.rowSpan = rowSpan;
 		header.colSpan = colSpan;
-		(header as ITableHeader).render = true;
 	});
 	return table.getHeaderGroups();
 });
@@ -179,7 +181,7 @@ defineExpose({
 						:key="header.id"
 					>
 						<th
-							v-if="(header as ITableHeader).render"
+							v-if="header.colSpan"
 							:colspan="header.colSpan"
 							:rowspan="header.rowSpan"
 							:class="getHeaderClass(header)"

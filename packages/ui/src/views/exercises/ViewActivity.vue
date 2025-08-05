@@ -15,6 +15,7 @@ import { RouteViewActivityTabs } from "@/views/exercises/constants.ts";
 import DeleteDialog from "@/views/shared/DeleteDialog.vue";
 
 interface IViewActivityProps {
+	disableRouting?: boolean;
 	activityId: string;
 	tabId: keyof typeof RouteViewActivityTabs;
 }
@@ -57,6 +58,9 @@ async function onClickDelete() {
 }
 
 function onClose() {
+	if (props.disableRouting) {
+		return;
+	}
 	viewActivities();
 }
 
@@ -72,7 +76,12 @@ watch(() => props.tabId, (tabId) => activeTab.value = tabId, {
 	immediate: true,
 });
 // If the activeTab is changed, then we need to update the route
-watch(activeTab, ($activeTab) => viewActivity(props.activityId, $activeTab));
+watch(activeTab, ($activeTab) => {
+	if (props.disableRouting) {
+		return;
+	}
+	viewActivity(props.activityId, $activeTab);
+});
 </script>
 
 <template>

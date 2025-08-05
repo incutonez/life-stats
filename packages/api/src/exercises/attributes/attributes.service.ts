@@ -37,4 +37,9 @@ export class AttributesService {
 		}
 		await Promise.all(entities.map((entity) => entity.destroy()));
 	}
+
+	async deleteAttribute(attributeId: string) {
+		const found = await this.repository.findByPk(attributeId);
+		return found?.destroy();
+	}
 }

@@ -1,13 +1,11 @@
 ﻿import type { InputHTMLAttributes, MaybeRef, VNode } from "vue";
-import type {
-	Cell as ITanStackCell,
+import type { Cell as ITanStackCell,
 	CellContext as ITanStackCellContext,
 	ColumnDef as ITanStackColumn, ColumnDefBase, ColumnDefTemplate, ExpandedState,
 	Header as ITanStackHeader,
 	Row as ITanStackRow,
 	SortingState as ITanStackSort,
-	Table as ITanStackTable,
-} from "@tanstack/vue-table";
+	Table as ITanStackTable } from "@tanstack/vue-table";
 import type { AcceptableValue } from "reka-ui";
 import type { IBaseButtonProps } from "@/components/BaseButton.vue";
 
@@ -26,18 +24,17 @@ export interface ITableCellContext<TData = unknown, TValue = unknown> extends Om
 	table: ITable<TData>;
 }
 
-export interface ITableHeader<TData = unknown, TValue = unknown> extends ITanStackHeader<TData, TValue> {
-	render?: boolean;
-}
+export type ITableHeader<TData = unknown, TValue = unknown> = ITanStackHeader<TData, TValue>;
 
 /* We have to first omit all "cell" properties from each union type... because under the hood, ITanStackColumn unions
  * A LOT of types AND interfaces, so it gets quite hairy.  Exclude didn't work here because it lost the type of cell
  * when we added our own
  * Idea from https://stackoverflow.com/a/62928916/1253609 */
-export type ITableColumnOmit<TData = unknown, T = ITanStackColumn<TData>> = T extends ColumnDefBase<TData> ? Omit<T, "cell"> : never;
+export type ITableColumnOmit<TData = unknown, T = ITanStackColumn<TData>> = T extends ColumnDefBase<TData> ? Omit<T, "cell" | "columns"> : never;
 
 export type ITableColumn<TData = unknown> = ITableColumnOmit<TData> & {
 	cell?: ColumnDefTemplate<ITableCellContext<TData>>;
+	columns?: ITableColumn<TData>[];
 };
 
 export type ITableSort = ITanStackSort;

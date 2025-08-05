@@ -71,50 +71,48 @@ defineExpose({
 			:class="zIndex"
 			class="shadow-lg absolute left-0 right-0 top-0 bottom-0 m-auto bg-transparent overflow-hidden"
 		>
-			<article class="flex h-full">
-				<section class="flex-1 flex flex-col">
-					<header class="flex items-center justify-between bg-slate-200 p-2 border rounded-t">
-						<section class="flex space-x-1">
-							<slot name="title">
-								<h1
-									v-if="!!title"
-									class="font-bold"
-								>
-									{{ title }}
-								</h1>
-							</slot>
-							<slot name="subtitle">
-								<h2 class="text-sky-800 font-semibold">
-									{{ subtitle }}
-								</h2>
-							</slot>
-						</section>
-						<BaseButton
-							v-if="closable"
-							theme="close"
-							:icon="IconClose"
-							@click="onClickCancel"
-						/>
-					</header>
-					<section
-						class="base-dialog-content"
-						:class="bodyClasses"
-					>
-						<slot name="content" />
+			<article class="flex flex-col size-full">
+				<header class="flex items-center justify-between bg-slate-200 p-2 border rounded-t">
+					<section class="flex space-x-1">
+						<slot name="title">
+							<h1
+								v-if="!!title"
+								class="font-bold"
+							>
+								{{ title }}
+							</h1>
+						</slot>
+						<slot name="subtitle">
+							<h2 class="text-sky-800 font-semibold">
+								{{ subtitle }}
+							</h2>
+						</slot>
 					</section>
-					<footer
-						v-if="!!slots.footer || closable"
-						class="flex space-x-2 justify-end border p-2 bg-slate-200"
-						:class="footerClass"
-					>
-						<slot name="footer" />
-						<BaseButton
-							v-if="closable"
-							v-bind="cancelConfig"
-							@click="onClickCancel"
-						/>
-					</footer>
+					<BaseButton
+						v-if="closable"
+						theme="close"
+						:icon="IconClose"
+						@click="onClickCancel"
+					/>
+				</header>
+				<section
+					class="base-dialog-content"
+					:class="bodyClasses"
+				>
+					<slot name="content" />
 				</section>
+				<footer
+					v-if="!!slots.footer || closable"
+					class="flex space-x-2 justify-end border p-2 bg-slate-200"
+					:class="footerClass"
+				>
+					<slot name="footer" />
+					<BaseButton
+						v-if="closable"
+						v-bind="cancelConfig"
+						@click="onClickCancel"
+					/>
+				</footer>
 			</article>
 		</dialog>
 	</Teleport>

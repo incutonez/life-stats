@@ -1,11 +1,13 @@
 /**
  * In order to use this, go to about:debugging#/runtime/this-firefox and load the manifest.json file as the Temporary Add-on
  */
- const HideViewed = true;
- const HideApplied = true;
- const HidePromoted = true;
-const MatchRegex = [HideViewed ? "Viewed" : "", HideApplied ? "Applied" : "", HidePromoted ? "Promoted" : ""].filter(Boolean).join("|");
+// On Friday - Sunday, we want to show promoted, just to see if anything has cropped up in the past week
+const ShowPromotedDays = [0, 5, 6];
 const Today = new Date();
+const HideViewed = true;
+const HideApplied = true;
+const HidePromoted = !ShowPromotedDays.includes(Today.getDay());
+const MatchRegex = [HideViewed ? "Viewed" : "", HideApplied ? "Applied" : "", HidePromoted ? "Promoted" : ""].filter(Boolean).join("|");
 const OneWeek = 604800000;
 const HoursAgoRegex = /(\d+) hours ago/;
 const MinutesAgoRegex = /minutes ago/;

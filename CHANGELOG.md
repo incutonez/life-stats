@@ -1,3 +1,9 @@
+## [2.24.0](https://github.com/incutonez/life-stats/compare/v2.23.0...v2.24.0) (2025-08-05)
+
+### Features
+
+* Adding Attribute Types View ([#109](https://github.com/incutonez/life-stats/issues/109)) ([f9c9530](https://github.com/incutonez/life-stats/commit/f9c95306f9ce53ca287a7d55dd170c61de5896ea))
+
 ## [2.23.0](https://github.com/incutonez/life-stats/compare/v2.22.0...v2.23.0) (2025-07-30)
 
 ### Features

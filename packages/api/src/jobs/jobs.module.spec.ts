@@ -5,88 +5,20 @@ import { configDotenv } from "dotenv";
 import request from "supertest";
 import { afterAll, beforeEach, describe, expect, it } from "vitest";
 import { AuthGuardTest } from "@/__mocks__/auth.guard.test";
+import {
+	mockApplicationCreate,
+	mockApplicationExpected,
+	mockCompanyListExpected,
+	sortApplicationComments,
+} from "@/__mocks__/jobs";
 import { useSequelizeTest } from "@/__mocks__/sequelize";
 import { TestUser } from "@/__mocks__/users";
 import { AuthGuard } from "@/auth/auth.guard";
 import { AuthModule } from "@/auth/auth.module";
-import { EnumApplicationStatus, EnumLinkType, EnumLocationTypes } from "@/jobs/constants";
+import { EnumLinkType } from "@/jobs/constants";
 import { JobsModule } from "@/jobs/jobs.module";
-import { urlToSite } from "@/jobs/utils";
-import {
-	ApplicationNestedViewModel,
-	IApplicationCreateViewModel,
-	IApplicationViewModel,
-} from "@/jobs/viewModels/application.viewmodel";
+import { IApplicationViewModel } from "@/jobs/viewModels/application.viewmodel";
 import { CompanyFullViewModel } from "@/jobs/viewModels/company.viewmodel";
-import { ModelInterface } from "@/types";
-
-function mockApplicationCreate(): IApplicationViewModel {
-	const url = faker.internet.url();
-	return {
-		url,
-		status: EnumApplicationStatus.Applied,
-		locationType: EnumLocationTypes.Remote,
-		compensation: `${faker.finance.amount({
-			symbol: "$",
-		})}`,
-		positionTitle: faker.person.jobTitle(),
-		company: {
-			name: faker.company.name(),
-			userId: TestUser.user_id,
-		},
-		comments: [{
-			comment: faker.lorem.paragraphs(),
-			userId: TestUser.user_id,
-		}, {
-			comment: faker.lorem.paragraphs(),
-			userId: TestUser.user_id,
-		}],
-		links: [],
-		userId: TestUser.user_id,
-		dateApplied: faker.date.soon().getTime(),
-	};
-}
-
-function mockApplicationExpected(viewModel: IApplicationCreateViewModel): IApplicationViewModel {
-	const expected = structuredClone(viewModel) as IApplicationViewModel;
-	expected.site = urlToSite(viewModel.url);
-	expected.id = expect.any(String);
-	expected.dateCreated = expect.any(Number);
-	expected.dateUpdated = expect.any(Number);
-	expected.company.id = expect.any(String);
-	expected.company.dateCreated = expect.any(Number);
-	expected.company.dateUpdated = expect.any(Number);
-	expected.status = expect.any(Number);
-	sortApplicationComments([expected]);
-	expected.comments.forEach((record) => {
-		record.id = expect.any(String);
-		record.applicationId = expected.id;
-		record.dateCreated = expect.any(Number);
-		record.dateUpdated = expect.any(Number);
-	});
-	expected.links?.forEach((record) => {
-		record.positionTitle = expect.any(String);
-		record.dateApplied = expect.any(Number);
-		record.status = expect.any(Number);
-	});
-	return expected;
-}
-
-function mockCompanyListExpected(viewModels: IApplicationViewModel[]): ModelInterface<CompanyFullViewModel>[] {
-	return viewModels.map((viewModel) => {
-		const { company, ...application } = mockApplicationExpected(viewModel);
-		delete application.links;
-		application.status = EnumApplicationStatus.CurrentWeek;
-		return {
-			...company,
-			applications: [application],
-		};
-	});
-}
-
-function sortApplicationComments(viewModels: IApplicationViewModel[] | ApplicationNestedViewModel[]) {
-	viewModels.forEach((viewModel) => viewModel.comments.sort((lhs, rhs) => lhs.comment.localeCompare(rhs.comment)));
-}
 
 describe("Jobs e2e", async () => {
 	const applicationViewModel = mockApplicationCreate();

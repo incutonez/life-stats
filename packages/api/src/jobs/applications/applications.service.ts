@@ -21,8 +21,13 @@ import { getErrorMessage } from "@/utils";
 
 @Injectable()
 export class ApplicationsService {
-	constructor(@Inject(APPLICATIONS_REPOSITORY) private readonly repository: ApplicationsRepository, private readonly mapper: ApplicationsMapper, private readonly commentsMapper: CommentsMapper, private readonly companiesService: CompaniesService, @Inject(SESSION_STORAGE) private readonly storage: SessionStorageService) {
-	}
+	constructor(
+		@Inject(APPLICATIONS_REPOSITORY) private readonly repository: ApplicationsRepository,
+		private readonly mapper: ApplicationsMapper,
+		private readonly commentsMapper: CommentsMapper,
+		private readonly companiesService: CompaniesService,
+		@Inject(SESSION_STORAGE) private readonly storage: SessionStorageService,
+	) {	}
 
 	async listApplications(): Promise<ApplicationListViewModel> {
 		const { rows, count } = await this.repository.findAndCountAll({
